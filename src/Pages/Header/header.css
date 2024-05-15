@@ -1,0 +1,70 @@
+*{
+    font-family: "Titillium Web", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --colorOneGray: #404040;
+    --colorTwoGray: #595959;
+    --colorTreeGray: #737373;
+    --colorFourGray: #8C8C8C;
+    --colorFiveGray:#BFBFBF;
+    --colorSixGray:#e4e4e4;
+
+    --colorBlueOne: #021F59;
+    --colorBlueTwo: #03318C;
+    --colorBlueTree: #0460D9;
+    --colorBlueFour: #0476D9;
+
+}
+.Header{
+    width: 10%;
+    background: var(--colorBlueOne);
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-block: 2%;
+}
+.logo{
+    width: 100%;
+    text-align: center;
+    color: var(--colorFiveGray);
+    font-size: 1.1rem;
+
+}
+.navHeader{
+    width: 100%;
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+li{
+text-decoration: none;
+list-style-type: none;
+padding-block: 10px;
+cursor: pointer;
+transition: 0.2s ease-in-out;
+
+
+}
+li:hover{
+    background: var(--colorFourGray);
+    transition: 0.2s ease-in-out;
+}
+li,p{
+color: #fff;
+}
+.settings{
+    width: 100%;
+    height: 5vh;
+    text-align: center;
+}
+.optionMenu{
+    text-align: left;
+    padding-left: 30px;
+}
