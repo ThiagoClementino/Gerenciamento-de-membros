@@ -1,12 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route,  Routes } from 'react-router-dom';
 
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Membros from './Pages/Membros/Membros';
-import Cadastro from './Pages/Cadastro/Cadastro';
 import { useState } from 'react';
 import Datainfor from './Contexts/DataInfor';
-import { Financeiro } from './Pages/Financeiro/Financeiro';
 
+import Cadastro from './Pages/Cadastro/Cadastro';
+import {Financeiro} from './Pages/Financeiro/Financeiro';
 
 
 
@@ -25,8 +25,8 @@ const AppRoutes = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/membros" element={<Membros />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path='/financeiro' element={<Financeiro/>}/>
+          <Route path='/cadastro' element={<Cadastro/>} />
+          <Route path='/financeiro' element={<Financeiro />}/>
 
         
         </Routes>

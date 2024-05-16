@@ -25,7 +25,7 @@ const Membros = () => {
       return data;
     });
     setDataForm(newData);
-    setSelectedItems([]); // Clear selected items after deactivation
+    setSelectedItems([]); 
   };
 
   const handleCheckboxChange = (id) => {
@@ -35,7 +35,7 @@ const Membros = () => {
     if (index !== -1) {
       newSelectedItems.splice(index, 1); // Remove from selected if already checked
     } else {
-      newSelectedItems.push(id); // Add to selected if not checked
+      newSelectedItems.push(id); 
     }
     setSelectedItems(newSelectedItems);
   };
