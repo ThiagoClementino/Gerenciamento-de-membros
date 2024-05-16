@@ -41,9 +41,27 @@
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
-    min-height: 100vh;
+    height: auto;
     justify-content: center;
     align-items: center;
+}
+.abas section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.abas section a {
+width: 15%;
+flex:  1  1 200px;
+margin: 10px ;
+gap: 10px;
+text-align: center;
+padding-block: 10px;
+border-radius: 5px;
+background: var(--colorBlueFour);
+color: var(--colorSevenGray);
 }
 /* .abas, section{
     position: absolute;
@@ -54,9 +72,13 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    min-height: 10vh;    
     align-items: center;
-    height: 35vh;
-    flex-direction: column;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-inline: 10px;
+    
     
 }
 .btnform{
@@ -67,19 +89,38 @@
 }
 .titleAndBtn section{
     width: 100%;
-    height: 15vh;
+    min-height: 10vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
    
     
 }
+
+
 .titlesection{
-    height: auto;
-    width: 100%;
+    flex:1 1 300px;
+    width: 50%;
+    min-height: 10vh;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1%;
+    
+    
+}
+.titlesection:nth-child(1){
+    
+    display: flex;
+    align-items: flex-start;
+    
+}
+.titlesection:nth-child(2){
+    
+    display: flex;
+    align-items: flex-end;
+    
 }
 div .abas div{
     display: none;
@@ -147,7 +188,7 @@ div .abas div{
     
 }
 .campForm{
-    width: 49%;
+    min-width: 49%;
     background-color: var(--colorSevenGray);
     padding: 10px;
     box-shadow: 2px 2px 3px var(--colorFourGray);
@@ -225,10 +266,12 @@ input[type="text"],
  input[type="tel"],
  input[type="number"],
  input[type="date"], select, textarea{
+    appearance: none;
+    -moz-appearance: none;
     width: 100%;
     height: 4vh;
     border: none;
-    background: var(--colorSixGray);
+    background: var(--colorSevenWhite);
     color: var(--colorOneGray);
     margin-bottom: 2px ;
 }

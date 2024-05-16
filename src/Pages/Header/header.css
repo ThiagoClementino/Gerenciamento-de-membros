@@ -56,10 +56,7 @@ flex-direction: column;
     display: flex;
     
 }
- .optionMenu {
-    display: none;
-    transition: 0.3s ease-in-out;
-}
+
 .optionMenu button{
     border: none;
 } 

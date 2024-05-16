@@ -79,10 +79,10 @@ const Cadastro = () => {
         <form className='' onSubmit={handleSubmitForm}>
         <div className="titleAndBtn">
           <div className="titlesection">
-          <h1>Cadastro de Membros</h1>
+          <h2>Cadastro de Membros</h2>
           <p>Cadastro de novos membros</p>
           </div>
-          <div className="btnform">
+          <div className="titlesection">
           <button>Enviar</button>
           </div>
         </div>

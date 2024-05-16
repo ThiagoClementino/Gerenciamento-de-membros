@@ -71,6 +71,9 @@ thead{
     border-radius: 5px;
     border: none;
 }
+table, th{
+    background: var(--colorBlueOne);
+}
 .layouttable{
     padding: 10px;
     text-align: center;
