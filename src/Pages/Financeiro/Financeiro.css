@@ -26,11 +26,24 @@ input[type="text"],
  input[type="tel"],
  input[type="number"],
  input[type="date"],
- input[type="file"] select{
+ input[type="file"] {
     width: 100%;
     height: 4vh;
     border: none;
-    background: var(--colorSixGray);
+    background: var(--colorSevenWhite);
+    color: var(--colorOneGray);
+    margin-bottom: 2px ;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+ select{
+    appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    height: 4vh;
+    border: none;
+    background: var(--colorSevenWhite);
     color: var(--colorOneGray);
     margin-bottom: 2px ;
 }
@@ -52,9 +65,9 @@ form{
 }
 .campForm{
     width:32%;
-    background-color: var(--colorSevenGray);
+    background-color: var(--colorSixGray);
     padding: 10px;
-    box-shadow: 2px 2px 30px rgba(0,0,0, 0.1);
+    /* box-shadow: 2px 2px 30px rgba(0,0,0, 0.1); */
     border-radius: 5px;
     min-height: 10vh;
     flex: 1 1 auto;
@@ -62,9 +75,9 @@ form{
 }
 .campForm textarea{
     min-width: 49%;
-    background-color: var(--colorSixGray);
+    background-color: var(--colorSevenWhite);
     padding: 10px;
-    box-shadow: 2px 2px 3px var(--colorFourGray);
+    /* box-shadow: 2px 2px 3px var(--colorFourGray); */
     border-radius: 5px;
     min-height: 10vh;
     flex: 1 1 200px;
@@ -78,6 +91,14 @@ form{
     
     
     
+}
+
+table, th, td{
+    border-collapse: collapse;
+    text-align: center;
+    background: none;
+    padding-block: 10px;
+    color: var(--colorOneGray);
 }
 .containerFinanceiro{
     width: 100%;
@@ -110,6 +131,11 @@ table{
 }
 .titleTable{
     width: 16%;
+    margin: 0;
+  
+}
+th thead{
+    background: var(--colorBlueTwo);
 }
 .dataTable{
     background-color: var(--colorSixGray);

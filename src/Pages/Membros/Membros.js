@@ -7,8 +7,7 @@ import './membros.css';
 const Membros = () => {
   const { dataForm, setDataForm } = useContext(Datainfor);
   const [busca, setBusca] = useState('');
-  const [selectedItems, setSelectedItems] = useState([]); // State for selected items
-
+  const [selectedItems, setSelectedItems] = useState('[]'); 
   const handleSearch = (event) => {
     setBusca(event.target.value);
   };

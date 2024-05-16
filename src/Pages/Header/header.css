@@ -1,8 +1,9 @@
 *{
-    font-family: "Titillium Web", sans-serif;
+   
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
 }
 :root{
     --colorOneGray: #404040;
@@ -18,53 +19,90 @@
     --colorBlueFour: #0476D9;
 
 }
-.Header{
-    width: 10%;
-    background: var(--colorBlueOne);
-    height: 100vh;
+.NavHeader{
+    height:100vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    padding-block: 2%;
+   background: var(--colorSixGray);
+    box-shadow: 2px 2px 10px var(--colorTreeGray);
+    text-decoration: none;
+    padding-block: 30px;
+}
+.containerHeader li {
+    text-decoration: none;
+    list-style: none;
 }
 .logo{
-    width: 100%;
-    text-align: center;
-    color: var(--colorFiveGray);
-    font-size: 1.1rem;
-
-}
-.navHeader{
-    width: 100%;
-    height: 25vh;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-}
-
-li{
-text-decoration: none;
-list-style-type: none;
-padding-block: 10px;
-cursor: pointer;
-transition: 0.2s ease-in-out;
-
-
-}
-li:hover{
-    background: var(--colorFourGray);
-    transition: 0.2s ease-in-out;
-}
-li,p{
-color: #fff;
-}
-.settings{
-    width: 100%;
+    width: 50px;
     height: 5vh;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo img{
+    width: 100%;
+}
+.containerHeader{
+
+height: 25vh;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-direction: column;
 }
 .optionMenu{
-    text-align: left;
-    padding-left: 30px;
+    display: flex;
+    
 }
+ .optionMenu {
+    display: none;
+    transition: 0.3s ease-in-out;
+}
+.optionMenu button{
+    border: none;
+} 
+.iconnav{
+    margin-right: 10px;
+    color: var(--colorBlueTwo);
+}
+
+.linknav{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  
+    
+    
+}
+.logo{
+    display: flex;
+    flex-direction: column;
+    
+    height: 5vh;
+}
+.linknav a{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    padding-inline: 20px;
+    font-weight: 500;
+    color: var(--colorBlueFour);
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+.linknav a:hover{
+    color: var(--colorBlueOne);
+    transition: 0.3s ease-in-out;
+    
+}
+.settings{
+    height: 10vh;
+    color: var(--colorBlueTwo);
+}
+.settings a{
+    height: 10vh;
+    color: var(--colorBlueTwo);
+}
+

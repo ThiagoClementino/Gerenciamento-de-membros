@@ -3,7 +3,7 @@ import Header from '../Header/Header'
 import {Chart} from "react-google-charts";
 import './dashboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faUserCheck, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faHouse, faUmbrella, faUserAlt, faUserCheck, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons/faUserPlus';
 import { useContext } from 'react';
@@ -13,7 +13,7 @@ import Datainfor from '../../Contexts/DataInfor';
 
 
 const Dashboard = () => {
-  const {  dataForm  } = useContext(Datainfor);
+  const { dataForm  } = useContext(Datainfor);
 
  
    
@@ -171,7 +171,7 @@ const Dashboard = () => {
      />
     </div>
     <div className="linecharts">
-    <Chart chartType="ColumnChart" width="43vw"  data={data} options={options} />
+    <Chart chartType="ColumnChart" width="43vw"  data={data} />
     <Chart chartType="ColumnChart" width="43vw"   data={data} />
     </div>
     </div>

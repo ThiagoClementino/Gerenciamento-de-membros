@@ -163,14 +163,14 @@ const handleFormFinancial =(event) =>{
                 <tbody>
                 {dataFinance.map((data, index)=>(
                    <tr key={index}>
-                    <th className='togleeMark'><input type="checkbox" name="" id="" /></th>
-                   <th className='dataTable'>{data.tipodedado}</th>
-                   <th className='dataTable'>{data.valor}</th>
-                   <th className='dataTable'>{data.statuspagamento}</th>
-                   <th className='dataTable'>{data.datapagamento}</th>
-                   <th className='dataTable'>{data.tipolancamento}</th>
-                   <th className='dataTable'>{data.descricao}</th>
-                   <th className='dataTable'>{data.observacao}</th>
+                    <td className='togleeMark'><input type="checkbox" name="" id="" /></td>
+                   <td className='dataTable'>{data.tipodedado}</td>
+                   <td className='dataTable'>{data.valor}</td>
+                   <td className='dataTable'>{data.statuspagamento}</td>
+                   <td className='dataTable'>{data.datapagamento}</td>
+                   <td className='dataTable'>{data.tipolancamento}</td>
+                   <td className='dataTable'>{data.descricao}</td>
+                   <td className='dataTable'>{data.observacao}</td>
                  </tr>
                 ))}
                  
