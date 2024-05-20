@@ -37,6 +37,13 @@ input[type="text"],
     align-items: center;
     justify-content: flex-start;
 }
+.Header{
+    display: block;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 1px 1px 5px var(--colorOneGray);
+  
+}
  select{
     appearance: none;
     -moz-appearance: none;
@@ -113,6 +120,7 @@ table, th, td{
     display: flex;
     width: 100%;
     height: auto;
+    margin-left: 50px;
     justify-content:center;
     align-items: center;
     flex-direction: column;

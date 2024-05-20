@@ -1,105 +1,245 @@
 *{
-   
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+body{
+  font-family: "Poppins", sans-serif;
 }
 :root{
-    --colorOneGray: #404040;
-    --colorTwoGray: #595959;
-    --colorTreeGray: #737373;
-    --colorFourGray: #8C8C8C;
-    --colorFiveGray:#BFBFBF;
-    --colorSixGray:#e4e4e4;
+  --colorOneGray: #404040;
+  --colorTwoGray: #595959;
+  --colorTreeGray: #737373;
+  --colorFourGray: #8C8C8C;
+  --colorFiveGray:#BFBFBF;
+  --colorSixGray:#f0f0f0;
+  --colorSevenWhite: #fff;
+  --colorHeight: #000;
+  --colorBlueOne: #021F59;
+  --colorBlueTwo: #03318C;
+  --colorBlueTree: #0460D9;
+  --colorBlueFour: #0476D9;
+}
+.Navbar{
+  width: 220px;
+  height: 100vh;
+  background: var(--colorBlueOne);
+  padding: 20px;
+  transition: 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.NavbarOne{
+  width: 80px;
+  height: 100vh;
+  background: var(--colorBlueOne);
+  padding: 20px;
+  transition: 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+button{
+  background: none;
+  border: none;
+}
+.iconbtn{
+  width: auto;
+  height: 35px;
+  background: var(--colorBlueOne);
+  color: var(--colorSevenWhite);
+}
+.logoAndBtn{
+display: flex;
+width: 100%;
+height: 10vh;
+justify-content: space-between;
+align-items: center;
+transition: 0.3s ease-in-out;
+}
+img{
+  width: auto;
+  height: 70px;
+  display: none;
+  
+  
+}
+a, Link{
+  text-decoration: none;
+}
+/* .ocultarlogo{
+  display: none;
+  transition: 0.4s ease-in-out;
+} */
+.exibirlogo{
+  display: block;
+  
+}
+.NavItem, .settings{
+  display: flex;
+  color: var(--colorSevenWhite);
+  padding-block: 5px;
+  transition: 0.3s ease-in-out;
+  border-radius: 5px;
+  
+}
+.NavItem:hover{
+  background: var(--colorBlueTwo);
+  transition: 0.3s ease-in-out;
+}
+.iconSettings{
+  width: 35px;
+  height: 35px;
+  color: var(--colorSevenWhite);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.iconNav{
+  width: 20px;
+  height: 20px;
+  
+}
+.ocultarTexto{
+  display: none;
+}
+li{
+  text-decoration: none;
+}
+.exibirTexto{
+  width: 150px;
+  height: 35px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding-left: 10px;
+  color: var(--colorSevenWhite);
 
-    --colorBlueOne: #021F59;
-    --colorBlueTwo: #03318C;
-    --colorBlueTree: #0460D9;
-    --colorBlueFour: #0476D9;
 
 }
-.NavHeader{
-    height:100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-   background: var(--colorSixGray);
-    box-shadow: 2px 2px 10px var(--colorTreeGray);
-    text-decoration: none;
-    padding-block: 30px;
+.navOptions{
+  height: 25vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
-.containerHeader li {
-    text-decoration: none;
-    list-style: none;
-}
-.logo{
-    width: 50px;
+@media screen and (max-width: 480px) {
+  .Navbar{
+    width: 100vh;
     height: 5vh;
+    background: var(--colorBlueOne);
+    padding: 20px;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .NavbarOne{
+    width: 5vh;
+    height: 5vh;
+    background: var(--colorBlueOne);
+    padding: 20px;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  button{
+    background: none;
+    border: none;
+  }
+  .iconbtn{
+    width: auto;
+    height: 35px;
+    background: var(--colorBlueOne);
+    color: var(--colorSevenWhite);
+  }
+  .logoAndBtn{
+  display: flex;
+  width: 100%;
+  height: 10vh;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  }
+  img{
+    width: auto;
+    height: 70px;
+    display: none;
+    
+    
+  }
+  a, Link{
+    text-decoration: none;
+  }
+  /* .ocultarlogo{
+    display: none;
+    transition: 0.4s ease-in-out;
+  } */
+  .exibirlogo{
+    display: block;
+    
+  }
+  .NavItem, .settings{
+    display: flex;
+    color: var(--colorSevenWhite);
+    padding-block: 5px;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+    
+  }
+  .NavItem:hover{
+    background: var(--colorBlueTwo);
+    transition: 0.3s ease-in-out;
+  }
+  .iconSettings{
+    width: 35px;
+    height: 35px;
+    color: var(--colorSevenWhite);
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.logo img{
-    width: 100%;
-}
-.containerHeader{
-
-height: 25vh;
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-direction: column;
-}
-.optionMenu{
-    display: flex;
+  }
+  .iconNav{
+    width: 20px;
+    height: 20px;
     
-}
-
-.optionMenu button{
-    border: none;
-} 
-.iconnav{
-    margin-right: 10px;
-    color: var(--colorBlueTwo);
-}
-
-.linknav{
+  }
+  .ocultarTexto{
+    display: none;
+  }
+  li{
+    text-decoration: none;
+  }
+  .exibirTexto{
+    width: 150px;
+    height: 35px;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-  
-    
-    
-}
-.logo{
-    display: flex;
-    flex-direction: column;
-    
-    height: 5vh;
-}
-.linknav a{
-    display: flex;
+    justify-content: flex-start;
     align-items: center;
-    justify-content:center;
-    padding-inline: 20px;
+    font-size: 1.1rem;
     font-weight: 500;
-    color: var(--colorBlueFour);
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
+    padding-left: 10px;
+    color: var(--colorSevenWhite);
+  
+  
+  }
+  .navOptions{
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+  }
 }
-.linknav a:hover{
-    color: var(--colorBlueOne);
-    transition: 0.3s ease-in-out;
-    
-}
-.settings{
-    height: 10vh;
-    color: var(--colorBlueTwo);
-}
-.settings a{
-    height: 10vh;
-    color: var(--colorBlueTwo);
-}
-

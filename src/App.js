@@ -1,6 +1,14 @@
 import React from 'react';
-import AppRoutes from './routes';
+
 import './css/default.css'
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { Home } from './Pages/Home/Home';
+
+
+
 
 
 
@@ -10,7 +18,9 @@ import './css/default.css'
 function App() {
   return (
     <div className="App">
-      <AppRoutes />
+      
+      <Home />
+      
     
      
     </div>

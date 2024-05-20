@@ -1,10 +1,13 @@
 import React from 'react'
 import './Financeiro.css'
-import Header from '../Header/Header'
+
 import Footer from '../Footer/Footer'
 import { useState } from 'react'
 import { useContext } from 'react';
 import Datainfor from '../../Contexts/DataInfor';
+import Header from '../Header/Header';
+
+
 
 
 
@@ -37,8 +40,10 @@ const handleFormFinancial =(event) =>{
 
   return (
     <div className='LayoutFinanceiro'>
-       
-        <Header />
+
+        <Header/>
+
+    
         <div className='FinanceiroContent'>
           <div className="containerFinanceiro">
             <form onSubmit={handleFormFinancial}>
@@ -57,6 +62,7 @@ const handleFormFinancial =(event) =>{
                   <option value=""></option>
                   <option value="receita">Receita</option>
                   <option value="despesa">Despesa</option>
+                  
                 </select>
               </label>
               <label className="campForm">

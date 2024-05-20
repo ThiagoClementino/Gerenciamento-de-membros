@@ -43,8 +43,11 @@ const Membros = () => {
   return (
     <div className='ContainerMembers'>
       
-      <div className="LayoutMembers">
       <Header/>
+        <div className="Header">
+
+      <div className="LayoutMembers">
+        </div>
       
       
     <div className="tableMembers">

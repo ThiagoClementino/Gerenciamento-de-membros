@@ -1,8 +1,9 @@
 import React from 'react'
 import { useContext,  useState } from 'react';
 import Datainfor from '../../Contexts/DataInfor';
-import Header from '../Header/Header';
+
 import './cadastro.css'
+import Header from '../Header/Header';
 
 const Cadastro = () => {
   const { setDataForm } = useContext(Datainfor);
@@ -73,7 +74,9 @@ const Cadastro = () => {
   }
   
   return (
-    <div className='layoutform'>   <Header />
+    <div className='layoutform'>
+         
+    <Header/>
      <div className='form'>
         
         <form className='' onSubmit={handleSubmitForm}>

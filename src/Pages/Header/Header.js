@@ -1,19 +1,13 @@
-
-import { Link } from 'react-router-dom';
-import { IoIosSettings } from "react-icons/io";
-import iconlogo from '../../img/iconlogo.png'
+import React, { useState } from 'react'
+import {Link} from 'react-router-dom'
+import logo from'../../img/iconlogo.png';
+import { CgMenuGridR } from "react-icons/cg";
 import './header.css'
 import { GoHomeFill } from "react-icons/go";
 import { FaUsers } from "react-icons/fa";
-import { MdDataset } from "react-icons/md";
-import { LiaMoneyCheckAltSolid } from "react-icons/lia";
-
-
-
-
-
-
-
+import { BsFillClipboard2DataFill } from "react-icons/bs";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { IoMdSettings } from "react-icons/io";
 
 
 
@@ -22,66 +16,59 @@ import { LiaMoneyCheckAltSolid } from "react-icons/lia";
 
 
 const Header = () => {
-   
-  
-
-    
+  const [exibir, setExibir] = useState(false);
   return (
-    
-    <nav className='NavHeader'>
-     
-     <div className='logo'>
-       <img src={iconlogo}/>    
-         </div>
-    <div className='containerHeader' defaultActiveKey="/home" >
-        <li className='linknav' >
-            <Link to="/" >
-            <div className='iconnav'>
-                <GoHomeFill size={25}  />
-            </div> 
-            <p className='optionMenu'> 
-            Home</p> 
-            </Link>
-        </li>
-        <li className='linknav' >
-            <Link to="/membros" >
-                <div className='iconnav'>
-                <FaUsers size={25} />
-                </div>  
-                <p className='optionMenu'  >
-                Membros 
-                </p>  
-            </Link>
-        </li>
-        <li className='linknav'>
-            <Link to="/cadastro" >
-            <div className='iconnav'>
-             <MdDataset size={25}/>
+    <nav className={exibir? "NavbarOne" : "Navbar"}>
+      <aside className="logoAndBtn">
+        <img src={logo} alt="logo gestor" className={exibir? ' ' : "exibirlogo" } />
+        <button onClick={()=>setExibir(!exibir)}><CgMenuGridR  className='iconbtn'/></button>
+      </aside>
+      <ul className='navOptions'>
+        <li className='liNav'><Link to="/" className='NavItem'>
+          <div className='iconSettings' >
+            <GoHomeFill className="iconNav"/>
             </div>
-            <p className='optionMenu' >
-            Cadastro
-            </p>
-            </Link>
+            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <p>Home</p> 
+          </div>
+        </Link>
         </li>
-        <li className='linknav'>
-            <Link to="/financeiro" >
-            <div className='iconnav'>
-                <LiaMoneyCheckAltSolid  size={25} />
-            </div> 
-            <p className='optionMenu' >
-            Financeiro
-            </p>
-            </Link>
+        <li className='liNav' ><Link to="/membros" className='NavItem'>
+          <div className='iconSettings' >
+            <FaUsers  className="iconNav"/>
+            </div>
+            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <p>Membros</p> 
+          </div>
+        </Link>
         </li>
-    
-    </div>
-    <div className='settings'>
-    <Link to="/"> 
-    <IoIosSettings size={30}/>
-    <p className='optionMenu'> 
- Settings</p></Link>
-    </div>
-  
+        <li className='liNav' ><Link to="/cadastro" className='NavItem'>
+          <div className='iconSettings' >
+            <BsFillClipboard2DataFill  className="iconNav"/>
+            </div>
+            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <p>Cadastro</p> 
+          </div>
+        </Link>
+        </li>
+        <li className='liNav'><Link to="/financeiro" className='NavItem'>
+          <div className='iconSettings' >
+            <RiMoneyDollarCircleFill  className="iconNav"/>
+            </div>
+            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <p>Financeiro</p> 
+          </div>
+        </Link>
+        </li>
+      </ul>
+      <div className="settings">
+      <div className='iconSettings' >
+            <IoMdSettings className="iconNav"/>
+            </div>
+            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <p>Home</p> 
+          </div>
+      </div>
     </nav>
   )
 }

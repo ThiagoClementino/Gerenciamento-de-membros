@@ -5,6 +5,11 @@ import { useState } from 'react';
 import Datainfor from './Contexts/DataInfor';
 import Cadastro from './Pages/Cadastro/Cadastro';
 import {Financeiro} from './Pages/Financeiro/Financeiro';
+import Header from './Pages/Header/Header';
+
+
+
+
 
 
 
@@ -25,9 +30,10 @@ const AppRoutes = () => {
           <Route path="/membros" element={<Membros />} />
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>
-
-        
-        </Routes>
+          <Route path='/header' element={<Header />}/>
+          
+          
+       </Routes>
       </BrowserRouter>
     </Datainfor.Provider>
   );

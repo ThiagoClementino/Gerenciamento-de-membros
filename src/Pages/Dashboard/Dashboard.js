@@ -1,13 +1,18 @@
 import React from 'react'
-import Header from '../Header/Header'
+
 import {Chart} from "react-google-charts";
 import './dashboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faHouse, faUmbrella, faUserAlt, faUserCheck, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar,  faUserCheck, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons/faUserPlus';
 import { useContext } from 'react';
 import Datainfor from '../../Contexts/DataInfor';
+import Header from '../Header/Header';
+
+
+
+
 
 
 
@@ -80,9 +85,12 @@ const Dashboard = () => {
   
   return (
     <div className='dashboard'>
-      <Header />
+  
+    <Header/>
+   
+     
       <div className="painels">
-      
+     
     <div className="containerPainel">
       <div className="painel">
         <div className="iconPainel">
