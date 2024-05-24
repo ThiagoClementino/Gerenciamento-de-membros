@@ -5,22 +5,15 @@
     box-sizing: border-box;
 }
 :root{
-    --colorOneGray: #404040;
-    --colorTwoGray: #595959;
-    --colorTreeGray: #737373;
-    --colorFourGray: #8C8C8C;
-    --colorFiveGray:#BFBFBF;
-    --colorSixGray:#e4e4e4;
-    --colorSevenGray: #fff;
-    --colorSevenWhite: #fff;
-    --colorBlueOne: #021F59;
-    --colorBlueTwo: #03318C;
-    --colorBlueTree: #0460D9;
-    --colorBlueFour: #0476D9;
+    --text: #040316;
+    --background: #fbfbfe;
+    --primary: #0056e0;
+    --secondary: #ededee;
+    --accent: #2679ff;
 
 
 }
-input[type="text"],
+/* input[type="text"],
  input[type="password"],
  input[type="email"],
  input[type="tel"],
@@ -30,28 +23,22 @@ input[type="text"],
     width: 100%;
     height: 4vh;
     border: none;
-    background: var(--colorSevenWhite);
-    color: var(--colorOneGray);
+    background: var(--background);
+    color: var(--text);
     margin-bottom: 2px ;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-}
-.Header{
-    display: block;
-    position: absolute;
-    z-index: 1;
-    box-shadow: 1px 1px 5px var(--colorOneGray);
-  
-}
+} */
+
  select{
     appearance: none;
     -moz-appearance: none;
     width: 100%;
     height: 4vh;
     border: none;
-    background: var(--colorSevenWhite);
-    color: var(--colorOneGray);
+    background: var(--background);
+    color: var(--text);
     margin-bottom: 2px ;
 }
 .titleAndBtn{
@@ -63,28 +50,28 @@ input[type="text"],
 form{
     width: 100%;
     display: flex;
-    height: 50vh;
+    height: auto;
     justify-content:center;
     align-items:flex-start;
     flex-wrap: wrap;
     gap: 15px;
     padding: 15px;
 }
-.campForm{
+.campFormFinancial{
     width:32%;
-    background-color: var(--colorSixGray);
+    background-color: var(--secondary);
     padding: 10px;
-    /* box-shadow: 2px 2px 30px rgba(0,0,0, 0.1); */
+   box-shadow: none;
     border-radius: 5px;
     min-height: 10vh;
     flex: 1 1 auto;
    
 }
-.campForm textarea{
+.campFormFinancial textarea{
     min-width: 49%;
     background-color: var(--colorSevenWhite);
     padding: 10px;
-    /* box-shadow: 2px 2px 3px var(--colorFourGray); */
+   
     border-radius: 5px;
     min-height: 10vh;
     flex: 1 1 200px;
@@ -93,18 +80,29 @@ form{
 .LayoutFinanceiro{
     display: flex;
     width: 100%;
+    padding: 5;
     height: 100vh;
-    background: var(--colorSixGray);
+    background: var(--background);
     
     
     
 }
 
-table, th, td{
+table th, td{
     border-collapse: collapse;
     text-align: center;
+    min-width: 150px;
     background: none;
-    padding-block: 10px;
+    padding-block: 5px;
+    color: var(--colorOneGray);
+}
+
+.checked-table{
+    border-collapse: collapse;
+    text-align: center;
+    width: 30px;
+    background: none;
+    
     color: var(--colorOneGray);
 }
 .containerFinanceiro{
@@ -120,36 +118,54 @@ table, th, td{
     display: flex;
     width: 100%;
     height: auto;
-    margin-left: 50px;
-    justify-content:center;
+    padding: 2%;
+    justify-content:flex-start;
     align-items: center;
     flex-direction: column;
+    overflow-y:auto;
 
 }
 
-.campForm p{
-    font-weight: 600;
+.campFormFinancial p{
+    font-weight: 300;
     color: var(--colorOneGray);
 }
 .tableFinanceiro {
     width: 100%;
+    min-height: 30vh;
     padding: 15px;
+    overflow-y: auto;
+    padding-top: 50px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
 }
-table{
-    width: 100%;
+.tableFinanceiro{
+    margin-top: 100px;
+}
+
+thead th{
+    color: var(--background);
+    font-weight: 400;
+}
+tbody th{
+    font-weight: 300;
 }
 .titleTable{
-    width: 16%;
+    width: 100px;
     margin: 0;
   
 }
-th thead{
+/* th thead{
     background: var(--colorBlueTwo);
-}
+    min-width: 150px;
+} */
 .dataTable{
     background-color: var(--colorSixGray);
     font-weight: 600;
 }
 .togleeMark{
-    width: 600px;
+    width: 20px;
 }

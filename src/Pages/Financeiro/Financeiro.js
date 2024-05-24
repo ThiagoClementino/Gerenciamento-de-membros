@@ -52,7 +52,7 @@ const handleFormFinancial =(event) =>{
                 <button>Salvar</button>
                 
               </div>
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Tipo de registro</p>
                 <select 
                 name="tipodedado" 
@@ -65,7 +65,7 @@ const handleFormFinancial =(event) =>{
                   
                 </select>
               </label>
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Valor</p>
                 <input type="number" 
                 name="valor" 
@@ -76,7 +76,7 @@ const handleFormFinancial =(event) =>{
               </label>
              
 
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Status</p>
                 <select 
                 name="statuspagamento" 
@@ -89,7 +89,7 @@ const handleFormFinancial =(event) =>{
                   <option value="Nãopago">Não pago</option>
                 </select>
               </label>
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Data</p>
                 <input type="date" 
                 name="datapagamento" 
@@ -100,7 +100,7 @@ const handleFormFinancial =(event) =>{
                 />
               </label>
             
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Tipo de lançamento</p>
                 <select 
                 name="tipolancamento" 
@@ -118,7 +118,7 @@ const handleFormFinancial =(event) =>{
               </label>
             
               
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Comprovantes</p>
                 <input type="file" 
                
@@ -128,7 +128,7 @@ const handleFormFinancial =(event) =>{
                 onChange={handleCampfinancial}
                  />
               </label>
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Descrição</p>
                 <textarea 
                 name="descricao" 
@@ -139,24 +139,24 @@ const handleFormFinancial =(event) =>{
                 onChange={handleCampfinancial}
                 ></textarea>
               </label>
-              <label className="campForm">
+              <label className="campFormFinancial">
                 <p>Observação</p>
                 <textarea 
                 name="observacao" 
                 id="observacao" 
-                cols="30" 
-                rows="10"
+                cols="85" 
+                rows="5"
                 value={financialData.observacao}
                 onChange={handleCampfinancial}
                 ></textarea>
               </label>
             </form>
             <div className="tableFinanceiro">
-              <table>
+              <table className='tablefinance'>
                 <thead>
                  
                     <tr>
-                    <th></th>
+                    <th className='checked-table'></th>
                     <th className='titleTable'>Tipo de registro</th>
                     <th className='titleTable'>Valor</th>
                     <th className='titleTable'>Status</th>

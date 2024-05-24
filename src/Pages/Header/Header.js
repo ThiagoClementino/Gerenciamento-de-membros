@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import logo from'../../img/iconlogo.png';
 import { CgMenuGridR } from "react-icons/cg";
 import './header.css'
+import './headermobile.css'
+import './headerTablet.css'
 import { GoHomeFill } from "react-icons/go";
 import { FaUsers } from "react-icons/fa";
 import { BsFillClipboard2DataFill } from "react-icons/bs";
@@ -17,8 +19,10 @@ import { IoMdSettings } from "react-icons/io";
 
 const Header = () => {
   const [exibir, setExibir] = useState(false);
+ 
   return (
-    <nav className={exibir? "NavbarOne" : "Navbar"}>
+    <nav>
+    <div className={exibir? "NavbarOne" : "Navbar"}>
       <aside className="logoAndBtn">
         <img src={logo} alt="logo gestor" className={exibir? ' ' : "exibirlogo" } />
         <button onClick={()=>setExibir(!exibir)}><CgMenuGridR  className='iconbtn'/></button>
@@ -65,11 +69,14 @@ const Header = () => {
       <div className='iconSettings' >
             <IoMdSettings className="iconNav"/>
             </div>
-            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <div className={exibir? "exibirTexto" : "ocultarTexto"}> 
             <p>Home</p> 
           </div>
       </div>
+    </div>
+
     </nav>
+  
   )
 }
 

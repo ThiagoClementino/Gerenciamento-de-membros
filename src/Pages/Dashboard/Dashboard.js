@@ -94,7 +94,7 @@ const Dashboard = () => {
     <div className="containerPainel">
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={faUser} size="3x"  color="#0476D9 "pull="center" />
+          <FontAwesomeIcon icon={faUser} size="2x"  color="#0476D9 "pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Membros cadastrados</h3>
@@ -103,65 +103,55 @@ const Dashboard = () => {
       </div>
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={ faUserCheck} size="3x" color="#0476D9" pull="center" />
+          <FontAwesomeIcon icon={ faUserCheck} size="2x" color="#0476D9" pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Membros ativos</h3>
-            <p>150</p>
+            <p>{dataForm.sex}</p>
           </div>
       </div>
+   
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={faCalendar} color="#0476D9" size="3x" pull="center" />
+          <FontAwesomeIcon icon={faUserPlus} color="#0476D9" size="2x" pull="center" />
           </div>
           <div className="informationpainel">
-            <h3>Eventos</h3>
-            <p>150</p>
+            <h3>Novos Membros</h3>
+            <p></p>
           </div>
       </div>
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={faUserPlus} color="#0476D9" size="3x" pull="center" />
-          </div>
-          <div className="informationpainel">
-            <h3>Novos Memebros</h3>
-            <p>150</p>
-          </div>
-      </div>
-      <div className="painel">
-        <div className="iconPainel">
-          <FontAwesomeIcon icon={faUserCircle} color="#0476D9" size="3x" pull="center" />
+          <FontAwesomeIcon icon={faUserCircle} color="#0476D9" size="2x" pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Membros ativos</h3>
-            <p>150</p>
+            <p>0</p>
           </div>
       </div>
     </div>
     <div className="painelChars">
-      
+      <div className="Piechart">
       <Chart
       chartType='PieChart'
       data={pieData}
       optional={pieOptions}
-      width={"43vw"}
-      height={"30vh"}
-      // max-width={"100%"}
-      // height={"25vh"}
+      width="100%"
+      
+      
           
        />
-      
-      
+      </div>
+      <div className="Piechart">
       <Chart
         chartType="PieChart"
-        width={"43vw"}
-        height={"30vh"}
-        
-          
+        width="100%"
+        height="auto"
+                 
         data={pieTwoData}
         options={pieTwoOptions}
        />
-      
+      </div>
      
     
      
@@ -171,16 +161,22 @@ const Dashboard = () => {
      chartType='ScatterChart'
      data={dataLine}
      options={optionsLine}
-     width="88vw"
-     height="40vh"
+     width="100%"
+     height="auto"
      
      
-     legendToggle 
+     
+     
      />
     </div>
     <div className="linecharts">
-    <Chart chartType="ColumnChart" width="43vw"  data={data} />
-    <Chart chartType="ColumnChart" width="43vw"   data={data} />
+      <div className="colunmCharts">
+      
+    <Chart chartType="ColumnChart" width="100%"  height="auto"  data={data} />
+    </div>
+    <div className="colunmCharts">
+    <Chart chartType="ColumnChart" width="100%"  height="auto" data={data} />
+    </div>
     </div>
     </div>
     </div>

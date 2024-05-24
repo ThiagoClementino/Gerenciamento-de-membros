@@ -5,3 +5,43 @@
     box-sizing: border-box;
     
 }
+
+:root{
+    --text: #040316;
+    --background: #fbfbfe;
+    --primary: #0056e0;
+    --secondary: #ededee;
+    --accent: #2679ff;
+    --tablecolorone: #bedcff;
+    --tablecolortwo:#eff6ff;
+    --tablecolortree: #149cff;
+
+
+
+
+}
+
+
+
+
+table tr:nth-child(even){
+    background: var(--tablecolorone);
+}
+
+thead{
+    background: var(--tablecolortree);
+    color: var(--tablecolortree);
+}
+tbody th{
+    color: var(--background);
+}
+
+table th, td{
+    border-collapse: collapse;
+    text-align: center;
+    min-width: 200px;
+    background: none;
+    padding-block: 5px;
+    color: var(--background);
+    
+}
