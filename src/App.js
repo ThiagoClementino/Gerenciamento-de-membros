@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './css/default.css'
+import './css/defaultStyle.css'
 
 import { Home } from './Pages/Home/Home';
 

@@ -87,24 +87,21 @@ form{
     
     
 }
-
-table th, td{
-    border-collapse: collapse;
-    text-align: center;
-    min-width: 150px;
-    background: none;
-    padding-block: 5px;
-    color: var(--colorOneGray);
+.sectiontabela{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.checked-table{
+
+/* .checked-table{
     border-collapse: collapse;
     text-align: center;
     width: 30px;
     background: none;
     
-    color: var(--colorOneGray);
-}
+    
+} */
 .containerFinanceiro{
     width: 100%;
     height: auto;
@@ -130,42 +127,7 @@ table th, td{
     font-weight: 300;
     color: var(--colorOneGray);
 }
-.tableFinanceiro {
-    width: 100%;
-    min-height: 30vh;
-    padding: 15px;
-    overflow-y: auto;
-    padding-top: 50px;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-}
-.tableFinanceiro{
-    margin-top: 100px;
-}
 
-thead th{
-    color: var(--background);
-    font-weight: 400;
-}
-tbody th{
-    font-weight: 300;
-}
-.titleTable{
-    width: 100px;
-    margin: 0;
-  
-}
-/* th thead{
-    background: var(--colorBlueTwo);
-    min-width: 150px;
-} */
-.dataTable{
-    background-color: var(--colorSixGray);
-    font-weight: 600;
-}
 .togleeMark{
     width: 20px;
 }

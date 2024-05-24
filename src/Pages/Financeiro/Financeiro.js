@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useContext } from 'react';
 import Datainfor from '../../Contexts/DataInfor';
 import Header from '../Header/Header';
+import '../../css/defaultStyle.css'
 
 
 
@@ -151,8 +152,10 @@ const handleFormFinancial =(event) =>{
                 ></textarea>
               </label>
             </form>
-            <div className="tableFinanceiro">
-              <table className='tablefinance'>
+            <div className="sectiontabela">
+                <h2>Valores</h2>
+            <div className="tabelaBloco">
+              <table className='tabelaContainer'>
                 <thead>
                  
                     <tr>
@@ -169,7 +172,7 @@ const handleFormFinancial =(event) =>{
                 <tbody>
                 {dataFinance.map((data, index)=>(
                    <tr key={index}>
-                    <td className='togleeMark'><input type="checkbox" name="" id="" /></td>
+                    <td className='checked-table'><input type="checkbox" name="" id="" /></td>
                    <td className='dataTable'>{data.tipodedado}</td>
                    <td className='dataTable'>{data.valor}</td>
                    <td className='dataTable'>{data.statuspagamento}</td>
@@ -182,6 +185,7 @@ const handleFormFinancial =(event) =>{
                  
                 </tbody>
               </table>
+            </div>
             </div>
             
           </div>

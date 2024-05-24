@@ -1,5 +1,5 @@
 *{
-  font-family: "Poppins", sans-serif;
+  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -34,7 +34,7 @@ body{
     transition: 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 .NavbarOne{
@@ -45,7 +45,7 @@ body{
   transition: 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 button{
@@ -135,6 +135,7 @@ li{
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  padding-top: 50px;
 }
 .navOptionsTwo{
   height: 25vh;

@@ -64,15 +64,8 @@ const Header = () => {
           </div>
         </Link>
         </li>
+   
       </ul>
-      <div className="settings">
-      <div className='iconSettings' >
-            <IoMdSettings className="iconNav"/>
-            </div>
-            <div className={exibir? "exibirTexto" : "ocultarTexto"}> 
-            <p>Home</p> 
-          </div>
-      </div>
     </div>
 
     </nav>

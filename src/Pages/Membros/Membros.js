@@ -1,7 +1,11 @@
+import './Membros.css';
+import React from 'react'
 import { useContext, useState } from 'react';
 import Header from '../Header/Header';
 import Datainfor from '../../Contexts/DataInfor';
-import './membros.css';
+
+import '../../css/defaultStyle.css'
+import { IoSearchSharp } from "react-icons/io5";
 
 const Membros = () => {
   const { dataForm, setDataForm } = useContext(Datainfor);
@@ -33,102 +37,107 @@ const Membros = () => {
     }
     setSelectedItems(newSelectedItems);
   };
-  
-  
+
+
+
   return (
-
-   <div className="componentMembers">
-    <Header />
-    <div className="containerMembers">
-      <div className="headerMembers">
-        <div className="titleMembers">
-          <p>Relação de membros</p>
-        </div>
-        <div className="searchMembers">
-          <input type="search" onChange={handleSearch}
-       placeholder="Pesquisar" />
-        </div>
-        <div className="btnMembers">
-          <button>Excluir</button><button onClick={handleDeactivate} disabled={!selectedItems.length}>Desativar</button>
-        </div>
-
+    <div className="componentMembros">
+      <Header />
+      <div className="containerMembros">
+        <div className="titleAndControl">
+        <aside className="btncontroll">
+      <p>Relação de Membros</p>
+      </aside>
+      <div className="btncontroll">
+        <p>
+      <input type="search" onChange={handleSearch}
+       placeholder="Pesquisar  "  />
+       <button>
+       <IoSearchSharp size={18} /></button></p>
+       
       </div>
-      <div className="tableMembers">
-      <table id='tableData' >
-              <thead >
-                <tr>
+      <div className="btncontroll">
+        
+   <button>Excluir</button><button onClick={handleDeactivate} disabled={!selectedItems.length}>Desativar</button>
+      </div>
+      </div>
+      <div className="sectiontabela">
+        <div className="tabelaBloco">
+          <table className="tabelaContainer">
+            <thead>
+            <tr>
                 
-                  <th></th>
-                  <th className='layouttable'>Nome Completo</th>
-                  {/* <th className='layouttable'>Nome da Mãe</th>
-                  <th className='layouttable'>Nome da Pai</th>*/}
-                  <th className='layouttable'>Dada de nascimento</th>
-                  <th className='layouttable'>Sexo</th> 
-                  <th className='layouttable'>Telefone</th>
-                 <th className='layouttable'>Telefone 2</th> 
-                  <th className='layouttable'>E-mail</th>
-              {/* <th className='layouttable'>Nacionalidade</th>
-                  <th className='layouttable'>Naturalidade</th>
-                  <th className='layouttable'>Cep</th>
-                  <th className='layouttable'>Endereço</th>
-                  <th className='layouttable'>Número</th>
-                  <th className='layouttable'>Complemento</th>
-                  <th className='layouttable'>Bairro</th> */}
-              {/* <th className='layouttable'>Cidade</th>
-                  <th className='layouttable'>Estado</th>
-                  <th className='layouttable'>Tempo de residência</th>
-                  <th className='layouttable'>Profissão</th>
-                  <th className='layouttable'>Grau de escolaridade</th>
-                  <th className='layouttable'>Onde trabalha</th>
-                  <th className='layouttable'>Estado Civil</th>
-                  <th className='layouttable'>Nome do Cônjuge</th>
-                  <th className='layouttable'>Quantidade de filhos</th>
-                  <th className='layouttable'>Filho 1</th>
-                  <th className='layouttable'>Filho 2</th>
-                  <th className='layouttable'>Filho 3</th>
-                  <th className='layouttable'>Filho 4</th>
-                  <th className='layouttable'>Cargo</th>
-                  <th className='layouttable'>Primeiro Casamento?</th>
-                  <th className='layouttable'>Casamento Cristão?</th>
-                  <th className='layouttable'>Cônjuge irá congregar em nosso ministério?</th>
-                  <th className='layouttable'>Justificativa</th>
+                <th className='checked-table'></th>
+                <th className='titleTable'>Nome Completo</th>
+                {/* <th className='titleTable'>Nome da Mãe</th>
+                <th className='titleTable'>Nome da Pai</th>*/}
+                <th className='titleTable'>Dada de nascimento</th>
+                <th className='titleTable'>Sexo</th> 
+                <th className='titleTable'>Telefone</th>
+               <th className='titleTable'>Telefone 2</th> 
+                <th className='titleTable'>E-mail</th>
+            {/* <th className='titleTable'>Nacionalidade</th>
+                <th className='titleTable'>Naturalidade</th>
+                <th className='titleTable'>Cep</th>
+                <th className='titleTable'>Endereço</th>
+                <th className='titleTable'>Número</th>
+                <th className='titleTable'>Complemento</th>
+                <th className='titleTable'>Bairro</th> */}
+            {/* <th className='titleTable'>Cidade</th>
+                <th className='titleTable'>Estado</th>
+                <th className='titleTable'>Tempo de residência</th>
+                <th className='titleTable'>Profissão</th>
+                <th className='titleTable'>Grau de escolaridade</th>
+                <th className='titleTable'>Onde trabalha</th>
+                <th className='titleTable'>Estado Civil</th>
+                <th className='titleTable'>Nome do Cônjuge</th>
+                <th className='titleTable'>Quantidade de filhos</th>
+                <th className='titleTable'>Filho 1</th>
+                <th className='titleTable'>Filho 2</th>
+                <th className='titleTable'>Filho 3</th>
+                <th className='titleTable'>Filho 4</th>
+                <th className='titleTable'>Cargo</th>
+                <th className='titleTable'>Primeiro Casamento?</th>
+                <th className='titleTable'>Casamento Cristão?</th>
+                <th className='titleTable'>Cônjuge irá congregar em nosso ministério?</th>
+                <th className='titleTable'>Justificativa</th>
+                <th className='titleTable'>Data de conversão</th>
+                <th className='titleTable'>Data de Batismo</th>
+                <th className='titleTable'>Saída da igreja</th>
+                <th className='titleTable'>Última igreja</th>
+                <th className='titleTable'>Igrejas que foi membro</th>
+                <th className='titleTable'>Dizimisma</th>
+                <th className='titleTable'>Ofertante</th> 
+              <th className='titleTable'>Liderança</th>*/}
+                <th className='titleTable'>Cargo ministerial</th>
+                {/* <th className='titleTable'>Posição Ministério</th>
+                <th className='titleTable'>Atividades igreja</th>
+                <th className='titleTable'>Dificuldades de lideraça, hierarquia</th>
+                <th className='titleTable'>Exortação</th>
+                <th className='titleTable'>Discipulo pasteoreável</th>
+                <th className='titleTable'>Participação de cultos e EBDs</th>
+                <th className='titleTable'>Informar ausencia </th>
+                <th className='titleTable'>Participação culto de Oração </th>
+                <th className='titleTable'>Conselho Pastoral </th>
+                <th className='titleTable'>Desenvolvimento em congregar </th>
+                <th className='titleTable'>Convicção Cristã</th>
+                <th className='titleTable'>Definição envagelho</th>
+                <th className='titleTable'>Frutos do Espírito</th>
+                <th className='titleTable'>Cuidado com a fé</th>
+                <th className='titleTable'>Lutas pessoais</th>
+                <th className='titleTable'>Convições teológicas</th>
+                <th className='titleTable'>Hábito de Envagelizar</th>
+                <th className='titleTable'>Hábito de Jejuar</th>
+                <th className='titleTable'>Leitura completa da bíblia</th>
+                <th className='titleTable'>Últimos livros lidos</th> */}
+                <th className='titleTable'>Últimos informações</th>
+              </tr>
 
-                  <th className='layouttable'>Data de conversão</th>
-                  <th className='layouttable'>Data de Batismo</th>
-                  <th className='layouttable'>Saída da igreja</th>
-                  <th className='layouttable'>Última igreja</th>
-                  <th className='layouttable'>Igrejas que foi membro</th>
-                  <th className='layouttable'>Dizimisma</th>
-                  <th className='layouttable'>Ofertante</th> 
-                <th className='layouttable'>Liderança</th>*/}
-                  <th className='layouttable'>Cargo ministerial</th>
-                  {/* <th className='layouttable'>Posição Ministério</th>
-                  <th className='layouttable'>Atividades igreja</th>
-                  <th className='layouttable'>Dificuldades de lideraça, hierarquia</th>
-                  <th className='layouttable'>Exortação</th>
-                  <th className='layouttable'>Discipulo pasteoreável</th>
-                  <th className='layouttable'>Participação de cultos e EBDs</th>
-                  <th className='layouttable'>Informar ausencia </th>
-                  <th className='layouttable'>Participação culto de Oração </th>
-                  <th className='layouttable'>Conselho Pastoral </th>
-                  <th className='layouttable'>Desenvolvimento em congregar </th>
-                  <th className='layouttable'>Convicção Cristã</th>
-                  <th className='layouttable'>Definição envagelho</th>
-                  <th className='layouttable'>Frutos do Espírito</th>
-                  <th className='layouttable'>Cuidado com a fé</th>
-                  <th className='layouttable'>Lutas pessoais</th>
-                  <th className='layouttable'>Convições teológicas</th>
-                  <th className='layouttable'>Hábito de Envagelizar</th>
-                  <th className='layouttable'>Hábito de Jejuar</th>
-                  <th className='layouttable'>Leitura completa da bíblia</th>
-                  <th className='layouttable'>Últimos livros lidos</th> */}
-                  <th className='layouttable'>Últimos informações</th>
-                </tr>
-              </thead>
-              <tbody> 
+            </thead>
+            <tbody> 
                 {filteredData.map((data, index)=>(
                   <tr key={index} >
-                    <th><input 
+                    <th className='checked-table'><input 
                     type="checkbox"
                     checked={selectedItems.includes(data.id)} 
                     onChange={() => handleCheckboxChange(data.id)}        
@@ -203,13 +212,15 @@ const Membros = () => {
                 
                 ))}
               </tbody>
-              
-        </table>
+
+          </table>
+        </div>
+      </div>
+ 
+    
 
       </div>
-      
     </div>
-   </div>
   )
 }
 export default Membros

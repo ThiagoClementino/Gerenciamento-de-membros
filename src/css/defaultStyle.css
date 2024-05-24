@@ -20,6 +20,9 @@
 
 
 }
+body{
+    background: var(--backgroundTwo);
+}
 
 
 
@@ -32,16 +35,46 @@ thead{
     background: var(--tablecolortree);
     color: var(--tablecolortree);
 }
-tbody th{
-    color: var(--background);
+table{
+    overflow-y: scroll ;
+}
+
+.tabelaBloco{
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 30vh;
+    margin-top: 20px;
+    padding: 1%;
+    margin-inline: 2%;
+}
+.tabelaContainer{
+    width: 100%;
+}
+.sectiontabela{
+    width: 100%;
 }
 
 table th, td{
     border-collapse: collapse;
     text-align: center;
-    min-width: 200px;
+    min-width: 250px;
     background: none;
-    padding-block: 5px;
+    padding-block: 2px;
+    font-weight: 400;
+    
+}
+.tabelaContainer thead, th{
     color: var(--background);
+}
+.tabelaMembros{
+    width: 95%;
+}
+.checked-table{
+    border-collapse: collapse;
+    text-align: center;
+    width: 30px;
+    background: none;
+    
     
 }
