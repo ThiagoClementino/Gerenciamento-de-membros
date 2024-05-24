@@ -158,3 +158,152 @@ body{
     height: auto;
 }
 }
+@media screen and (max-width:480px){
+    
+    .dashboard{
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        background: var(--colorSixGray);
+        
+    }    
+
+
+.painels{
+    display: block;
+    width: 100%;
+    height: 100vh;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    overflow-y:scroll;
+    
+}
+.containerPainel{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: auto;
+    flex-wrap: wrap;
+    padding: 1%;
+    flex-wrap: wrap;
+    gap: 10px;
+    
+}
+.barcharts{
+    width: 100%;
+    padding: 1%;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.painel{
+    min-width: 25%;
+    min-height: 8vh;
+    background: var(--colorSevenWhite);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex: 1 1 100px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 30px rgba(0,0,0, 0.1);
+    color: var(--colorHeight);
+    
+    word-break: break-all;
+    padding: 5px;
+   
+    
+}
+.iconPainel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    
+
+}
+.informationpainel{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 75%;
+    flex-direction: column;
+    flex: 1 1 auto;
+    font-size: 0.8rem;
+    word-break: break-all;
+    text-align: center;
+    
+}
+
+.informationpainel h3{
+    font-size: 0.6rem;
+    font-weight: 600;
+}
+.informationpainel p{
+    font-size: 1.1rem;
+    color: var(--colorOneGray);
+    font-weight: 300;
+}
+
+.barchats{
+    width: 100%;
+    min-height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.containerCharts{
+    width: 100%;
+    height: 10vh;
+    flex: 1 1 auto;
+}
+.linecharts{
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1%;
+    gap: 5px;
+}
+.colunmCharts{
+    flex: 1 1 auto;
+    width: 49%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Piechart{
+    
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+}
+.painelChars{
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+ padding: 1%;
+    gap: 5px;
+}
+.dashboardpainels{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+}

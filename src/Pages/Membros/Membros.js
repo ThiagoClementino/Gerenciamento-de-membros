@@ -1,10 +1,11 @@
 import './Membros.css';
+import'./MembrosMobile.css'
 import React from 'react'
 import { useContext, useState } from 'react';
 import Header from '../Header/Header';
 import Datainfor from '../../Contexts/DataInfor';
 import Footer from '../Footer/Footer'
-import '../../css/defaultStyle.css'
+import '../../css/defaultStyle.css';
 import { IoSearchSharp } from "react-icons/io5";
 
 const Membros = () => {
@@ -51,16 +52,20 @@ const Membros = () => {
       <p>Relação de Membros</p>
       </aside>
       <div className="btncontroll">
-        <p>
+      <p>
       <input type="search" onChange={handleSearch}
-       placeholder="Pesquisar  "  />
-       <button>
-       <IoSearchSharp size={18} /></button></p>
+      placeholder="Pesquisar  "  />
+      <button>
+      <IoSearchSharp size={18} />
+      </button>
+      </p>
        
       </div>
       <div className="btncontroll">
         
-   <button>Excluir</button><button onClick={handleDeactivate} disabled={!selectedItems.length}>Desativar</button>
+   <button>Excluir</button>
+   <button onClick={handleDeactivate} 
+   disabled={!selectedItems.length}>Desativar</button>
       </div>
       </div>
       <div className="sectiontabela">
@@ -221,7 +226,7 @@ const Membros = () => {
  
     
 
-      <Footer />
+      {/* <Footer /> */}
       </div>
     </div>
   )

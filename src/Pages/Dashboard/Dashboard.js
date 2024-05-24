@@ -94,7 +94,7 @@ const Dashboard = () => {
     <div className="containerPainel">
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={faUser} size="2x"  color="#0476D9 "pull="center" />
+          <FontAwesomeIcon icon={faUser}   color="#0476D9 "pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Membros cadastrados</h3>
@@ -103,7 +103,7 @@ const Dashboard = () => {
       </div>
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={ faUserCheck} size="2x" color="#0476D9" pull="center" />
+          <FontAwesomeIcon icon={ faUserCheck}  color="#0476D9" pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Membros ativos</h3>
@@ -113,7 +113,7 @@ const Dashboard = () => {
    
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={faUserPlus} color="#0476D9" size="2x" pull="center" />
+          <FontAwesomeIcon icon={faUserPlus} color="#0476D9"  pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Novos Membros</h3>
@@ -122,7 +122,7 @@ const Dashboard = () => {
       </div>
       <div className="painel">
         <div className="iconPainel">
-          <FontAwesomeIcon icon={faUserCircle} color="#0476D9" size="2x" pull="center" />
+          <FontAwesomeIcon icon={faUserCircle} color="#0476D9"  pull="center" />
           </div>
           <div className="informationpainel">
             <h3>Membros ativos</h3>

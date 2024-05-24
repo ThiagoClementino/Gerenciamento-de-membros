@@ -43,7 +43,7 @@ table{
     max-width: 100%;
     overflow-x: scroll;
     overflow-y: scroll;
-    height: 30vh;
+    min-height: 20vh;
     margin-top: 20px;
     padding: 1%;
     margin-inline: 2%;
@@ -62,7 +62,13 @@ table th, td{
     background: none;
     padding-block: 2px;
     font-weight: 400;
+    color: var(--text);
     
+    
+}
+table thead th{
+    color: var(--background);
+    font-weight: 600;
 }
 .tabelaContainer thead, th{
     color: var(--background);
