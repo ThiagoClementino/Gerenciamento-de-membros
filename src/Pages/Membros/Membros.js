@@ -3,41 +3,43 @@ import React from 'react'
 import { useContext, useState } from 'react';
 import Header from '../Header/Header';
 import Datainfor from '../../Contexts/DataInfor';
-
+import Footer from '../Footer/Footer'
 import '../../css/defaultStyle.css'
 import { IoSearchSharp } from "react-icons/io5";
 
 const Membros = () => {
-  const { dataForm, setDataForm } = useContext(Datainfor);
-  const [busca, setBusca] = useState('');
-  const [selectedItems, setSelectedItems] = useState('[]'); 
-  const handleSearch = (event) => {
-    setBusca(event.target.value);
-  };
-  const filteredData = dataForm.filter((data) =>
-    data.name.toLowerCase().includes(busca.toLowerCase()) && data.active
-  );
-  const handleDeactivate = () => {
-    const newData = dataForm.map((data) => {
-      if (selectedItems.includes(data.id)) { // Check by ID
-        return { ...data, active: false, selected: false };
+    const { dataForm, setDataForm } = useContext(Datainfor);
+    const [busca, setBusca] = useState('');
+    const [selectedItems, setSelectedItems] = useState('[]'); 
+    const handleSearch = (event) => {
+      setBusca(event.target.value);
+    };
+    const filteredData = dataForm.filter((data) =>
+      data.name.toLowerCase().includes(busca.toLowerCase()) && data.active
+    );
+    const handleDeactivate = () => {
+      const newData = dataForm.map((data) => {
+        if (selectedItems.includes(data.id)) { // Check by ID
+          return { ...data, active: false, selected: false };
+        }
+        return data;
+      });
+      setDataForm(newData);
+      setSelectedItems([]); 
+    };
+    const handleCheckboxChange = (id) => {
+      const newSelectedItems = [...selectedItems];
+      const index = newSelectedItems.indexOf(id);
+      if (index !== -1) {
+        newSelectedItems.splice(index, 1); // Remove from selected if already checked
+      } else {
+        newSelectedItems.push(id); 
       }
-      return data;
-    });
-    setDataForm(newData);
-    setSelectedItems([]); 
-  };
-  const handleCheckboxChange = (id) => {
-    const newSelectedItems = [...selectedItems];
-    const index = newSelectedItems.indexOf(id);
-    if (index !== -1) {
-      newSelectedItems.splice(index, 1); // Remove from selected if already checked
-    } else {
-      newSelectedItems.push(id); 
-    }
-    setSelectedItems(newSelectedItems);
-  };
-
+      setSelectedItems(newSelectedItems);
+    };
+    
+    
+  
 
 
   return (
@@ -219,6 +221,7 @@ const Membros = () => {
  
     
 
+      <Footer />
       </div>
     </div>
   )

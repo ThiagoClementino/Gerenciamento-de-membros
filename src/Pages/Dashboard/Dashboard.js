@@ -3,7 +3,7 @@ import React from 'react'
 import {Chart} from "react-google-charts";
 import './dashboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar,  faUserCheck, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCheck, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons/faUserPlus';
 import { useContext } from 'react';
