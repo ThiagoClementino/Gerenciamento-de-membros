@@ -21,8 +21,8 @@ const Header = () => {
   const [exibir, setExibir] = useState(false);
  
   return (
-    <nav>
-    <div className={exibir? "NavbarOne" : "Navbar"}>
+    <nav className={exibir? "NavbarOne" : "Navbar"}>
+    
       <aside className="logoAndBtn">
         <img src={logo} alt="logo gestor" className={exibir? ' ' : "exibirlogo" } />
         <button onClick={()=>setExibir(!exibir)}><CgMenuGridR  className='iconbtn'/></button>
@@ -66,7 +66,7 @@ const Header = () => {
         </li>
    
       </ul>
-    </div>
+
 
     </nav>
   

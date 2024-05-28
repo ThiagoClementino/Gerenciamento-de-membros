@@ -226,7 +226,7 @@ const Membros = () => {
  
     
 
-      {/* <Footer /> */}
+      <Footer />
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ body{
 @media only screen and (min-width: 768px) {
   
   .Navbar{
-    width: 220px;
+    width: 60px;
     height: 100vh;
     background: var(--colorBlueOne);
     padding: 20px;
@@ -38,7 +38,7 @@ body{
   align-items: flex-start;
 }
 .NavbarOne{
-  width: 80px;
+  width: 60px;
   height: 100vh;
   background: var(--colorBlueOne);
   padding: 20px;

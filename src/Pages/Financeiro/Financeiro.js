@@ -14,6 +14,19 @@ import '../../css/defaultStyle.css'
 
 export  const Financeiro = () => {
   const { dataFinance, setDataFinance } = useContext(Datainfor);  
+
+  const dabaBankdata = (e) =>{
+    const cep = e.target.value;
+    fetch(`https://localhost:8080`)
+    .then((response) =>response.json())
+    .then(data =>{
+      setTimeout((async) => {
+        setDataFinance({...dataFinance, tipodedado: data.tipodedado, valor: data.valor, statuspagamento: data.statuspagamento, datapagamento: data.datapagamento, tipolancamento: data.tipolancamento, observacao: data.observacao})
+        
+      }, 1000);
+    })
+    .catch(error => console.log(error));
+  }
   
 const [financialData, setFinancialData] = useState(
   {

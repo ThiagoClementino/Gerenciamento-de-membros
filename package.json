@@ -15,6 +15,7 @@
     "bootstrap": "^3.4.1",
     "bootstrap-icons": "^1.11.3",
     "cdbreact": "^1.5.19",
+    "mysql": "^2.18.1",
     "react": "^17.0.0 || ^18.0.0",
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-sidebar-menu": "^2.0.3",
