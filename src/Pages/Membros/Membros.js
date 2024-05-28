@@ -1,4 +1,4 @@
-import './Membros.css';
+import './membros.css';
 import'./MembrosMobile.css'
 import React from 'react'
 import { useContext, useState } from 'react';
