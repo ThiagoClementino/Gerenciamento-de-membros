@@ -75,7 +75,7 @@ const Cadastro = () => {
     })
     .catch(error => console.log(error));
   }
-  const [abas, setAbas] = useState ('#aba1');
+  // const [abas, setAbas] = useState ('#aba1');
   
   return (
     <div className='layoutform'>
@@ -103,7 +103,7 @@ const Cadastro = () => {
           <a href="#aba6">Dados adicionais</a>
           </section>
         
-        <div className="sectionAbas" id="aba1" active>
+        <div className="sectionAbas" id="aba1" >
           <div className="titleaba">
           <h4>Dados pessoais</h4>
           </div>

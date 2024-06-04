@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import Datainfor from '../../Contexts/DataInfor';
 import Header from '../Header/Header';
 import '../../css/defaultStyle.css'
+import axios from 'axios';
 
 
 
@@ -45,9 +46,23 @@ const [financialData, setFinancialData] = useState(
     setFinancialData({...financialData,[event.target.name]: event.target.value
     })
   }
-const handleFormFinancial =(event) =>{
+const handleFormFinancial =  async (event) =>{
   event.preventDefault();
-  setDataFinance ((dataFinance) =>[...dataFinance,financialData ])
+  setDataFinance ((dataFinance) =>[...dataFinance,financialData ]);
+  try {
+    // Envie os dados para a API usando Axios
+    const response = await axios.post('/api/lancamentos', financialData);
+
+    if (response.status === 201) {
+      // Limpe o formulário e exiba uma mensagem de sucesso
+      console.log('Lançamento criado com sucesso!');
+      // ... (limpe os campos do formulário)
+    } else {
+      console.error('Erro ao criar lançamento:', response.data.error);
+    }
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+  }
      
       setFinancialData('');
 }

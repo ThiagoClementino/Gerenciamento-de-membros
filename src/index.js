@@ -6,6 +6,6 @@ import App from './App';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
-// module.exports = {};
+// export default = {};
 root.render(<App />);
 

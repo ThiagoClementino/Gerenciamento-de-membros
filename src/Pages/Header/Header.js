@@ -41,7 +41,7 @@ const Header = () => {
           <div className='iconSettings' >
             <FaUsers  className="iconNav"/>
             </div>
-            <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
+            <div className={exibir? "ocultarTexto" : "exibirTexto "}> 
             <p>Membros</p> 
           </div>
         </Link>

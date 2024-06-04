@@ -33,6 +33,7 @@ const AppRoutes = () => {
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>
           <Route path='/header' element={<Header />}/>
+     
         
           
           
