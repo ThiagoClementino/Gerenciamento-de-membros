@@ -1,79 +1,51 @@
-const express = require('express');
+const express = require ('express');
+const dataFinanceiro = require('./modelfinanceiro')
+const mongoose = require ('mongoose');
+
+ 
 const app = express();
 const PORT = 8080;
-// Importação correta do ModelFinanceiro
-// ...
+
+
 
 app.use(express.json());
 
-const lancamento = [
-  {
-    "id": 5,
-    "valor": 250,
-    "statuspagamento": "nao pago",
-    "datapagamento": "15/04/2024",
-    "tipolancamento": "agua",
-    "comprovante": "pago loterica",
-    "observacao": "teste"
-  },
-  {
-    "id": 6,
-    "valor": 350,
-    "statuspagamento": "pago",
-    "datapagamento": "15/04/2024",
-    "tipolancamento": "internet",
-    "comprovante": "pago app",
-    "observacao": "teste app"
-  }
-];
+
+
+
+
 
 app.get('/financeiro', async (req, res) => {
-  await res.send(lancamento);
-});
 
-app.post('/financeiro', async (req, res) => {
-  lancamento.push(req.body);
-  await res.status(201).send({ mensagem: "Lançamento realizado com sucesso" }).json(lancamento);
-});
+  try{
+    const finance = await dataFinanceiro.find();
+    res.status(201).json(finance);
 
-app.put('/financeiro/:id', (req, res) => {
-  const { id } = req.params;
-  const { valor, statuspagamento, datapagamento, tipolancamento, comprovante, observacao } = req.body;
-
-  const novoLancamento = {
-    valor,
-    statuspagamento,
-    datapagamento,
-    tipolancamento,
-    comprovante,
-    observacao,
-  };
-
-  const lancamentoAtualizado = lancamento.reduce((acc, lancamento) => {
-    if (lancamento.id === parseInt(id)) {
-      return { ...lancamento, ...novoLancamento }; // Atualizar dados do lançamento encontrado
-    } else {
-      return acc;
-    }
-  }, {});
-
-  if (!lancamentoAtualizado) {
-    res.status(404).send({ mensagem: "Lançamento não encontrado" });
-    return;
+  } catch(err){
+    res.status(500).json({ erro: "Ocorreu um erro ao processar a chamada" });
   }
-
-  const indiceLancamento = lancamento.findIndex(l => l.id === parseInt(id));
-  lancamento[indiceLancamento] = lancamentoAtualizado;
-
-  res.status(200).send({ mensagem: "Lançamento atualizado com sucesso" });
+  
 });
-app.delete('/financeiro/:id', (req, res)=>{
-   const {id} = req.params.id;
-   lancamento.splice(id, 1);
-   res.send("Exclusão realizada com sucesso")
 
+app.post('/ ', async (req, res) => {
+   try{
+     const dataFinanceiro  = req.body;
+     const newFinance = await dataFinanceiro
+     res.status(201).json(newFinance);
 
-})
+   }catch (error){
+     
+     res.status(500).json({ erro: "Ocorreu um erro ao processar o lançamento" });
+   }
+         
+   
+  });
+  
+  
+
+  mongoose.connect('mongodb+srv://thidf57:NwNUqHeirjup8qZY@gerenciador-de-membros.ua4raq8.mongodb.net/?retryWrites=true&w=majority&appName=Gerenciador-de-Membros').then(()=>console.log("conectado com sucesso")).catch(()=>console.log("Banco de dados não conectado"));
     
 
-app.listen(PORT, () => console.log(`Servidor rodando no endereço: http://localhost:${PORT}`));
+
+
+app.listen(PORT, () => console.log(`Servidor rodando no endereço: http://localhost:${PORT}`))

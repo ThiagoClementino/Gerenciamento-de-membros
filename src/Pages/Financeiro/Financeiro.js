@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Financeiro.css'
-
 import Footer from '../Footer/Footer'
 import { useState } from 'react'
-import { useContext } from 'react';
 import Datainfor from '../../Contexts/DataInfor';
 import Header from '../Header/Header';
 import '../../css/defaultStyle.css'
-import axios from 'axios';
+
 
 
 
@@ -15,20 +13,9 @@ import axios from 'axios';
 
 export  const Financeiro = () => {
   const { dataFinance, setDataFinance } = useContext(Datainfor);  
+ 
 
-  const dabaBankdata = (e) =>{
-    const cep = e.target.value;
-    fetch(`https://localhost:8080`)
-    .then((response) =>response.json())
-    .then(data =>{
-      setTimeout((async) => {
-        setDataFinance({...dataFinance, tipodedado: data.tipodedado, valor: data.valor, statuspagamento: data.statuspagamento, datapagamento: data.datapagamento, tipolancamento: data.tipolancamento, observacao: data.observacao})
-        
-      }, 1000);
-    })
-    .catch(error => console.log(error));
-  }
-  
+
 const [financialData, setFinancialData] = useState(
   {
     tipodedado:'',
@@ -40,31 +27,17 @@ const [financialData, setFinancialData] = useState(
     observacao:'',
   });
   
- 
-
-  const handleCampfinancial =(event) =>{
+  
+  const handleCampfinancial =  (event) =>{
     setFinancialData({...financialData,[event.target.name]: event.target.value
     })
   }
 const handleFormFinancial =  async (event) =>{
   event.preventDefault();
   setDataFinance ((dataFinance) =>[...dataFinance,financialData ]);
-  try {
-    // Envie os dados para a API usando Axios
-    const response = await axios.post('/api/lancamentos', financialData);
+  
 
-    if (response.status === 201) {
-      // Limpe o formulário e exiba uma mensagem de sucesso
-      console.log('Lançamento criado com sucesso!');
-      // ... (limpe os campos do formulário)
-    } else {
-      console.error('Erro ao criar lançamento:', response.data.error);
-    }
-  } catch (error) {
-    console.error('Erro na requisição:', error);
-  }
-     
-      setFinancialData('');
+
 }
 
   return (
@@ -183,7 +156,7 @@ const handleFormFinancial =  async (event) =>{
             <div className="sectiontabela">
                 <h2>Valores</h2>
             <div className="tabelaBloco">
-              <table className='tabelaContainer'>
+               <table className='tabelaContainer'>
                 <thead>
                  
                     <tr>
@@ -200,7 +173,7 @@ const handleFormFinancial =  async (event) =>{
                 <tbody>
                 {dataFinance.map((data, index)=>(
                    <tr key={index}>
-                    <td className='checked-table'><input type="checkbox" name="" id="" /></td>
+                    <td className='checked-table' ><input type="checkbox" name="" id="" /></td>
                    <td className='dataTable'>{data.tipodedado}</td>
                    <td className='dataTable'>{data.valor}</td>
                    <td className='dataTable'>{data.statuspagamento}</td>
@@ -212,7 +185,7 @@ const handleFormFinancial =  async (event) =>{
                 ))}
                  
                 </tbody>
-              </table>
+              </table> 
             </div>
             </div>
             

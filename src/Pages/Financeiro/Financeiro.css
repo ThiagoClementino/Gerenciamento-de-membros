@@ -91,17 +91,11 @@ form{
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 
-/* .checked-table{
-    border-collapse: collapse;
-    text-align: center;
-    width: 30px;
-    background: none;
-    
-    
-} */
+
 .containerFinanceiro{
     width: 100%;
     height: auto;

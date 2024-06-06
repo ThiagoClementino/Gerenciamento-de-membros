@@ -14,7 +14,297 @@
 
 
 }
-@media screen and (min-width: 768px) and(max-width:1023px) {
+@media screen and (min-width: 601px) and(max-width:1024px) and (orientation: portrait){
+    
+
+.layoutform{
+    display: flex;
+    
+    width: 100%;
+    height: 10vh;
+
+}
+
+.form{
+    width: 100%;
+ 
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: scroll;
+    flex-direction: column;
+    background: var(--backgroundTwo);
+    
+    
+}
+
+.abas{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    height: auto;
+    justify-content: flex-start;
+    align-items: center;
+}
+.abas section{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    
+    flex-wrap: wrap;
+}
+.abas section a {
+width: 10%;
+flex:  1  1 auto;
+margin: 5px;
+
+gap: 10px;
+text-align: center;
+padding-block: 10px;
+border-radius: 5px;
+background: var(--colorBlueFour);
+color: var(--colorSevenGray);
+}
+/* .abas, section{
+    position: absolute;
+    top: 0;
+    width: 50%;
+} */
+.titleAndBtn{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 10vh;    
+    align-items: center;
+    
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-inline: 5px;
+    
+    
+}
+.btnform{
+    width: 10%;
+}
+.labelcontainer{
+    width: 90%;
+}
+.titleAndBtn section{
+    width: 100%;
+    min-height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+    
+}
+
+
+.titlesection{
+    flex:1 1 300px;
+    width: 50%;
+    min-height: 10vh;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    
+    
+    
+}
+.titlesection:nth-child(1){
+    
+    display: flex;
+    align-items: flex-start;
+    
+}
+.titlesection:nth-child(2){
+    
+    display: flex;
+    align-items: flex-end;
+    
+}
+div .abas div{
+    display: none;
+}
+
+.abas div:target{
+    display: flex;
+    
+    
+}
+.abas div:first-child{
+    display: flex;
+    
+    
+}
+
+form{
+    display: flex;
+    justify-content:center;
+    align-items: flex-start;
+    width: 100%;
+    min-height: auto;
+
+
+}
+.titleAndBtn button{
+    padding: 5px 25px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    background: var(--colorBlueOne);
+    transition: 0.2s ease-in-out;
+}
+.titleAndBtn button:hover{
+    background: var(--colorBlueFour);
+    transition: 0.2s ease-in-out;
+}
+.titleaba{
+    width: 100%;
+}
+.abas{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    overflow-y: hidden;
+}
+.titleAndBtn a{
+    width: 16.6%;
+    height: 5vh;
+    border: 1px solid #fff;
+    color: #fff;
+    background: var(--colorBlueTwo);
+    padding-block: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 5px;
+
+
+}
+.sectionAbas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-between;
+    align-items:flex-start;
+    height:auto;
+    gap: 5px;
+   
+    
+    
+    padding-block: 1%;
+    /* margin-bottom: 20px; */
+    width: 100%;
+
+    
+}
+.campForm{
+    width: 32%;
+   
+    background-color: var(--colorSevenGray);
+    padding:0 5px;
+   
+    border-radius: 5px;
+    min-height: 12vh;
+    font-weight: 300;
+    color: var(--colorSixGray);
+    font-size: 0.9rem;
+}
+#dadosdosfilhos{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    min-height: 10vh;
+    font-weight: 500;
+    color: var(--colorOneGray);
+    
+}
+#dadosdosfilhos input[type="text"]{
+    width:75%;
+    height: 4vh;
+    border: none;
+    color: var(--colorOneGray);
+    margin-bottom: 2px ;
+    margin-inline: 3px;
+    border-radius:3px;
+    padding: 5px;
+    
+}
+#dadosdosfilhos input[type="number"]{
+    width: 20%;
+    height: 4vh;
+    border: none;
+    color: var(--colorOneGray);
+    margin-bottom: 2px ;
+    border-radius:3px;
+    text-align: center;
+}
+#dadosdosfilhos h3 {
+    width: 100%;
+    color: var(--colorOneGray);
+    font-weight: 600;
+    height: 3vh;
+    margin-top: 15px;
+    padding-left:15px ;
+}
+
+.dadosdofilho {
+    max-width: 32%;
+    height: auto;
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--colorSevenGray);
+    
+    
+    border-radius: 5px;
+}
+.campForm p{
+    color: var(--colorOneGray);
+    font-weight: 300;
+    padding: 2px;
+    margin-bottom: 3px;
+    word-break: break-all;
+}
+
+   
+
+
+input[type="text"],
+ input[type="password"],
+ input[type="email"],
+ input[type="tel"],
+ input[type="number"],
+ input[type="date"], select,option{
+    border: none;
+    color: var(--backgroundTwo);
+    width: 100%;
+    height: 4vh;
+    background: var(--backgroundTwo);
+    color: var(--colorOneGray);
+    margin-bottom: 2px ;
+}
+textarea{
+    width: 100%;
+    border: none;
+    background: var(--backgroundTwo);
+    
+}
+}
+@media  screen and (min-width: 601px) and(max-width:1024px) and (orientation: landscape) {
     
 
 .layoutform{
