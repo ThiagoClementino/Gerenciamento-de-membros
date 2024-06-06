@@ -1,25 +1,33 @@
-const express = require ('express');
-const dataFinanceiro = require('./modelfinanceiro')
-const mongoose = require ('mongoose');
+
+// import lancamentoFinanceiro from './src/models/financeiro.js';
+import User from './src/models/users.js'
+import mongoose from 'mongoose';
+import express from 'express'
 
  
 const app = express();
-const PORT = 8080;
 
+const userid = [
+  {	
+    "name":"Thiago Clementino",
+    "email":"thiagoclementino@email.com",
+    "senha":"nova427"
+    } ]
 
 
 app.use(express.json());
 
 
+app.get('/', (req, res)=>{
+  res.json(userid);
+})
 
-
-
-
-app.get('/financeiro', async (req, res) => {
+app.get('/user', async (req, res) => {
 
   try{
-    const finance = await dataFinanceiro.find();
-    res.status(201).json(finance);
+    
+    const NewUsers = await User.find();
+    res.status(201).json(NewUsers);
 
   } catch(err){
     res.status(500).json({ erro: "Ocorreu um erro ao processar a chamada" });
@@ -27,25 +35,27 @@ app.get('/financeiro', async (req, res) => {
   
 });
 
-app.post('/ ', async (req, res) => {
-   try{
-     const dataFinanceiro  = req.body;
-     const newFinance = await dataFinanceiro
-     res.status(201).json(newFinance);
+app.post('/user ', async (req, res) => {
+  try{
+     const User  = req.body
+     const Users = User.create(User)
+     return res.json(Users)
+  } catch(erro){
+    res.status(500).json({ erro: "Ocorreu um erro ao processar o usuario" });
 
-   }catch (error){
+  }
      
-     res.status(500).json({ erro: "Ocorreu um erro ao processar o lançamento" });
-   }
+
+  
          
    
   });
   
   
 
-  mongoose.connect('mongodb+srv://thidf57:NwNUqHeirjup8qZY@gerenciador-de-membros.ua4raq8.mongodb.net/?retryWrites=true&w=majority&appName=Gerenciador-de-Membros').then(()=>console.log("conectado com sucesso")).catch(()=>console.log("Banco de dados não conectado"));
+  mongoose.connect('mongodb+srv://thidf57:NwNUqHeirjup8qZY@Gerenciador-de-Membros.ua4raq8.mongodb.net/?retryWrites=true&w=majority&appName=Gerenciador-de-Membros').then(()=>console.log("conectado com sucesso")).catch(()=>console.log("Banco de dados não conectado"));
     
 
 
 
-app.listen(PORT, () => console.log(`Servidor rodando no endereço: http://localhost:${PORT}`))
+app.listen(3001, () => console.log(`Servidor rodando no endereço: http://localhost:3001`))

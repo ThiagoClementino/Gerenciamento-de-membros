@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose from 'mongoose';
 
 
 
-const UserSchema = new Schema({
+
+const useSchema = new mongoose.Schema({
 valor: {
     type:Number,
     required: true
@@ -31,6 +31,6 @@ observacao: {
 
 });
 
-const dataFinanceiro = mongoose.model('dataFinanceiro', UserSchema);
+ 
 
-module.exports = dataFinanceiro;
+export default mongoose.model('lancamentoFinanceiro', useSchema);
