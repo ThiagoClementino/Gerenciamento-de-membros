@@ -1,15 +1,17 @@
 import React from 'react'
-import { useContext,  useState } from 'react';
-import Datainfor from '../../Contexts/DataInfor';
+import {  useState } from 'react';
+// import Datainfor from '../../Contexts/DataInfor';
 import Footer from '../Footer/Footer'
 import './cadastro.css'
 import './cadastrotablet.css'
+// import axios from 'axios'; useContext
+
 
 
 import Header from '../Header/Header';
 
 const Cadastro = () => {
-  const { setDataForm } = useContext(Datainfor);
+  // const { setDataForm } = useContext(Datainfor);
   const [cadMembers, setCadMembers] = useState(
     
       {
@@ -42,7 +44,7 @@ const Cadastro = () => {
         linkFacebook: '',
         linkInsta: '',
         comentary: '',
-        active:'true' ||'',
+        
         selected:'',
       }
   
@@ -51,14 +53,33 @@ const Cadastro = () => {
     setCadMembers({...cadMembers,[event.target.name]: event.target.value});
   };
   
-// ;l
-  const handleSubmitForm = (event) => {
-    event.preventDefault();
+// axios.post('http://localhost:3050/membros', {cadMembers} )
+// .then(res => console.log(res))
+// .catch(error =>console.log(error));
+
+  const handleSubmitForm = async (event) => {
     
-    setDataForm((dataForm) => [...dataForm, cadMembers]); // Espalhar dados existentes e adicionar novos dados
+    try{
+      event.preventDefault();
+      // setDataForm((dataForm) => [...dataForm, cadMembers]);
+      const response =  await fetch('http://localhost:3050/membros',{
+        method: 'POST',
+        body:JSON.stringify(cadMembers)
+      })
+      const json = await response.json();
+      console.log(json);
+      console.log(response.status);
+
+
+    }catch (error){
+
+    }
+
+
+    
   
     
-    setCadMembers(''); // Limpar o formulário após o envio
+    setCadMembers(''); 
   };
   
  

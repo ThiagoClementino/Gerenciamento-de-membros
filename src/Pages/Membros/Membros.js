@@ -7,7 +7,7 @@ import Datainfor from '../../Contexts/DataInfor';
 import Footer from '../Footer/Footer'
 import '../../css/defaultStyle.css';
 import { IoSearchSharp } from "react-icons/io5";
-import { DataGrid } from '@mui/x-data-grid';
+
 
 
 

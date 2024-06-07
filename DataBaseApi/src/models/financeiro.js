@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 
-
-
-
-const useSchema = new mongoose.Schema({
+const financeiroSchema = new mongoose.Schema({
+tipodedado:{
+    type: String,
+    required: true
+},    
 valor: {
     type:Number,
     required: true
@@ -13,7 +14,7 @@ statuspagamento: {
     required: true
 },
 datapagamento: {
-    type:Date,
+    type:String,
     required: true
 },
 tipolancamento: {
@@ -27,10 +28,11 @@ comprovante: {
 observacao: {
     type:String,
     required: true
-},
+}
+
 
 });
 
  
 
-export default mongoose.model('lancamentoFinanceiro', useSchema);
+export default mongoose.model('financeiro', financeiroSchema);

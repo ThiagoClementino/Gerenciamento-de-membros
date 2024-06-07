@@ -16,6 +16,9 @@ import Header from './Pages/Header/Header';
 
 
 
+
+
+
 const AppRoutes = () => {
   const [dataForm, setDataForm] = useState([]);
  const [dataFinance, setDataFinance] = useState([]);
@@ -32,12 +35,8 @@ const AppRoutes = () => {
           <Route path="/membros" element={<Membros />} />
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>
-          <Route path='/header' element={<Header />}/>
-     
-        
-          
-          
-          
+          <Route path='/header' element={<Header />}/>               
+                      
        </Routes>
       </BrowserRouter>
     </Datainfor.Provider>
