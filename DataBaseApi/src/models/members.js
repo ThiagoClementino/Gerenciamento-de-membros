@@ -3,263 +3,328 @@ import mongoose from "mongoose";
 const membersSchema =  new mongoose.Schema({
     name:{
         type: String,
-        required: true
+        required: false,
+        
     },
     mothersname:{
         type: String,
-        required: true
+        required: false,
+        
     },
     fathersname:{
         type: String,
-        required: true
+        required: false,
+        
     },
     dateBirth:{
         type: Date,
-        required: true
+        required: false,
+        
     },
     sex:{
         type: String,
-        required: true
+        required: false,
+        
     },
     telone:{
         type: String,
-        required: true
+        required: false,
+        
     },
     teltwo:{
         type: String,
-        required: true
+        required: false,
+        
     },
     email:{
         type: String,
-        required: true
+        required: false,
+        
     },
     national:{
         type: String,
-        required: true
+        required: false,
+        
     },
     natural:{
         type: String,
-        required: true
+        required: false,
+        
     },
     cep:{
         type: String,
-        required: true
+        required: false,
+        
     },
     address:{
         type: String,
-        required: true
+        required: false,
+        
     },
     number:{
-        type: Number,
-        required: true
+        type: String,
+        required: false,
+        
     },
     complement:{
         type: String,
-        required: true
+        required: false,
+        
     },
     district:{
         type: String,
-        required: true
+        required: false,
+        
     },
     city:{
         type: String,
-        required: true
+        required: false,
+        
     },
     state:{
         type: String,
-        required: true
+        required: false,
+        
     },
     timeinresidence:{
         type: String,
-        required: true
+        required: false,
+        
     },
     profession:{
         type: String,
-        required: true
+        required: false,
+        
     },
     education:{
         type: String,
-        required: true
+        required: false,
+        
     },
     companywork:{
         type: String,
-        required: true
+        required: false,
+        
     },
     estadocivil:{
         type: String,
-        required: true
+        required: false,
+        
     },
     conjuge:{
         type: String,
-        required: true
+        required: false,
+        
     },
     qtdfilhos:{
-        type: String,
-        required: true
+        type: Number,
+        required: false,
+        
     },
     nomefilhoum:{
         type: String,
-        required: true
+        required: false,
+        
     },
     idadefilhoum:{
         type: Number,
-        required: true
+        required: false,
+        
     },
     nomefilhodois:{
         type: String,
-        required: true
+        required: false,
+        
     },
     idadefilhodois:{
         type: Number,
-        required: true
+        required: false,
+        
     },
     nomefilhotres:{
         type: String,
-        required: true
+        required: false,
+        
     },
     idadefilhotres:{
         type: Number,
-        required: true
+        required: false,
+        
     },
     nomefilhoquatro:{
         type: String,
-        required: true
+        required: false,
+        
     },
     idadefilhoquatro:{
         type: Number,
-        required: true
+        required: false,
+        
     },
     optionprimeirocasamento:{
         type: String,
-        required: true
+        required: false,
+        
     },
     jobChurch:{
         type: String,
-        required: true
+        required: false,
+        
     }, 
     casamentocristao:{
         type: String,
-        required: true
+        required: false,
+        
     },
     parceironaigreja:{
         type: String,
-        required: true
+        required: false,
+        
     },
     justificativa:{
         type: String,
-        required: true
+        required: false,
+        
     },
-    conversao:{
-        type: String,
-        required: true
+    dataconversao:{
+        type: Date,
+        required: false,
+        
     },
     databatismo:{
         type: Date,
-        required: true
+        required: false,
+        
     },
     motivosaida:{
         type: String,
-        required: true
+        required: false,
+        
     },
     lastchurch:{
         type: String,
-        required: true
+        required: false,
+        
     },
     igrejasquefoimembro:{
         type: String,
-        required: true
+        required: false,
+        
     },
     dizimista:{
         type: String,
-        required: true
+        required: false,
+        
     },
     ofertante:{
         type: String,
-        required: true
+        required: false,
+        
     },
     cargoanterior:{
         type: String,
-        required: true
+        required: false,
+        
     },
     separadoanterior:{
         type: String,
-        required: true
+        required: false,
+        
     },
     posicaoanterior:{
         type: String,
-        required: true
+        required: false,
+        
     },
     atividadeanterior:{
         type: String,
-        required: true
+        required: false,
+        
     },
     problema:{
         type: String,
-        required: true
+        required: false,
+        
     },
     discipulo:{
         type: String,
-        required: true
+        required: false,
+        
     },
     participacaocultos:{
         type: String,
-        required: true
+        required: false,
+        
     },
     cultosdeoracao:{
         type: String,
-        required: true
+        required: false,
+        
     },
     aconselhamentopastoral:{
         type: String,
-        required: true
+        required: false,
+        
     },
     desenvolvimento:{
         type: String,
-        required: true
+        required: false,
+        
     },
     conviccao:{
         type: String,
-        required: true
+        required: false,
+        
     },
     definicaoevangelho:{
         type: String,
-        required: true
+        required: false,
+        
     },
     frutosespirito:{
         type: String,
-        required: true
+        required: false,
+        
     },
     desenvolvimentodafe:{
         type: String,
-        required: true
+        required: false,
+        
     },
     pecado:{
         type: String,
-        required: true
+        required: false,
+        
     },
     conviccaoteologica:{
         type: String,
-        required: true
+        required: false,
+        
     },
     evangelizar:{
         type: String,
-        required: true
+        required: false,
+        
     },
     jejuar:{
         type: String,
-        required: true
+        required: false,
+        
     },
     leiturabiblica:{
         type: String,
-        required: true
+        required: false,
+        
     },
     livros:{
         type: String,
-        required: true
+        required: false,
+        
     },
     ultimasconsideracoes:{
         type: String,
-        required: true
+        required: false,
+        
     }
 });
 

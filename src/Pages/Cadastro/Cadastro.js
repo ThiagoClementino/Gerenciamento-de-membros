@@ -2,8 +2,9 @@ import React from 'react'
 import {  useState } from 'react';
 // import Datainfor from '../../Contexts/DataInfor';
 import Footer from '../Footer/Footer'
-import './cadastro.css'
-import './cadastrotablet.css'
+import "../../css/defaultStyle.css";
+
+import InputMask from 'react-input-mask';
 // import axios from 'axios'; useContext
 
 
@@ -12,6 +13,7 @@ import Header from '../Header/Header';
 
 const Cadastro = () => {
   // const { setDataForm } = useContext(Datainfor);
+   
   const [cadMembers, setCadMembers] = useState(
     
       {
@@ -43,7 +45,7 @@ const Cadastro = () => {
         jobChurch: '',
         linkFacebook: '',
         linkInsta: '',
-        comentary: '',
+        comentary:'' ,
         
         selected:'',
       }
@@ -63,6 +65,7 @@ const Cadastro = () => {
       event.preventDefault();
       // setDataForm((dataForm) => [...dataForm, cadMembers]);
       const response =  await fetch('http://localhost:3050/membros',{
+       mode: 'no-cors',
         method: 'POST',
         body:JSON.stringify(cadMembers)
       })
@@ -95,22 +98,23 @@ const Cadastro = () => {
       }, 1000);
     })
     .catch(error => console.log(error));
+
   }
-  // const [abas, setAbas] = useState ('#aba1');
+
   
   return (
-    <div className='layoutform'>
+    <div className='layoutDefault'>
          
     <Header/>
-     <div className='form'>
+     <div className='layoutComponent'>
         
-        <form className='' onSubmit={handleSubmitForm}>
-        <div className="titleAndBtn">
-          <div className="titlesection">
-          <h2>Cadastro de Membros</h2>
+        <form className='LayoutForm' onSubmit={handleSubmitForm}>
+        <div className="titleAndBtnForm">
+          <div className="contTitle">
+          <h4>Cadastro de Membros</h4>
           <p>Cadastro de novos membros</p>
           </div>
-          <div className="titlesection">
+          <div className="contTitle">
           <button>Enviar</button>
           </div>
         </div>
@@ -121,7 +125,7 @@ const Cadastro = () => {
           <a href="#aba3">Hist. Cristão</a>
           <a href="#aba4">Hist. Congregacional</a>
           <a href="#aba5">Convicções</a>
-          <a href="#aba6">Dados adicionais</a>
+         
           </section>
         
         <div className="sectionAbas" id="aba1" >
@@ -155,10 +159,12 @@ const Cadastro = () => {
     
                     <label className='campForm'>
                       <p>Data de nascimento</p>
-                      <input type="date" 
+                      <InputMask  mask="99/99/9999" type="date" 
                       name='dateBirth' 
                       value={cadMembers.dateBirth || ''}
-                      onChange={handleSubmitCamps} />
+                      onChange={handleSubmitCamps} 
+                      placeholder="00/00/0000"
+                      />
                     </label>
     
                     <label className='campForm' >
@@ -167,14 +173,14 @@ const Cadastro = () => {
                       value={cadMembers.sex || ''} 
                       onChange={handleSubmitCamps} >
                         <option value="">Escolha</option>
-                        <option value="Masculine">Masculino</option>
-                        <option value="Feminine">Feminino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
                                </select>
                     </label>
     
                     <label className='campForm'>
                       <p>Telefone</p>
-                      <input type="tel" 
+                      <input type="text" 
                       placeholder='(00) 00000-0000' 
                       name='telone' 
                       value={cadMembers.telone || ''} 
@@ -184,7 +190,7 @@ const Cadastro = () => {
     
                     <label className='campForm' >
                       <p>Telefone 2</p>
-                      <input type="tel" 
+                      <input type="text" 
                       placeholder='(00) 00000-0000' 
                       name='teltwo' 
                       value={cadMembers.teltwo || ''} 
@@ -226,8 +232,7 @@ const Cadastro = () => {
                     </label>
                     <label className='campForm'>
                       <p>Endereço</p>
-                      <input type="text" 
-                       
+                      <input type="text"                        
                       name='address' 
                       value={cadMembers.address || ''} 
                       onChange={handleSubmitCamps} />
@@ -235,7 +240,6 @@ const Cadastro = () => {
                     <label className="campForm">
                       <p>Número</p>
                       <input type="text" 
-                     
                       name='number' 
                       value={cadMembers.number || ''} 
                       onChange={handleSubmitCamps} />
@@ -303,15 +307,13 @@ const Cadastro = () => {
                         <option value="EnsinoFundamental">Ensino Fundamental</option>
                         <option value="EnsinoMedio">Ensino Médio</option>
                         <option value="EnsinoSuperior">Ensino Superior</option>
-                        <option value="Recanto">Recanto das Emas</option>
-                        <option value="Sede">Sede</option>
+                       
                       </select>
                     </label>
     
                     <label className="campForm">
                       <p>Empresa que trabalha </p>
                       <input type="text" 
-                       
                       name='companywork' 
                       value={cadMembers.companywork || ''} 
                       onChange={handleSubmitCamps} />
@@ -320,7 +322,9 @@ const Cadastro = () => {
      
         </div>
         <div className="sectionAbas" id='aba2'>
-    
+        <div className="titleaba">
+          <h4>Relacionamento</h4>
+          </div>
                     <label htmlFor="" className="campForm">
                       <p>Estado Civil</p>
                       <select name="estadocivil" id="estadocivil" 
@@ -336,7 +340,12 @@ const Cadastro = () => {
                     </label>
                     <label  className="campForm">
                         <p>Nome do Conjugê</p>
-                        <input type="text" name="conjuge" id="conjuge" placeholder='Digite o nome do conjugê' value={cadMembers.conjuge || ''} onChange={handleSubmitCamps} />
+                        <input type="text" 
+                        name="conjuge" 
+                        id="conjuge" 
+                        placeholder='Digite o nome do conjugê' 
+                        value={cadMembers.conjuge || ''} 
+                        onChange={handleSubmitCamps} />
                       </label>
                     <label htmlFor="" className="campForm">
                       <p>Quantidade de filhos</p>
@@ -346,10 +355,12 @@ const Cadastro = () => {
                       onChange={handleSubmitCamps} />
     
                       </label>
-                      <div id='dadosdosfilhos'>
+                      <div className='ContainerData'>
+                        <div className="titlecontainerData">
                       <h3>Dados do filho</h3>
+                      </div>
                         
-                        <section className="dadosdofilho">
+                        <section className="sectionData">
                         <input type="text" 
                         name="nomefilhoum" 
                         id="nomefilhoum" 
@@ -369,7 +380,7 @@ const Cadastro = () => {
 
 
 
-                        <section className="dadosdofilho">
+                        <section className="sectionData">
                         <input type="text" 
                         name="nomefilhodois" 
                         id="nomefilhodois" 
@@ -384,7 +395,7 @@ const Cadastro = () => {
                         placeholder='idade'/>
                         </section>
 
-                        <section className="dadosdofilho">
+                        <section className="sectionData">
                         <input type="text" 
                         name="nomefilhotres" 
                         id="nomefilhotres" 
@@ -400,7 +411,7 @@ const Cadastro = () => {
                        
                         </section>
 
-                        <section className="dadosdofilho">
+                        <section className="sectionData">
                         <input type="text" 
                         name="nomefilhoquatro" 
                         id="nomefilhoquatro" 
@@ -414,9 +425,7 @@ const Cadastro = () => {
                         onChange={handleSubmitCamps} 
                         placeholder='idade'/>
                       
-                        </section>
-
-                   
+                        </section>   
 
                         
                       <label className="campForm">
@@ -427,15 +436,7 @@ const Cadastro = () => {
                       value={cadMembers.jobChurch || ''} 
                       onChange={handleSubmitCamps} />
                     </label>
-                        {/* <section className="dadosdofilho">
-                        <input type="text" name="Filhoum" id="Filhoum" placeholder='Digite o nome dos filhos' />
-                        <input type="number" name="idadefilhoum" id="" placeholder='idade'/>
-                        </section>
-                        <section className="dadosdofilho">
-                        <input type="text" name="Filhoum" id="Filhoum" placeholder='Digite o nome dos filhos' />
-                        <input type="number" name="idadefilhoum" id="" placeholder='idade'/>
-                        </section> */}
-                        
+                                      
                         </div>
                         
                         <label  className="campForm">
@@ -487,7 +488,10 @@ const Cadastro = () => {
     
         </div>           
         <div className="sectionAbas" id="aba3">
-        <label htmlFor="" className="campForm">
+        <div className="titleaba">
+          <h4>Histórico Cristão</h4>
+          </div>
+        <label  className="campForm">
           <p>Qual a foi a data de conversão</p>
           <input type="date" name="dataconversao" 
           id="dataconversao" value={cadMembers.dataconversao || ''} 
@@ -529,7 +533,7 @@ const Cadastro = () => {
             <option value="não">Não</option>
           </select>
         </label>
-        <label htmlFor="" className="campForm">
+        <label  className="campForm">
           <p>Você é ofertante fiel? </p>
           <select name="ofertante" 
           id="ofertante" 
@@ -540,7 +544,7 @@ const Cadastro = () => {
             <option value="não">Não</option>
           </select>
         </label>
-        <label htmlFor="" className="campForm">
+        <label  className="campForm">
           <p>Você exerceu algum cargo de liderança nas igrejas que passou? </p>
           <select name="cargoanterior" id="cargoanterior" 
           value={cadMembers.cargoanterior || ''} 
@@ -550,7 +554,7 @@ const Cadastro = () => {
             <option value="não">Não</option>
           </select>
         </label>
-        <label htmlFor="" className="campForm">
+        <label  className="campForm">
           <p>Você foi separado/consagrado a algum cargo ministerial? </p>
           <select name="separadoanterior" 
           id="separadoanterior" value={cadMembers.separadoanterior || ''} 
@@ -560,14 +564,14 @@ const Cadastro = () => {
             <option value="não">Não</option>
           </select>
         </label>
-        <label htmlFor="" className="campForm">
+        <label  className="campForm">
           <p>Qual era a sua posição</p>
           <input type="text" name="posicaoanterior" 
           id="posicaoanterior" 
           value={cadMembers.posicaoanterior || ''} 
           onChange={handleSubmitCamps} />
         </label>
-        <label htmlFor="" className="campForm">
+        <label className="campForm">
           <p>Quais eram as suas atividades?</p>
           <input type="text" name="atividadeanterior" 
           id="atividadeanterior" value={cadMembers.atividadeanterior || ''} 
@@ -577,6 +581,9 @@ const Cadastro = () => {
         </div> 
     
         <div className="sectionAbas" id="aba4">
+        <div className="titleaba">
+          <h4>Histórico Congracional</h4>
+          </div>
           <label className="campForm">
             <p>Tem algum problema com liderança, hierarquia e pastoreio?</p>
             <select name="problema" id="problema" 
@@ -660,6 +667,9 @@ const Cadastro = () => {
         </div>
     
         <div className="sectionAbas" id="aba5">
+        <div className="titleaba">
+          <h4>Convicções</h4>
+          </div>
           <label className="campForm">
             <p>O que te faz convicto de que você é um verdadeiro discípulo de Jesus?</p>
             <textarea name="conviccaodiscipulo" 
@@ -741,22 +751,21 @@ const Cadastro = () => {
            value={cadMembers.livros} 
            onChange={handleSubmitCamps} />
           </label>
-        </div>
-        <div className="sectionAbas" id="aba6">
-        <label className="campForm">
+          <label className="campForm">
           <p>Tem alguma coisa a mais que você queria nos contar?</p>
           <textarea name="ultimasconsideracoes" 
           id="ultimasconsideracoes" cols="100" rows="5" 
           value={cadMembers.ultimasconsideracoes} 
           onChange={handleSubmitCamps}></textarea>
         </label>
-    
-        </div>           
+        </div>
+         
         </div>
         </form>
     
     <Footer />
           </div>
+          
     </div>
   )
 }

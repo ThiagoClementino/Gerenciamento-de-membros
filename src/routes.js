@@ -6,6 +6,7 @@ import Datainfor from './Contexts/DataInfor';
 import Cadastro from './Pages/Cadastro/Cadastro';
 import {Financeiro} from './Pages/Financeiro/Financeiro';
 import Header from './Pages/Header/Header';
+import { Teste } from './Pages/testes/teste';
 
 
 
@@ -36,6 +37,7 @@ const AppRoutes = () => {
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>
           <Route path='/header' element={<Header />}/>               
+          <Route path='/teste' element={<Teste />}/>               
                       
        </Routes>
       </BrowserRouter>

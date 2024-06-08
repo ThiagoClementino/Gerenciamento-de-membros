@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import './Financeiro.css'
+
 import Footer from '../Footer/Footer'
 import { useState } from 'react'
 import Datainfor from '../../Contexts/DataInfor';
 import Header from '../Header/Header';
-import '../../css/defaultStyle.css'
+
 
 
 
@@ -41,20 +41,23 @@ const handleFormFinancial =  async (event) =>{
 }
 
   return (
-    <div className='LayoutFinanceiro'>
+    <div className='layoutDefault'>
 
         <Header/>
 
     
-        <div className='FinanceiroContent'>
+        <div className='layoutComponent'>
           <div className="containerFinanceiro">
-            <form onSubmit={handleFormFinancial}>
-              <div className="titleAndBtn">
+            <form onSubmit={handleFormFinancial} className='LayoutForm'>
+              <div className="titleAndBtnForm">
+                <div className="contTitle">
                 <h2>Cadastro Financeiro</h2>
+                </div>
+                <div className="contTitle"></div>
                 <button>Salvar</button>
                 
               </div>
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Tipo de registro</p>
                 <select 
                 name="tipodedado" 
@@ -67,7 +70,7 @@ const handleFormFinancial =  async (event) =>{
                   
                 </select>
               </label>
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Valor</p>
                 <input type="number" 
                 name="valor" 
@@ -78,7 +81,7 @@ const handleFormFinancial =  async (event) =>{
               </label>
              
 
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Status</p>
                 <select 
                 name="statuspagamento" 
@@ -91,7 +94,7 @@ const handleFormFinancial =  async (event) =>{
                   <option value="Nãopago">Não pago</option>
                 </select>
               </label>
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Data</p>
                 <input type="date" 
                 name="datapagamento" 
@@ -102,7 +105,7 @@ const handleFormFinancial =  async (event) =>{
                 />
               </label>
             
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Tipo de lançamento</p>
                 <select 
                 name="tipolancamento" 
@@ -120,7 +123,7 @@ const handleFormFinancial =  async (event) =>{
               </label>
             
               
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Comprovantes</p>
                 <input type="file" 
                
@@ -130,7 +133,7 @@ const handleFormFinancial =  async (event) =>{
                 onChange={handleCampfinancial}
                  />
               </label>
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Descrição</p>
                 <textarea 
                 name="descricao" 
@@ -141,7 +144,7 @@ const handleFormFinancial =  async (event) =>{
                 onChange={handleCampfinancial}
                 ></textarea>
               </label>
-              <label className="campFormFinancial">
+              <label className="campForm">
                 <p>Observação</p>
                 <textarea 
                 name="observacao" 
@@ -153,10 +156,10 @@ const handleFormFinancial =  async (event) =>{
                 ></textarea>
               </label>
             </form>
-            <div className="sectiontabela">
-                <h2>Valores</h2>
-            <div className="tabelaBloco">
-               <table className='tabelaContainer'>
+
+            <div className="conponentTable">
+                <h4>Valores</h4>
+               <table >
                 <thead>
                  
                     <tr>
@@ -186,7 +189,7 @@ const handleFormFinancial =  async (event) =>{
                  
                 </tbody>
               </table> 
-            </div>
+
             </div>
             
           </div>

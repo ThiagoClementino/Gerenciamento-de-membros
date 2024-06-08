@@ -26,28 +26,7 @@ body{
 }
 @media only screen and (min-width: 768px) {
   
-  .Navbar{
-    width: 60px;
-    height: 100vh;
-    background: var(--colorBlueOne);
-    padding: 20px;
-    transition: 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.NavbarOne{
-  width: 60px;
-  height: 100vh;
-  background: var(--colorBlueOne);
-  padding: 20px;
-  transition: 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
+
 button{
   background: none;
   border: none;
