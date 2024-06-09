@@ -32,7 +32,12 @@ const Membros = () => {
 
   useEffect(() => {
     fetch('http://localhost:3050/membros', {
-      mode: 'cors' // Enable CORS
+      method: 'GET',
+      mode: 'cors', 
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     })
       .then(res => {
         if (!res.ok) {
@@ -41,11 +46,11 @@ const Membros = () => {
         return res.json();
       })
       .then(data => {
-        if (Array.isArray(data)) { // Check if data is an array
+        if (Array.isArray(data)) { 
           setDados(data);
         } else {
           console.error("Dados da API não é um array");
-          // Exibir mensagem informativa ao usuário (opcional)
+          
         }
       })
       .catch(error => console.error('There was a problem with the fetch operation:', error));

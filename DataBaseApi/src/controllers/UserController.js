@@ -10,6 +10,7 @@ async function getMembers(req, res) {
 /* ------------------------------------------- */
 
 async function postMembers(req, res) {
+  console.log(req.body)
   try {
     const NovoMembro = new members(req.body);
     await NovoMembro.save();
@@ -26,7 +27,7 @@ async function postMembers(req, res) {
 async function deleteMembers(req, res) {
     try {
       const { id } = req.params;
-      await members.findByIdAndRemove(id);
+      await members.findByIdAndDelete(id);
       res.status(200).send("Membro deletado");
     } catch (erro) {
       res.status(500).json({ erro: "Não foi possível excluir os dados" });
@@ -40,8 +41,8 @@ async function deleteMembers(req, res) {
 
 async function putMembers(req, res) {
   try {
-    const id = req.params.id;
-    await members.findByIdAndUpdate({ __id: id });
+    const { id } = req.params;
+    await members.findByIdAndUpdate({ id });
     res.send("Dados deletados");
   } catch (erro) {
     res

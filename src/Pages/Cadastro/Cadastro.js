@@ -42,7 +42,6 @@ const Cadastro = () => {
     linkFacebook: "",
     linkInsta: "",
     comentary: "",
-
     selected: "",
   });
   const handleSubmitCamps = (event) => {
@@ -54,20 +53,95 @@ const Cadastro = () => {
   // .catch(error =>console.log(error));
 
   const handleSubmitForm = async (event) => {
+    
+const memberExample = {
+    name: "Bira",
+    mothersname: "Marcos",
+    fathersname: "Marcela",
+    dateBirth: new Date("1988-04-01"),
+    sex: "masculino",
+    telone: "6100000-0000",
+    teltwo: "6200000-0000",
+    email: "email@email.com",
+    national: "brasileira",
+    natural: "Brasil",
+    cep: "72242015",
+    address: "QNP 21 Conjunto H",
+    number: "25",
+    complement: "p norte",
+    district: "Brasilia",
+    city: "Ceilândia",
+    state: "DF",
+    timeinresidence: "cinco anos",
+    profession: "dev",
+    education: "ensino médio",
+    companywork: "brave",
+    estadocivil: "casado",
+    conjuge: "Marta",
+    qtdfilhos: 2,
+    nomefilhoum: "Thiesa",
+    idadefilhoum: 5,
+    nomefilhodois: "José",
+    idadefilhodois: 5,
+    nomefilhotres: "Marcos",
+    idadefilhotres: 16,
+    nomefilhoquatro: "Silva",
+    idadefilhoquatro: 40,
+    optionprimeirocasamento: "sim",
+    jobChurch: "batera",
+    casamentocristao: "sim",
+    parceironaigreja: "sim",
+    justificativa: "aaaaa",
+    dataconversao: new Date("2000-05-04"),
+    databatismo: new Date("2000-05-04"),
+    motivosaida: "sim",
+    lastchurch: "sim",
+    igrejasquefoimembro: "sim",
+    dizimista: "sim",
+    ofertante: "sim",
+    cargoanterior: "sim",
+    separadoanterior: "sim",
+    posicaoanterior: "sim",
+    atividadeanterior: "sim",
+    problema: "sim",
+    discipulo: "sim",
+    participacaocultos: "sim",
+    cultosdeoracao: "sim",
+    aconselhamentopastoral: "sim",
+    desenvolvimento: "sim",
+    conviccao: "sim",
+    definicaoevangelho: "sim",
+    frutosespirito: "sim",
+    desenvolvimentodafe: "sim",
+    pecado: "sim",
+    conviccaoteologica: "sim",
+    evangelizar: "sim",
+    jejuar: "sim",
+    leiturabiblica: "sim",
+    livros: "sim",
+    ultimasconsideracoes: "sim"
+};
+    console.log(JSON.stringify(memberExample));
     try {
       event.preventDefault();
       // setDataForm((dataForm) => [...dataForm, cadMembers]);
       const response = await fetch("http://localhost:3050/membros", {
-        mode: "no-cors",
         method: "POST",
-        body: JSON.stringify(cadMembers),
-      });
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(memberExample),
+        mode: 'cors',
+        
+      })
       const json = await response.json();
       console.log(json);
       console.log(response.status);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
-    setCadMembers("");
+    // setCadMembers("");
   };
 
   const [abaAtiva, setAbaAtiva] = useState("dadosPessoais");
