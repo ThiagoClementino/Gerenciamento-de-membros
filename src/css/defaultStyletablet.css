@@ -1,0 +1,270 @@
+
+@media (min-width: 481px) and(max-width:766px){
+    .layoutDefault {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--color100);
+      
+    }
+    
+    /*-- HEADER --*/
+    .Navbar {
+      width: 50px;
+      height: 100vh;
+      background: var(--bkcolor100);
+      padding: 20px;
+      transition: 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .NavbarOne {
+      width: 50px;
+      height: 100vh;
+      background: var(--bkcolor100);
+      padding: 20px;
+      transition: 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .logoAndBtn button {
+      background: none;
+      border: none;
+    }
+    .iconbtn {
+    display: none;
+    }
+    .logoAndBtn {
+     display: none;
+    }
+    img {
+      width: 30px;
+      height: 30px;
+      display: none;
+    }
+    a,
+    Link {
+      text-decoration: none;
+    }
+  
+    .exibirlogo {
+      display: block;
+    }
+    .NavItem,
+    .settings {
+      display: flex;
+      color: var(--colorSevenWhite);
+      padding-block: 5px;
+      transition: 0.3s ease-in-out;
+      border-radius: 5px;
+    }
+    .NavItem:hover {
+      background: var(--color800);
+      transition: 0.3s ease-in-out;
+    }
+    .iconSettings {
+      width: 35px;
+      height: 35px;
+      color: var(--color300);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .iconNav {
+      width: 20px;
+      height: 20px;
+    }
+    .ocultarTexto {
+      display: none;
+    }
+    li {
+      text-decoration: none;
+    }
+    .exibirTexto {
+    display: none;
+    }
+    .navOptions {
+      height: 25vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+    }
+    .navOptionsTwo {
+      height: 25vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    
+    /* -- FIM HEADER -- */
+    
+    /* -- TITULO COMPONENTE -- */
+    
+    /*-- FIM TITULO COMPONENTE -- */
+    .titleAndBtnForm {
+      width: 100%;
+      height: 20vh;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .contTitle{
+      max-width: 100%;
+      
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+    }
+    .contTitle p{
+    text-align: center;
+    }
+    .contTitle:nth-child(1){
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .contTitle:nth-child(3){
+    
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .sectionAbas{
+    width: 100%;
+    height: 80vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px; 
+    }
+    .contentAbas{
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .abas section{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .abas section button{
+      background-color: var(--color600);
+      min-width: 19%;
+      border: none;
+      padding-block: 10px;
+      border-radius: 5px;
+      color: var(--color50);
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      text-align: center;
+      
+    
+    }
+    
+    .copy{
+      background: var(--color300);
+      width: 100%;
+      text-align: center;
+      min-height: 7vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    
+    /* -- ESTRUTURA DO COMPONENTE*/
+    
+    
+    .layoutComponent {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-top: 20px ;
+      overflow-x: auto;
+      
+    
+    }
+    /*FIM ESTRUTURA*/
+    /* -- FORM -- */
+    .LayoutForm {
+      width: 100%;
+      height: auto;
+      display: flex;
+      padding-bottom: 20px;
+      align-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 5px;
+      
+      
+    }
+    .campForm {
+      background: var(--color50);
+      width:100%;
+      height: 15vh;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .campForm p {
+      font-size: small;
+      word-break: break-all;
+    }
+    .conponentTable {
+      max-width: 100%;
+      min-height: 36vh;
+      margin-top: 10px;
+      padding-inline: 10px;
+            display: flex;
+            overflow-x: auto;
+
+    }
+    .titleTable{
+      min-width: 300px;
+    }
+    .ContainerData{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sectionData{
+      width: 49%;
+      flex: 1 1 600px;
+    }
+    .titlecontainerData{
+      width: 100%;
+    }
+    /*-- FIM FORM -- */
+    
+    /* MOBILE*/
+  }

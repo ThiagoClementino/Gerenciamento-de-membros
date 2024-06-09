@@ -142,272 +142,247 @@ tr:hover {
 
 /*Fim components*/
 
-.layoutDefault {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--color100);
-}
-
-/*-- HEADER --*/
-.Navbar {
-  width: 220px;
-  height: 100vh;
-  background: var(--bkcolor100);
-  padding: 20px;
-  transition: 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.NavbarOne {
-  width: 80px;
-  height: 100vh;
-  background: var(--bkcolor100);
-  padding: 20px;
-  transition: 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.logoAndBtn button {
-  background: none;
-  border: none;
-}
-.iconbtn {
-  width: auto;
-  height: 35px;
-  background: none;
-  color: var(--color100);
-}
-.logoAndBtn {
-  display: flex;
-  width: 100%;
-  height: 10vh;
-  justify-content: space-between;
-  align-items: center;
-  transition: 0.3s ease-in-out;
-}
-img {
-  width: auto;
-  height: 70px;
-  display: none;
-}
-a,
-Link {
-  text-decoration: none;
-}
-/* .ocultarlogo{
-  display: none;
-  transition: 0.4s ease-in-out;
-} */
-.exibirlogo {
-  display: block;
-}
-.NavItem,
-.settings {
-  display: flex;
-  color: var(--colorSevenWhite);
-  padding-block: 5px;
-  transition: 0.3s ease-in-out;
-  border-radius: 5px;
-}
-.NavItem:hover {
-  background: var(--color800);
-  transition: 0.3s ease-in-out;
-}
-.iconSettings {
-  width: 35px;
-  height: 35px;
-  color: var(--color300);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.iconNav {
-  width: 20px;
-  height: 20px;
-}
-.ocultarTexto {
-  display: none;
-}
-li {
-  text-decoration: none;
-}
-.exibirTexto {
-  width: 150px;
-  height: 35px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding-left: 10px;
-  color: var(--color50);
-}
-.navOptions {
-  height: 25vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-}
-.navOptionsTwo {
-  height: 25vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-}
-
-/* -- FIM HEADER -- */
-
-/* -- TITULO COMPONENTE -- */
-
-/*-- FIM TITULO COMPONENTE -- */
-.titleAndBtnForm {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-}
-.contTitle{
-  max-width: 49%;
-  min-width: 32%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.contTitle:nth-child(1){
-
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.contTitle:nth-child(3){
-
+@media (min-width: 671px){
+  .layoutDefault {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color100);
+  }
   
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-.sectionAbas{
-width: 100%;
-height: 80vh;
-overflow-y: scroll;
-display: flex;
-justify-content: flex-start;
-align-items: flex-start;
-flex-wrap: wrap;
-gap: 10px;
-}
-.abas section{
+  /*-- HEADER --*/
+  .Navbar {
+    width: 220px;
+    height: 100vh;
+    background: var(--bkcolor100);
+    padding: 20px;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .NavbarOne {
+    width: 80px;
+    height: 100vh;
+    background: var(--bkcolor100);
+    padding: 20px;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .logoAndBtn button {
+    background: none;
+    border: none;
+  }
+  .iconbtn {
+    width: auto;
+    height: 35px;
+    background: none;
+    color: var(--color100);
+  }
+  .logoAndBtn {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s ease-in-out;
+  }
+  img {
+    width: auto;
+    height: 70px;
+    display: none;
+  }
+  a,
+  Link {
+    text-decoration: none;
+  }
+  /* .ocultarlogo{
+    display: none;
+    transition: 0.4s ease-in-out;
+  } */
+  .exibirlogo {
+    display: block;
+  }
+  .NavItem,
+  .settings {
+    display: flex;
+    color: var(--colorSevenWhite);
+    padding-block: 5px;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+  }
+  .NavItem:hover {
+    background: var(--color800);
+    transition: 0.3s ease-in-out;
+  }
+  .iconSettings {
+    width: 35px;
+    height: 35px;
+    color: var(--color300);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .iconNav {
+    width: 20px;
+    height: 20px;
+  }
+  .ocultarTexto {
+    display: none;
+  }
+  li {
+    text-decoration: none;
+  }
+  .exibirTexto {
+    width: 150px;
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-left: 10px;
+    color: var(--color50);
+  }
+  .navOptions {
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+  }
+  .navOptionsTwo {
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* -- FIM HEADER -- */
+  
+  /* -- TITULO COMPONENTE -- */
+  
+  /*-- FIM TITULO COMPONENTE -- */
+  .titleAndBtnForm {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+  .contTitle{
+    max-width: 49%;
+    min-width: 32%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .contTitle:nth-child(1){
+  
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .contTitle:nth-child(3){
+  
+    
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .sectionAbas{
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-.abas section a{
-  background-color: var(--color600);
-  min-width: 19%;
-  border: none;
-  padding-block: 10px;
-  border-radius: 5px;
-  color: var(--color50);
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  text-align: center;
-  
-
-}
-div .abas div{
-  display: none;
-}
-
-.abas div:target{
-  display: flex;
-  
-  
-}
-.abas div:first-child{
-  display: flex;
-  
-  
-}
-.copy{
-  width: 100%;
-  text-align: center;
-  height: 4vh;
-}
-
-
-/* -- ESTRUTURA DO COMPONENTE*/
-
-
-.layoutComponent {
-  width: 100%;
-  height: 100vh;
-  padding: 10px;
-  overflow-x: auto;
-}
-/*FIM ESTRUTURA*/
-/* -- FORM -- */
-.LayoutForm {
-  width: 100%;
-  height: 95%;
-  display: flex;
-  align-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.campForm {
-  background: var(--color50);
-  width: 32%;
-  height: 12vh;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  flex: 1 1 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: column;
-}
-.campForm p {
-  word-break: break-all;
-}
-.conponentTable {
-  max-width: 100%;
   height: 80vh;
-  margin-top: 10px;
-
-  overflow: scroll;
-}
-.ContainerData{
-  width: 100%;
+  overflow-y: scroll;
   display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 10px;
-}
-.sectionData{
-  width: 49%;
-  flex: 1 1 600px;
-}
-.titlecontainerData{
-  width: 100%;
-}
-/*-- FIM FORM -- */
-
-/* MOBILE*/
-@media screen and (max-width: 680px) {
+  gap: 10px; 
+  }
+  .contentAbas{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .abas section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .abas section button{
+    background-color: var(--color600);
+    min-width: 19%;
+    border: none;
+    padding-block: 10px;
+    border-radius: 5px;
+    color: var(--color50);
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+    
+  
+  }
+  
+  .copy{
+    background: var(--color300);
+    width: 100%;
+    text-align: center;
+    min-height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .checked-table{
+    width: 35px;
+  }
+  .titleTable{
+    min-width: 300px;
+  }
+  
+  
+  /* -- ESTRUTURA DO COMPONENTE*/
+  
+  
+  .layoutComponent {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-x: auto;
+    
+  
+  }
+  /*FIM ESTRUTURA*/
+  /* -- FORM -- */
+  .LayoutForm {
+    width: 100%;
+    height: auto;
+    display: flex;
+    padding-bottom: 20px;
+    align-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px;
+   
+    
+  }
   .campForm {
     background: var(--color50);
-    width: 49%;
+    width: 32%;
     height: 15vh;
     padding: 10px;
     border-radius: 5px;
@@ -417,27 +392,35 @@ div .abas div{
     justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
+  }
+  .campForm p {
     font-size: small;
+    word-break: break-all;
   }
-  .titleAndBtnForm {
+  .conponentTable {
+    max-width: 100%;
+    min-height: 36vh;
+    margin-top: 10px;
+    padding-inline: 10px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  .ContainerData{
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
   }
-  .contTitle {
+  .sectionData{
+    width: 49%;
+    flex: 1 1 600px;
+  }
+  .titlecontainerData{
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
-  .contTitle:nth-child(3){
-      
-      flex-direction: row;
-      justify-content: space-evenly;
-
+  /*-- FIM FORM -- */
   
-  }
+  /* MOBILE*/
 }
+
+

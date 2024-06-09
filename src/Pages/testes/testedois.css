@@ -1,0 +1,50 @@
+/* src/components/Formulario.css */
+
+/* Estilos para as abas */
+.nav-tabs {
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  
+  .nav-link.active {
+    background-color: #0074d9;
+    color: #fff;
+    border-color: #0074d9;
+  }
+  
+  /* Estilos para o conteúdo das abas */
+  .tab-content {
+    padding: 20px;
+  }
+  
+  .tab-pane {
+    display: none;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  
+  /* Estilos para tornar o formulário responsivo */
+  @media screen and (max-width: 768px) {
+    .nav-tabs {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .nav-link {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  

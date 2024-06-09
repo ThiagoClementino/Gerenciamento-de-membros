@@ -7,6 +7,7 @@ import Cadastro from './Pages/Cadastro/Cadastro';
 import {Financeiro} from './Pages/Financeiro/Financeiro';
 import Header from './Pages/Header/Header';
 import { Teste } from './Pages/testes/teste';
+import Formulario from './Pages/testes/testedois';
 
 
 
@@ -38,6 +39,7 @@ const AppRoutes = () => {
           <Route path='/financeiro' element={<Financeiro />}/>
           <Route path='/header' element={<Header />}/>               
           <Route path='/teste' element={<Teste />}/>               
+          <Route path='/formulario' element={<Formulario />}/>               
                       
        </Routes>
       </BrowserRouter>

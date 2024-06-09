@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-
+import { IoSearchSharp } from "react-icons/io5";
 import Footer from '../Footer/Footer'
 import { useState } from 'react'
 import Datainfor from '../../Contexts/DataInfor';
@@ -47,15 +47,19 @@ const handleFormFinancial =  async (event) =>{
 
     
         <div className='layoutComponent'>
-          <div className="containerFinanceiro">
+          
             <form onSubmit={handleFormFinancial} className='LayoutForm'>
               <div className="titleAndBtnForm">
                 <div className="contTitle">
-                <h2>Cadastro Financeiro</h2>
+                <h4>Cadastro Financeiro</h4>
                 </div>
-                <div className="contTitle"></div>
+                <div className="contTitle">
+              <input type="search" name="" id="" />
+              <button> <IoSearchSharp size={18} /></button>
+            </div>
+                <div className="contTitle">
                 <button>Salvar</button>
-                
+                </div>
               </div>
               <label className="campForm">
                 <p>Tipo de registro</p>
@@ -79,8 +83,6 @@ const handleFormFinancial =  async (event) =>{
                 onChange={handleCampfinancial}
                 />
               </label>
-             
-
               <label className="campForm">
                 <p>Status</p>
                 <select 
@@ -120,9 +122,7 @@ const handleFormFinancial =  async (event) =>{
                   <option value="despesadepartamento">Despesa de departamento</option>
                   <option value="internet">Internet</option>
                 </select>
-              </label>
-            
-              
+              </label>         
               <label className="campForm">
                 <p>Comprovantes</p>
                 <input type="file" 
@@ -191,10 +191,10 @@ const handleFormFinancial =  async (event) =>{
               </table> 
 
             </div>
-            
-          </div>
-          
           <Footer/>
+            
+         
+          
         </div>
 
       
