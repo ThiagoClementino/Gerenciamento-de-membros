@@ -1,19 +1,17 @@
 import React from "react";
 import { useState } from "react";
-// import Datainfor from '../../Contexts/DataInfor';
 import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
-import InputMask from "react-input-mask";
-// import axios from 'axios'; useContext
-
+import { IMaskInput } from "react-imask";
+import { v4 as uuidv4 } from 'uuid';
 import Header from "../Header/Header";
 
 const Cadastro = () => {
-  // const { setDataForm } = useContext(Datainfor);
+
 
   const [cadMembers, setCadMembers] = useState({
-    id: "",
+    id: uuidv4(),
     name: "",
     mothersname: "",
     fathersname: "",
@@ -39,6 +37,7 @@ const Cadastro = () => {
     congregation: "",
     dateMember: "",
     jobChurch: "",
+    congregacao: "",
     linkFacebook: "",
     linkInsta: "",
     comentary: "",
@@ -53,75 +52,7 @@ const Cadastro = () => {
   // .catch(error =>console.log(error));
 
   const handleSubmitForm = async (event) => {
-    
-const memberExample = {
-    name: "Bira",
-    mothersname: "Marcos",
-    fathersname: "Marcela",
-    dateBirth: new Date("1988-04-01"),
-    sex: "masculino",
-    telone: "6100000-0000",
-    teltwo: "6200000-0000",
-    email: "email@email.com",
-    national: "brasileira",
-    natural: "Brasil",
-    cep: "72242015",
-    address: "QNP 21 Conjunto H",
-    number: "25",
-    complement: "p norte",
-    district: "Brasilia",
-    city: "Ceilândia",
-    state: "DF",
-    timeinresidence: "cinco anos",
-    profession: "dev",
-    education: "ensino médio",
-    companywork: "brave",
-    estadocivil: "casado",
-    conjuge: "Marta",
-    qtdfilhos: 2,
-    nomefilhoum: "Thiesa",
-    idadefilhoum: 5,
-    nomefilhodois: "José",
-    idadefilhodois: 5,
-    nomefilhotres: "Marcos",
-    idadefilhotres: 16,
-    nomefilhoquatro: "Silva",
-    idadefilhoquatro: 40,
-    optionprimeirocasamento: "sim",
-    jobChurch: "batera",
-    casamentocristao: "sim",
-    parceironaigreja: "sim",
-    justificativa: "aaaaa",
-    dataconversao: new Date("2000-05-04"),
-    databatismo: new Date("2000-05-04"),
-    motivosaida: "sim",
-    lastchurch: "sim",
-    igrejasquefoimembro: "sim",
-    dizimista: "sim",
-    ofertante: "sim",
-    cargoanterior: "sim",
-    separadoanterior: "sim",
-    posicaoanterior: "sim",
-    atividadeanterior: "sim",
-    problema: "sim",
-    discipulo: "sim",
-    participacaocultos: "sim",
-    cultosdeoracao: "sim",
-    aconselhamentopastoral: "sim",
-    desenvolvimento: "sim",
-    conviccao: "sim",
-    definicaoevangelho: "sim",
-    frutosespirito: "sim",
-    desenvolvimentodafe: "sim",
-    pecado: "sim",
-    conviccaoteologica: "sim",
-    evangelizar: "sim",
-    jejuar: "sim",
-    leiturabiblica: "sim",
-    livros: "sim",
-    ultimasconsideracoes: "sim"
-};
-    console.log(JSON.stringify(memberExample));
+    // console.log(JSON.stringify(memberExample));
     try {
       event.preventDefault();
       // setDataForm((dataForm) => [...dataForm, cadMembers]);
@@ -130,10 +61,9 @@ const memberExample = {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(memberExample),
-        mode: 'cors',
-        
-      })
+        body: JSON.stringify(cadMembers),
+        mode: "cors",
+      });
       const json = await response.json();
       console.log(json);
       console.log(response.status);
@@ -141,7 +71,7 @@ const memberExample = {
       console.log(error);
     }
 
-    // setCadMembers("");
+    setCadMembers("");
   };
 
   const [abaAtiva, setAbaAtiva] = useState("dadosPessoais");
@@ -168,6 +98,9 @@ const memberExample = {
       .catch((error) => console.log(error));
   };
 
+  
+
+  
   return (
     <div className="layoutDefault">
       <Header />
@@ -180,7 +113,10 @@ const memberExample = {
             </div>
             <div className="contTitle">
               <input type="search" name="" id="" />
-              <button> <IoSearchSharp size={18} /></button>
+              <button>
+                {" "}
+                <IoSearchSharp size={18} />
+              </button>
             </div>
             <div className="contTitle">
               <button>Enviar</button>
@@ -234,440 +170,473 @@ const memberExample = {
                 <div className="titleaba">
                   <h4>Dados pessoais</h4>
                 </div>
+                <div className="matricula">
+                    <input
+                      type="hiden"
+                      name="uuid"
+                      value={cadMembers.id || ""}
+                      onChange={handleSubmitCamps}
+                      disabled
+                      
+                    />
+                    </div>
                 <div className="contentAbas">
-                <label className="campForm" id="campForm">
-                  <p>Nome Completo</p>
-                  <input
-                    type="text"
-                    name="name"
-                    value={cadMembers.name || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
-                <label className="campForm">
-                  <p>Nome da Mãe</p>
-                  <input
-                    type="text"
-                    placeholder="Nome da Mãe"
-                    name="mothersname"
-                    value={cadMembers.mothersname || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
-                <label className="campForm">
-                  <p>Nome do Pai</p>
-                  <input
-                    type="text"
-                    placeholder="Nome do Pai"
-                    name="fathersname"
-                    value={cadMembers.fathersname || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                 
+                  <label className="campForm" id="campForm">
+                    <p>Nome Completo</p>
+                    <input
+                      type="text"
+                      name="name"
+                      value={cadMembers.name || ""}
+                      onChange={handleSubmitCamps}
+                      required
+                    />
+                  </label>
+                  <label className="campForm">
+                    <p>Nome da Mãe</p>
+                    <input
+                      type="text"
+                      placeholder="Nome da Mãe"
+                      name="mothersname"
+                      value={cadMembers.mothersname || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+                  <label className="campForm">
+                    <p>Nome do Pai</p>
+                    <input
+                      type="text"
+                      placeholder="Nome do Pai"
+                      name="fathersname"
+                      value={cadMembers.fathersname || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Data de nascimento</p>
-                  <InputMask
-                    mask="99/99/9999"
-                    type="date"
-                    name="dateBirth"
-                    value={cadMembers.dateBirth || ""}
-                    onChange={handleSubmitCamps}
-                    placeholder="00/00/0000"
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Data de nascimento</p>
+                    <input
+                      
+                      type="date"
+                      name="dateBirth"
+                      value={cadMembers.dateBirth || ""}
+                      onChange={handleSubmitCamps}
+                      placeholder="00/00/0000"
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Sexo</p>
-                  <select
-                    name="sex"
-                    value={cadMembers.sex || ""}
-                    onChange={handleSubmitCamps}
-                  >
-                    <option value="">Escolha</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Feminino">Feminino</option>
-                  </select>
-                </label>
+                  <label className="campForm">
+                    <p>Sexo</p>
+                    <select
+                      name="sex"
+                      value={cadMembers.sex || ""}
+                      onChange={handleSubmitCamps}
+                    >
+                      <option value="">Escolha</option>
+                      <option value="Masculino">Masculino</option>
+                      <option value="Feminino">Feminino</option>
+                    </select>
+                  </label>
 
-                <label className="campForm">
-                  <p>Telefone</p>
-                  <input
-                    type="text"
-                    placeholder="(00) 00000-0000"
-                    name="telone"
-                    value={cadMembers.telone || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Telefone</p>
+                    <IMaskInput
+                      type="text"
+                      mask="(00) 00000-0000"
+                      placeholder="(00) 00000-0000"
+                      name="telone"
+                      value={cadMembers.telone || ""}
+                      onChange={handleSubmitCamps}
+                      required
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Telefone 2</p>
-                  <input
-                    type="text"
-                    placeholder="(00) 00000-0000"
-                    name="teltwo"
-                    value={cadMembers.teltwo || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Telefone 2</p>
+                    <IMaskInput
+                      type="text"
+                      placeholder="(00) 00000-0000"
+                      mask="(00) 00000-0000"
+                      name="teltwo"
+                      value={cadMembers.teltwo || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>E-mail</p>
-                  <input
-                    type="email"
-                    placeholder="email@email.com"
-                    name="email"
-                    value={cadMembers.email || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>E-mail</p>
+                    <input
+                      type="email"
+                      placeholder="email@email.com"
+                      name="email"
+                      value={cadMembers.email || ""}
+                      onChange={handleSubmitCamps}
+                      required
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Nacionalidade</p>
-                  <input
-                    type="text"
-                    placeholder="Nacionalidade"
-                    name="national"
-                    value={cadMembers.national || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Nacionalidade</p>
+                    <input
+                      type="text"
+                      placeholder="Nacionalidade"
+                      name="national"
+                      value={cadMembers.national || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Naturalidade</p>
-                  <input
-                    type="text"
-                    placeholder="Naturalidade"
-                    name="natural"
-                    value={cadMembers.natural || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Naturalidade</p>
+                    <input
+                      type="text"
+                      placeholder="Naturalidade"
+                      name="natural"
+                      value={cadMembers.natural || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>CEP</p>
-                  <input
-                    type="text"
-                    placeholder="CEP"
-                    name="cep"
-                    value={cadMembers.cep || ""}
-                    onChange={handleSubmitCamps}
-                    onBlur={buscaCep}
-                  />
-                </label>
-                <label className="campForm">
-                  <p>Endereço</p>
-                  <input
-                    type="text"
-                    name="address"
-                    value={cadMembers.address || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
-                <label className="campForm">
-                  <p>Número</p>
-                  <input
-                    type="text"
-                    name="number"
-                    value={cadMembers.number || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>CEP</p>
+                    <IMaskInput
+                      mask="00000-000"
+                      type="text"
+                      placeholder="CEP"
+                      name="cep"
+                      value={cadMembers.cep || ""}
+                      onChange={handleSubmitCamps}
+                      onBlur={buscaCep}
+                    />
+                  </label>
+                  <label className="campForm">
+                    <p>Endereço</p>
+                    <input
+                      type="text"
+                      name="address"
+                      value={cadMembers.address || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+                  <label className="campForm">
+                    <p>Número</p>
+                    <input
+                      type="text"
+                      name="number"
+                      value={cadMembers.number || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Complemento</p>
-                  <input
-                    type="text"
-                    name="complement"
-                    value={cadMembers.complement || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
-                <label className="campForm">
-                  <p>Bairro</p>
-                  <input
-                    type="text"
-                    placeholder="district"
-                    name="district"
-                    value={cadMembers.district || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Complemento</p>
+                    <input
+                      type="text"
+                      name="complement"
+                      value={cadMembers.complement || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+                  <label className="campForm">
+                    <p>Bairro</p>
+                    <input
+                      type="text"
+                      placeholder="district"
+                      name="district"
+                      value={cadMembers.district || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Cidade</p>
-                  <input
-                    type="text"
-                    name="city"
-                    value={cadMembers.city || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Cidade</p>
+                    <input
+                      type="text"
+                      name="city"
+                      value={cadMembers.city || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Estado</p>
-                  <input
-                    type="text"
-                    placeholder="Estado"
-                    name="state"
-                    value={cadMembers.state || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Estado</p>
+                    <input
+                      type="text"
+                      placeholder="Estado"
+                      name="state"
+                      value={cadMembers.state || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Quanto tempo está no mesmo endereço?</p>
-                  <input
-                    type="text"
-                    name="timeinresidence"
-                    value={cadMembers.timeinresidence || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Quanto tempo está no mesmo endereço?</p>
+                    <input
+                      type="text"
+                      name="timeinresidence"
+                      value={cadMembers.timeinresidence || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Profissão</p>
-                  <input
-                    type="text"
-                    placeholder=""
-                    name="profession"
-                    value={cadMembers.profession || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Profissão</p>
+                    <input
+                      type="text"
+                      placeholder=""
+                      name="profession"
+                      value={cadMembers.profession || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
 
-                <label className="campForm">
-                  <p>Grau de escolaridade</p>
-                  <select
-                    name="education"
-                    value={cadMembers.education || ""}
-                    onChange={handleSubmitCamps}
-                  >
-                    <option value="">Escolha</option>
-                    <option value="EnsinoFundamental">
-                      Ensino Fundamental
-                    </option>
-                    <option value="EnsinoMedio">Ensino Médio</option>
-                    <option value="EnsinoSuperior">Ensino Superior</option>
-                  </select>
-                </label>
+                  <label className="campForm">
+                    <p>Grau de escolaridade</p>
+                    <select
+                      name="education"
+                      value={cadMembers.education || ""}
+                      onChange={handleSubmitCamps}
+                    >
+                      <option value="">Escolha</option>
+                      <option value="EnsinoFundamental">
+                        Ensino Fundamental
+                      </option>
+                      <option value="EnsinoMedio">Ensino Médio</option>
+                      <option value="EnsinoSuperior">Ensino Superior</option>
+                    </select>
+                  </label>
 
-                <label className="campForm">
-                  <p>Empresa que trabalha </p>
-                  <input
-                    type="text"
-                    name="companywork"
-                    value={cadMembers.companywork || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+                  <label className="campForm">
+                    <p>Empresa que trabalha </p>
+                    <input
+                      type="text"
+                      name="companywork"
+                      value={cadMembers.companywork || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
                 </div>
               </div>
             )}
 
             {abaAtiva === "relacionamento" && (
-              <div className="sectionAbas" >
+              <div className="sectionAbas">
                 <div className="titleaba">
                   <h4>Relacionamento</h4>
                 </div>
                 <div className="contentAbas">
-                <label htmlFor="" className="campForm">
-                  <p>Estado Civil</p>
-                  <select
-                    name="estadocivil"
-                    id="estadocivil"
-                    className="estadocivil"
-                    value={cadMembers.estadocivil || ""}
-                    onChange={handleSubmitCamps}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="solteiro">Solteiro</option>
-                    <option value="casado">Casado</option>
-                    <option value="divorciado">Divocriado</option>
-                  </select>
-                </label>
-                <label className="campForm">
-                  <p>Nome do Conjugê</p>
-                  <input
-                    type="text"
-                    name="conjuge"
-                    id="conjuge"
-                    placeholder="Digite o nome do conjugê"
-                    value={cadMembers.conjuge || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
-                <label htmlFor="" className="campForm">
-                  <p>Quantidade de filhos</p>
-                  <input
-                    type="number"
-                    name="qtdfilhos"
-                    id="qtdfilhos"
-                    value={cadMembers.qtdfilhos || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
-                <div className="ContainerData">
-                  <div className="titlecontainerData">
-                    <h5>Dados do filhos</h5>
+                  <label htmlFor="" className="campForm">
+                    <p>Estado Civil</p>
+                    <select
+                      name="estadocivil"
+                      id="estadocivil"
+                      className="estadocivil"
+                      value={cadMembers.estadocivil || ""}
+                      onChange={handleSubmitCamps}
+                    >
+                      <option value="">Selecione</option>
+                      <option value="solteiro">Solteiro</option>
+                      <option value="casado">Casado</option>
+                      <option value="divorciado">Divocriado</option>
+                    </select>
+                  </label>
+                  <label className="campForm">
+                    <p>Nome do Conjugê</p>
+                    <input
+                      type="text"
+                      name="conjuge"
+                      id="conjuge"
+                      placeholder="Digite o nome do conjugê"
+                      value={cadMembers.conjuge || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+                  <label htmlFor="" className="campForm">
+                    <p>Quantidade de filhos</p>
+                    <input
+                      type="number"
+                      name="qtdfilhos"
+                      id="qtdfilhos"
+                      value={cadMembers.qtdfilhos || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+                  <div className="ContainerData">
+                    <div className="titlecontainerData">
+                      <h5>Dados do filhos</h5>
+                    </div>
+
+                    <section className="sectionData">
+                      <input
+                        type="text"
+                        name="nomefilhoum"
+                        id="nomefilhoum"
+                        placeholder="Digite o nome dos filhos"
+                        value={cadMembers.nomefilhoum || ""}
+                        onChange={handleSubmitCamps}
+                      />
+
+                      <input
+                        type="number"
+                        name="idadefilhoum"
+                        id="idadefilhoum"
+                        placeholder="idade"
+                        value={cadMembers.idadefilhoum || ""}
+                        onChange={handleSubmitCamps}
+                      />
+                    </section>
+
+                    <section className="sectionData">
+                      <input
+                        type="text"
+                        name="nomefilhodois"
+                        id="nomefilhodois"
+                        placeholder="Digite o nome dos filhos"
+                        value={cadMembers.nomefilhodois || ""}
+                        onChange={handleSubmitCamps}
+                      />
+                      <input
+                        type="number"
+                        name="idadefilhodois"
+                        id="idadefilhodois"
+                        value={cadMembers.idadefilhodois || ""}
+                        onChange={handleSubmitCamps}
+                        placeholder="idade"
+                      />
+                    </section>
+
+                    <section className="sectionData">
+                      <input
+                        type="text"
+                        name="nomefilhotres"
+                        id="nomefilhotres"
+                        placeholder="Digite o nome dos filhos"
+                        value={cadMembers.nomefilhotres || ""}
+                        onChange={handleSubmitCamps}
+                      />
+                      <input
+                        type="number"
+                        name="idadefilhotres"
+                        id="idadefilhotres"
+                        value={cadMembers.idadefilhotres || ""}
+                        onChange={handleSubmitCamps}
+                        placeholder="idade"
+                      />
+                    </section>
+
+                    <section className="sectionData">
+                      <input
+                        type="text"
+                        name="nomefilhoquatro"
+                        id="nomefilhoquatro"
+                        placeholder="Digite o nome dos filhos"
+                        value={cadMembers.nomefilhoquatro || ""}
+                        onChange={handleSubmitCamps}
+                      />
+                      <input
+                        type="number"
+                        name="idadefilhoquatro"
+                        id="idadefilhoquatro"
+                        value={cadMembers.idadefilhoquatro || ""}
+                        onChange={handleSubmitCamps}
+                        placeholder="idade"
+                      />
+                    </section>
+
+                    <label className="campForm">
+                      <p>Qual cargo exerce no ministério</p>
+                      <input
+                        type="text"
+                        placeholder="Cargo"
+                        name="jobChurch"
+                        value={cadMembers.jobChurch || ""}
+                        onChange={handleSubmitCamps}
+                      />
+                    </label>
+                    <label className="campForm">
+                      <p>Exerce o cargo a quanto tempo?</p>
+                      <input
+                        type="number"
+                        placeholder="Cargo"
+                        name="jobChurch"
+                        value={cadMembers.jobChurch || ""}
+                        onChange={handleSubmitCamps}
+                      />
+                    </label>
                   </div>
+                  <label className="campForm" >
+                    <p>Qual congregação você pertence?</p>
+                    <select
+                    name="congregacao"
+                    id="congregacao"
+                    value={cadMembers.congregacao || ""}
+                    onChange={handleSubmitCamps}
+                     >
+                      <option value="105">105</option>
+                      <option value="110">110</option>
+                      <option value="qnq">Qnq</option>
+                      <option value="recanto">Recanto</option>
+                      <option value="sede">Sede</option>
+                    </select>
 
-                  <section className="sectionData">
-                    <input
-                      type="text"
-                      name="nomefilhoum"
-                      id="nomefilhoum"
-                      placeholder="Digite o nome dos filhos"
-                      value={cadMembers.nomefilhoum || ""}
-                      onChange={handleSubmitCamps}
-                    />
-
-                    <input
-                      type="number"
-                      name="idadefilhoum"
-                      id="idadefilhoum"
-                      placeholder="idade"
-                      value={cadMembers.idadefilhoum || ""}
-                      onChange={handleSubmitCamps}
-                    />
-                  </section>
-
-                  <section className="sectionData">
-                    <input
-                      type="text"
-                      name="nomefilhodois"
-                      id="nomefilhodois"
-                      placeholder="Digite o nome dos filhos"
-                      value={cadMembers.nomefilhodois || ""}
-                      onChange={handleSubmitCamps}
-                    />
-                    <input
-                      type="number"
-                      name="idadefilhodois"
-                      id="idadefilhodois"
-                      value={cadMembers.idadefilhodois || ""}
-                      onChange={handleSubmitCamps}
-                      placeholder="idade"
-                    />
-                  </section>
-
-                  <section className="sectionData">
-                    <input
-                      type="text"
-                      name="nomefilhotres"
-                      id="nomefilhotres"
-                      placeholder="Digite o nome dos filhos"
-                      value={cadMembers.nomefilhotres || ""}
-                      onChange={handleSubmitCamps}
-                    />
-                    <input
-                      type="number"
-                      name="idadefilhotres"
-                      id="idadefilhotres"
-                      value={cadMembers.idadefilhotres || ""}
-                      onChange={handleSubmitCamps}
-                      placeholder="idade"
-                    />
-                  </section>
-
-                  <section className="sectionData">
-                    <input
-                      type="text"
-                      name="nomefilhoquatro"
-                      id="nomefilhoquatro"
-                      placeholder="Digite o nome dos filhos"
-                      value={cadMembers.nomefilhoquatro || ""}
-                      onChange={handleSubmitCamps}
-                    />
-                    <input
-                      type="number"
-                      name="idadefilhoquatro"
-                      id="idadefilhoquatro"
-                      value={cadMembers.idadefilhoquatro || ""}
-                      onChange={handleSubmitCamps}
-                      placeholder="idade"
-                    />
-                  </section>
+                  </label>
 
                   <label className="campForm">
-                    <p>Qual cargo exerce no ministério</p>
-                    <input
-                      type="text"
-                      placeholder="Cargo"
-                      name="jobChurch"
-                      value={cadMembers.jobChurch || ""}
+                    <p>Primeiro Casamento</p>
+                    <select
+                      name="optionprimeirocasamento"
+                      id="optionprimeirocasamento"
+                      value={cadMembers.optionprimeirocasamento || ""}
                       onChange={handleSubmitCamps}
-                    />
+                    >
+                      <option value="">Selecione</option>
+                      <option value="sim">Sim</option>
+                      <option value="nao">Não</option>
+                    </select>
                   </label>
                   <label className="campForm">
-                    <p>Exerce o cargo a quanto tempo?</p>
-                    <input
-                      type="number"
-                      placeholder="Cargo"
-                      name="jobChurch"
-                      value={cadMembers.jobChurch || ""}
+                    <p>Casaram-se em cerimônia cristã?</p>
+                    <select
+                      name="casamentocristao"
+                      id="casamentocristao"
+                      value={cadMembers.casamentocristao || ""}
                       onChange={handleSubmitCamps}
-                    />
+                    >
+                      <option value="">Selecione</option>
+                      <option value="sim">Sim</option>
+                      <option value="nao">Não</option>
+                    </select>
                   </label>
-                </div>
-
-                <label className="campForm">
-                  <p>Primeiro Casamento</p>
-                  <select
-                    name="optionprimeirocasamento"
-                    id="optionprimeirocasamento"
-                    value={cadMembers.optionprimeirocasamento || ""}
-                    onChange={handleSubmitCamps}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                  </select>
-                </label>
-                <label className="campForm">
-                  <p>Casaram-se em cerimônia cristã?</p>
-                  <select
-                    name="casamentocristao"
-                    id="casamentocristao"
-                    value={cadMembers.casamentocristao || ""}
-                    onChange={handleSubmitCamps}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                  </select>
-                </label>
-                <label className="campForm">
-                  <p>Conjugê vai congregar junto?</p>
-                  <select
-                    name="parceironaigreja"
-                    id="parceironaigreja"
-                    value={cadMembers.parceironaigreja || ""}
-                    onChange={handleSubmitCamps}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                  </select>
-                </label>
-                <label className="campForm">
-                  <p>Se não, justificar motivo</p>
-                  <textarea
-                    name="justificativa"
-                    id="justificativa"
-                    cols="48"
-                    rows="5"
-                    value={cadMembers.justificativa || ""}
-                    onChange={handleSubmitCamps}
-                  ></textarea>
-                </label>
+                  <label className="campForm">
+                    <p>Conjugê vai congregar junto?</p>
+                    <select
+                      name="parceironaigreja"
+                      id="parceironaigreja"
+                      value={cadMembers.parceironaigreja || ""}
+                      onChange={handleSubmitCamps}
+                    >
+                      <option value="">Selecione</option>
+                      <option value="sim">Sim</option>
+                      <option value="nao">Não</option>
+                    </select>
+                  </label>
+                  <label className="campForm">
+                    <p>Se não, justificar motivo</p>
+                    <textarea
+                      name="justificativa"
+                      id="justificativa"
+                      cols="48"
+                      rows="5"
+                      value={cadMembers.justificativa || ""}
+                      onChange={handleSubmitCamps}
+                    ></textarea>
+                  </label>
                 </div>
               </div>
             )}
 
             {abaAtiva === "histCristao" && (
-              <div className="sectionAbas" >
+              <div className="sectionAbas">
                 <div className="titleaba">
                   <h4>Histórico Cristão</h4>
                 </div>
@@ -806,7 +775,7 @@ const memberExample = {
               </div>
             )}
             {abaAtiva === "histCongregacional" && (
-              <div className="sectionAbas" >
+              <div className="sectionAbas">
                 <div className="titleaba">
                   <h4>Histórico Congracional</h4>
                 </div>
@@ -932,7 +901,7 @@ const memberExample = {
               </div>
             )}
             {abaAtiva === "conviccoes" && (
-              <div className="sectionAbas" >
+              <div className="sectionAbas">
                 <div className="titleaba">
                   <h4>Convicções</h4>
                 </div>

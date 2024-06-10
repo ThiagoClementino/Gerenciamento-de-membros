@@ -52,7 +52,9 @@
     Link {
       text-decoration: none;
     }
-  
+  .matricula{
+    visibility: hidden;
+  }
     .exibirlogo {
       display: block;
     }

@@ -139,6 +139,9 @@ td {
 tr:hover {
   background-color: var(--color200);
 }
+.matricula{
+  visibility: hidden;
+}
 
 /*Fim components*/
 

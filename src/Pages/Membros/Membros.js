@@ -56,6 +56,11 @@ const Membros = () => {
       .catch(error => console.error('There was a problem with the fetch operation:', error));
   }, []);
 
+  /*--- gerar id ---*/
+
+
+ 
+
 
   return (
     <div className="layoutDefault">
@@ -91,6 +96,8 @@ const Membros = () => {
             <thead>
               <tr>
                 <th className="checked-table"></th>
+
+                <th className="titleTable">Matrícula</th>
                 <th className="titleTable">Nome Completo</th>
                 <th className='titleTable'>Nome da Mãe</th>
                 <th className='titleTable'>Nome da Pai</th>
@@ -106,7 +113,7 @@ const Membros = () => {
                 <th className='titleTable'>Número</th>
                 <th className='titleTable'>Complemento</th>
                 <th className='titleTable'>Bairro</th> 
-                 <th className='titleTable'>Cidade</th>
+                <th className='titleTable'>Cidade</th>
                 <th className='titleTable'>Estado</th>
                 <th className='titleTable'>Tempo de residência</th>
                 <th className='titleTable'>Profissão</th>
@@ -129,9 +136,9 @@ const Membros = () => {
                 <th className='titleTable'>Saída da igreja</th>
                 <th className='titleTable'>Última igreja</th>
                 <th className='titleTable'>Igrejas que foi membro</th>
-                <th className='titleTable'>Dizimisma</th>
+                <th className='titleTable'>É Dizimisma</th>
                 <th className='titleTable'>Ofertante</th> 
-              <th className='titleTable'>Liderança</th>
+                <th className='titleTable'>Liderança</th>
                 <th className="titleTable">Cargo ministerial</th>
                 <th className='titleTable'>Posição Ministério</th>
                 <th className='titleTable'>Atividades igreja</th>
@@ -172,10 +179,10 @@ const Membros = () => {
                       }}
                     />
                   </th>
-
+                  <td>{dado.matricula}</td>   
                   <td>{dado.name}</td>
-                  <td>{dado.motdersname}</td> 
-                  <td>{dado.fatdersname}</td> 
+                  <td>{dado.mothersname}</td> 
+                  <td>{dado.fathersname}</td> 
                   <td>{dado.dateBirtd}</td> 
                   <td>{dado.sex}</td> 
                   <td>{dado.telone}</td>
@@ -206,7 +213,8 @@ const Membros = () => {
                   <td>{dado.nomefilhoquatro}</td>  
                   <td>{dado.idadefilhoquatro}</td>  
                   <td>{dado.optionprimeirocasamento}</td>  
-                  <td>{dado.jobChurch}</td>
+                  <td>{dado.jobChurch}</td>    
+                  <td>{dado.congregacao}</td> 
                   <td>{dado.casamentocristao}</td>  
                   <td>{dado.parceironaigreja}</td>  
                   <td>{dado.justificativa}</td>  
