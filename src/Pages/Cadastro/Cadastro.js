@@ -4,14 +4,14 @@ import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { IMaskInput } from "react-imask";
-import { v4 as uuidv4 } from 'uuid';
+
 import Header from "../Header/Header";
 
 const Cadastro = () => {
 
 
   const [cadMembers, setCadMembers] = useState({
-    id: uuidv4(),
+    datacriacao:'',
     name: "",
     mothersname: "",
     fathersname: "",
@@ -47,15 +47,13 @@ const Cadastro = () => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
   };
 
-  // axios.post('http://localhost:3050/membros', {cadMembers} )
-  // .then(res => console.log(res))
-  // .catch(error =>console.log(error));
+  
 
   const handleSubmitForm = async (event) => {
-    // console.log(JSON.stringify(memberExample));
+  
     try {
       event.preventDefault();
-      // setDataForm((dataForm) => [...dataForm, cadMembers]);
+     
       const response = await fetch("http://localhost:3050/membros", {
         method: "POST",
         headers: {
@@ -167,18 +165,21 @@ const Cadastro = () => {
                 <div className="titleaba">
                   <h4>Dados pessoais</h4>
                 </div>
-                <div className="matricula">
+
+                 
+                <div className="contentAbas">
+                 
+                  <label className="campForm" id="campForm">
+                    <p>Data de inscrição</p>
                     <input
                       type="hiden"
                       name="uuid"
-                      value={cadMembers.id || ""}
+                      value={cadMembers.datacriacao || ""}
                       onChange={handleSubmitCamps}
                       disabled
                       
                     />
-                    </div>
-                <div className="contentAbas">
-                 
+                  </label>
                   <label className="campForm" id="campForm">
                     <p>Nome Completo</p>
                     <input

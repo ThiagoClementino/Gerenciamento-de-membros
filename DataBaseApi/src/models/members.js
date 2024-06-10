@@ -1,15 +1,7 @@
 import mongoose from "mongoose";
 
 const membersSchema = new mongoose.Schema({
-  matricula: {
-    type: String,
-    required: true,
-    unique: true,
-    dropDups: true,
-    index: true,
-    sparse: true,
-    autoIndex: true,
-  },
+
   datacriacao: {
     type: Date,
     default: Date.now(),

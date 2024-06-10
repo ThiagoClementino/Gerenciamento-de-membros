@@ -134,7 +134,7 @@ th {
 tr,
 td {
   padding: 10px 10px;
-  text-align: left;
+  text-align: center;
 }
 tr:hover {
   background-color: var(--color200);

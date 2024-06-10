@@ -97,7 +97,7 @@ const Membros = () => {
               <tr>
                 <th className="checked-table"></th>
 
-                <th className="titleTable">Matrícula</th>
+                <th className="titleTable">Data de inscrição</th>
                 <th className="titleTable">Nome Completo</th>
                 <th className='titleTable'>Nome da Mãe</th>
                 <th className='titleTable'>Nome da Pai</th>
@@ -179,7 +179,7 @@ const Membros = () => {
                       }}
                     />
                   </th>
-                  <td>{dado.matricula}</td>   
+                  <td>{dado.datacriacao}</td>   
                   <td>{dado.name}</td>
                   <td>{dado.mothersname}</td> 
                   <td>{dado.fathersname}</td> 
