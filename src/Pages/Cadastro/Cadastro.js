@@ -97,11 +97,8 @@ const Cadastro = () => {
       })
       .catch((error) => console.log(error));
   };
-
-  
-
-  
-  return (
+ 
+ return (
     <div className="layoutDefault">
       <Header />
       <div className="layoutComponent">

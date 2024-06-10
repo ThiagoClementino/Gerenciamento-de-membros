@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, {  useEffect } from 'react'
 import { IoSearchSharp } from "react-icons/io5";
 import Footer from '../Footer/Footer'
 import { useState } from 'react'
-import Datainfor from '../../Contexts/DataInfor';
+
 import Header from '../Header/Header';
 
 
@@ -12,7 +12,8 @@ import Header from '../Header/Header';
 
 
 export  const Financeiro = () => {
-  const { dataFinance, setDataFinance } = useContext(Datainfor);  
+  // const { dataFinance, setDataFinance } = useContext(Datainfor);
+  const [dadosfinance, setDadosfinance] = useState ([])  
  
 
 
@@ -33,12 +34,61 @@ const [financialData, setFinancialData] = useState(
     })
   }
 const handleFormFinancial =  async (event) =>{
-  event.preventDefault();
-  setDataFinance ((dataFinance) =>[...dataFinance,financialData ]);
+  try{
+    event.preventDefault();
+    // setDataFinance ((dataFinance) =>[...dataFinance,financialData ]);
+    const response = await fetch("http://localhost:3050/finance",{
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(financialData),
+      mode: "cors",
+    })
+    const json = await response.json();
+      console.log(json);
+      console.log(response.status);
+
+  }catch(error){
+
+  }
+
+
   
+setFinancialData('');
+
+}; 
+
+useEffect(() => {
+  fetch('http://localhost:3050/finance', {
+    method: 'GET',
+    mode: 'cors', 
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+    .then(data => {
+      if (Array.isArray(data)) { 
+        setDadosfinance(data);
+      } else {
+        console.error("Dados da API não é um array");
+        
+      }
+    })
+    .catch(error => console.error('There was a problem with the fetch operation:', error));
+}, []);
 
 
-}
+
+
 
   return (
     <div className='layoutDefault'>
@@ -93,7 +143,7 @@ const handleFormFinancial =  async (event) =>{
                 > 
                   <option value=""></option>
                   <option value="pago">Pago</option>
-                  <option value="Nãopago">Não pago</option>
+                  <option value="Não pago">Não pago</option>
                 </select>
               </label>
               <label className="campForm">
@@ -174,16 +224,16 @@ const handleFormFinancial =  async (event) =>{
                   </tr>
                 </thead>
                 <tbody>
-                {dataFinance.map((data, index)=>(
-                   <tr key={index}>
+                {dadosfinance.map((dado)=>(
+                   <tr key={dado.id}>
                     <td className='checked-table' ><input type="checkbox" name="" id="" /></td>
-                   <td className='dataTable'>{data.tipodedado}</td>
-                   <td className='dataTable'>{data.valor}</td>
-                   <td className='dataTable'>{data.statuspagamento}</td>
-                   <td className='dataTable'>{data.datapagamento}</td>
-                   <td className='dataTable'>{data.tipolancamento}</td>
-                   <td className='dataTable'>{data.descricao}</td>
-                   <td className='dataTable'>{data.observacao}</td>
+                   <td className='dataTable'>{dado.tipodedado}</td>
+                   <td className='dataTable'>{dado.valor}</td>
+                   <td className='dataTable'>{dado.statuspagamento}</td>
+                   <td className='dataTable'>{dado.datapagamento}</td>
+                   <td className='dataTable'>{dado.tipolancamento}</td>
+                   <td className='dataTable'>{dado.comprovante}</td>
+                   <td className='dataTable'>{dado.observacao}</td>
                  </tr>
                 ))}
                  
