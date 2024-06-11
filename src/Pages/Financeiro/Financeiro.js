@@ -37,7 +37,7 @@ const handleFormFinancial =  async (event) =>{
   try{
     event.preventDefault();
     // setDataFinance ((dataFinance) =>[...dataFinance,financialData ]);
-    const response = await fetch("http://localhost:3050/finance",{
+    const response = await fetch("https://api-gestao-igreja.onrender.com/",{
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ setFinancialData('');
 }; 
 
 useEffect(() => {
-  fetch('http://localhost:3050/finance', {
+  fetch('https://api-gestao-igreja.onrender.com', {
     method: 'GET',
     mode: 'cors', 
     headers: {

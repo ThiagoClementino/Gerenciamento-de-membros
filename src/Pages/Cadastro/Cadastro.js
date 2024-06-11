@@ -54,7 +54,7 @@ const Cadastro = () => {
     try {
       event.preventDefault();
      
-      const response = await fetch("http://localhost:3050/membros", {
+      const response = await fetch("https://api-gestao-igreja.onrender.com/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -168,10 +168,8 @@ const Cadastro = () => {
 
                  
                 <div className="contentAbas">
-                 
-                  <label className="campForm" id="campForm">
-                    <p>Data de inscrição</p>
-                    <input
+                  <div className="datamatricula">
+                <input
                       type="hiden"
                       name="uuid"
                       value={cadMembers.datacriacao || ""}
@@ -179,7 +177,8 @@ const Cadastro = () => {
                       disabled
                       
                     />
-                  </label>
+                    </div>
+                
                   <label className="campForm" id="campForm">
                     <p>Nome Completo</p>
                     <input

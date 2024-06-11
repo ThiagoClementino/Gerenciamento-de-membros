@@ -31,7 +31,7 @@ const Membros = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3050/membros', {
+    fetch('https://api-gestao-igreja.onrender.com', {
       method: 'GET',
       mode: 'cors', 
       headers: {
