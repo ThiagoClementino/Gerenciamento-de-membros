@@ -37,7 +37,7 @@ const handleFormFinancial =  async (event) =>{
   try{
     event.preventDefault();
     // setDataFinance ((dataFinance) =>[...dataFinance,financialData ]);
-    const response = await fetch("https://api-gestao-igreja.onrender.com/",{
+    const response = await fetch("https://api-gestao-igreja.onrender.com/finance",{
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ setFinancialData('');
 }; 
 
 useEffect(() => {
-  fetch('https://api-gestao-igreja.onrender.com', {
+  fetch('https://api-gestao-igreja.onrender.com/finance', {
     method: 'GET',
     mode: 'cors', 
     headers: {
@@ -224,8 +224,8 @@ useEffect(() => {
                   </tr>
                 </thead>
                 <tbody>
-                {dadosfinance.map((dado)=>(
-                   <tr key={dado.id}>
+                {dadosfinance.map((dado, index)=>(
+                   <tr key={index}>
                     <td className='checked-table' ><input type="checkbox" name="" id="" /></td>
                    <td className='dataTable'>{dado.tipodedado}</td>
                    <td className='dataTable'>{dado.valor}</td>

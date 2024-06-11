@@ -31,7 +31,7 @@ const Membros = () => {
   };
 
   useEffect(() => {
-    fetch('https://api-gestao-igreja.onrender.com', {
+    fetch('https://api-gestao-igreja.onrender.com/membros/all', {
       method: 'GET',
       mode: 'cors', 
       headers: {
@@ -164,8 +164,8 @@ const Membros = () => {
               </tr>
             </thead>
             <tbody>
-              {dados.map((dado) => (
-                <tr key={dado.id}>
+              {dados.map((dado, index) => (
+                <tr key={index}>
                   <th className="checked-table">
                     <input
                       type="checkbox"

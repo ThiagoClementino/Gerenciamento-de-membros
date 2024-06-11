@@ -54,7 +54,7 @@ const Cadastro = () => {
     try {
       event.preventDefault();
      
-      const response = await fetch("https://api-gestao-igreja.onrender.com/", {
+      const response = await fetch("https://api-gestao-igreja.onrender.com/membros", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
