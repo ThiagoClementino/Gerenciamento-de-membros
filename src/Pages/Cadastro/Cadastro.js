@@ -4,42 +4,20 @@ import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { IMaskInput } from "react-imask";
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import Header from "../Header/Header";
 
 const Cadastro = () => {
 
 
-// const uuidString = uuidv4();
-// const formattedUUID = uuidString.replace(regex);
 
 
 
-
-const [matriculaCounter, setMatriculaCounter] = useState(0);
-
-  const numMatricula = () => {
-    // Incrementa o contador de matrículas
-    setMatriculaCounter(prevCounter => prevCounter + 1);
-    // Gera a nova matrícula com base no contador atualizado
-    const newMatricula = `IDE${matriculaCounter + 1}`;
-    matriculaCounter(newMatricula);
-    return newMatricula;
-  }
-
-  const dataMatricula = () => {
-    const data = new Date();
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
-    const ano = data.getFullYear();
-    const dataMatricula = `${dia}/${mes}/${ano}`;
-    return dataMatricula;
-      }
 
 
   const [cadMembers, setCadMembers] = useState({
-    matricula: numMatricula(),
-    datacriacao: dataMatricula(),
+    matricula: uuidv4(),
+    datacriacao: ' ',
     name: " ",
     mothersname: "",
     fathersname: "",
@@ -73,7 +51,7 @@ const [matriculaCounter, setMatriculaCounter] = useState(0);
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
-    dataMatricula();
+   
   };
 
   
@@ -82,8 +60,8 @@ const [matriculaCounter, setMatriculaCounter] = useState(0);
   
     try {
 
-      
       event.preventDefault();
+      
 
       
      
@@ -102,7 +80,7 @@ const [matriculaCounter, setMatriculaCounter] = useState(0);
       console.log(error);
     }
 
-    setCadMembers("");
+    
     console.log(setCadMembers);
   };
 
