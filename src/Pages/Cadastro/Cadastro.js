@@ -4,15 +4,43 @@ import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { IMaskInput } from "react-imask";
-
+// import { v4 as uuidv4 } from 'uuid';
 import Header from "../Header/Header";
 
 const Cadastro = () => {
 
 
+// const uuidString = uuidv4();
+// const formattedUUID = uuidString.replace(regex);
+
+
+
+
+const [matriculaCounter, setMatriculaCounter] = useState(0);
+
+  const numMatricula = () => {
+    // Incrementa o contador de matrículas
+    setMatriculaCounter(prevCounter => prevCounter + 1);
+    // Gera a nova matrícula com base no contador atualizado
+    const newMatricula = `IDE${matriculaCounter + 1}`;
+    matriculaCounter(newMatricula);
+    return newMatricula;
+  }
+
+  const dataMatricula = () => {
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataMatricula = `${dia}/${mes}/${ano}`;
+    return dataMatricula;
+      }
+
+
   const [cadMembers, setCadMembers] = useState({
-    datacriacao:'',
-    name: "",
+    matricula: numMatricula(),
+    datacriacao: dataMatricula(),
+    name: " ",
     mothersname: "",
     fathersname: "",
     dateBirth: "",
@@ -45,6 +73,7 @@ const Cadastro = () => {
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
+    dataMatricula();
   };
 
   
@@ -52,24 +81,29 @@ const Cadastro = () => {
   const handleSubmitForm = async (event) => {
   
     try {
+
+      
       event.preventDefault();
+
+      
      
       const response = await fetch("https://api-gestao-igreja.onrender.com/membros", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Accept': 'application/json'
         },
         body: JSON.stringify(cadMembers),
         mode: "cors",
       });
-      const json = await response.json();
-      console.log(json);
+     
       console.log(response.status);
     } catch (error) {
       console.log(error);
     }
 
     setCadMembers("");
+    console.log(setCadMembers);
   };
 
   const [abaAtiva, setAbaAtiva] = useState("dadosPessoais");
@@ -94,6 +128,8 @@ const Cadastro = () => {
         }, 1000);
       })
       .catch((error) => console.log(error));
+
+      console.log(cadMembers);
   };
  
  return (
@@ -179,6 +215,15 @@ const Cadastro = () => {
                     />
                     </div>
                 
+              <label className="campForm" id="matricula">
+              <input type="text"
+              name="matricula"
+              value={cadMembers.matricula }
+              onChange={handleSubmitCamps}
+              disabled
+
+               />
+              </label>
                   <label className="campForm" id="campForm">
                     <p>Nome Completo</p>
                     <input

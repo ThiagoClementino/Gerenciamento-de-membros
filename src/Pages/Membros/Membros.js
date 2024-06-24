@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import Header from "../Header/Header";
 import Datainfor from "../../Contexts/DataInfor";
 import Footer from "../Footer/Footer";
@@ -9,9 +9,10 @@ import '../../css/defaultStyletablet.css';
 import { IoSearchSharp } from "react-icons/io5";
 
 
+
 const Membros = () => {
-  const { dataForm, setDataForm } = useContext(Datainfor);
-  const [dados, setDados] = useState([]);
+  const { dataForm, setDataForm, dados } = useContext(Datainfor);
+ 
   
   const [selectedItems, setSelectedItems] = useState([]);
   const handleSearch = (event) => {
@@ -30,31 +31,7 @@ const Membros = () => {
     setSelectedItems([]);
   };
 
-  useEffect(() => {
-    fetch('https://api-gestao-igreja.onrender.com/membros/all', {
-      method: 'GET',
-      mode: 'cors', 
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then(data => {
-        if (Array.isArray(data)) { 
-          setDados(data);
-        } else {
-          console.error("Dados da API não é um array");
-          
-        }
-      })
-      .catch(error => console.error('There was a problem with the fetch operation:', error));
-  }, []);
+
 
   /*--- gerar id ---*/
 
@@ -97,6 +74,7 @@ const Membros = () => {
               <tr>
                 <th className="checked-table"></th>
 
+                <th className="titleTable">Matrícula</th>
                 <th className="titleTable">Data de inscrição</th>
                 <th className="titleTable">Nome Completo</th>
                 <th className='titleTable'>Nome da Mãe</th>
@@ -179,6 +157,7 @@ const Membros = () => {
                       }}
                     />
                   </th>
+                  <td>{dado.matricula}</td>   
                   <td>{dado.datacriacao}</td>   
                   <td>{dado.name}</td>
                   <td>{dado.mothersname}</td> 

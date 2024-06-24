@@ -143,6 +143,10 @@ tr:hover {
   display: none;
 }
 
+/* #matricula{
+display: none;
+} */
+
 /*Fim components*/
 
 @media (min-width: 671px){
