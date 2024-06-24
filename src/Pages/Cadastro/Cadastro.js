@@ -10,14 +10,20 @@ import Header from "../Header/Header";
 const Cadastro = () => {
 
 
-
+const dataMatricula = () =>{
+  const data = new Date();
+  const dia = data.getDate();
+  const mes = data.getMonth() + 1;
+  const ano = data.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+}
 
 
 
 
   const [cadMembers, setCadMembers] = useState({
     matricula: uuidv4(),
-    datacriacao: ' ',
+    datacriacao: dataMatricula(),
     name: " ",
     mothersname: "",
     fathersname: "",
@@ -62,8 +68,7 @@ const Cadastro = () => {
 
       event.preventDefault();
       
-
-      
+ 
      
       const response = await fetch("https://api-gestao-igreja.onrender.com/membros", {
         method: "POST",
@@ -75,12 +80,14 @@ const Cadastro = () => {
         mode: "cors",
       });
      
+      const json = await response.json();
+      console.log(json);
       console.log(response.status);
     } catch (error) {
       console.log(error);
     }
 
-    
+    setCadMembers ('');
     console.log(setCadMembers);
   };
 
