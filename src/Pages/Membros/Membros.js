@@ -7,6 +7,7 @@ import "../../css/defaultStyle.css";
 import '../../css/defaultStyleMobile.css';
 import '../../css/defaultStyletablet.css';
 import { IoSearchSharp } from "react-icons/io5";
+import {CSVLink } from "react-csv"
 
 
 
@@ -31,7 +32,13 @@ const Membros = () => {
     setSelectedItems([]);
   };
 
-
+  const dataExport = () =>{
+    const data = new Date();
+    const dia = data.getDate();
+    const mes = data.getMonth() + 1;
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  }
 
   /*--- gerar id ---*/
 
@@ -64,6 +71,14 @@ const Membros = () => {
             <button>Excluir</button>
             <button onClick={handleDeactivate} disabled={!selectedItems.length}>
               Desativar
+            </button>
+            <button className="export">
+              <CSVLink 
+              data={dados}
+              target="_blank"
+              color="#fff"
+              filename={`Table Members ${dataExport()}`}
+              className="export" >Exportar</CSVLink>
             </button>
           </div>
         </div>

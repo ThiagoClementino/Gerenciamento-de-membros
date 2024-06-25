@@ -103,6 +103,10 @@ button:hover {
   background: var(--color800);
   transition: 0.3s ease-in-out;
 }
+.export{
+  text-decoration: none;
+  color: var(--color100);
+}
 
 textarea {
   width: 100%;
