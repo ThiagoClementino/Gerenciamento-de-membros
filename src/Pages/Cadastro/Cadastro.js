@@ -4,22 +4,17 @@ import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { IMaskInput } from "react-imask";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import Header from "../Header/Header";
 
 const Cadastro = () => {
-
-
-const dataMatricula = () =>{
-  const data = new Date();
-  const dia = data.getDate();
-  const mes = data.getMonth() + 1;
-  const ano = data.getFullYear();
-  return `${dia}/${mes}/${ano}`;
-}
-
-
-
+  const dataMatricula = () => {
+    const data = new Date();
+    const dia = data.getDate();
+    const mes = data.getMonth() + 1;
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
 
   const [cadMembers, setCadMembers] = useState({
     matricula: uuidv4(),
@@ -34,52 +29,88 @@ const dataMatricula = () =>{
     email: "",
     national: "",
     natural: "",
+    profession: "",
+    companywork: "",
+    education: "",
     cep: "",
     address: "",
     number: "",
     complement: "",
-    city: "",
     district: "",
+    city: "",
     state: "",
     timeinresidence: "",
-    profession: "",
-    education: "",
-    companywork: "",
-    dateBatism: "",
-    congregation: "",
-    dateMember: "",
+    estadocivil: "",
+    conjuge: "",
+    filhos: "",
+    qtdfilhos: "",
+    nomefilhoum: "",
+    idadefilhoum: "",
+    nomefilhodois: "",
+    idadefilhodois: "",
+    nomefilhotres: "",
+    idadefilhotres: "",
+    nomefilhoquatro: "",
+    idadefilhoquatro: "",
     jobChurch: "",
+    jobChurchTemp:"",
     congregacao: "",
-    linkFacebook: "",
-    linkInsta: "",
-    comentary: "",
-    selected: "",
+    optionprimeirocasamento: "",
+    casamentocristao:"",
+    parceironaigreja: "",
+    justificativa:"",
+    databatismo: "",
+    dataconversao:"",
+    lastchurch: "",
+    motivosaida: "",
+    igrejasquefoimembro: "",
+    dizimista: "",
+    ofertante: "",
+    cargoanterior: "",
+    separadoanterior: "",
+    posicaoanterior: "",
+    atividadeanterior:"",
+    problema: "",
+    exortacao: "",
+    discipulo: "",
+    cultosdeoracao: "",
+    participacaocultos: "",
+    habito: "",
+    aconselhamentopastoral: "",
+    desenvolvimento: " ",
+    conviccaodiscipulo: "",
+    definicaoevangelho: "",
+    frutosespirito: "",
+    desenvolvimentodafe:"",
+    pecado: "",
+    conviccaoteologica: "",
+    evangelizar: "",
+    jejuar: "",
+    leiturabiblica: "",
+    livros:"",
+    Ultimasconsideracoes: "",
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
-   
   };
 
-  
-
   const handleSubmitForm = async (event) => {
-  
     try {
-
       event.preventDefault();
-      
- 
-     
-      const response = await fetch("https://api-gestao-igreja.onrender.com/membros", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(cadMembers),
-        mode: "cors",
-      });
-     
+
+      const response = await fetch(
+        "https://api-gestao-igreja.onrender.com/membros",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(cadMembers),
+          mode: "cors",
+        }
+      );
+
       const json = await response.json();
       console.log(json);
       console.log(response.status);
@@ -87,7 +118,7 @@ const dataMatricula = () =>{
       console.log(error);
     }
 
-    setCadMembers ('');
+    setCadMembers("");
     console.log(setCadMembers);
   };
 
@@ -114,10 +145,10 @@ const dataMatricula = () =>{
       })
       .catch((error) => console.log(error));
 
-      console.log(cadMembers);
+    console.log(cadMembers);
   };
- 
- return (
+
+  return (
     <div className="layoutDefault">
       <Header />
       <div className="layoutComponent">
@@ -165,7 +196,7 @@ const dataMatricula = () =>{
                 Hist. Cristão
               </button>
               <button
-                lassName={`nav-link ${
+                className={`nav-link ${
                   abaAtiva === "histCongregacional" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("histCongregacional")}
@@ -187,28 +218,27 @@ const dataMatricula = () =>{
                   <h4>Dados pessoais</h4>
                 </div>
 
-                 
                 <div className="contentAbas">
+                
+
+                  <label className="campForm" id="matricula">
+                    <input
+                      type="text"
+                      name="matricula"
+                      value={cadMembers.matricula}
+                      onChange={handleSubmitCamps}
+                      disabled
+                    />
+                  </label>
                   <div className="datamatricula">
-                <input
+                    <input
                       type="hiden"
                       name="uuid"
                       value={cadMembers.datacriacao || ""}
                       onChange={handleSubmitCamps}
                       disabled
-                      
                     />
-                    </div>
-                
-              <label className="campForm" id="matricula">
-              <input type="text"
-              name="matricula"
-              value={cadMembers.matricula }
-              onChange={handleSubmitCamps}
-              disabled
-
-               />
-              </label>
+                  </div>
                   <label className="campForm" id="campForm">
                     <p>Nome Completo</p>
                     <input
@@ -243,7 +273,6 @@ const dataMatricula = () =>{
                   <label className="campForm">
                     <p>Data de nascimento</p>
                     <input
-                      
                       type="date"
                       name="dateBirth"
                       value={cadMembers.dateBirth || ""}
@@ -322,6 +351,41 @@ const dataMatricula = () =>{
                       value={cadMembers.natural || ""}
                       onChange={handleSubmitCamps}
                     />
+                  </label>
+                  <label className="campForm">
+                    <p>Profissão</p>
+                    <input
+                      type="text"
+                      placeholder=""
+                      name="profession"
+                      value={cadMembers.profession || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+                  <label className="campForm">
+                    <p>Empresa que trabalha </p>
+                    <input
+                      type="text"
+                      name="companywork"
+                      value={cadMembers.companywork || ""}
+                      onChange={handleSubmitCamps}
+                    />
+                  </label>
+
+                  <label className="campForm">
+                    <p>Grau de escolaridade</p>
+                    <select
+                      name="education"
+                      value={cadMembers.education || ""}
+                      onChange={handleSubmitCamps}
+                    >
+                      <option value="">Escolha</option>
+                      <option value="Ensino Fundamental">
+                        Ensino Fundamental
+                      </option>
+                      <option value="Ensino Medio">Ensino Médio</option>
+                      <option value="Ensino Superior">Ensino Superior</option>
+                    </select>
                   </label>
 
                   <label className="campForm">
@@ -406,42 +470,9 @@ const dataMatricula = () =>{
                     />
                   </label>
 
-                  <label className="campForm">
-                    <p>Profissão</p>
-                    <input
-                      type="text"
-                      placeholder=""
-                      name="profession"
-                      value={cadMembers.profession || ""}
-                      onChange={handleSubmitCamps}
-                    />
-                  </label>
+                  
 
-                  <label className="campForm">
-                    <p>Grau de escolaridade</p>
-                    <select
-                      name="education"
-                      value={cadMembers.education || ""}
-                      onChange={handleSubmitCamps}
-                    >
-                      <option value="">Escolha</option>
-                      <option value="EnsinoFundamental">
-                        Ensino Fundamental
-                      </option>
-                      <option value="EnsinoMedio">Ensino Médio</option>
-                      <option value="EnsinoSuperior">Ensino Superior</option>
-                    </select>
-                  </label>
-
-                  <label className="campForm">
-                    <p>Empresa que trabalha </p>
-                    <input
-                      type="text"
-                      name="companywork"
-                      value={cadMembers.companywork || ""}
-                      onChange={handleSubmitCamps}
-                    />
-                  </label>
+               
                 </div>
               </div>
             )}
@@ -462,9 +493,9 @@ const dataMatricula = () =>{
                       onChange={handleSubmitCamps}
                     >
                       <option value="">Selecione</option>
-                      <option value="solteiro">Solteiro</option>
-                      <option value="casado">Casado</option>
-                      <option value="divorciado">Divocriado</option>
+                      <option value="Solteiro">Solteiro</option>
+                      <option value="Casado">Casado</option>
+                      <option value="Divorciado">Divocriado</option>
                     </select>
                   </label>
                   <label className="campForm">
@@ -477,6 +508,20 @@ const dataMatricula = () =>{
                       value={cadMembers.conjuge || ""}
                       onChange={handleSubmitCamps}
                     />
+                  </label>
+                  <label htmlFor="" className="campForm">
+                    <p>Possui Filhos</p>
+                    <select
+                      name="filhos"
+                      id="filhos"
+                      className="estadocivil"
+                      value={cadMembers.filhos || ""}
+                      onChange={handleSubmitCamps}
+                    >
+                      <option value="">Selecione</option>
+                      <option value="Sim">Sim</option>
+                      <option value="Nao">Não</option>
+                    </select>
                   </label>
                   <label htmlFor="" className="campForm">
                     <p>Quantidade de filhos</p>
@@ -584,32 +629,31 @@ const dataMatricula = () =>{
                       <p>Exerce o cargo a quanto tempo?</p>
                       <input
                         type="number"
-                        placeholder="Cargo"
-                        name="jobChurch"
-                        value={cadMembers.jobChurch || ""}
+                        placeholder="Tempo de Cargo"
+                        name="jobChurchTemp"
+                        value={cadMembers.jobChurchTemp || ""}
                         onChange={handleSubmitCamps}
                       />
                     </label>
                   </div>
-                  <label className="campForm" >
+                  <label className="campForm">
                     <p>Qual congregação você pertence?</p>
                     <select
-                    name="congregacao"
-                    id="congregacao"
-                    value={cadMembers.congregacao || ""}
-                    onChange={handleSubmitCamps}
-                     >
+                      name="congregacao"
+                      id="congregacao"
+                      value={cadMembers.congregacao || ""}
+                      onChange={handleSubmitCamps}
+                    >
                       <option value="105">105</option>
                       <option value="110">110</option>
                       <option value="qnq">Qnq</option>
                       <option value="recanto">Recanto</option>
                       <option value="sede">Sede</option>
                     </select>
-
                   </label>
 
                   <label className="campForm">
-                    <p>Primeiro Casamento</p>
+                    <p>Primeiro Casamento?</p>
                     <select
                       name="optionprimeirocasamento"
                       id="optionprimeirocasamento"
@@ -635,7 +679,10 @@ const dataMatricula = () =>{
                     </select>
                   </label>
                   <label className="campForm">
-                    <p>Conjugê vai congregar junto?</p>
+                    <p>
+                      Nesse momento, seu cônjuge se tornará membro junto com
+                      você?
+                    </p>
                     <select
                       name="parceironaigreja"
                       id="parceironaigreja"
@@ -688,16 +735,7 @@ const dataMatricula = () =>{
                     onChange={handleSubmitCamps}
                   />
                 </label>
-                <label className="campForm">
-                  <p>Por qual motivo você saiu dela?</p>
-                  <input
-                    type="text"
-                    name="motivosaida"
-                    id="motivosaida"
-                    value={cadMembers.motivosaida || ""}
-                    onChange={handleSubmitCamps}
-                  />
-                </label>
+           
                 <label className="campForm">
                   <p>Qual foi a sua última igreja?</p>
                   <input
@@ -705,6 +743,16 @@ const dataMatricula = () =>{
                     name="lastchurch"
                     id="lastchurch"
                     value={cadMembers.lastchurch || ""}
+                    onChange={handleSubmitCamps}
+                  />
+                </label>
+                <label className="campForm">
+                  <p>Por qual motivo você saiu dela?</p>
+                  <input
+                    type="text"
+                    name="motivosaida"
+                    id="motivosaida"
+                    value={cadMembers.motivosaida || ""}
                     onChange={handleSubmitCamps}
                   />
                 </label>
@@ -856,7 +904,7 @@ const dataMatricula = () =>{
                 <label className="campForm">
                   <p>
                     Tem o hábito de participar de cultos de estudo bíblico e
-                    EBD’s?
+                    EBDs?
                   </p>
                   <select
                     name="participacaocultos"
@@ -942,7 +990,7 @@ const dataMatricula = () =>{
                     id="conviccaodiscipulo"
                     cols="85"
                     rows="3"
-                    value={cadMembers.conviccao}
+                    value={cadMembers.conviccaodiscipulo}
                     onChange={handleSubmitCamps}
                   ></textarea>
                 </label>
@@ -978,7 +1026,7 @@ const dataMatricula = () =>{
                   </p>
                   <textarea
                     name="desenvolvimentodafe"
-                    id="frutosespidesenvolvimentodaferito"
+                    id="desenvolvimentodafer"
                     cols="85"
                     rows="3"
                     value={cadMembers.desenvolvimentodafe}

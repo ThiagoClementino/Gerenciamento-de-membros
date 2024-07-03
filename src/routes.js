@@ -6,8 +6,7 @@ import Datainfor from './Contexts/DataInfor';
 import Cadastro from './Pages/Cadastro/Cadastro';
 import {Financeiro} from './Pages/Financeiro/Financeiro';
 import Header from './Pages/Header/Header';
-import { Teste } from './Pages/testes/teste';
-import Formulario from './Pages/testes/testedois';
+import Form from './Pages/FomularioExterno/Form';
 
 
 
@@ -21,7 +20,7 @@ const AppRoutes = () => {
 
 
  useEffect(() => {
-  fetch('https://api-gestao-igreja.onrender.com/membros/all', {
+  fetch('https://api-gestao-igreja.onrender.com/membros', {
     method: 'GET',
     mode: 'cors', 
     headers: {
@@ -61,8 +60,9 @@ const AppRoutes = () => {
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>
           <Route path='/header' element={<Header />}/>               
-          <Route path='/teste' element={<Teste />}/>               
-          <Route path='/formulario' element={<Formulario />}/>               
+                         
+          <Route path='/formulario' element={<Form />}/>               
+                         
                       
                       
        </Routes>
