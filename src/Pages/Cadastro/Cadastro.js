@@ -13,7 +13,7 @@ const Cadastro = () => {
     const dia = data.getDate();
     const mes = data.getMonth() + 1;
     const ano = data.getFullYear();
-    return `${dia}/${mes}/${ano}`;
+    return `${dia.toString().padStart(2, '0')}-${mes.toString().padStart(2, '0')}-${ano}`;
   };
 
   const [cadMembers, setCadMembers] = useState({
@@ -799,7 +799,7 @@ const Cadastro = () => {
                 <label className="campForm">
                   <p>
                     Você exerceu algum cargo de liderança nas igrejas que
-                    passou?{" "}
+                    passou?
                   </p>
                   <select
                     name="cargoanterior"
@@ -809,7 +809,7 @@ const Cadastro = () => {
                   >
                     <option value="">Selecione</option>
                     <option value="sim">Sim</option>
-                    <option value="não">Não</option>
+                    <option value="nao">Não</option>
                   </select>
                 </label>
                 <label className="campForm">

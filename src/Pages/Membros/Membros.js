@@ -114,11 +114,16 @@ const Membros = () => {
                 <th className='titleTable'>Tempo de residência</th>
                 <th className='titleTable'>Estado Civil</th>
                 <th className='titleTable'>Nome do Cônjuge</th>
+                <th className='titleTable'>Possui Filhos</th>
                 <th className='titleTable'>Quantidade de filhos</th>
                 <th className='titleTable'>Filho 1</th>
+                <th className='titleTable'>Idade fiho 1</th>
                 <th className='titleTable'>Filho 2</th>
+                <th className='titleTable'>Idade fiho 2</th>
                 <th className='titleTable'>Filho 3</th>
+                <th className='titleTable'>Idade filho 3</th>
                 <th className='titleTable'>Filho 4</th>
+                <th className='titleTable'>Idade filho 4</th>
                 <th className='titleTable'>Cargo</th>
                 <th className='titleTable'>Tempo de Cargo</th>
                 <th className='titleTable'>Congregação</th>
@@ -133,16 +138,16 @@ const Membros = () => {
                 <th className='titleTable'>Igrejas que foi membro</th>
                 <th className='titleTable'>É Dizimisma</th>
                 <th className='titleTable'>Ofertante</th> 
-                <th className='titleTable'>Liderança</th>
+                <th className='titleTable'>Cargo Anterior</th>
                 <th className="titleTable">Cargo ministerial</th>
                 <th className='titleTable'>Posição Ministério</th>
                 <th className='titleTable'>Atividades igreja</th>
-                <th className='titleTable'>Dificuldades de lideraça, hierarquia</th>
+                <th className='titleTable'>Dificuldades de liderança, hierarquia</th>
                 <th className='titleTable'>Exortação</th>
-                <th className='titleTable'>Discipulo pasteoreável</th>
+                <th className='titleTable'>Discipulo pastoreável</th>
                 <th className='titleTable'>Participação culto de Oração </th>
                 <th className='titleTable'>Participação de cultos e EBDs</th>
-                <th className='titleTable'>Informar ausencia </th>
+                <th className='titleTable'>Informar ausência </th>
                 <th className='titleTable'>Conselho Pastoral </th>
                 <th className='titleTable'>Desenvolvimento em congregar </th>
                 <th className='titleTable'>Convicção Cristã</th>
@@ -150,8 +155,8 @@ const Membros = () => {
                 <th className='titleTable'>Frutos do Espírito</th>
                 <th className='titleTable'>Cuidado com a fé</th>
                 <th className='titleTable'>Lutas pessoais</th>
-                <th className='titleTable'>Convições teológicas</th>
-                <th className='titleTable'>Hábito de Envagelizar</th>
+                <th className='titleTable'>Convicções teológicas</th>
+                <th className='titleTable'>Hábito de Evangelizar</th>
                 <th className='titleTable'>Hábito de Jejuar</th>
                 <th className='titleTable'>Leitura completa da bíblia</th>
                 <th className='titleTable'>Últimos livros lidos</th> 
@@ -245,7 +250,7 @@ const Membros = () => {
    <td>{dado.jejuar}</td>   
  <td>{dado.leiturabiblica}</td>    
  <td>{dado.livros}</td>    
-<td>{dado.Ultimasconsideracoes}</td>  
+<td>{dado.ultimasconsideracoes}</td>  
                 </tr>
               ))}
             </tbody>
