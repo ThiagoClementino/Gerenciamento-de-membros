@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import logo from'../../img/iconlogo.png';
 import { CgMenuGridR } from "react-icons/cg";
-import '../../css/defaultStyle.css'
-import '../../css/defaultStyleMobile.css'
 import { GoHomeFill } from "react-icons/go";
 import { FaUsers } from "react-icons/fa";
 import { BsFillClipboard2DataFill } from "react-icons/bs";

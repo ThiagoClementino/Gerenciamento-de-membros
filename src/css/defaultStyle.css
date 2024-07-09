@@ -1,437 +1,582 @@
 * {
-  font-family: "Titillium Web";
-  margin: 0;
-  padding: 0;
+  font-family: "Titillium Web", sans-serif;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-}
-:root {
-  --color50: #f4f6fb;
-  --color100: #e8edf6;
-  --color200: #ccd9eb;
-  --color300: #9fbada;
-  --color400: #6c95c4;
-  --color500: #4978ae;
-  --color600: #345989;
-  --color700: #2e4d76;
-  --color800: #294263;
-  --color900: #273953;
-  --color950: #1a2437;
-  --bkcolor100: linear-gradient(to bottom, #273953, #294263, #2e4d76,#345989 );
-  --bkcolor200: linear-gradient(to top, #4978ae,#6c95c4, #9fbada; )
-}
-body {
-  font-weight: 400;
-}
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-family: "Titillium Web";
-  font-weight: 700;
-}
+  font-optical-sizing: auto;
+ margin: 0;
+ padding: 0;
 
-html {
-  font-size: 100%;
-} /* 16px */
 
-h1 {
-  font-size: 4.21rem; /* 67.36px */
-}
+  }
+  p{
+    font-size: 0.9rem;
+    font-weight: 400;
+    word-break:break-all;
+  }
+ 
 
-h2 {
-  font-size: 3.158rem; /* 50.56px */
-}
-
-h3 {
-  font-size: 2.369rem; /* 37.92px */
-}
-
-h4 {
-  font-size: 1.777rem; /* 28.48px */
-}
-
-h5 {
-  font-size: 1.333rem; /* 21.28px */
-}
-
-small {
-  font-size: 0.75rem; /* 12px */
-}
-input[type="text"],
-[type="number"],
-[type="select"],
-[type="email"],
-[type="tel"],
-[type="search"], 
-[type="date"] {
-  width: 100%;
-  border: none;
-  height: 5vh;
-  padding: 2px;
-  border-radius: 5px;
-  border-bottom: 1px solid var(--color950);
-}
-select{
-  width: 100%;
-  border: none;
-  height: 5vh;
-  padding: 2px;
-  border-radius: 5px;
-  border-bottom: 1px solid var(--color950);
-}
-.titleaba{
-  width: 100%;
-}
-
-button {
-  background-color: var(--color500);
-  width: 80px;
-  border: none;
-  padding-block: 7px;
-  border-radius: 5px;
-  color: var(--color50);
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-}
-.contTitle button{
-  margin-left: 10px;
-}
-button:hover {
-  background: var(--color800);
-  transition: 0.3s ease-in-out;
-}
-.export{
-  text-decoration: none;
-  color: var(--color100);
-}
-
-textarea {
-  width: 100%;
-  border: none;
-  height: 5vh;
-  padding: 2px;
-
-  border-radius: 5px;
-  border-bottom: 1px solid var(--color950);
-}
-table {
-  width: 100%;
-  overflow: auto;
-  border-collapse: collapse;
-  margin-block: 10px;
-  border-radius: 5px;
-  background: var(--color50);
-}
-
-thead {
-  border-bottom: 1px solid var(--color800);
-}
-th {
-  padding-block: 10px;
-  width: 250px;
-  text-align: center;
-  background: var(--color50);
-}
-tr,
-td {
-  padding: 10px 10px;
-  text-align: center;
-}
-tr:hover {
-  background-color: var(--color200);
-}
-.datamatricula{
-  display: none;
-}
-
- #matricula{
-display: none;
-} 
-
-/*Fim components*/
-
-@media (min-width: 671px){
-  .layoutDefault {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--color100);
+  :root {
+    --color50: #eef4ff;
+    --color100: #d9e5ff;
+    --color200: #bcd2ff;
+    --color300: #8eb6ff;
+    --color400: #598eff;
+    --color500: #3366ff;
+    --color600: #1b43f5;
+    --color700: #142fe1;
+    --color800: #1727b6;
+    --color900: #19288f;
+    --color950: #141a57;
+    --color1000:#3366FF; 
+    --bkcolor100: linear-gradient(to bottom, #1727b6, #142fe1, #1b43f5,#3366ff );
+    --bkcolor200: linear-gradient(to top, #4978ae,#6c95c4, #9fbada; )
+  }
+ 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 600;
   }
   
-  /*-- HEADER --*/
-  .Navbar {
-    width: 220px;
-    height: 100vh;
-    background: var(--bkcolor100);
-    padding: 20px;
-    transition: 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+  html {
+    font-size: 100%;
+  } /* 16px */
+  
+  h1 {
+    font-size: 4.21rem; /* 67.36px */
   }
-  .NavbarOne {
-    width: 80px;
-    height: 100vh;
-    background: var(--bkcolor100);
-    padding: 20px;
-    transition: 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+  
+  h2 {
+    font-size: 3.158rem; /* 50.56px */
   }
-  .logoAndBtn button {
-    background: none;
+  
+  h3 {
+    font-size: 2.369rem; /* 37.92px */
+  }
+  
+  h4 {
+    font-size: 1.777rem; /* 28.48px */
+  }
+  
+  h5 {
+    font-size: 1.333rem; /* 21.28px */
+  }
+  h6 {
+    font-size: 0.9rem; /* 21.28px */
+  }
+  
+  
+  small {
+    font-size: 0.75rem; /* 12px */
+  }
+  input[type="text"],
+  [type="number"],
+  [type="select"],
+  [type="email"],
+  [type="tel"],
+  [type="search"], 
+  [type="date"] 
+  [type="radio"] 
+  {
+    width: 100%;
     border: none;
-  }
-  .iconbtn {
-    width: auto;
-    height: 35px;
-    background: none;
-    color: var(--color100);
-  }
-  .logoAndBtn {
-    display: flex;
-    width: 100%;
-    height: 10vh;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.3s ease-in-out;
-  }
-  img {
-    width: auto;
-    height: 70px;
-    display: none;
-  }
-  a,
-  Link {
-    text-decoration: none;
-  }
-  /* .ocultarlogo{
-    display: none;
-    transition: 0.4s ease-in-out;
-  } */
-  .exibirlogo {
-    display: block;
-  }
-  .NavItem,
-  .settings {
-    display: flex;
-    color: var(--colorSevenWhite);
-    padding-block: 5px;
-    transition: 0.3s ease-in-out;
+    height: 5vh;
+    padding: 2px;
     border-radius: 5px;
+    border-bottom: 1px solid var(--color950);
   }
-  .NavItem:hover {
-    background: var(--color800);
-    transition: 0.3s ease-in-out;
-  }
-  .iconSettings {
-    width: 35px;
-    height: 35px;
-    color: var(--color300);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .iconNav {
-    width: 20px;
-    height: 20px;
-  }
-  .ocultarTexto {
-    display: none;
-  }
-  li {
-    text-decoration: none;
-  }
-  .exibirTexto {
-    width: 150px;
-    height: 35px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding-left: 10px;
-    color: var(--color50);
-  }
-  .navOptions {
-    height: 25vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-  }
-  .navOptionsTwo {
-    height: 25vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  /* -- FIM HEADER -- */
-  
-  /* -- TITULO COMPONENTE -- */
-  
-  /*-- FIM TITULO COMPONENTE -- */
-  .titleAndBtnForm {
+
+ 
+
+  select{
     width: 100%;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+    border: none;
+    height: 5vh;
+    padding: 2px;
+    border-radius: 5px;
+    border-bottom: 1px solid var(--color950);
   }
-  .contTitle{
-    max-width: 49%;
-    min-width: 32%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .contTitle:nth-child(1){
-  
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-  .contTitle:nth-child(3){
-  
-    
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
-  .sectionAbas{
-  width: 100%;
-  height: 80vh;
-  overflow-y: scroll;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 10px; 
-  }
-  .contentAbas{
+  .titleaba{
     width: 100%;
-    height: 100vh;
+  }
+  .containerMembro{
+    width: 100%;
+    height: auto;
+  }
+  .Membro{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+   
+  }
+  .Membro h4{
+    margin-left: 10px;
+  }
+  .titleblockMember{
+    width: 100%;
+
+  }
+  .blockInfor{
+    width: 100%;
+    height: auto;
     display: flex;
+    align-items: center;
     justify-content: flex-start;
-    align-items: flex-start;
     flex-wrap: wrap;
     gap: 10px;
+    padding-left: 10px;
+    background: var(--color50);
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    
   }
-  .abas section{
+  .titleblockMember{
     width: 100%;
+    }
+    
+  .titleblockMember p{
+    font-size: 1.2rem;
+    font-weight: 600;
+    
+  }
+  .dadosMembro{
+    width: 100%¨;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom:30px ;
+    background: var(--color200);
+    border-radius: 5px;
+    padding:  10px 0;
+  }
+  .ValueMembro{
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    width: 300px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    min-height: 15vh;
+    padding: 5px;
+    word-wrap: break-word;
+    
+    
+    
+  }
+  .ValueMembro p{
+    word-break: all;
+    word-wrap: break-word;
+
+  }
+ 
+  .dadoinscricao{
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    
+    width: 100%;
+    padding: 10px;
+    background: var(--color1000);
+    color: var(--color100);
+    font-weight: 500;
+    border-radius: 5px;
   }
-  .abas section button{
-    background-color: var(--color600);
-    min-width: 19%;
+  .bloDadoInscricao{
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .dadosfilho{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 5px;
+  }
+  .bloDadoInscricao h6{
+    margin-right: 5px;
+  }
+  
+  button {
+    background-color: var(--color1000);
+    width: 108px;
+    height: 38px;
     border: none;
-    padding-block: 10px;
+    padding-block: 7px;
     border-radius: 5px;
     color: var(--color50);
     cursor: pointer;
     transition: 0.3s ease-in-out;
-    text-align: center;
-    
-  
+  }
+  .contTitle button{
+    margin-left: 10px;
+  }
+  button:hover {
+    background: var(--color800);
+    transition: 0.3s ease-in-out;
+  }
+  .export{
+    text-decoration: none;
+    color: var(--color100);
   }
   
-  .copy{
-    background: var(--color300);
+  textarea {
     width: 100%;
-    text-align: center;
-    min-height: 5vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .checked-table{
-    width: 35px;
-  }
-  .titleTable{
-    min-width: 300px;
-  }
-  
-  
-  /* -- ESTRUTURA DO COMPONENTE*/
-  
-  
-  .layoutComponent {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    overflow-x: auto;
-    
-  
-  }
-  /*FIM ESTRUTURA*/
-  /* -- FORM -- */
-  .LayoutForm {
-    width: 100%;
-    height: auto;
-    display: flex;
-    padding-bottom: 20px;
-    align-content: flex-start;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 5px;
-   
-    
-  }
-  .campForm {
-    background: var(--color50);
-    width: 32%;
-    height: 15vh;
-    padding: 10px;
-    border-radius: 5px;
     border: none;
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-  .campForm p {
-    font-size: small;
-    word-break: break-all;
-  }
-  .conponentTable {
-    max-width: 100%;
-    min-height: 36vh;
-    margin-top: 10px;
-    padding-inline: 10px;
-    overflow-y: auto;
-    overflow-x: auto;
-  }
-  .ContainerData{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .sectionData{
-    width: 49%;
-    flex: 1 1 600px;
-  }
-  .titlecontainerData{
-    width: 100%;
-  }
-  /*-- FIM FORM -- */
+    height: 5vh;
+    padding: 2px;
   
-  /* MOBILE*/
-}
+    border-radius: 5px;
+    border-bottom: 1px solid var(--color950);
+  }
+  table {
+    width: 100%;
+    overflow: auto;
+    border-collapse: collapse;
+    margin-block: 10px;
+    border-radius: 5px;
+    background: var(--color50);
+  }
+  
+  thead {
+    border-bottom: 1px solid var(--color800);
+  }
+  th {
+    padding: 10px;
+    width: 250px;
+    text-align: center;
+    background: var(--color50);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--color800);
+  }
+  tr,
+  td {
+    padding: 10px ;
+    text-align: center;
+    font-size: 0.8rem;
+  
+    border-bottom: 1px solid var(--color800);
+  }
+  tr:hover {
+    background-color: var(--color200);
+  }
+  
+  .datamatricula{
+    display: none;
+  }
+  
+   #matricula{
+  display: none;
+  } 
+  
+  /*Fim components*/
+  
+  @media (min-width: 671px){
+    .layoutDefault {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--color50);
+    }
+    
+    /*-- HEADER --*/
+    .Navbar {
+      width: 220px;
+      height: 100vh;
+      background: var(--bkcolor100);
+      padding: 20px;
+      transition: 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .NavbarOne {
+      width: 80px;
+      height: 100vh;
+      background: var(--bkcolor100);
+      padding: 20px;
+      transition: 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .logoAndBtn button {
+      background: none;
+      border: none;
+    }
+   
+    details[open] {
+      animation: open-details 0.3s ease-in-out;
+  }
 
-
+  details:not([open]) summary ~ * {
+      animation: close-details 0.3s ease-in-out;
+  }
+    .summaryExemplo{
+      display: flex;
+      cursor: pointer;
+      transition: 0.3s ease-out;
+      width: 400px;
+      background: var(--color600);
+      color: var(--color100);
+      padding: 10px 0;
+      width: 100%;
+    }
+    .blockinformation{
+      margin-right: 10px;
+    }
+    .iconbtn {
+      width: auto;
+      height: 35px;
+      background: none;
+      color: var(--color100);
+    }
+    .logoAndBtn {
+      display: flex;
+      width: 100%;
+      height: 10vh;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s ease-in-out;
+    }
+    img {
+      width: auto;
+      height: 70px;
+      display: none;
+    }
+    a,
+    Link {
+      text-decoration: none;
+    }
+    /* .ocultarlogo{
+      display: none;
+      transition: 0.4s ease-in-out;
+    } */
+    .exibirlogo {
+      display: block;
+    }
+    .NavItem,
+    .settings {
+      display: flex;
+      color: var(--colorSevenWhite);
+      padding-block: 5px;
+      transition: 0.3s ease-in-out;
+      border-radius: 5px;
+    }
+    .NavItem:hover {
+      background: var(--color800);
+      transition: 0.3s ease-in-out;
+    }
+    .iconSettings {
+      width: 35px;
+      height: 35px;
+      color: var(--color300);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .iconNav {
+      width: 20px;
+      height: 20px;
+    }
+    .ocultarTexto {
+      display: none;
+    }
+    li {
+      text-decoration: none;
+    }
+    .exibirTexto {
+      width: 150px;
+      height: 35px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding-left: 10px;
+      color: var(--color50);
+    }
+    .navOptions {
+      height: 25vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+    }
+    .navOptionsTwo {
+      height: 25vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+    }
+    
+    /* -- FIM HEADER -- */
+    
+    /* -- TITULO COMPONENTE -- */
+    
+    /*-- FIM TITULO COMPONENTE -- */
+    .titleAndBtnForm {
+      display: flex;
+      width: 100%;
+      height: 10vh;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 1px 1px 0px var(--color50);
+      
+    }
+    .contTitle{
+      max-width: 49%;
+      min-width: 32%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .contTitle:nth-child(1){
+    
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .contTitle:nth-child(3){
+    
+      
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+    .sectionAbas{
+    width: 100%;
+    height: 80vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px; 
+    }
+    .contentAbas{
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .abas section{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .abas section button{
+      background-color: var(--color600);
+      min-width: 19%;
+      border: none;
+      padding-block: 10px;
+      border-radius: 5px;
+      color: var(--color50);
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      text-align: center;
+      
+    
+    }
+    
+    .copy{
+      background: var(--color300);
+      width: 100%;
+      text-align: center;
+      min-height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .checked-table{
+      width: 35px;
+    }
+    .titleTable{
+      min-width: 300px;
+    }
+    
+    
+    /* -- ESTRUTURA DO COMPONENTE*/
+    
+    
+    .layoutComponent {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      overflow-x: auto;
+      
+    
+    }
+    /*FIM ESTRUTURA*/
+    /* -- FORM -- */
+    .LayoutForm {
+      width: 100%;
+      height: auto;
+      display: flex;
+      padding-bottom: 20px;
+      align-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 5px;
+     
+      
+    }
+    .campForm {
+      background: var(--color50);
+      width: 32%;
+      height: 15vh;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .campForm p {
+      font-size: small;
+      word-break: break-all;
+    }
+    .conponentTable {
+      max-width: 100%;
+      height: 90vh;
+      margin-top: 10px;
+      padding-inline: 10px;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+    .ContainerData{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sectionData{
+      width: 49%;
+      flex: 1 1 600px;
+    }
+    .titlecontainerData{
+      width: 100%;
+    }
+/*membros*/
+  }

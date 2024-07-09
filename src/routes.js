@@ -6,7 +6,9 @@ import Datainfor from './Contexts/DataInfor';
 import Cadastro from './Pages/Cadastro/Cadastro';
 import {Financeiro} from './Pages/Financeiro/Financeiro';
 import Header from './Pages/Header/Header';
-import Form from './Pages/FomularioExterno/Form';
+import MembroMinisterio from './Pages/Membros/MembroMinisterio';
+import MembroCadastrado from './Pages/Membros/MembroCadastrado';
+
 
 
 
@@ -44,7 +46,6 @@ const AppRoutes = () => {
     })
     .catch(error => console.error('There was a problem with the fetch operation:', error));
 }, []);
-  
     
 
 
@@ -59,12 +60,9 @@ const AppRoutes = () => {
           <Route path="/membros" element={<Membros />} />
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>
-          <Route path='/header' element={<Header />}/>               
-                         
-          <Route path='/formulario' element={<Form />}/>               
-                         
-                      
-                      
+          <Route path='/header' element={<Header />}/>             
+          <Route path='/membro' element={<MembroMinisterio />}/>             
+          <Route path='/membrocadastrado' element={<MembroCadastrado />}/>             
        </Routes>
       </BrowserRouter>
     </Datainfor.Provider>

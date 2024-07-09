@@ -4,7 +4,7 @@ import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { IMaskInput } from "react-imask";
-import { v4 as uuidv4 } from "uuid";
+
 import Header from "../Header/Header";
 
 const Cadastro = () => {
@@ -17,7 +17,7 @@ const Cadastro = () => {
   };
 
   const [cadMembers, setCadMembers] = useState({
-    matricula: uuidv4(),
+    
     datacriacao: dataMatricula(),
     name: " ",
     mothersname: "",
@@ -110,6 +110,7 @@ const Cadastro = () => {
           mode: "cors",
         }
       );
+      console.log(setCadMembers);
 
       const json = await response.json();
       console.log(json);
@@ -119,7 +120,6 @@ const Cadastro = () => {
     }
 
     setCadMembers("");
-    console.log(setCadMembers);
   };
 
   const [abaAtiva, setAbaAtiva] = useState("dadosPessoais");
@@ -628,7 +628,7 @@ const Cadastro = () => {
                     <label className="campForm">
                       <p>Exerce o cargo a quanto tempo?</p>
                       <input
-                        type="number"
+                        type="date"
                         placeholder="Tempo de Cargo"
                         name="jobChurchTemp"
                         value={cadMembers.jobChurchTemp || ""}
@@ -636,21 +636,7 @@ const Cadastro = () => {
                       />
                     </label>
                   </div>
-                  <label className="campForm">
-                    <p>Qual congregação você pertence?</p>
-                    <select
-                      name="congregacao"
-                      id="congregacao"
-                      value={cadMembers.congregacao || ""}
-                      onChange={handleSubmitCamps}
-                    >
-                      <option value="105">105</option>
-                      <option value="110">110</option>
-                      <option value="qnq">Qnq</option>
-                      <option value="recanto">Recanto</option>
-                      <option value="sede">Sede</option>
-                    </select>
-                  </label>
+                  
 
                   <label className="campForm">
                     <p>Primeiro Casamento?</p>
@@ -917,20 +903,33 @@ const Cadastro = () => {
                     <option value="não">Não</option>
                   </select>
                 </label>
-                <label className="campForm">
-                  <p>
-                    Costuma informar seus pastores sobre ausências na adoração
-                    coletiva?
-                  </p>
-                  <textarea
-                    name="habito"
-                    id="habito"
-                    cols="45"
-                    rows="1"
-                    value={cadMembers.habito || ""}
-                    onChange={handleSubmitCamps}
-                  ></textarea>
-                </label>
+                <label className="col-md-6 mb-4">
+        <p className="fs-6">
+          Costuma informar seus pastores sobre ausências na adoração coletiva?
+        </p>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="habito"
+              value="sim"
+              checked={cadMembers.habito === 'sim'}
+              onChange={handleSubmitCamps}
+            />
+            Sim
+          </label>
+          <label style={{ marginLeft: '10px' }}>
+            <input
+              type="radio"
+              name="habito"
+              value="não"
+              checked={cadMembers.habito === 'não'}
+              onChange={handleSubmitCamps}
+            />
+            Não
+          </label>
+        </div>
+      </label>
                 <label className="campForm">
                   <p>Tem o hábito de participar de cultos de oração?</p>
                   <select

@@ -6,24 +6,29 @@
   text-decoration: none;
   list-style: none;
 }
+:root {
+  --color50: #eef4ff;
+  --color100: #d9e5ff;
+  --color200: #bcd2ff;
+  --color300: #8eb6ff;
+  --color400: #598eff;
+  --color500: #3366ff;
+  --color600: #1b43f5;
+  --color700: #142fe1;
+  --color800: #1727b6;
+  --color900: #19288f;
+  --color950: #141a57;
+  --color1000:#3366FF; 
+  --bkcolor100: linear-gradient(to bottom, #273953, #294263, #2e4d76,#345989 );
+  --bkcolor200: linear-gradient(to top, #4978ae,#6c95c4, #9fbada; )
+}
+
+
 body{
   font-family: "Poppins", sans-serif;
   
 }
-:root{
-  --colorOneGray: #404040;
-  --colorTwoGray: #595959;
-  --colorTreeGray: #737373;
-  --colorFourGray: #8C8C8C;
-  --colorFiveGray:#BFBFBF;
-  --colorSixGray:#f0f0f0;
-  --colorSevenWhite: #fff;
-  --colorHeight: #000;
-  --colorBlueOne: #021F59;
-  --colorBlueTwo: #03318C;
-  --colorBlueTree: #0460D9;
-  --colorBlueFour: #0476D9;
-}
+
 @media only screen and (min-width: 768px) {
   
 
@@ -35,7 +40,7 @@ button{
 .iconbtn{
   width: auto;
   height: 35px;
-  background: var(--colorBlueOne);
+  background: var(--color1000);
   color: var(--colorSevenWhite);
 }
 .logoAndBtn{
@@ -73,7 +78,7 @@ a, Link{
   
 }
 .NavItem:hover{
-  background: var(--colorBlueTwo);
+  background: var(--color1000s);
   transition: 0.3s ease-in-out;
 }
 .iconSettings{
