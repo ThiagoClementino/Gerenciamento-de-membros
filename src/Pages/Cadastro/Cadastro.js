@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
@@ -15,7 +15,7 @@ const Cadastro = () => {
     const ano = data.getFullYear();
     return `${dia.toString().padStart(2, '0')}-${mes.toString().padStart(2, '0')}-${ano}`;
   };
-
+  
   const [cadMembers, setCadMembers] = useState({
     
     datacriacao: dataMatricula(),
@@ -93,6 +93,7 @@ const Cadastro = () => {
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   };
 
   const handleSubmitForm = async (event) => {
@@ -111,6 +112,7 @@ const Cadastro = () => {
           mode: "cors",
         }
       );
+      setCadMembers("");
       console.log(setCadMembers);
 
       const json = await response.json();
@@ -120,14 +122,18 @@ const Cadastro = () => {
       console.log(error);
     }
 
-    setCadMembers("");
   };
 
-  const [abaAtiva, setAbaAtiva] = useState("dadosPessoais");
-
+  const abaAtivaRef = useRef("dadosPessoais");
+  
   const alternarAba = (aba) => {
-    setAbaAtiva(aba);
+    abaAtivaRef.current = aba;
+    forceUpdate(); // Força a atualização do componente
   };
+
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+
 
   const buscaCep = (e) => {
     const cep = e.target.value;
@@ -174,15 +180,15 @@ const Cadastro = () => {
             <section>
               <button
                 className={`nav-link ${
-                  abaAtiva === "dadosPessoais" ? "active" : ""
-                }`}
+          abaAtivaRef.current === "dadosPessoais" ? "active" : ""
+        }`}
                 onClick={() => alternarAba("dadosPessoais")}
               >
                 Dados Pessoais
               </button>
               <button
                 className={`nav-link ${
-                  abaAtiva === "relacionamento" ? "active" : ""
+                  abaAtivaRef.current === "relacionamento" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("relacionamento")}
               >
@@ -190,7 +196,7 @@ const Cadastro = () => {
               </button>
               <button
                 className={`nav-link ${
-                  abaAtiva === "histCristao" ? "active" : ""
+                  abaAtivaRef.current === "histCristao" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("histCristao")}
               >
@@ -198,7 +204,7 @@ const Cadastro = () => {
               </button>
               <button
                 className={`nav-link ${
-                  abaAtiva === "histCongregacional" ? "active" : ""
+                  abaAtivaRef.current === "histCongregacional" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("histCongregacional")}
               >
@@ -206,15 +212,15 @@ const Cadastro = () => {
               </button>
               <button
                 className={`nav-link ${
-                  abaAtiva === "conviccoes" ? "active" : ""
+                  abaAtivaRef.current === "conviccoes" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("conviccoes")}
               >
                 Convicções
               </button>
             </section>
-            {abaAtiva === "dadosPessoais" && (
-              <div className="sectionAbas">
+            {abaAtivaRef.current === "dadosPessoais" && (
+              <section className="sectionAbas">
                 <div className="titleaba">
                   <h4>Dados pessoais</h4>
                 </div>
@@ -475,11 +481,11 @@ const Cadastro = () => {
 
                
                 </div>
-              </div>
+              </section>
             )}
 
-            {abaAtiva === "relacionamento" && (
-              <div className="sectionAbas">
+            {abaAtivaRef.current === "relacionamento" && (
+              <section className="sectionAbas">
                 <div className="titleaba">
                   <h4>Relacionamento</h4>
                 </div>
@@ -693,21 +699,22 @@ const Cadastro = () => {
                     ></textarea>
                   </label>
                 </div>
-              </div>
+              </section>
             )}
 
-            {abaAtiva === "histCristao" && (
-              <div className="sectionAbas">
+            {abaAtivaRef.current === "histCristao" && (
+              <section className="sectionAbas">
                 <div className="titleaba">
                   <h4>Histórico Cristão</h4>
                 </div>
 
                 <label className="campForm">
                   <p>Qual a foi a data de conversão</p>
-                  <input
-                    type="date"
+                  <IMaskInput
+                    type="text"
                     name="dataconversao"
                     id="dataconversao"
+                    mask="00/00/00"
                     value={cadMembers.dataconversao || ""}
                     onChange={handleSubmitCamps}
                   />
@@ -834,10 +841,10 @@ const Cadastro = () => {
                     onChange={handleSubmitCamps}
                   />
                 </label>
-              </div>
+              </section>
             )}
-            {abaAtiva === "histCongregacional" && (
-              <div className="sectionAbas">
+            {abaAtivaRef.current === "histCongregacional" && (
+              <section className="sectionAbas">
                 <div className="titleaba">
                   <h4>Histórico Congracional</h4>
                 </div>
@@ -973,10 +980,10 @@ const Cadastro = () => {
                     <option value="não">Não</option>
                   </select>
                 </label>
-              </div>
+              </section>
             )}
-            {abaAtiva === "conviccoes" && (
-              <div className="sectionAbas">
+            {abaAtivaRef.current === "conviccoes" && (
+              <section className="sectionAbas">
                 <div className="titleaba">
                   <h4>Convicções</h4>
                 </div>
@@ -1121,7 +1128,7 @@ const Cadastro = () => {
                     onChange={handleSubmitCamps}
                   ></textarea>
                 </label>
-              </div>
+              </section>
             )}
           </div>
         </form>
