@@ -89,6 +89,7 @@ const Cadastro = () => {
     leiturabiblica: "",
     livros:"",
     Ultimasconsideracoes: "",
+    cad: true
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });

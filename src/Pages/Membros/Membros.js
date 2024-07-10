@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer";
 import "../../css/defaultStyle.css";
 import '../../css/defaultStyleMobile.css';
 import '../../css/defaultStyletablet.css';
+import { Link } from "react-router-dom";
 
 
 import { CSVLink } from "react-csv";
@@ -18,7 +19,7 @@ const Membros = () => {
   const handleDeactivate = () => {
     const newData = dataForm.map((data) => {
       if (selectedItems.includes(data.id)) {
-        // Check by ID
+      
         return { ...data, active: false, selected: false };
       }
       return data;
@@ -44,10 +45,21 @@ const Membros = () => {
   const filteredDados = dados.filter((dado) => {
     const lowerSearchTerm = searchTerm.toLowerCase();
     return (
+      (dado._id?.toLowerCase().includes(lowerSearchTerm) || '') ||
       (dado.name?.toLowerCase().includes(lowerSearchTerm) || '') ||
       (dado.email?.toLowerCase().includes(lowerSearchTerm) || '') ||
-      (dado.telone?.toLowerCase().includes(lowerSearchTerm) || '')
-      // Adicione outros campos conforme necessário
+      (dado.mothersname?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.fathersname?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.dateBirth?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.profession?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.companywork?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.nomefilhoum?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.nomefilhodois?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.nomefilhotres?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.nomefilhoquatro?.toLowerCase().includes(lowerSearchTerm) || '')||
+      (dado.databatismo?.toLowerCase().includes(lowerSearchTerm) || '')
+      
+      
     );
   });
 
@@ -93,8 +105,11 @@ const Membros = () => {
             <thead>
               <tr>
               <th className="checked-table">
-              
+              <input type="checkbox" name="" id="" value={selectedItems}/>
                 </th>
+              
+                
+               <th>Visualizar</th>
                 <th className="titleTable">Matrícula</th>
                 <th className="titleTable">Data de inscrição</th>
                 <th className="titleTable">Nome Completo</th>
@@ -171,7 +186,10 @@ const Membros = () => {
             <tbody>
               {filteredDados.map((dado, id) => (
                 <tr key={id}>
-                 
+                  <td><input type="checkbox" name="" id="" value={selectedItems}/></td>
+                  <td>
+                    <Link to={`/membro/${dado._id}`}>Detalhes</Link>
+                  </td>
                   <td>{dado._id}</td>
                   <td>{dado.datacriacao}</td>
                   <td>{dado.name}</td>
