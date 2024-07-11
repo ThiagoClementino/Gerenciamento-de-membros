@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { IMaskInput } from "react-imask";
 
+
+
 const MembroMinisterio = () => {
   const [member, setMember] = useState({});
   const { id } = useParams();
@@ -852,7 +854,9 @@ const MembroMinisterio = () => {
                 value={member.leiturabiblica || ""}
                 onChange={handleInputChange}
                 
-                ></select>
+                ><option value="Sim">Sim</option>
+                <option value="Nao">Não</option>
+                </select>
                 
                 
               </div>

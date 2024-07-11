@@ -2,9 +2,7 @@ import React, { useContext, useState } from "react";
 import Header from "../Header/Header";
 import Datainfor from "../../Contexts/DataInfor";
 import Footer from "../Footer/Footer";
-import "../../css/defaultStyle.css";
-import '../../css/defaultStyleMobile.css';
-import '../../css/defaultStyletablet.css';
+import '../../css/Globalcss.css'
 import { Link } from "react-router-dom";
 
 
@@ -187,7 +185,7 @@ const Membros = () => {
               {filteredDados.map((dado, id) => (
                 <tr key={id}>
                   <td><input type="checkbox" name="" id="" value={selectedItems}/></td>
-                  <td>
+                  <td className="detalhes">
                     <Link to={`/membro/${dado._id}`}>Detalhes</Link>
                   </td>
                   <td>{dado._id}</td>

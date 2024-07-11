@@ -1,79 +1,233 @@
+/* Reset CSS */
+
+/* Remove margem e padding de todos os elementos */
 * {
-  font-family: "Titillium Web", sans-serif;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  
+}
+
+/* Configurações básicas */
+html,
+body {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  
+}
+
+/* Remove estilo de lista */
+ul,
+ol {
   list-style: none;
+}
+
+/* Remove sublinhado de links */
+a {
   text-decoration: none;
-  font-optical-sizing: auto;
- margin: 0;
- padding: 0;
+  color: inherit;
+}
 
-
-  }
-  p{
+/* Remove borda de elementos focados */
+:focus {
+  outline: none;
+}
+p{
     font-size: 0.9rem;
-    font-weight: 400;
-    word-break:break-all;
-  }
- 
+    font-weight: 500;
+}
+/* Reseta bordas de tabelas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
-  :root {
-    --color50: #eef4ff;
-    --color100: #d9e5ff;
-    --color200: #bcd2ff;
-    --color300: #8eb6ff;
-    --color400: #598eff;
-    --color500: #3366ff;
-    --color600: #1b43f5;
-    --color700: #142fe1;
-    --color800: #1727b6;
-    --color900: #19288f;
-    --color950: #141a57;
-    --color1000:#3366FF; 
-    --bkcolor100: linear-gradient(to bottom, #1727b6, #142fe1, #1b43f5,#3366ff );
-    --bkcolor200: linear-gradient(to top, #4978ae,#6c95c4, #9fbada; )
-  }
+/* Reseta estilos de formulários */
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: none;
+  background: none;
+  color: inherit;
+  appearance: none;
+}
+
+/* Remove espaçamento de cabeçalhos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
  
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    font-family: "Titillium Web", sans-serif;
-    font-weight: 600;
-  }
+}
+h4{
+    font-size: 1.5rem;
+    color: var(--color900);
+}
+
+/* Remove margem de figuras */
+figure {
+  margin: 0;
+}
+
+/* Reseta flexbox */
+
+
+/* Reset básico para media */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Configuração inicial de caixas */
+.box {
+  display: block;
+  width: 100%;
+}
+
+:root {
+    --color50: #edf3ff;
+    --color100: #dde9ff;
+    --color200: #c2d5ff;
+    --color300: #9db8ff;
+    --color400: #7791ff;
+    --color500: #5769fd;
+    --color600: #383ef3;
+    --color700: #2b2ed7;
+    --color800: #23279f;
+    --color900: #272d88;
+    --color950: #17194f;
+  /* Color */
+  --bg50: #f6f6f6;
+  --bg100: #e7e7e7;
+  --bg200: #d1d1d1;
+  --bg300: #b0b0b0;
+  --bg400: #888888;
+  --bg500: #6d6d6d;
+  --bg600: #5d5d5d;
+  --bg700: #4f4f4f;
+  --bg800: #454545;
+  --bg900: #3d3d3d;
+  --bg950: #303030;
+  --bg1050: #21262D;
+
+
   
-  html {
-    font-size: 100%;
-  } /* 16px */
+}
+'torea-bay': {
+
+},
+
+
+/* Resets and Roots */
+
+/* HEADER */
+
+
   
-  h1 {
-    font-size: 4.21rem; /* 67.36px */
+  .iconbtn{
+    width: auto;
+    height: 35px;
+    background: var(--color1000);
+    color: var(--colorSevenWhite);
   }
-  
-  h2 {
-    font-size: 3.158rem; /* 50.56px */
+  .logoAndBtn{
+  display: flex;
+  width: 100%;
+  height: 10vh;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s ease-in-out;
   }
-  
-  h3 {
-    font-size: 2.369rem; /* 37.92px */
+  img{
+    width: auto;
+    height: 70px;
+    display: none;
+    
+    
   }
-  
-  h4 {
-    font-size: 1.777rem; /* 28.48px */
+  a, Link{
+    text-decoration: none;
   }
-  
-  h5 {
-    font-size: 1.333rem; /* 21.28px */
+  /* .ocultarlogo{
+    display: none;
+    transition: 0.4s ease-in-out;
+  } */
+  .exibirlogo{
+    display: block;
+    
   }
-  h6 {
-    font-size: 0.9rem; /* 21.28px */
+  .NavItem, .settings{
+    display: flex;
+    color: var(--colorSevenWhite);
+    padding-block: 5px;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+    
   }
-  
-  
-  small {
-    font-size: 0.75rem; /* 12px */
+  .NavItem:hover{
+    background: var(--color1000s);
+    transition: 0.3s ease-in-out;
   }
-  input[type="text"],
+  .iconSettings{
+    width: 35px;
+    height: 35px;
+    color: var(--colorSevenWhite);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .iconNav{
+    width: 20px;
+    height: 20px;
+    
+  }
+  .ocultarTexto{
+    display: none;
+  }
+  li{
+    text-decoration: none;
+  }
+  .exibirTexto{
+    width: 150px;
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-left: 10px;
+    color: var(--colorSevenWhite);
+    
+    
+  }
+  .navOptions{
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 50px;
+  }
+  .navOptionsTwo{
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+  }
+/*FIM HEADER*/
+
+input[type="text"],
   [type="number"],
   [type="select"],
   [type="email"],
@@ -86,8 +240,8 @@
     border: none;
     height: 5vh;
     padding: 2px;
-    border-radius: 5px;
-    border-bottom: 1px solid var(--color950);
+  
+    border-bottom: 2px solid var(--color950);
   }
 
  
@@ -115,6 +269,7 @@
   }
   .Membro h4{
     margin-left: 10px;
+    
   }
   .titleblockMember{
     width: 100%;
@@ -202,7 +357,7 @@
   }
   
   button {
-    background-color: var(--color1000);
+    background-color: var(--color800);
     width: 108px;
     height: 38px;
     border: none;
@@ -211,14 +366,16 @@
     color: var(--color50);
     cursor: pointer;
     transition: 0.3s ease-in-out;
-  }
-  .contTitle button{
-    margin-left: 10px;
+    font-weight: 500;
+    margin: 0 10px;
+    font-family: "Poppins", sans-serif;
   }
   button:hover {
-    background: var(--color800);
+    background: var(--color500);
     transition: 0.3s ease-in-out;
   }
+  
+ 
   .export{
     text-decoration: none;
     color: var(--color100);
@@ -244,6 +401,7 @@
   
   thead {
     border-bottom: 1px solid var(--color800);
+
   }
   th {
     padding: 10px;
@@ -256,7 +414,7 @@
   }
   tr,
   td {
-    padding: 10px ;
+    height: 55px ;
     text-align: center;
     font-size: 0.8rem;
   
@@ -275,22 +433,35 @@
   } 
   
   /*Fim components*/
+  .detalhes td{
+    width: 50px;
+  }
+  .detalhes a{
+    background: var(--color900);
+    color: var(--bg100);
+    padding: 5px;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+  }
+  .detalhes a:hover{
+    background: var(--color500);
+    transition: 0.3s ease-in-out;
+  }
   
-  @media (min-width: 671px){
     .layoutDefault {
       width: 100%;
       height: 100vh;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--color50);
+      
     }
     
     /*-- HEADER --*/
     .Navbar {
       width: 220px;
       height: 100vh;
-      background: var(--bkcolor100);
+      background: var(--color950);
       padding: 20px;
       transition: 0.2s ease-in-out;
       display: flex;
@@ -301,7 +472,7 @@
     .NavbarOne {
       width: 80px;
       height: 100vh;
-      background: var(--bkcolor100);
+      background: var(--color950);
       padding: 20px;
       transition: 0.2s ease-in-out;
       display: flex;
@@ -309,10 +480,7 @@
       justify-content: flex-start;
       align-items: flex-start;
     }
-    .logoAndBtn button {
-      background: none;
-      border: none;
-    }
+   
    
     details[open] {
       animation: open-details 0.3s ease-in-out;
@@ -379,7 +547,7 @@
     .iconSettings {
       width: 35px;
       height: 35px;
-      color: var(--color300);
+      color: var(--color400);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -481,14 +649,12 @@
       gap: 10px;
     }
     .abas section button{
-      background-color: var(--color600);
+     
       min-width: 19%;
       border: none;
       padding-block: 10px;
       border-radius: 5px;
-      color: var(--color50);
-      cursor: pointer;
-      transition: 0.3s ease-in-out;
+     
       text-align: center;
       
     
@@ -579,4 +745,4 @@
       width: 100%;
     }
 /*membros*/
-  }
+  

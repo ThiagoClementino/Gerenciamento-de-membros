@@ -22,10 +22,11 @@ const Header = () => {
     
       <aside className="logoAndBtn">
         <img src={logo} alt="logo gestor" className={exibir? ' ' : "exibirlogo" } />
-        <button onClick={()=>setExibir(!exibir)}><CgMenuGridR  className='iconbtn'/></button>
+        <button onClick={()=>setExibir(!exibir)}><CgMenuGridR  size={30}/></button>
       </aside>
       <ul className='navOptions'>
-        <li className='liNav'><Link to="/" className='NavItem'>
+        <li className='liNav'>
+          <Link to="/" className='NavItem'>
           <div className='iconSettings' >
             <GoHomeFill className="iconNav"/>
             </div>
@@ -34,7 +35,8 @@ const Header = () => {
           </div>
         </Link>
         </li>
-        <li className='liNav' ><Link to="/membros" className='NavItem'>
+        <li className='liNav' >
+          <Link to="/membros" className='NavItem'>
           <div className='iconSettings' >
             <FaUsers  className="iconNav"/>
             </div>

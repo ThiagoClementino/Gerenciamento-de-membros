@@ -1,10 +1,8 @@
 import React from "react";
 import { useState, useRef } from "react";
 import Footer from "../Footer/Footer";
-import "../../css/defaultStyle.css";
 import { IoSearchSharp } from "react-icons/io5";
 import { IMaskInput } from "react-imask";
-
 import Header from "../Header/Header";
 
 const Cadastro = () => {
@@ -93,6 +91,7 @@ const Cadastro = () => {
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
+    
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   };
 
@@ -279,13 +278,17 @@ const Cadastro = () => {
 
                   <label className="campForm">
                     <p>Data de nascimento</p>
-                    <input
-                      type="date"
-                      name="dateBirth"
-                      value={cadMembers.dateBirth || ""}
-                      onChange={handleSubmitCamps}
-                      placeholder="00/00/0000"
-                    />
+                    <IMaskInput
+                  className="form-control"
+                  type="date"
+                  name="dateBirth"
+                  mask="00/00/0000"
+                  value={cadMembers.dateBirth}
+                  onChange={handleSubmitCamps}
+                  placeholder="DD/MM/AAAA"
+                  pattern="\d{2}/\d{2}/\d{4}"
+                  required
+                />
                   </label>
 
                   <label className="campForm">
