@@ -1,9 +1,11 @@
 import React from "react";
 import { useState, useRef } from "react";
 import Footer from "../Footer/Footer";
-import { IoSearchSharp } from "react-icons/io5";
+
 import { IMaskInput } from "react-imask";
-import Header from "../Header/Header";
+import Header from "../Header/Sidebar";
+import "../../css/Reset.css";
+import "../../css/Components.css";
 
 const Cadastro = () => {
   const dataMatricula = () => {
@@ -11,11 +13,12 @@ const Cadastro = () => {
     const dia = data.getDate();
     const mes = data.getMonth() + 1;
     const ano = data.getFullYear();
-    return `${dia.toString().padStart(2, '0')}-${mes.toString().padStart(2, '0')}-${ano}`;
+    return `${dia.toString().padStart(2, "0")}-${mes
+      .toString()
+      .padStart(2, "0")}-${ano}`;
   };
-  
+
   const [cadMembers, setCadMembers] = useState({
-    
     datacriacao: dataMatricula(),
     name: " ",
     mothersname: "",
@@ -51,14 +54,14 @@ const Cadastro = () => {
     nomefilhoquatro: "",
     idadefilhoquatro: "",
     jobChurch: "",
-    jobChurchTemp:"",
+    jobChurchTemp: "",
     congregacao: "",
     optionprimeirocasamento: "",
-    casamentocristao:"",
+    casamentocristao: "",
     parceironaigreja: "",
-    justificativa:"",
+    justificativa: "",
     databatismo: "",
-    dataconversao:"",
+    dataconversao: "",
     lastchurch: "",
     motivosaida: "",
     igrejasquefoimembro: "",
@@ -67,7 +70,7 @@ const Cadastro = () => {
     cargoanterior: "",
     separadoanterior: "",
     posicaoanterior: "",
-    atividadeanterior:"",
+    atividadeanterior: "",
     problema: "",
     exortacao: "",
     discipulo: "",
@@ -79,20 +82,18 @@ const Cadastro = () => {
     conviccaodiscipulo: "",
     definicaoevangelho: "",
     frutosespirito: "",
-    desenvolvimentodafe:"",
+    desenvolvimentodafe: "",
     pecado: "",
     conviccaoteologica: "",
     evangelizar: "",
     jejuar: "",
     leiturabiblica: "",
-    livros:"",
+    livros: "",
     Ultimasconsideracoes: "",
-    cad: true
+    cad: true,
   });
   const handleSubmitCamps = (event) => {
     setCadMembers({ ...cadMembers, [event.target.name]: event.target.value });
-    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   };
 
   const handleSubmitForm = async (event) => {
@@ -120,19 +121,17 @@ const Cadastro = () => {
     } catch (error) {
       console.log(error);
     }
-
   };
 
   const abaAtivaRef = useRef("dadosPessoais");
-  
+
   const alternarAba = (aba) => {
     abaAtivaRef.current = aba;
-    forceUpdate(); // Força a atualização do componente
+    forceUpdate(); 
   };
 
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
-
 
   const buscaCep = (e) => {
     const cep = e.target.value;
@@ -158,35 +157,32 @@ const Cadastro = () => {
     <div className="layoutDefault">
       <Header />
       <div className="layoutComponent">
-        <form className="LayoutForm" onSubmit={handleSubmitForm}>
-          <div className="titleAndBtnForm">
-            <div className="contTitle">
-              <h4>Cadastro de Membros</h4>
-              <p>Cadastro de novos membros</p>
-            </div>
-            <div className="contTitle">
-              <input type="search" name="" id="" />
-              <button>
-                {" "}
-                <IoSearchSharp size={18} />
-              </button>
-            </div>
-            <div className="contTitle">
-              <button>Enviar</button>
-            </div>
+        <div className="titleAndBtnForm">
+          <div className="banner">
+            <h2>Cadastro de Membros</h2>
+            <p>Cadastro de novos membros</p>
           </div>
+          <div className="contTitle">
+            <input type="search" name="" id="" placeholder="Buscar..." />
+            <button></button>
+          </div>
+          <div className="btncontrol">
+            <button className="primary">Enviar</button>
+          </div>
+        </div>
+        <form className="LayoutForm" onSubmit={handleSubmitForm}>
           <div className="abas">
             <section>
               <button
-                className={`nav-link ${
-          abaAtivaRef.current === "dadosPessoais" ? "active" : ""
-        }`}
+                className={`step ${
+                  abaAtivaRef.current === "dadosPessoais" ? "active" : ""
+                }`}
                 onClick={() => alternarAba("dadosPessoais")}
               >
                 Dados Pessoais
               </button>
               <button
-                className={`nav-link ${
+                className={`step ${
                   abaAtivaRef.current === "relacionamento" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("relacionamento")}
@@ -194,7 +190,7 @@ const Cadastro = () => {
                 Relacionamento
               </button>
               <button
-                className={`nav-link ${
+                className={`step ${
                   abaAtivaRef.current === "histCristao" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("histCristao")}
@@ -202,7 +198,7 @@ const Cadastro = () => {
                 Hist. Cristão
               </button>
               <button
-                className={`nav-link ${
+                className={`step ${
                   abaAtivaRef.current === "histCongregacional" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("histCongregacional")}
@@ -210,7 +206,7 @@ const Cadastro = () => {
                 Hist. Congregacional
               </button>
               <button
-                className={`nav-link ${
+                className={`step ${
                   abaAtivaRef.current === "conviccoes" ? "active" : ""
                 }`}
                 onClick={() => alternarAba("conviccoes")}
@@ -220,13 +216,9 @@ const Cadastro = () => {
             </section>
             {abaAtivaRef.current === "dadosPessoais" && (
               <section className="sectionAbas">
-                <div className="titleaba">
-                  <h4>Dados pessoais</h4>
-                </div>
+               
 
                 <div className="contentAbas">
-                
-
                   <label className="campForm" id="matricula">
                     <input
                       type="text"
@@ -236,15 +228,7 @@ const Cadastro = () => {
                       disabled
                     />
                   </label>
-                  <div className="datamatricula">
-                    <input
-                      type="hiden"
-                      name="uuid"
-                      value={cadMembers.datacriacao || ""}
-                      onChange={handleSubmitCamps}
-                      disabled
-                    />
-                  </div>
+                
                   <label className="campForm" id="campForm">
                     <p>Nome Completo</p>
                     <input
@@ -254,6 +238,7 @@ const Cadastro = () => {
                       onChange={handleSubmitCamps}
                       required
                     />
+                    
                   </label>
                   <label className="campForm">
                     <p>Nome da Mãe</p>
@@ -279,16 +264,16 @@ const Cadastro = () => {
                   <label className="campForm">
                     <p>Data de nascimento</p>
                     <IMaskInput
-                  className="form-control"
-                  type="date"
-                  name="dateBirth"
-                  mask="00/00/0000"
-                  value={cadMembers.dateBirth}
-                  onChange={handleSubmitCamps}
-                  placeholder="DD/MM/AAAA"
-                  pattern="\d{2}/\d{2}/\d{4}"
-                  required
-                />
+                      className="imaskinput"
+                      type="date"
+                      name="dateBirth"
+                      mask="00/00/0000"
+                      value={cadMembers.dateBirth}
+                      onChange={handleSubmitCamps}
+                      placeholder="DD/MM/AAAA"
+                      pattern="\d{2}/\d{2}/\d{4}"
+                      required
+                    />
                   </label>
 
                   <label className="campForm">
@@ -307,6 +292,7 @@ const Cadastro = () => {
                   <label className="campForm">
                     <p>Telefone</p>
                     <IMaskInput
+                      className="imaskinput"
                       type="text"
                       mask="(00) 00000-0000"
                       placeholder="(00) 00000-0000"
@@ -320,6 +306,7 @@ const Cadastro = () => {
                   <label className="campForm">
                     <p>Telefone 2</p>
                     <IMaskInput
+                      className="imaskinput"
                       type="text"
                       placeholder="(00) 00000-0000"
                       mask="(00) 00000-0000"
@@ -401,6 +388,7 @@ const Cadastro = () => {
                   <label className="campForm">
                     <p>CEP</p>
                     <IMaskInput
+                      className="imaskinput"
                       mask="00000-000"
                       type="text"
                       placeholder="CEP"
@@ -479,19 +467,13 @@ const Cadastro = () => {
                       onChange={handleSubmitCamps}
                     />
                   </label>
-
-                  
-
-               
                 </div>
               </section>
             )}
 
             {abaAtivaRef.current === "relacionamento" && (
               <section className="sectionAbas">
-                <div className="titleaba">
-                  <h4>Relacionamento</h4>
-                </div>
+               
                 <div className="contentAbas">
                   <label htmlFor="" className="campForm">
                     <p>Estado Civil</p>
@@ -646,7 +628,6 @@ const Cadastro = () => {
                       />
                     </label>
                   </div>
-                  
 
                   <label className="campForm">
                     <p>Primeiro Casamento?</p>
@@ -707,14 +688,13 @@ const Cadastro = () => {
 
             {abaAtivaRef.current === "histCristao" && (
               <section className="sectionAbas">
-                <div className="titleaba">
-                  <h4>Histórico Cristão</h4>
-                </div>
+                
 
                 <label className="campForm">
                   <p>Qual a foi a data de conversão</p>
                   <IMaskInput
-                    type="text"
+                  className="imaskinput"
+                    type="date"
                     name="dataconversao"
                     id="dataconversao"
                     mask="00/00/00"
@@ -724,15 +704,17 @@ const Cadastro = () => {
                 </label>
                 <label className="campForm">
                   <p>Qual foi sua data de batismo nas águas</p>
-                  <input
+                  <IMaskInput
+                  className="imaskinput"
                     type="date"
                     name="databatismo"
                     id="databatismo"
+                    mask="00/00/00"
                     value={cadMembers.databatismo || ""}
                     onChange={handleSubmitCamps}
                   />
                 </label>
-           
+
                 <label className="campForm">
                   <p>Qual foi a sua última igreja?</p>
                   <input
@@ -848,9 +830,7 @@ const Cadastro = () => {
             )}
             {abaAtivaRef.current === "histCongregacional" && (
               <section className="sectionAbas">
-                <div className="titleaba">
-                  <h4>Histórico Congracional</h4>
-                </div>
+                
                 <label className="campForm">
                   <p>
                     Tem algum problema com liderança, hierarquia e pastoreio?
@@ -914,33 +894,34 @@ const Cadastro = () => {
                     <option value="não">Não</option>
                   </select>
                 </label>
-                <label className="col-md-6 mb-4">
-        <p className="fs-6">
-          Costuma informar seus pastores sobre ausências na adoração coletiva?
-        </p>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="habito"
-              value="sim"
-              checked={cadMembers.habito === 'sim'}
-              onChange={handleSubmitCamps}
-            />
-            Sim
-          </label>
-          <label style={{ marginLeft: '10px' }}>
-            <input
-              type="radio"
-              name="habito"
-              value="não"
-              checked={cadMembers.habito === 'não'}
-              onChange={handleSubmitCamps}
-            />
-            Não
-          </label>
-        </div>
-      </label>
+                <label className="campForm">
+                  <p >
+                    Costuma informar seus pastores sobre ausências na adoração
+                    coletiva?
+                  </p>
+                  <div>
+                    <label>
+                      <input
+                        type="radio"
+                        name="habito"
+                        value="sim"
+                        checked={cadMembers.habito === "sim"}
+                        onChange={handleSubmitCamps}
+                      />
+                      Sim
+                    </label>
+                    <label style={{ marginLeft: "10px" }}>
+                      <input
+                        type="radio"
+                        name="habito"
+                        value="não"
+                        checked={cadMembers.habito === "não"}
+                        onChange={handleSubmitCamps}
+                      />
+                      Não
+                    </label>
+                  </div>
+                </label>
                 <label className="campForm">
                   <p>Tem o hábito de participar de cultos de oração?</p>
                   <select
@@ -969,7 +950,7 @@ const Cadastro = () => {
                 </label>
                 <label className="campForm">
                   <p>
-                    Você preza pelo desenvolvimento da vida em comunidade, do
+                    Preza pelo desenvolvimento da vida em comunidade, do
                     congregar e servir uns aos outros?
                   </p>
                   <select
@@ -987,9 +968,7 @@ const Cadastro = () => {
             )}
             {abaAtivaRef.current === "conviccoes" && (
               <section className="sectionAbas">
-                <div className="titleaba">
-                  <h4>Convicções</h4>
-                </div>
+                
                 <label className="campForm">
                   <p>
                     O que te faz convicto de que você é um verdadeiro discípulo
@@ -998,8 +977,7 @@ const Cadastro = () => {
                   <textarea
                     name="conviccaodiscipulo"
                     id="conviccaodiscipulo"
-                    cols="85"
-                    rows="3"
+                    
                     value={cadMembers.conviccaodiscipulo}
                     onChange={handleSubmitCamps}
                   ></textarea>

@@ -1,7 +1,5 @@
 import React from 'react';
-import { Home } from './Pages/Home/Home';
-import './css/Globalcss.css'
-
+import AppRoutes from  './routes'
 
 
 
@@ -9,7 +7,7 @@ function App() {
   return (
     <div className="App">
       
-      <Home />
+    <AppRoutes />
       
     
      

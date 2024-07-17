@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import logo from'../../img/iconlogo.png';
-import { CgMenuGridR } from "react-icons/cg";
-import { GoHomeFill } from "react-icons/go";
+
 import { FaUsers } from "react-icons/fa";
 import { BsFillClipboard2DataFill } from "react-icons/bs";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBarsProgress, faBarsStaggered } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -22,13 +24,13 @@ const Header = () => {
     
       <aside className="logoAndBtn">
         <img src={logo} alt="logo gestor" className={exibir? ' ' : "exibirlogo" } />
-        <button onClick={()=>setExibir(!exibir)}><CgMenuGridR  size={30}/></button>
+        <button onClick={()=>setExibir(!exibir)}><FontAwesomeIcon icon={faBarsProgress } size='2xl' style={{color:"#5769fd"}} /></button>
       </aside>
       <ul className='navOptions'>
         <li className='liNav'>
           <Link to="/" className='NavItem'>
           <div className='iconSettings' >
-            <GoHomeFill className="iconNav"/>
+            <FontAwesomeIcon icon={faBarsStaggered}/>
             </div>
             <div className={exibir? "ocultarTexto" : "exibirTexto"}> 
             <p>Home</p> 

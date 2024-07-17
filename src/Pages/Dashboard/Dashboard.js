@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../Header/Header';
+import Header from '../Header/Sidebar';
 
 
 
@@ -17,13 +17,9 @@ const Dashboard = () => {
   
   
   return (
-    <div className='dashboard'>
-  
-    <Header/>
-   
-     
-      
-    </div>
+  <div className='dashboard'>
+  <Header/>
+  </div>
   )
 }
 
