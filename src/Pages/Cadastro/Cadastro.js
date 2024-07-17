@@ -18,6 +18,7 @@ const Cadastro = () => {
       .padStart(2, "0")}-${ano}`;
   };
 
+
   const [cadMembers, setCadMembers] = useState({
     datacriacao: dataMatricula(),
     name: " ",
