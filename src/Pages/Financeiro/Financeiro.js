@@ -182,16 +182,7 @@ export const Financeiro = () => {
               <option value="Internet">Internet</option>
             </select>
           </label>
-          <label className="campForm">
-            <p>Comprovantes</p>
-            <input
-              type="file"
-              name="comprovante"
-              id="comprovante"
-              onChange={handleFileChange}
-              required
-            />
-          </label>
+         
           <label className="campForm">
             <p>Descrição</p>
             <textarea
