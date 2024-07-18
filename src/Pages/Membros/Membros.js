@@ -5,39 +5,23 @@ import Footer from "../Footer/Footer";
 import "../../css/Reset.css";
 import "../../css/Components.css";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 import { CSVLink } from "react-csv";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const Membros = () => {
-  const { dataForm, setDataForm, dados } = useContext(Datainfor);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const { dados } = useContext(Datainfor);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  const handleDeactivate = () => {
-    const newData = dataForm.map((data) => {
-      if (selectedItems.includes(data.id)) {
-        return { ...data, active: false, selected: false };
-      }
-      return data;
-    });
-    setDataForm(newData);
-    setSelectedItems([]);
-  };
 
-  const dataExport = () => {
-    const data = new Date();
-    const dia = data.getDate();
-    const mes = data.getMonth() + 1;
-    const ano = data.getFullYear();
-    return `${dia}/${mes}/${ano}`;
-  };
+  //Search
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
+  
   const filteredDados = dados.filter((dado) => {
     const lowerSearchTerm = searchTerm.toLowerCase();
     return (
@@ -70,15 +54,75 @@ const Membros = () => {
     );
   });
 
+  // Search //
+
+
+
+  // Exclude
+
+  
+  const DeletarItem = async () => {
+    if (selectedItems.length === 0) {
+      alert("Selecione um item a ser excluído!");
+      return;
+    }
+
+    const confirmacao = window.confirm(
+      `Tem certeza de que deseja excluir ${selectedItems.length} itens?`
+    );
+
+    if (confirmacao) {
+      try {
+        await Promise.all(
+          selectedItems.map(async (id) => {
+            await axios.delete(`https://api-gestao-igreja.onrender.com/membros/${id}`);
+          })
+        );
+        alert("Itens excluídos com sucesso!");
+        window.location.reload(); 
+      } catch (error) {
+        console.error("Erro ao excluir itens:", error);
+        alert("Erro ao excluir itens. Verifique o console para mais detalhes.");
+      }
+    }
+  };
+
+ 
+  const selectCheckbox = (event, id) => {
+    if (event.target.checked) {
+      setSelectedItems([...selectedItems, id]);
+    } else {
+      setSelectedItems(selectedItems.filter((dadoid) => dadoid !== id));
+    }
+  };
+
+   // Exclude //
+
+
+  // Export CSV
+
+
+  const dataExport = () => {
+    const data = new Date();
+    const dia = data.getDate();
+    const mes = data.getMonth() + 1;
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
+  // EXPORT CSV  // 
+
+  
+
+
+
   const newLocal_1 = "titleAndBtnForm";
   const newLocal = newLocal_1;
   return (
     <div className="layoutDefault">
       <Header />
       <div className="layoutComponent">
-
         <div className={newLocal}>
-
           <div className="banner">
             <h2>Relação de Membros</h2>
             <p>Membros cadastrados</p>
@@ -92,8 +136,10 @@ const Membros = () => {
             />
           </div>
           <div className="btncontrol">
-            <button className="primary">Excluir</button>
-          
+            <button className="primary" onClick={DeletarItem}>
+              Excluir
+            </button>
+
             <button className="primary">
               <CSVLink
                 data={dados}
@@ -110,10 +156,10 @@ const Membros = () => {
 
         <div className="componentTable">
           <table>
-            <thead >
+            <thead>
               <tr>
                 <th className="checked">
-                  <input type="checkbox" name="" id="" value={selectedItems} />
+                  <input type="checkbox" name="" id="" />
                 </th>
 
                 <th className="detalhes">Visualizar</th>
@@ -195,14 +241,13 @@ const Membros = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredDados.map((dado, id) => (
-                <tr key={id}>
-                  <td className="" >
+            {filteredDados.map((dado) => (
+                <tr key={dado._id}>
+                  <td className="">
                     <input
                       type="checkbox"
-                      name=""
-                      id=""
-                      value={selectedItems}
+                      checked={selectedItems.includes(dado._id)}
+                      onChange={(event) => selectCheckbox(event, dado._id)}
                     />
                   </td>
                   <td className="detalhes">
@@ -210,8 +255,7 @@ const Membros = () => {
                       <Link to={`/membro/${dado._id}`}>Detalhes</Link>
                     </button>
                   </td>
-
-                  <td className="detalhes" >{dado._id}</td>
+                  <td className="detalhes">{dado._id}</td>
                   <td className="">{dado.datacriacao}</td>
                   <td>{dado.name}</td>
                   <td>{dado.mothersname}</td>

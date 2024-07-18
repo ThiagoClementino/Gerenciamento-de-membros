@@ -28,18 +28,18 @@ const MembroMinisterio = () => {
     setMember({ ...member, [name]: value });
   };
 
-  const handleSave = async () => {
-    try {
-      await axios.put(
-        `https://api-gestao-igreja.onrender.com/membros/${id}`,
-        member
-      );
-      alert("Dados salvos com sucesso!");
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao salvar os dados.");
-    }
-  };
+  // const handleSave = async () => {
+  //   try {
+  //     await axios.put(
+  //       `https://api-gestao-igreja.onrender.com/membros/${id}`,
+  //       member
+  //     );
+  //     alert("Dados salvos com sucesso!");
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Erro ao salvar os dados.");
+  //   }
+  // };
 
   if (!member) return <div>Carregando...</div>;
 

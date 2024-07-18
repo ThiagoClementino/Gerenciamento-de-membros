@@ -3,11 +3,11 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import Membros from './Pages/Membros/Membros';
 import { useState, useEffect} from 'react';
 import Datainfor from './Contexts/DataInfor';
+import DataApiOne from './Contexts/DataApiOne';
 import Cadastro from './Pages/Cadastro/Cadastro';
 import {Financeiro} from './Pages/Financeiro/Financeiro';
 import Sidebar from './Pages/Header/Sidebar';
 import MembroMinisterio from './Pages/Membros/MembroMinisterio';
-
 import Home from './Pages/Home/Home';
 import Config from './Pages/Config/Config';
 import Login from './Pages/Login/Login';
@@ -19,6 +19,7 @@ import CadMembers from './Pages/Membros/CadMembers';
 
 
 const AppRoutes = () => {
+
 
  const [dados, setDados] = useState([]);
  const [dadosfinance,setDadosfinance] = useState([]);
@@ -92,6 +93,7 @@ useEffect(() => {
 
 
   return (
+    <DataApiOne.Provider>
     <Datainfor.Provider value={{ dadosfinance,setDadosfinance, dados, setDados }}>
       <BrowserRouter>
         <Routes>
@@ -109,6 +111,7 @@ useEffect(() => {
        </Routes>
       </BrowserRouter>
     </Datainfor.Provider>
+    </DataApiOne.Provider>
   );
 };
 

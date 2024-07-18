@@ -25,12 +25,12 @@ export const Financeiro = () => {
       [event.target.name]: event.target.value,
     });
   };
-  const handleFileChange = (event) => {
-    setFinancialData({
-      ...financialData,
-      comprovante: event.target.files[0], 
-    });
-  };
+  // const handleFileChange = (event) => {
+  //   setFinancialData({
+  //     ...financialData,
+  //     comprovante: event.target.files[0], 
+  //   });
+  // };
 
   const handleFormFinancial = async (event) => {
     event.preventDefault();
@@ -52,7 +52,7 @@ export const Financeiro = () => {
       console.log(json);
       console.log(response.status);
 
-      // Limpa o formulário após o envio bem-sucedido
+      
       setFinancialData({
         tipodedado: "",
         valor: "",

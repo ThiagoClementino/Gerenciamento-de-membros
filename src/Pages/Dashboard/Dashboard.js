@@ -91,16 +91,16 @@ const Dashboard = () => {
   </div> 
   <div className="dashboards">
     <div className="Dashboard">
-      <iframe src="
-      https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697f96d-22ee-48b5-871d-fb08a93f831c&maxDataAge=3600&theme=light&autoRefresh=true" frameborder="0" className="charts"></iframe>
+      <iframe src=" 
+      https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697f96d-22ee-48b5-871d-fb08a93f831c&maxDataAge=3600&theme=light&autoRefresh=true" frameborder="0" className="charts" title='graphic'></iframe>
     </div>
     <div className="Dashboard">
-      <iframe src="https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697fc6b-0a12-483e-8cb3-3ff11fc0d451&maxDataAge=3600&theme=light&autoRefresh=true" frameborder="0" className="charts"></iframe>
+      <iframe src="https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697fc6b-0a12-483e-8cb3-3ff11fc0d451&maxDataAge=3600&theme=light&autoRefresh=true" frameborder="0" className="charts"  title='graphic'></iframe>
     </div>
 
   </div>
   <div className="painelFull">
-    <iframe src="https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=66982cc4-1232-4aea-8407-a721d3d95ec4&maxDataAge=3600&theme=light&autoRefresh=true" frameborder="0" className="charts"></iframe>
+    <iframe src="https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=66982cc4-1232-4aea-8407-a721d3d95ec4&maxDataAge=3600&theme=light&autoRefresh=true" frameborder="0" className="charts" title='graphic'></iframe>
 
   </div>
   <Footer/>

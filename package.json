@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@tippyjs/react": "^4.2.6",
     "axios": "^1.7.2",
     "body-parser": "^1.19.0",
     "cdbreact": "^1.5.19",
@@ -32,6 +33,7 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
+    "react-tooltip": "^5.27.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
