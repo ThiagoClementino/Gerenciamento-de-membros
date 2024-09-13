@@ -9,14 +9,6 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBarsProgress, faBarsStaggered } from '@fortawesome/free-solid-svg-icons';
 
-
-
-
-
-
-
-
-
 const Header = () => {
   
   const [exibir, setExibir] = useState(false);
@@ -25,10 +17,10 @@ const Header = () => {
   return (
     
     
-    <nav className={exibir? "NavbarTwo":"NavbarOne"}>
+    <nav className={exibir? "NavbarTwo" :"NavbarOne"}>
     
       <aside className="logoAndBtn">
-        <img src={logo} alt="logo gestor" className={exibir? "exibirlogo": ' ' } />
+        <img src={logo} alt="logo gestor" className={exibir? "exibirlogo":"ocultarlogo"} />
         <button onClick={()=>setExibir(!exibir)}><FontAwesomeIcon icon={faBarsProgress } size='2xl' style={{color:"#5769fd"}} /></button>
       </aside>
       <ul className='navOptions'>

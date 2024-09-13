@@ -25,7 +25,7 @@
   --bg1050: #21262d;
   --bg1150: #00000020;
 }
-@media (min-width: 992px) {
+
   .iconbtn {
     width: auto;
     height: 35px;
@@ -202,9 +202,7 @@
     font-size: 0.7rem;
     font-weight: 300;
   }
-  .exibirlogo {
-    display: block;
-  }
+ 
   .NavItem,
   .settings {
     display: flex;
@@ -241,8 +239,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 400;
     padding-left: 10px;
     color: var(--colorSevenWhite);
   }
@@ -269,8 +267,8 @@
   [type="tel"],
   [type="search"],
   [type="date"],
-  [type="radio"] 
-  [type="select"],
+  [type="radio"], 
+  
   [type="file"] {
     width: 100%;
     border: none;
@@ -279,6 +277,8 @@
     font-size: 0.8rem;
     border-radius: 2px;
     border: 0.1rem solid var(--bg1150);
+    word-break: break-all;
+    font-weight: 300;
   }
   .imaskinput{
     width: 100%;
@@ -301,8 +301,9 @@ input::placeholder{
     font-size: 0.8rem;
     border-radius: 5px;
     appearance: none;
-    background: transparent;
+    
     border: 0.1rem solid var(--bg1150);
+    font-weight: 300;
     
     
   }
@@ -321,7 +322,11 @@ input::placeholder{
   }
   .containerMembro {
     width: 100%;
+    max-width: 1200px;
     height: auto;
+    display: flex;
+    justify-self: center;
+    align-items: center;
   }
   .Membro {
     width: 100%;
@@ -334,16 +339,32 @@ input::placeholder{
   .titleblockMember {
     width: 100%;
   }
+  .layoutMember{
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .dadosdoMembro{
+    width: 100%;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+  }
+
   .blockInfor {
     width: 100%;
     height: auto;
     display: flex;
-    align-items: center;
+    align-items:center;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 10px;
     padding-left: 10px;
-    background: var(--color50);
+    background: var(--bg50);
     margin: 10px;
     border-radius: 5px;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
@@ -362,25 +383,29 @@ input::placeholder{
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 30px;
-    background: var(--color200);
+    background: var(--color100);
     border-radius: 5px;
     padding: 10px 0;
   }
   .ValueMembro {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    width: 300px;
+    width: 32%;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    flex: 1 1 auto;
     border-radius: 5px;
     min-height: 15vh;
     padding: 5px;
-    word-wrap: break-word;
+    word-wrap: break-all;
   }
   .ValueMembro p {
     word-break: all;
     word-wrap: break-word;
+  }
+  .ageFilho input[type="number"]{
+    width: 30px;
   }
 
   .dadoinscricao {
@@ -398,6 +423,8 @@ input::placeholder{
     width: 50%;
     display: flex;
     justify-content: flex-start;
+    color: var(--bg100);
+    background: var(--color700);
   }
   .dadosfilho {
     display: flex;
@@ -490,9 +517,11 @@ input::placeholder{
   textarea {
     width: 100%;
     border: none;
-    height: 5vh;
+    height: 10vh;
     padding: 2px;
-
+    word-break: break-all;
+    font-size: 0.8rem;
+    font-weight: 300;
     border-radius: 5px;
     
   }
@@ -575,6 +604,7 @@ input::placeholder{
     justify-content: flex-start;
     align-items: flex-start;
   }
+
   .NavbarOne {
     width: 80px;
     height: 100vh;
@@ -628,8 +658,14 @@ input::placeholder{
           display: none;
           transition: 0.4s ease-in-out;
         } */
+  .ocultarlogo{
+    display: none;
+    transition: 03s ease-in-out;
+  }       
   .exibirlogo {
     display: block;
+    width: 40px;
+    transition: 0.3s;
   }
   .NavItem,
   .settings {
@@ -661,8 +697,8 @@ input::placeholder{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 400;
     padding-left: 10px;
     color: var(--color50);
   }
@@ -888,4 +924,10 @@ input::placeholder{
   .titlecontainerData {
     width: 100%;
   }
+
+@media (max-width: 480px) {
+.exibirlogo{
+  width: 30px;
+}  
+
 }

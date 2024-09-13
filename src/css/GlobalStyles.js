@@ -1,4 +1,6 @@
-/* /* Reset.css v1.0 | 2023 | Thiago's Custom Reset
+import { createGlobalStyle } from "styled-components";
+const GlobalStyle = createGlobalStyle`
+/* Reset.css v1.0 | 2023 | Thiago's Custom Reset */
 
 
 
@@ -26,12 +28,12 @@ time, mark, audio, video {
 
 
 /* HTML5 display-role reset for older browsers */
-/* article, aside, details, figcaption, figure,
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
-} */
+}
 
-/* body {
+body {
     line-height: 1;
 }
 
@@ -41,9 +43,9 @@ ol, ul {
 
 blockquote, q {
     quotes: none;
-} */
+}
 
-/* blockquote:before, blockquote:after,
+blockquote:before, blockquote:after,
 q:before, q:after {
     content: '';
     content: none;
@@ -52,7 +54,7 @@ q:before, q:after {
 
 
 /* Additional modern resets */
-/* *,
+*,
 *::before,
 *::after {
     box-sizing: border-box;
@@ -62,8 +64,8 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
-} */ 
-/* 
+}
+
 input, button, textarea, select {
     font: inherit;
 }
@@ -75,8 +77,8 @@ button {
 a {
     text-decoration: none;
     color: inherit;
-} */
-/* 
+}
+
 :root {
     --primary-font: 'Arial', sans-serif;
     --secondary-font: 'Georgia', serif;
@@ -87,4 +89,13 @@ body {
     background-color: #f5f5f5;
     color: #333;
     line-height: 1.6;
-} */ 
+}
+
+
+
+
+
+
+`
+
+export default GlobalStyle;

@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useRef } from "react";
 import Footer from "../Footer/Footer";
-
 import { IMaskInput } from "react-imask";
 import Header from "../Header/Sidebar";
 import "../../css/Reset.css";

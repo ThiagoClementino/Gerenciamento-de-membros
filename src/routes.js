@@ -12,6 +12,7 @@ import Home from './Pages/Home/Home';
 import Config from './Pages/Config/Config';
 import Login from './Pages/Login/Login';
 import CadMembers from './Pages/Membros/CadMembers';
+import CreateUser from './Pages/Users/CreateUser';
 
 
 
@@ -106,7 +107,8 @@ useEffect(() => {
           <Route path='/config' element={<Config/>}/>
           <Route path='/login' element={<Login/>}/>             
            <Route path='/home' element={<Home />}/>             
-           <Route path='/cad' element={<CadMembers />}/>             
+           <Route path='/cad' element={<CadMembers />}/>
+           <Route path='/users' element={<CreateUser/>}/>
                      
        </Routes>
       </BrowserRouter>
