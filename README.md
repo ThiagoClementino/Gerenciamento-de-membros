@@ -1,5 +1,11 @@
-# O componente `Header` é uma barra de navegação desenvolvida com ReactJS, que utiliza o hook `useState` para alternar entre dois estados visuais, controlando a exibição da logo e das opções de menu. A navegação é estilizada condicionalmente com as classes `NavbarOne` e `NavbarTwo`, dependendo do estado do menu.
+## Gerenciador de Membros de Igreja
+## Este projeto é um gerenciador de membros e despesas para igrejas, desenvolvido para facilitar a administração e o controle das informações essenciais de uma instituição religiosa.
 
-# A barra de navegação inclui ícones e links para quatro seções principais: "Home", "Membros", "Cadastro", e "Financeiro". Os ícones são fornecidos pelas bibliotecas `react-icons` e `@fortawesome/react-fontawesome`, e cada link é envolvido por um componente `Tippy` para exibir tooltips informativos.
+### Funcionalidades
+## Cadastro de Membros: Inclui um formulário intuitivo para adicionar novos membros, armazenando dados essenciais de forma segura e organizada.
+## Gestão de Despesas: Oferece um formulário prático para registrar as despesas da igreja, facilitando o controle financeiro.
+## Consultas e Relatórios: Disponibiliza uma tela com todos os cadastros exibidos em uma tabela, permitindo a consulta detalhada de cada registro.
+## Dashboard de Indicadores: Inclui um painel visual com indicadores essenciais para monitorar a situação da igreja, como número de membros, despesas e outras métricas importantes.
 
-# O componente também inclui um botão de menu que alterna o estado do menu ao ser clicado, usando o ícone `faBarsProgress` do `FontAwesome`. A visibilidade do texto associado a cada ícone é controlada pelo estado `exibir`, exibindo ou ocultando o texto com base no estado atual.
+## Tecnologias Utilizadas
+## Front-end: ReactJS, JavaScript
