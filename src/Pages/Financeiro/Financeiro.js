@@ -1,9 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
+import { Link } from "react-router-dom";
 import Datainfor from "../../Contexts/DataInfor";
 import Footer from "../Footer/Footer";
-import { Link } from "react-router-dom";
 import Header from "../Header/Sidebar";
-
 
 export const Financeiro = () => {
   const { dadosfinance } = useContext(Datainfor);
@@ -17,22 +16,18 @@ export const Financeiro = () => {
     tipolancamento: "",
     comprovante: null,
     observacao: "",
+    descricao: "",
   });
 
-  const handleCampfinancial = (event) => {
-    setFinancialData({
-      ...financialData,
-      [event.target.name]: event.target.value,
-    });
-  };
-  // const handleFileChange = (event) => {
-  //   setFinancialData({
-  //     ...financialData,
-  //     comprovante: event.target.files[0], 
-  //   });
-  // };
+  const handleCampfinancial = useCallback((event) => {
+    const { name, value } = event.target;
+    setFinancialData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  }, []);
 
-  const handleFormFinancial = async (event) => {
+  const handleFormFinancial = useCallback(async (event) => {
     event.preventDefault();
     try {
       const response = await fetch(
@@ -50,8 +45,6 @@ export const Financeiro = () => {
 
       const json = await response.json();
       console.log(json);
-      console.log(response.status);
-
       
       setFinancialData({
         tipodedado: "",
@@ -59,17 +52,23 @@ export const Financeiro = () => {
         statuspagamento: "",
         datapagamento: "",
         tipolancamento: "",
-        comprovante: "",
+        comprovante: null,
         observacao: "",
+        descricao: "",
       });
+
+      alert("Dados financeiros salvos com sucesso!");
+      window.location.reload();
+      
     } catch (error) {
       console.error("Erro ao enviar o formulário:", error);
+      alert("Erro ao salvar os dados financeiros. Por favor, tente novamente.");
     }
-  };
+  }, [financialData]);
 
-  const BuscasRegistros = (e) => {
+  const handleSearch = useCallback((e) => {
     setDataRegistro(e.target.value);
-  };
+  }, []);
 
   const filteredFinance = dadosfinance.filter((dado) => {
     const lowerSearchTerm = dataRegistro.toLowerCase();
@@ -78,7 +77,8 @@ export const Financeiro = () => {
       dado.tipodedado?.toLowerCase().includes(lowerSearchTerm) ||
       dado.statuspagamento?.toLowerCase().includes(lowerSearchTerm) ||
       dado.datapagamento?.toLowerCase().includes(lowerSearchTerm) ||
-      dado.tipolancamento?.toLowerCase().includes(lowerSearchTerm)
+      dado.tipolancamento?.toLowerCase().includes(lowerSearchTerm) ||
+      dado.observacao?.toLowerCase().includes(lowerSearchTerm)
     );
   });
 
@@ -95,7 +95,7 @@ export const Financeiro = () => {
             <input
               type="search"
               value={dataRegistro}
-              onChange={BuscasRegistros}
+              onChange={handleSearch}
               placeholder="Buscar..."
             />
           </div>
@@ -118,7 +118,8 @@ export const Financeiro = () => {
               id="tipodedado"
               value={financialData.tipodedado}
               onChange={handleCampfinancial}
-              required            >
+              required
+            >
               <option value=""></option>
               <option value="Receita">Receita</option>
               <option value="Despesa">Despesa</option>
@@ -153,11 +154,9 @@ export const Financeiro = () => {
             <p>Data</p>
             <input
               type="date"
-              
               name="datapagamento"
               id="datapagamento"
               placeholder="DD/MM/AAAA"
-             
               value={financialData.datapagamento}
               onChange={handleCampfinancial}
               required
@@ -182,7 +181,6 @@ export const Financeiro = () => {
               <option value="Internet">Internet</option>
             </select>
           </label>
-         
           <label className="campForm">
             <p>Descrição</p>
             <textarea
