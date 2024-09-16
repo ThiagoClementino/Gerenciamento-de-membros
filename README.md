@@ -1,5 +1,5 @@
-## Gerenciador de Membros
+# O componente `Header` é uma barra de navegação desenvolvida com ReactJS, que utiliza o hook `useState` para alternar entre dois estados visuais, controlando a exibição da logo e das opções de menu. A navegação é estilizada condicionalmente com as classes `NavbarOne` e `NavbarTwo`, dependendo do estado do menu.
 
-## Sistema de cadastro de novos membros e despesas financeiras 
-### Aplicação constituida com dois módulos: Financeiros e Membros
-## Membros:{ Cadastro socioeconomico de novos membros. O sistema conta com um formuário nativo na aplicação é um outro com layout pensado para usários expternos. }
+# A barra de navegação inclui ícones e links para quatro seções principais: "Home", "Membros", "Cadastro", e "Financeiro". Os ícones são fornecidos pelas bibliotecas `react-icons` e `@fortawesome/react-fontawesome`, e cada link é envolvido por um componente `Tippy` para exibir tooltips informativos.
+
+# O componente também inclui um botão de menu que alterna o estado do menu ao ser clicado, usando o ícone `faBarsProgress` do `FontAwesome`. A visibilidade do texto associado a cada ícone é controlada pelo estado `exibir`, exibindo ou ocultando o texto com base no estado atual.
