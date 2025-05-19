@@ -1,4 +1,4 @@
-import { BrowserRouter, Route,  Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Membros from './Pages/Membros/Membros';
 import { useState, useEffect} from 'react';
@@ -9,8 +9,9 @@ import {Financeiro} from './Pages/Financeiro/Financeiro';
 import Sidebar from './Pages/Header/Sidebar';
 import MembroMinisterio from './Pages/Membros/MembroMinisterio';
 import Home from './Pages/Home/Home';
+
 import Config from './Pages/Config/Config';
-import Login from './Pages/Login/Login';
+
 import CadMembers from './Pages/Membros/CadMembers';
 import CreateUser from './Pages/Users/CreateUser';
 
@@ -33,7 +34,7 @@ const AppRoutes = () => {
 
 
  useEffect(() => {
-  fetch('https://api-gestao-igreja.onrender.com/membros', {
+  fetch('https://api-gestao-igreja-jcod.vercel.app/membros', {
     method: 'GET',
     mode: 'cors', 
     headers: {
@@ -62,7 +63,7 @@ const AppRoutes = () => {
 
 
 useEffect(() => {
-  fetch('https://api-gestao-igreja.onrender.com/finance', {
+  fetch('https://api-gestao-igreja-jcod.vercel.app/finance', {
     method: 'GET',
     mode: 'cors', 
     headers: {
@@ -98,6 +99,7 @@ useEffect(() => {
     <Datainfor.Provider value={{ dadosfinance,setDadosfinance, dados, setDados }}>
       <BrowserRouter>
         <Routes>
+         
           <Route path="/" element={<Dashboard />} />
           <Route path="/membros" element={<Membros />} />
           <Route path='/cadastro' element={<Cadastro/>} />
@@ -105,7 +107,7 @@ useEffect(() => {
           <Route path='/sidebar' element={<Sidebar />}/>             
           <Route path='/membro/:id' element={<MembroMinisterio />}/>
           <Route path='/config' element={<Config/>}/>
-          <Route path='/login' element={<Login/>}/>             
+                     
            <Route path='/home' element={<Home />}/>             
            <Route path='/cad' element={<CadMembers />}/>
            <Route path='/users' element={<CreateUser/>}/>

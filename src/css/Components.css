@@ -320,7 +320,7 @@ option:hover {
 .containerMembro {
   width: 100%;
   max-width: 1200px;
-  height: auto;
+  height: 100vh;
   display: flex;
   justify-self: center;
   align-items: center;
@@ -376,6 +376,8 @@ option:hover {
 }
 .dadosMembro {
   width: 100%¨;
+  max-height: 100vh;
+  
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
@@ -470,7 +472,6 @@ option:hover {
   cursor: pointer;
   transition: 0.3s ease-in-out;
   font-weight: 600;
-  color: ;
   font-size: 0.6rem;
   text-align: center;
 }

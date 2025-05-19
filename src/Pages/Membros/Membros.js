@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Header from "../Header/Sidebar";
-import Datainfor from "../../Contexts/DataInfor";
+import DataInfor from "../../Contexts/DataInfor"; // Renomeado para DataInfor
 import Footer from "../Footer/Footer";
 import "../../css/Reset.css";
 import "../../css/Components.css";
@@ -11,67 +11,52 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const Membros = () => {
-  const { dados } = useContext(Datainfor);
+  const { dados } = useContext(DataInfor);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
 
+  // Função para verificar se um valor é string e convertê-lo para lowercase
+  const toLowerSafe = (value) => typeof value === 'string' ? value.toLowerCase() : '';
 
-  //Search
-
+  // Busca
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    setSelectAll(false); // Desmarca o "Selecionar Todos" ao alterar a busca
   };
-  
+
   const filteredDados = dados.filter((dado) => {
-    const lowerSearchTerm = searchTerm.toLowerCase();
+    const lowerSearchTerm = toLowerSafe(searchTerm);
     return (
-      dado._id?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.name?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.email?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.mothersname?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.fathersname?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.dateBirth?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.profession?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.companywork?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.nomefilhoum?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.nomefilhodois?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.nomefilhotres?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.nomefilhoquatro?.toLowerCase().includes(lowerSearchTerm) ||
-      "" ||
-      dado.databatismo?.toLowerCase().includes(lowerSearchTerm) ||
-      ""
+      toLowerSafe(dado._id).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.name).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.email).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.mothersname).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.fathersname).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.dateBirth).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.profession).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.companywork).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.nomefilhoum).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.nomefilhodois).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.nomefilhotres).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.nomefilhoquatro).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.databatismo).includes(lowerSearchTerm)
     );
   });
+  // Fim da Busca
 
-  // Search //
-
-
-
-  // Exclude
-
-  
-  const DeletarItem = async () => {
+  // Excluir
+  const handleDeleteItems = async () => {
     if (selectedItems.length === 0) {
-      alert("Selecione um item a ser excluído!");
+      alert("Selecione ao menos um item para excluir!");
       return;
     }
 
-    const confirmacao = window.confirm(
-      `Tem certeza de que deseja excluir ${selectedItems.length} itens?`
+    const confirmation = window.confirm(
+      `Tem certeza de que deseja excluir ${selectedItems.length} ${selectedItems.length > 1 ? 'itens' : 'item'}?`
     );
 
-    if (confirmacao) {
+    if (confirmation) {
       try {
         await Promise.all(
           selectedItems.map(async (id) => {
@@ -79,7 +64,7 @@ const Membros = () => {
           })
         );
         alert("Itens excluídos com sucesso!");
-        window.location.reload(); 
+        window.location.reload();
       } catch (error) {
         console.error("Erro ao excluir itens:", error);
         alert("Erro ao excluir itens. Verifique o console para mais detalhes.");
@@ -87,8 +72,7 @@ const Membros = () => {
     }
   };
 
- 
-  const selectCheckbox = (event, id) => {
+  const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
       setSelectedItems([...selectedItems, id]);
     } else {
@@ -96,33 +80,31 @@ const Membros = () => {
     }
   };
 
-   // Exclude //
+  const handleSelectAllChange = (event) => {
+    setSelectAll(event.target.checked);
+    if (event.target.checked) {
+      setSelectedItems(filteredDados.map((dado) => dado._id));
+    } else {
+      setSelectedItems([]);
+    }
+  };
+  // Fim da Exclusão
 
-
-  // Export CSV
-
-
-  const dataExport = () => {
+  // Exportar CSV
+  const formatDateToExport = () => {
     const data = new Date();
-    const dia = data.getDate();
-    const mes = data.getMonth() + 1;
+    const dia = data.getDate().toString().padStart(2, '0');
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
+  // Fim da Exportação CSV
 
-  // EXPORT CSV  // 
-
-  
-
-
-
-  const newLocal_1 = "titleAndBtnForm";
-  const newLocal = newLocal_1;
   return (
     <div className="layoutDefault">
       <Header />
       <div className="layoutComponent">
-        <div className={newLocal}>
+        <div className="titleAndBtnForm">
           <div className="banner">
             <h2>Relação de Membros</h2>
             <p>Membros cadastrados</p>
@@ -136,7 +118,7 @@ const Membros = () => {
             />
           </div>
           <div className="btncontrol">
-            <button className="primary" onClick={DeletarItem}>
+            <button className="primary" onClick={handleDeleteItems}>
               Excluir
             </button>
 
@@ -144,8 +126,7 @@ const Membros = () => {
               <CSVLink
                 data={dados}
                 target="_blank"
-                color="#fff"
-                filename={`Table Members ${dataExport()}`}
+                filename={`Table Members ${formatDateToExport()}`}
                 className="export"
               >
                 Exportar <FontAwesomeIcon icon={faDownload} />
@@ -159,7 +140,11 @@ const Membros = () => {
             <thead>
               <tr>
                 <th className="checked">
-                  <input type="checkbox" name="" id="" />
+                  <input
+                    type="checkbox"
+                    checked={selectAll}
+                    onChange={handleSelectAllChange}
+                  />
                 </th>
 
                 <th className="detalhes">Visualizar</th>
@@ -241,13 +226,13 @@ const Membros = () => {
               </tr>
             </thead>
             <tbody>
-            {filteredDados.map((dado) => (
+              {filteredDados.map((dado) => (
                 <tr key={dado._id}>
-                  <td className="">
+                  <td className="checked">
                     <input
                       type="checkbox"
                       checked={selectedItems.includes(dado._id)}
-                      onChange={(event) => selectCheckbox(event, dado._id)}
+                      onChange={(event) => handleCheckboxChange(event, dado._id)}
                     />
                   </td>
                   <td className="detalhes">

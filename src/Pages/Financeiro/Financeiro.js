@@ -1,12 +1,13 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
-import Datainfor from "../../Contexts/DataInfor";
+import DataContext from "../../Contexts/DataInfor"; // Renomeado para DataContext
 import Footer from "../Footer/Footer";
 import Header from "../Header/Sidebar";
 
 export const Financeiro = () => {
-  const { dadosfinance } = useContext(Datainfor);
+  const { dadosfinance, setDadosfinance } = useContext(DataContext); // Acesso ao setDadosfinance
   const [dataRegistro, setDataRegistro] = useState("");
+  const [formError, setFormError] = useState(null);
 
   const [financialData, setFinancialData] = useState({
     tipodedado: "",
@@ -14,7 +15,7 @@ export const Financeiro = () => {
     statuspagamento: "",
     datapagamento: "",
     tipolancamento: "",
-    comprovante: null,
+    comprovante: null, // Verifique se isso é apropriado para seu backend
     observacao: "",
     descricao: "",
   });
@@ -29,6 +30,8 @@ export const Financeiro = () => {
 
   const handleFormFinancial = useCallback(async (event) => {
     event.preventDefault();
+    setFormError(null); // Limpa qualquer erro anterior
+
     try {
       const response = await fetch(
         "https://api-gestao-igreja.onrender.com/finance",
@@ -43,9 +46,25 @@ export const Financeiro = () => {
         }
       );
 
+      if (!response.ok) {
+        let errorMessage = "Erro ao salvar os dados financeiros. Por favor, tente novamente.";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (jsonError) {
+          console.error("Erro ao analisar a resposta JSON de erro:", jsonError);
+        }
+        throw new Error(errorMessage);
+      }
+
       const json = await response.json();
       console.log(json);
-      
+
+      // Atualiza a tabela adicionando o novo dado
+      if (setDadosfinance) { // Verifica se setDadosfinance está disponível
+        setDadosfinance(prevDados => [...prevDados, { ...financialData, _id: json._id }]); // Adiciona o _id retornado pela API
+      }
+
       setFinancialData({
         tipodedado: "",
         valor: "",
@@ -58,27 +77,28 @@ export const Financeiro = () => {
       });
 
       alert("Dados financeiros salvos com sucesso!");
-      window.location.reload();
-      
+
     } catch (error) {
       console.error("Erro ao enviar o formulário:", error);
-      alert("Erro ao salvar os dados financeiros. Por favor, tente novamente.");
+      setFormError(error.message || "Erro ao salvar os dados financeiros. Por favor, tente novamente.");
     }
-  }, [financialData]);
+  }, [financialData, setDadosfinance]); // Dependência em setDadosfinance
 
   const handleSearch = useCallback((e) => {
     setDataRegistro(e.target.value);
   }, []);
 
+  const toLowerSafe = (value) => typeof value === 'string' ? value.toLowerCase() : '';
+
   const filteredFinance = dadosfinance.filter((dado) => {
-    const lowerSearchTerm = dataRegistro.toLowerCase();
+    const lowerSearchTerm = toLowerSafe(dataRegistro);
     return (
-      dado.dataderegistro?.toLowerCase().includes(lowerSearchTerm) ||
-      dado.tipodedado?.toLowerCase().includes(lowerSearchTerm) ||
-      dado.statuspagamento?.toLowerCase().includes(lowerSearchTerm) ||
-      dado.datapagamento?.toLowerCase().includes(lowerSearchTerm) ||
-      dado.tipolancamento?.toLowerCase().includes(lowerSearchTerm) ||
-      dado.observacao?.toLowerCase().includes(lowerSearchTerm)
+      toLowerSafe(dado.dataderegistro).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.tipodedado).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.statuspagamento).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.datapagamento).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.tipolancamento).includes(lowerSearchTerm) ||
+      toLowerSafe(dado.observacao).includes(lowerSearchTerm)
     );
   });
 
@@ -100,6 +120,7 @@ export const Financeiro = () => {
             />
           </div>
           <div className="btncontrol">
+            {formError && <p className="form-error">{formError}</p>}
             <button className="primary" onClick={handleFormFinancial}>
               Salvar
             </button>
@@ -223,7 +244,7 @@ export const Financeiro = () => {
                 <th className="titleTable">Data do pagamento</th>
                 <th className="titleTable">Tipo de lançamento</th>
                 <th className="titleTable">Descrição</th>
-                <th className="titleTable">Comprovantes</th>
+                <th className="titleTable">Observação</th>
               </tr>
             </thead>
             <tbody>
