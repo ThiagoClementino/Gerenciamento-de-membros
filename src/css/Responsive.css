@@ -1,0 +1,252 @@
+/* Base de responsividade - responsive.css */
+
+/* Variáveis CSS para padronização */
+:root {
+  /* Breakpoints para diferentes dispositivos */
+  --mobile-sm: 320px;
+  --mobile: 480px;
+  --tablet: 768px;
+  --desktop: 1024px;
+  --desktop-lg: 1440px;
+  
+  /* Espaçamentos responsivos */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Tamanhos de fonte responsivos */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+}
+
+/* Reset básico e configurações globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* Container responsivo */
+.container {
+  width: 100%;
+  padding-right: var(--spacing-md);
+  padding-left: var(--spacing-md);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Sistema de Grid Responsivo */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -var(--spacing-md);
+  margin-left: -var(--spacing-md);
+}
+
+.col {
+  position: relative;
+  width: 100%;
+  padding-right: var(--spacing-md);
+  padding-left: var(--spacing-md);
+}
+
+/* Classes auxiliares responsivas */
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Media Queries para diferentes tamanhos de tela */
+
+/* Mobile pequeno (até 320px) */
+@media (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .container {
+    padding-right: var(--spacing-sm);
+    padding-left: var(--spacing-sm);
+  }
+  
+  .hidden-mobile-sm {
+    display: none;
+  }
+  
+  .col-mobile-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Mobile (até 480px) */
+@media (max-width: 480px) {
+  .hidden-mobile {
+    display: none;
+  }
+  
+  .col-mobile-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .col-mobile-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Tablet (até 768px) */
+@media (max-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+  
+  .hidden-tablet {
+    display: none;
+  }
+  
+  .col-tablet-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  
+  .col-tablet-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .col-tablet-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Desktop (até 1024px) */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+  
+  .hidden-desktop {
+    display: none;
+  }
+  
+  .col-desktop-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  
+  .col-desktop-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  
+  .col-desktop-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .col-desktop-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+}
+
+/* Desktop grande (1440px ou maior) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1320px;
+  }
+
+  .col-desktop-lg-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+  
+  .col-desktop-lg-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+/* Classes específicas para componentes responsivos */
+.card {
+  border-radius: 8px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 4px;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  border: none;
+}
+
+/* Media query para ajustar botões em dispositivos pequenos */
+@media (max-width: 480px) {
+  .btn {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* Utilitários para espaçamento responsivo */
+.mt-auto { margin-top: auto; }
+.mb-auto { margin-bottom: auto; }
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+.mt-5 { margin-top: var(--spacing-xl); }
+
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-5 { margin-bottom: var(--spacing-xl); }
+
+.p-1 { padding: var(--spacing-xs); }
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+.p-5 { padding: var(--spacing-xl); }
