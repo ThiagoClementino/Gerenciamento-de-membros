@@ -1,6 +1,10 @@
 import React from 'react'
 import Header from '../Header/Sidebar';
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import Datainfor from '../../Contexts/DataInfor';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -38,7 +42,7 @@ const Dashboard = () => {
   
   
   return (
-  <div className='layoutDefault'>
+  <div className='Container d-flex'>
   <Header/>
   <div className='layoutDashboard'>
     <aside className="titleDashbaord">
