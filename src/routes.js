@@ -14,6 +14,7 @@ import Config from './Pages/Config/Config';
 
 import CadMembers from './Pages/Membros/CadMembers';
 import CreateUser from './Pages/Users/CreateUser';
+import Login from './Pages/Login/Login';
 
 
 
@@ -99,8 +100,8 @@ useEffect(() => {
     <Datainfor.Provider value={{ dadosfinance,setDadosfinance, dados, setDados }}>
       <BrowserRouter>
         <Routes>
-         
-          <Route path="/" element={<Dashboard />} />
+          <Route path='/' element={<Login/>}/>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/membros" element={<Membros />} />
           <Route path='/cadastro' element={<Cadastro/>} />
           <Route path='/financeiro' element={<Financeiro />}/>

@@ -52,7 +52,7 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef} // Atribui a ref ao elemento principal da sidebar
-      className={`d-flex flex-column vh-100 p-3 bg-dark text-white transition-width ${
+      className={`d-flex flex-column vh-100 p-3 bg-primary text-white transition-width ${
         expanded ? 'sidebar-expanded' : 'sidebar-collapsed'
       }`}
       style={{ width: expanded ? '280px' : '80px', transition: 'width 0.3s ease-in-out' }} // Estilo inline para transição suave da largura
@@ -91,13 +91,13 @@ const Sidebar = () => {
           <li key={index} className="nav-item">
             <Link
               to={item.path}
-              className="nav-link text-white d-flex align-items-center py-2"
+              className="nav-link text-white d-flex align-items-left py-2"
               // Atributos do Tooltip - aplicados apenas quando contraído
               data-bs-toggle={!expanded ? 'tooltip' : undefined}
               data-bs-placement={!expanded ? 'right' : undefined}
               title={!expanded ? item.text : undefined}
             >
-              <i className={`bi ${item.icon} ${expanded ? 'me-2' : 'fs-4 mx-auto'}`}></i>
+              <i className={`bi ${item.icon} ${expanded ? 'me-2' : 'fs-8 mx-auto center'}`}></i>
               {expanded && <span className="ms-1">{item.text}</span>}
             </Link>
           </li>

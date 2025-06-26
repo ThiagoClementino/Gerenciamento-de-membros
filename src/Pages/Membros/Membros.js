@@ -60,7 +60,7 @@ const Membros = () => {
       try {
         await Promise.all(
           selectedItems.map(async (id) => {
-            await axios.delete(`https://api-gestao-igreja.onrender.com/membros/${id}`);
+            await axios.delete(`https://api-gestao-igreja-jcod.vercel.app/membros/${id}`);
           })
         );
         alert("Itens excluídos com sucesso!");
