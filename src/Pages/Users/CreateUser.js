@@ -71,7 +71,8 @@ const CreateUser = () => {
         name: data.name,
         phone: phoneRaw,
         email: data.email,
-        password: data.password
+        password: data.password,
+        confirmPassword: data.confirmPassword // Adicionado confirmPassword
       };
 
       console.log('🔍 Tentativa 1 - Dados completos para envio:', finalData);
@@ -112,12 +113,13 @@ const CreateUser = () => {
           username: data.name,
           phone: phoneRaw,
           email: data.email,
-          password: data.password
+          password: data.password,
+          confirmPassword: data.confirmPassword // Adicionado confirmPassword
         };
 
         console.log('🔍 Tentativa 3 - Com username:', finalData);
-
-        response = await fetch('https://api-users-omega.vercel.app/api/auth/register', {
+        //https://api-users-omega.vercel.app/api/auth/
+        response = await fetch('http://localhost:5000/api/auth/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -344,4 +346,5 @@ const CreateUser = () => {
 };
 
 export default CreateUser;
+
 
