@@ -7,29 +7,29 @@ import { InputMask } from '@react-input/mask';
 
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 
-// ✅ Schema com validação Zod corrigida
+// Schema de validação ajustado para corresponder à API
 const createUserSchema = z.object({
-  name: z.string()
+  nome: z.string()
     .min(2, { message: 'Digite o nome completo' })
     .max(100, { message: 'Nome muito longo' }),
 
-  phone: z.string()
-    .min(15, { message: 'Telefone inválido' }) // máscara (99) 99999-9999 = 15 caracteres
-    .max(15, { message: 'Telefone inválido' }),
+  telefone: z.string()
+    .min(10, { message: 'Telefone deve ter pelo menos 10 dígitos' })
+    .regex(/^\(\d{2}\)\s\d{4,5}-\d{4}$/, { message: 'Formato de telefone inválido' }),
 
   email: z.string()
     .min(1, { message: 'O e-mail é obrigatório' })
     .email({ message: 'Digite um email válido' }),
 
-  password: z.string()
+  senha: z.string()
     .min(6, { message: 'A senha deve ter no mínimo 6 caracteres' })
-    .max(15, { message: 'A senha deve ter no máximo 15 caracteres' }),
+    .max(50, { message: 'A senha deve ter no máximo 50 caracteres' }),
 
-  confirmPassword: z.string()
+  confirmarSenha: z.string()
     .min(1, { message: 'Confirme sua senha' }),
-}).refine((data) => data.password === data.confirmPassword, {
+}).refine((data) => data.senha === data.confirmarSenha, {
   message: "As senhas não coincidem",
-  path: ["confirmPassword"],
+  path: ["confirmarSenha"],
 });
 
 const CreateUser = () => {
@@ -48,135 +48,90 @@ const CreateUser = () => {
   } = useForm({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
-      name: '',
-      phone: '',
+      nome: '',
+      telefone: '',
       email: '',
-      password: '',
-      confirmPassword: ''
+      senha: '',
+      confirmarSenha: ''
     }
   });
 
-  // ✅ Função onSubmit corrigida com múltiplas tentativas de formato de API
+  // Função de envio simplificada e corrigida
   const onSubmit = async (data) => {
     setIsLoading(true);
     setApiError('');
     setSuccessMessage('');
-
+    
     try {
-      // Remove a máscara do telefone antes de enviar
-      const phoneRaw = data.phone.replace(/\D/g, '');
+      // URL correta da API
+     
       
-      // ✅ Primeiro, tenta com o formato completo (mais provável)
-      let finalData = {
-        name: data.name,
-        phone: phoneRaw,
+      // Dados no formato esperado pela API
+      const requestData = {
+        nome: data.nome,
         email: data.email,
-        password: data.password,
-        confirmPassword: data.confirmPassword // Adicionado confirmPassword
+        telefone: data.telefone, // Mantém a formatação com máscara
+        senha: data.senha,
+        confirmarSenha: data.confirmarSenha
       };
 
-      console.log('🔍 Tentativa 1 - Dados completos para envio:', finalData);
+      console.log('📤 Enviando dados para API:', requestData);
 
-      let response = await fetch('https://api-users-omega.vercel.app/api/auth/register', {
+      const response = await fetch(`http://localhost:5000/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(finalData),
+        body: JSON.stringify(requestData),
       });
 
-      // Se der erro 400, tenta apenas com email e password (formato original)
-      if (response.status === 400) {
-        console.log('⚠️ Erro 400 com dados completos, tentando apenas email/password...');
-        
-        finalData = {
-          email: data.email,
-          password: data.password
-        };
-
-        console.log('🔍 Tentativa 2 - Apenas email/password:', finalData);
-
-        response = await fetch('https://api-users-omega.vercel.app/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(finalData),
-        });
+      // Verifica se a resposta é JSON válida
+      const contentType = response.headers.get('content-type');
+      let result;
+      
+      if (contentType && contentType.includes('application/json')) {
+        result = await response.json();
+      } else {
+        throw new Error(`Erro ${response.status}: Resposta inválida do servidor`);
       }
-
-      // Se ainda der erro 400, tenta com username ao invés de name
-      if (response.status === 400) {
-        console.log('⚠️ Ainda erro 400, tentando com "username" ao invés de "name"...');
-        
-        finalData = {
-          username: data.name,
-          phone: phoneRaw,
-          email: data.email,
-          password: data.password,
-          confirmPassword: data.confirmPassword // Adicionado confirmPassword
-        };
-
-        console.log('🔍 Tentativa 3 - Com username:', finalData);
-        //https://api-users-omega.vercel.app/api/auth/
-        response = await fetch('http://localhost:5000/api/auth/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(finalData),
-        });
-      }
-
-      const result = await response.json();
 
       if (!response.ok) {
-        // ✅ Melhor tratamento de erro com detalhes da API
-        const errorMessage = result.message || result.error || `Erro ${response.status}: ${response.statusText}`;
-        throw new Error(errorMessage);
+        // Tratamento específico de erros da API
+        if (result.message) {
+          throw new Error(result.message);
+        } else {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
       }
 
-      // ✅ Sucesso - feedback para o usuário
-      setSuccessMessage('Usuário cadastrado com sucesso!');
+      // Sucesso
+      console.log('✅ Usuário criado com sucesso:', result);
+      setSuccessMessage(result.message || 'Usuário cadastrado com sucesso!');
       
-      // Se a API retornar um token, armazena no localStorage
-      if (result.token) {
-        localStorage.setItem('token', result.token);
-      }
-
-      console.log('✅ Cadastro bem-sucedido:', result);
-
       // Limpa o formulário
       reset();
 
-      // Redireciona após 2 segundos para o usuário ver a mensagem de sucesso
+      // Redireciona após 2 segundos
       setTimeout(() => {
-        navigate('/dashboard'); // Ajuste para a rota desejada após cadastro
+        navigate('/'); // Redireciona para login após cadastro
       }, 2000);
 
     } catch (error) {
       console.error('❌ Erro no cadastro:', error);
       
-      // ✅ Tratamento de erro melhorado com mais detalhes
-      let errorMessage = 'Erro ao tentar cadastrar usuário';
+      // Tratamento específico de erros
+      const errorMessage = error.message;
       
-      if (error.message) {
-        errorMessage = error.message;
-      }
-      
-      // Tratamento específico para diferentes tipos de erro
-      if (error.message?.includes('email')) {
+      if (errorMessage.includes('email')) {
         setError('email', {
           type: 'manual',
-          message: 'Este email já está em uso ou é inválido',
+          message: 'Este email já está em uso',
         });
-        errorMessage = 'Problema com o email fornecido';
-      } else if (error.message?.includes('password')) {
-        setError('password', {
+      } else if (errorMessage.includes('senha')) {
+        setError('senha', {
           type: 'manual',
-          message: 'Senha não atende aos critérios da API',
+          message: 'Problema com a senha fornecida',
         });
-        errorMessage = 'Problema com a senha fornecida';
       }
       
       setApiError(errorMessage);
@@ -189,16 +144,14 @@ const CreateUser = () => {
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
       <Row className="justify-content-center w-100">
         <Col xs={12} sm={10} md={8} lg={6} xl={4} className="d-flex justify-content-center">
-          <Card>
-            <Card.Body>
-              <Card.Title className="mb-4 text-center">Cadastrar Usuário</Card.Title>
+          <Card className="shadow">
+            <Card.Body className="p-4">
+              <Card.Title className="mb-4 text-center h3">Cadastrar Usuário</Card.Title>
 
-              {/* ✅ Feedback visual para o usuário */}
+              {/* Mensagens de feedback */}
               {apiError && (
                 <Alert variant="danger" className="mb-3">
                   <strong>Erro:</strong> {apiError}
-                  <br />
-                  <small>Verifique os dados e tente novamente.</small>
                 </Alert>
               )}
 
@@ -206,53 +159,29 @@ const CreateUser = () => {
                 <Alert variant="success" className="mb-3">
                   <strong>Sucesso!</strong> {successMessage}
                   <br />
-                  <small>Redirecionando...</small>
+                  <small>Redirecionando para o login...</small>
                 </Alert>
               )}
 
               <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-                {/* Nome */}
+                {/* Nome Completo */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Nome Completo</Form.Label>
+                  <Form.Label>Nome Completo *</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Digite seu nome completo"
-                    {...register('name')}
-                    isInvalid={!!errors.name}
+                    {...register('nome')}
+                    isInvalid={!!errors.nome}
                     disabled={isLoading}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.name?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Telefone com máscara */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Telefone</Form.Label>
-                  <Controller
-                    name="phone"
-                    control={control}
-                    render={({ field }) => (
-                      <InputMask
-                        mask="(99) 99999-9999"
-                        replacement={{ 9: /\d/ }}
-                        {...field}
-                        component={Form.Control}
-                        type="tel"
-                        placeholder="(61) 99999-9999"
-                        isInvalid={!!errors.phone}
-                        disabled={isLoading}
-                      />
-                    )}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.phone?.message}
+                    {errors.nome?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Email */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>Email *</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="email@exemplo.com"
@@ -265,45 +194,70 @@ const CreateUser = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
 
+                {/* Telefone com máscara */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Telefone *</Form.Label>
+                  <Controller
+                    name="telefone"
+                    control={control}
+                    render={({ field }) => (
+                      <InputMask
+                        mask="(99) 99999-9999"
+                        replacement={{ 9: /\d/ }}
+                        {...field}
+                        component={Form.Control}
+                        type="tel"
+                        placeholder="(11) 99999-9999"
+                        isInvalid={!!errors.telefone}
+                        disabled={isLoading}
+                      />
+                    )}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.telefone?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
                 {/* Senha */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Senha</Form.Label>
+                  <Form.Label>Senha *</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Digite uma senha segura"
-                    {...register('password')}
-                    isInvalid={!!errors.password}
+                    {...register('senha')}
+                    isInvalid={!!errors.senha}
                     disabled={isLoading}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.password?.message}
+                    {errors.senha?.message}
                   </Form.Control.Feedback>
                   <Form.Text className="text-muted">
                     Mínimo 6 caracteres.
                   </Form.Text>
                 </Form.Group>
 
-                {/* ✅ Confirmação de Senha */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Confirmar Senha</Form.Label>
+                {/* Confirmação de Senha */}
+                <Form.Group className="mb-4">
+                  <Form.Label>Confirmar Senha *</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Confirme sua senha"
-                    {...register('confirmPassword')}
-                    isInvalid={!!errors.confirmPassword}
+                    {...register('confirmarSenha')}
+                    isInvalid={!!errors.confirmarSenha}
                     disabled={isLoading}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.confirmPassword?.message}
+                    {errors.confirmarSenha?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* ✅ Botão com estado de loading */}
+                {/* Botão de envio */}
                 <Button 
                   type="submit" 
                   variant="primary" 
-                  className="w-100"
+                  className="w-100 py-2"
                   disabled={isLoading}
+                  size="lg"
                 >
                   {isLoading ? (
                     <>
@@ -329,11 +283,11 @@ const CreateUser = () => {
                   Já tem uma conta?{' '}
                   <Button 
                     variant="link" 
-                    className="p-0" 
+                    className="p-0 text-decoration-none" 
                     onClick={() => navigate('/login')}
                     disabled={isLoading}
                   >
-                    Faça login
+                    Faça login aqui
                   </Button>
                 </small>
               </div>
@@ -346,5 +300,4 @@ const CreateUser = () => {
 };
 
 export default CreateUser;
-
 
