@@ -77,7 +77,7 @@ const CreateUser = () => {
 
       console.log('📤 Enviando dados para API:', requestData);
 
-      const response = await fetch(`http://localhost:5000/api/register`, {
+      const response = await fetch(`https://api-usuarios-five.vercel.app/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
