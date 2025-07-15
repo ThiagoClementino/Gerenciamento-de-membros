@@ -17,7 +17,8 @@ const Membros = () => {
   const [selectAll, setSelectAll] = useState(false);
 
   // Função para verificar se um valor é string e convertê-lo para lowercase
-  const toLowerSafe = (value) => typeof value === 'string' ? value.toLowerCase() : '';
+  const toLowerSafe = (value) =>
+    typeof value === "string" ? value.toLowerCase() : "";
 
   // Busca
   const handleSearchChange = (e) => {
@@ -53,14 +54,18 @@ const Membros = () => {
     }
 
     const confirmation = window.confirm(
-      `Tem certeza de que deseja excluir ${selectedItems.length} ${selectedItems.length > 1 ? 'itens' : 'item'}?`
+      `Tem certeza de que deseja excluir ${selectedItems.length} ${
+        selectedItems.length > 1 ? "itens" : "item"
+      }?`
     );
 
     if (confirmation) {
       try {
         await Promise.all(
           selectedItems.map(async (id) => {
-            await axios.delete(`https://api-gestao-igreja-jcod.vercel.app/membros/${id}`);
+            await axios.delete(
+              `https://api-gestao-igreja-jcod.vercel.app/membros/${id}`
+            );
           })
         );
         alert("Itens excluídos com sucesso!");
@@ -93,8 +98,8 @@ const Membros = () => {
   // Exportar CSV
   const formatDateToExport = () => {
     const data = new Date();
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    const dia = data.getDate().toString().padStart(2, "0");
+    const mes = (data.getMonth() + 1).toString().padStart(2, "0");
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
@@ -232,7 +237,9 @@ const Membros = () => {
                     <input
                       type="checkbox"
                       checked={selectedItems.includes(dado._id)}
-                      onChange={(event) => handleCheckboxChange(event, dado._id)}
+                      onChange={(event) =>
+                        handleCheckboxChange(event, dado._id)
+                      }
                     />
                   </td>
                   <td className="detalhes">

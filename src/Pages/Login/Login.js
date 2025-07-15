@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as z from "zod";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Contexts/AuthContext";
+import ThemeToggle from "../../Components/ThemeToggle";
 
 // Esquema de validação (sem alterações)
 const loginSchema = z.object({
@@ -94,12 +95,16 @@ const Login = () => {
     }
   };
 
-  // ... O resto do seu JSX (return) permanece o mesmo ...
   return (
     <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
+      fluid
+      className="bg-primary-custom min-vh-100 d-flex align-items-center justify-content-center position-relative"
     >
+      {/* Toggle de Tema no canto superior direito */}
+      <div className="position-absolute top-0 end-0 p-3">
+        <ThemeToggle size="sm" />
+      </div>
+
       <Row className="justify-content-center w-100">
         <Col
           xs={12}
@@ -107,78 +112,117 @@ const Login = () => {
           md={8}
           lg={6}
           xl={4}
-          className="d-flex justify-content-center"
+          xxl={3}
+          className="d-flex justify-content-center align-items-center"
         >
-          <Card className="shadow">
-            <Card.Body>
-              <Card.Title className="mb-4 text-center h3">
-                <h3>Gestor de Membros</h3>
-              </Card.Title>
+          <Card className="shadow-custom-lg border-0">
+            <Card.Body className="p-4">
+              {/* Logo e Título */}
+              <div className="text-center mb-4">
+                <div className="mb-3">
+                  <i
+                    className="bi bi-people-fill text-primary-custom"
+                    style={{ fontSize: "3rem" }}
+                  ></i>
+                </div>
+                <h3 className="fw-bold text-primary-custom mb-1">
+                  Gestor de Membros
+                </h3>
+                <p className="text-muted-custom mb-0">
+                  Faça login para continuar
+                </p>
+              </div>
 
               {serverError && (
-                <Alert variant="danger" className="mb-3">
+                <Alert
+                  variant="danger"
+                  className="mb-3 border-0 shadow-custom-sm"
+                >
+                  <i className="bi bi-exclamation-triangle-fill me-2"></i>
                   {serverError}
                 </Alert>
               )}
 
               <Form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
-                  <Form.Label>E-mail</Form.Label>
+                  <Form.Label className="fw-semibold">
+                    <i className="bi bi-envelope me-2"></i>
+                    E-mail
+                  </Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="email@exemplo.com"
                     {...register("email")}
                     isInvalid={!!errors.email}
+                    className="border-custom"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.email?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formGroupPassword">
-                  <Form.Label>Senha</Form.Label>
+                <Form.Group className="mb-4" controlId="formGroupPassword">
+                  <Form.Label className="fw-semibold">
+                    <i className="bi bi-lock me-2"></i>
+                    Senha
+                  </Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Digite sua senha"
                     {...register("password")}
                     isInvalid={!!errors.password}
+                    className="border-custom"
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.password?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <div className="d-grid gap-2 mt-4">
+                <div className="d-grid gap-2 mb-3">
                   <Button
                     variant="primary"
                     type="submit"
                     disabled={isSubmitting}
                     size="lg"
+                    className="fw-semibold"
                   >
-                    {isSubmitting ? "Entrando..." : "Entrar"}
+                    {isSubmitting ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Entrando...
+                      </>
+                    ) : (
+                      <>
+                        <i className="bi bi-box-arrow-in-right me-2"></i>
+                        Entrar
+                      </>
+                    )}
                   </Button>
                 </div>
               </Form>
 
-              <div className="text-center mt-3">
-                <small>
-                  <Link
-                    to="/recuperar-senha"
-                    className="text-muted text-decoration-none"
-                  >
-                    Esqueceu sua senha?
-                  </Link>
-                </small>
+              <div className="text-center mb-3">
+                <Link
+                  to="/recuperar-senha"
+                  className="text-decoration-none text-muted-custom"
+                >
+                  <i className="bi bi-question-circle me-1"></i>
+                  Esqueceu sua senha?
+                </Link>
               </div>
 
-              <hr />
+              <hr className="border-custom my-3" />
 
               <div className="text-center">
-                <small className="text-muted">
+                <small className="text-muted-custom">
                   Não possui um usuário?{" "}
                   <Link
                     to="/criarusuario"
-                    className="text-decoration-none fw-bold"
+                    className="text-decoration-none fw-semibold text-primary-custom"
                   >
                     Cadastre-se
                   </Link>

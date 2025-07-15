@@ -102,7 +102,7 @@ const Cadastro = () => {
 
   const handleSubmitCamps = (event) => {
     const { name, value } = event.target;
-    setCadMembers((prevState) => ({ ...prevState, [name]: value, }));
+    setCadMembers((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmitForm = async (event) => {
@@ -1046,7 +1046,11 @@ const Cadastro = () => {
             <button></button>
           </div>
           <div className="btncontrol">
-            <button  type="submit" className="primary" onClick={handleSubmitForm}>
+            <button
+              type="submit"
+              className="primary"
+              onClick={handleSubmitForm}
+            >
               Enviar
             </button>
           </div>
@@ -1073,9 +1077,7 @@ const Cadastro = () => {
             </section>
             {renderTabContent()}
           </div>
-          <div className="btncontrol">
-            
-          </div>
+          <div className="btncontrol"></div>
         </form>
         <Footer />
       </div>

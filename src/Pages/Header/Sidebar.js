@@ -2,12 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "bootstrap"; // Import Bootstrap's Tooltip
 import { AuthContext } from "../../Contexts/AuthContext";
-
-// Certifique-se de que o CSS do Bootstrap e os Ícones do Bootstrap estão importados
-// no seu arquivo principal (ex: index.js ou App.js)
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap-icons/font/bootstrap-icons.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Inclui Popper.js
+import ThemeToggle from "../../Components/ThemeToggle";
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
@@ -55,7 +50,7 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef} // Atribui a ref ao elemento principal da sidebar
-      className={`d-flex flex-column vh-100 p-3 bg-primary text-white transition-width ${
+      className={`sidebar d-flex flex-column vh-100 p-3 transition-width ${
         expanded ? "sidebar-expanded" : "sidebar-collapsed"
       }`}
       style={{
@@ -64,22 +59,35 @@ const Sidebar = () => {
       }} // Estilo inline para transição suave da largura
     >
       {/* Cabeçalho da Sidebar */}
-      <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
         {expanded && (
           // Logo ou Título - Aparece apenas quando expandido
-          <img src={iconlogo} alt="Logo" />
-          // Se quiser usar a imagem como no original:
-          // <img src="/img/iconlogo.png" alt="Logo" style={{ height: '32px' }} className="me-2" />
+          <img
+            src={iconlogo}
+            alt="Logo"
+            style={{ height: "40px" }}
+            className="me-2"
+          />
         )}
-        {/* Botão de Toggle - Movido para o final do cabeçalho ou início do corpo para melhor posicionamento */}
       </div>
 
-      {/* Botão de Toggle - Posicionado no topo, mas após o logo/título */}
-      <div className={`text-center ${expanded ? "text-md-end" : ""} mb-3`}>
+      {/* Controles da Sidebar */}
+      <div
+        className={`d-flex ${
+          expanded ? "justify-content-between" : "justify-content-center"
+        } align-items-center mb-3`}
+      >
+        {/* Toggle de Tema */}
+        <ThemeToggle size="sm" className={expanded ? "me-2" : "mb-2"} />
+
+        {/* Botão de Toggle da Sidebar */}
         <button
           onClick={toggleSidebar}
-          className="btn btn-outline-light"
+          className="btn btn-outline-light btn-sm"
           aria-label={expanded ? "Contrair sidebar" : "Expandir sidebar"}
+          data-bs-toggle={!expanded ? "tooltip" : undefined}
+          data-bs-placement={!expanded ? "right" : undefined}
+          title={!expanded ? "Expandir menu" : undefined}
         >
           <i
             className={`bi ${
@@ -89,7 +97,7 @@ const Sidebar = () => {
         </button>
       </div>
 
-      <hr className="text-secondary" />
+      <hr className="border-custom" />
 
       {/* Lista de Navegação */}
       <ul className="nav nav-pills flex-column mb-auto">
@@ -97,7 +105,7 @@ const Sidebar = () => {
           <li key={index} className="nav-item">
             <Link
               to={item.path}
-              className="nav-link text-white d-flex align-items-left py-2"
+              className="nav-link d-flex align-items-center py-2"
               // Atributos do Tooltip - aplicados apenas quando contraído
               data-bs-toggle={!expanded ? "tooltip" : undefined}
               data-bs-placement={!expanded ? "right" : undefined}
@@ -105,7 +113,7 @@ const Sidebar = () => {
             >
               <i
                 className={`bi ${item.icon} ${
-                  expanded ? "me-2" : "fs-8 mx-auto center"
+                  expanded ? "me-2" : "fs-5 mx-auto"
                 }`}
               ></i>
               {expanded && <span className="ms-1">{item.text}</span>}
@@ -114,26 +122,26 @@ const Sidebar = () => {
         ))}
       </ul>
 
-      <hr className="text-secondary" />
+      <hr className="border-custom" />
 
       {/* Botão de Logout */}
       <div className="mb-3">
         <button
           onClick={logout}
-          className="btn btn-outline-light w-100 d-flex align-items-center justify-content-center"
+          className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center"
           data-bs-toggle={!expanded ? "tooltip" : undefined}
           data-bs-placement={!expanded ? "right" : undefined}
           title={!expanded ? "Sair" : undefined}
         >
           <i
-            className={`bi bi-box-arrow-right ${expanded ? "me-2" : "fs-4"}`}
+            className={`bi bi-box-arrow-right ${expanded ? "me-2" : "fs-5"}`}
           ></i>
           {expanded && <span>Sair</span>}
         </button>
       </div>
 
       {/* Rodapé da Sidebar (Exemplo: Informações do Usuário/Admin) */}
-      <div className="d-flex align-items-center text-white">
+      <div className="d-flex align-items-center">
         <i
           className={`bi bi-person-circle ${
             expanded ? "me-2" : "fs-4 mx-auto"
@@ -141,8 +149,8 @@ const Sidebar = () => {
         ></i>
         {expanded && (
           <div>
-            <strong>Admin</strong>
-            {/* <small className="d-block text-muted">Online</small> */}
+            <strong className="text-primary-custom">Admin</strong>
+            <small className="d-block text-muted-custom">Online</small>
           </div>
         )}
       </div>

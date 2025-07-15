@@ -22,73 +22,87 @@ export const Financeiro = () => {
 
   const handleCampfinancial = useCallback((event) => {
     const { name, value } = event.target;
-    setFinancialData(prev => ({
+    setFinancialData((prev) => ({
       ...prev,
       [name]: value,
     }));
   }, []);
 
-  const handleFormFinancial = useCallback(async (event) => {
-    event.preventDefault();
-    setFormError(null); // Limpa qualquer erro anterior
+  const handleFormFinancial = useCallback(
+    async (event) => {
+      event.preventDefault();
+      setFormError(null); // Limpa qualquer erro anterior
 
-    try {
-      const response = await fetch(
-        "https://api-gestao-igreja.onrender.com/finance",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(financialData),
-          mode: "cors",
+      try {
+        const response = await fetch(
+          "https://api-gestao-igreja.onrender.com/finance",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(financialData),
+            mode: "cors",
+          }
+        );
+
+        if (!response.ok) {
+          let errorMessage =
+            "Erro ao salvar os dados financeiros. Por favor, tente novamente.";
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (jsonError) {
+            console.error(
+              "Erro ao analisar a resposta JSON de erro:",
+              jsonError
+            );
+          }
+          throw new Error(errorMessage);
         }
-      );
 
-      if (!response.ok) {
-        let errorMessage = "Erro ao salvar os dados financeiros. Por favor, tente novamente.";
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.message || errorMessage;
-        } catch (jsonError) {
-          console.error("Erro ao analisar a resposta JSON de erro:", jsonError);
+        const json = await response.json();
+        console.log(json);
+
+        // Atualiza a tabela adicionando o novo dado
+        if (setDadosfinance) {
+          // Verifica se setDadosfinance está disponível
+          setDadosfinance((prevDados) => [
+            ...prevDados,
+            { ...financialData, _id: json._id },
+          ]); // Adiciona o _id retornado pela API
         }
-        throw new Error(errorMessage);
+
+        setFinancialData({
+          tipodedado: "",
+          valor: "",
+          statuspagamento: "",
+          datapagamento: "",
+          tipolancamento: "",
+          comprovante: null,
+          observacao: "",
+          descricao: "",
+        });
+
+        alert("Dados financeiros salvos com sucesso!");
+      } catch (error) {
+        console.error("Erro ao enviar o formulário:", error);
+        setFormError(
+          error.message ||
+            "Erro ao salvar os dados financeiros. Por favor, tente novamente."
+        );
       }
-
-      const json = await response.json();
-      console.log(json);
-
-      // Atualiza a tabela adicionando o novo dado
-      if (setDadosfinance) { // Verifica se setDadosfinance está disponível
-        setDadosfinance(prevDados => [...prevDados, { ...financialData, _id: json._id }]); // Adiciona o _id retornado pela API
-      }
-
-      setFinancialData({
-        tipodedado: "",
-        valor: "",
-        statuspagamento: "",
-        datapagamento: "",
-        tipolancamento: "",
-        comprovante: null,
-        observacao: "",
-        descricao: "",
-      });
-
-      alert("Dados financeiros salvos com sucesso!");
-
-    } catch (error) {
-      console.error("Erro ao enviar o formulário:", error);
-      setFormError(error.message || "Erro ao salvar os dados financeiros. Por favor, tente novamente.");
-    }
-  }, [financialData, setDadosfinance]); // Dependência em setDadosfinance
+    },
+    [financialData, setDadosfinance]
+  ); // Dependência em setDadosfinance
 
   const handleSearch = useCallback((e) => {
     setDataRegistro(e.target.value);
   }, []);
 
-  const toLowerSafe = (value) => typeof value === 'string' ? value.toLowerCase() : '';
+  const toLowerSafe = (value) =>
+    typeof value === "string" ? value.toLowerCase() : "";
 
   const filteredFinance = dadosfinance.filter((dado) => {
     const lowerSearchTerm = toLowerSafe(dataRegistro);
