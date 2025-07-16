@@ -84,11 +84,11 @@ const Dashboard = () => {
   return (
     <div className="d-flex">
       <Header />
-      <Container fluid className="p-4" style={{ marginLeft: "0" }}>
+      <Container fluid className="p-4 flex-grow-1">
         {/* Cabeçalho do Dashboard */}
         <Row className="mb-4">
           <Col>
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
               <div>
                 <h1 className="h3 mb-1 text-primary-custom fw-bold">
                   Dashboard
@@ -97,7 +97,7 @@ const Dashboard = () => {
                   Gráficos e informações sobre os membros cadastrados
                 </p>
               </div>
-              <div className="text-end">
+              <div className="text-md-end mt-3 mt-md-0">
                 <small className="text-muted-custom d-block">Data e Hora</small>
                 <span className="fw-semibold">{formatarData(data)}</span>
               </div>
@@ -106,10 +106,10 @@ const Dashboard = () => {
         </Row>
 
         {/* Cards de Estatísticas */}
-        <Row className="mb-4 g-3">
+        <Row className="mb-4 g-6">
           {statsCards.map((stat, index) => (
-            <Col key={index} xs={12} sm={6} lg={3}>
-              <Card className="h-100 border-0 shadow-custom">
+            <Col key={index} xs={12} sm={6} md={4} lg={6}>
+              <Card className="h-100  border-0 shadow-custom">
                 <Card.Body className="d-flex align-items-center p-3">
                   <div className="flex-grow-1">
                     <h6 className="card-title mb-1 text-muted-custom">
@@ -120,7 +120,7 @@ const Dashboard = () => {
                     </h3>
                   </div>
                   <div
-                    className="d-flex align-items-center justify-content-center rounded-circle"
+                    className="d-flex align-items-center justify-content-center rounded-circle mb-3"
                     style={{
                       width: "50px",
                       height: "50px",

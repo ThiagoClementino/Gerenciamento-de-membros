@@ -59,7 +59,13 @@ const Sidebar = () => {
       }} // Estilo inline para transição suave da largura
     >
       {/* Cabeçalho da Sidebar */}
-      <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+      <div
+        className={
+          expanded
+            ? "d-flex justify-content-between  mb-3"
+            : "d-flex justify-content-center  mb-3"
+        }
+      >
         {expanded && (
           // Logo ou Título - Aparece apenas quando expandido
           <img
@@ -69,6 +75,26 @@ const Sidebar = () => {
             className="me-2"
           />
         )}
+        <div className={expanded ? "mb-2 text-center" : "mb-2"}>
+          <button
+            onClick={toggleSidebar}
+            className={`btn btn-outline-secondary ${
+              expanded
+                ? "d-flex justify-content-end"
+                : "d-flex justify-content-center"
+            }`}
+            aria-label={expanded ? "Contrair sidebar" : "Expandir sidebar"}
+            data-bs-toggle={!expanded ? "tooltip" : undefined}
+            data-bs-placement={!expanded ? "right" : undefined}
+            title={!expanded ? "Expandir menu" : undefined}
+          >
+            <i
+              className={`bi ${
+                expanded ? "bi-chevron-left" : "bi-chevron-right"
+              }`}
+            ></i>
+          </button>
+        </div>
       </div>
 
       {/* Controles da Sidebar */}
@@ -77,24 +103,7 @@ const Sidebar = () => {
           expanded ? "justify-content-between" : "justify-content-center"
         } align-items-center mb-3`}
       >
-        {/* Toggle de Tema */}
-        <ThemeToggle size="sm" className={expanded ? "me-2" : "mb-2"} />
-
         {/* Botão de Toggle da Sidebar */}
-        <button
-          onClick={toggleSidebar}
-          className="btn btn-outline-light btn-sm"
-          aria-label={expanded ? "Contrair sidebar" : "Expandir sidebar"}
-          data-bs-toggle={!expanded ? "tooltip" : undefined}
-          data-bs-placement={!expanded ? "right" : undefined}
-          title={!expanded ? "Expandir menu" : undefined}
-        >
-          <i
-            className={`bi ${
-              expanded ? "bi-chevron-left" : "bi-chevron-right"
-            }`}
-          ></i>
-        </button>
       </div>
 
       <hr className="border-custom" />
@@ -124,7 +133,23 @@ const Sidebar = () => {
 
       <hr className="border-custom" />
 
+      {/* Rodapé da Sidebar (Exemplo: Informações do Usuário/Admin) */}
+      <div className="d-flex align-items-center">
+        <i
+          className={`bi bi-person-circle ${
+            expanded ? "me-2" : "fs-4 mx-auto"
+          }`}
+        ></i>
+        {expanded && (
+          <div className="mb-2">
+            <strong className="text-primary-custom">Admin</strong>
+            <small className="d-block text-muted-custom">Online</small>
+          </div>
+        )}
+      </div>
+
       {/* Botão de Logout */}
+      <ThemeToggle size="sm" className={expanded ? "mb-2" : "mb-2"} />
       <div className="mb-3">
         <button
           onClick={logout}
@@ -137,22 +162,8 @@ const Sidebar = () => {
             className={`bi bi-box-arrow-right ${expanded ? "me-2" : "fs-5"}`}
           ></i>
           {expanded && <span>Sair</span>}
+          {/* Toggle de Tema */}
         </button>
-      </div>
-
-      {/* Rodapé da Sidebar (Exemplo: Informações do Usuário/Admin) */}
-      <div className="d-flex align-items-center">
-        <i
-          className={`bi bi-person-circle ${
-            expanded ? "me-2" : "fs-4 mx-auto"
-          }`}
-        ></i>
-        {expanded && (
-          <div>
-            <strong className="text-primary-custom">Admin</strong>
-            <small className="d-block text-muted-custom">Online</small>
-          </div>
-        )}
       </div>
     </div>
   );

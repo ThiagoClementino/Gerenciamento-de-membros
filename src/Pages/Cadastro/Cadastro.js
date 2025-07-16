@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { IMaskInput } from "react-imask";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Sidebar";
-import "../../css/Reset.css";
-import "../../css/Components.css";
 
 const Cadastro = () => {
   const dataMatricula = () => {

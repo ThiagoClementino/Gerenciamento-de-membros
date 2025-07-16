@@ -2,8 +2,7 @@ import React, { useContext, useState } from "react";
 import Header from "../Header/Sidebar";
 import DataInfor from "../../Contexts/DataInfor"; // Renomeado para DataInfor
 import Footer from "../Footer/Footer";
-import "../../css/Reset.css";
-import "../../css/Components.css";
+
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { CSVLink } from "react-csv";
