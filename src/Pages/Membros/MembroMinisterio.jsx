@@ -42,7 +42,7 @@ const MembroMinisterio = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://api-gestao-igreja.onrender.com/membros/${id}`
+          `https://api-gestao-igreja-jcod.vercel.app/membros/${id}`
         );
         setMember(response.data);
         setLoading(false);
@@ -109,11 +109,11 @@ const MembroMinisterio = () => {
   }
 
   return (
-    <div className="d-flex">
+    <div className="d-flex vh-100">
       <Header />
-      <Container fluid className="p-4">
+      <Container fluid className="p-4 flex-grow-1 overflow-auto">
         {/* Breadcrumb */}
-        <Row className="mb-3">
+        <Row className="mb-4 flex-shrink-0">
           <Col>
             <Breadcrumb>
               <Breadcrumb.Item onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
@@ -133,7 +133,7 @@ const MembroMinisterio = () => {
         </Row>
 
         {/* Cabeçalho */}
-        <Row className="mb-4">
+        <Row className="mb-4 ">
           <Col>
             <div className="d-flex justify-content-between align-items-center">
               <div>
@@ -891,7 +891,12 @@ const MembroMinisterio = () => {
           </Col>
         </Row>
 
-        <Footer />
+        <Col
+          className="footer-container d-flex justify-content-center align-items-center border-top"
+          style={{ flex: "0 0 5vh" }}
+        >
+          <Footer />
+        </Col>
       </Container>
     </div>
   );

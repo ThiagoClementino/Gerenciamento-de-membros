@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Footer/Footer";
 import { useTheme } from "../../Contexts/ThemeContext";
+import { ChartCard } from "../../Components/UI/Card";
 
 const Dashboard = () => {
   const { dados } = React.useContext(Datainfor);

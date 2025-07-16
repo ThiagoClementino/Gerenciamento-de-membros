@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../../Contexts/DataInfor";
 import Footer from "../Footer/Footer";
@@ -12,6 +12,7 @@ import {
   Table,
   Card,
 } from "react-bootstrap";
+import { ChartCard } from "../../Charts/ChartCard";
 
 export const Financeiro = () => {
   const { dadosfinance, setDadosfinance } = useContext(DataContext);
@@ -127,6 +128,7 @@ export const Financeiro = () => {
     <div className="d-flex vh-100">
       <Header />
       <Container fluid className="p-4 flex-grow-1">
+        <ChartCard />
         <Row className="mb-4 flex-shrink-0">
           <Col>
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
@@ -275,7 +277,7 @@ export const Financeiro = () => {
             <h4 className="mb-0 fw-semibold">Valores</h4>
           </Card.Header>
           <Card.Body className="p-0 flex-grow-1">
-            <div className="overflow-auto" style={{ maxHeight: "400px" }}>
+            <div className="overflow-auto" style={{ maxHeight: "45vh" }}>
               <Table striped bordered hover responsive className="mb-0">
                 <thead className="sticky-top bg-light text-center">
                   <tr>
@@ -307,7 +309,7 @@ export const Financeiro = () => {
                         >
                           <Link
                             to={`/finance/${dado._id}`}
-                            className="text-white text-decoration-none"
+                            className="text-black text-decoration-none"
                           >
                             Detalhes
                           </Link>
@@ -328,7 +330,12 @@ export const Financeiro = () => {
             </div>
           </Card.Body>
         </Card>
-        <Footer />
+        <Col
+          className="footer-container d-flex justify-content-center align-items-center border-top"
+          style={{ flex: "0 0 5vh" }}
+        >
+          <Footer />
+        </Col>
       </Container>
     </div>
   );

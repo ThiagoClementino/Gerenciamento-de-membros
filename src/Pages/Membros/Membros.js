@@ -1,8 +1,16 @@
 import React, { useContext, useState } from "react";
 import Header from "../Header/Sidebar";
-import DataInfor from "../../Contexts/DataInfor"; // Renomeado para DataInfor
+import DataInfor from "../../Contexts/DataInfor";
 import Footer from "../Footer/Footer";
-
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Table,
+  Card,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { CSVLink } from "react-csv";
@@ -15,14 +23,12 @@ const Membros = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  // Função para verificar se um valor é string e convertê-lo para lowercase
   const toLowerSafe = (value) =>
     typeof value === "string" ? value.toLowerCase() : "";
 
-  // Busca
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setSelectAll(false); // Desmarca o "Selecionar Todos" ao alterar a busca
+    setSelectAll(false);
   };
 
   const filteredDados = dados.filter((dado) => {
@@ -43,9 +49,7 @@ const Membros = () => {
       toLowerSafe(dado.databatismo).includes(lowerSearchTerm)
     );
   });
-  // Fim da Busca
 
-  // Excluir
   const handleDeleteItems = async () => {
     if (selectedItems.length === 0) {
       alert("Selecione ao menos um item para excluir!");
@@ -92,9 +96,7 @@ const Membros = () => {
       setSelectedItems([]);
     }
   };
-  // Fim da Exclusão
 
-  // Exportar CSV
   const formatDateToExport = () => {
     const data = new Date();
     const dia = data.getDate().toString().padStart(2, "0");
@@ -102,227 +104,128 @@ const Membros = () => {
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
-  // Fim da Exportação CSV
 
   return (
-    <div className="layoutDefault">
+    <div className="d-flex vh-100">
+      {/* Sidebar fixa */}
       <Header />
-      <div className="layoutComponent">
-        <div className="titleAndBtnForm">
-          <div className="banner">
-            <h2>Relação de Membros</h2>
-            <p>Membros cadastrados</p>
-          </div>
-          <div className="contTitle">
-            <input
-              type="search"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              placeholder="Buscar..."
-            />
-          </div>
-          <div className="btncontrol">
-            <button className="primary" onClick={handleDeleteItems}>
-              Excluir
-            </button>
 
-            <button className="primary">
-              <CSVLink
-                data={dados}
-                target="_blank"
-                filename={`Table Members ${formatDateToExport()}`}
-                className="export"
-              >
-                Exportar <FontAwesomeIcon icon={faDownload} />
-              </CSVLink>
-            </button>
-          </div>
-        </div>
+      {/* Área de conteúdo principal */}
+      <div className="flex-grow-1 d-flex flex-column">
+        <Container fluid className="flex-grow-1 d-flex flex-column py-3 px-4">
+          <Row className="mb-4">
+            <Col>
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                <div>
+                  <h1 className="h3 mb-1 text-primary-custom fw-bold">
+                    Relação de Membros
+                  </h1>
+                  <p className="text-muted-custom mb-0">Membros cadastrados</p>
+                </div>
+                <Form.Control
+                  type="search"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Buscar..."
+                  style={{ maxWidth: "300px" }}
+                />
+                <div className="d-flex gap-2">
+                  <Button variant="danger" onClick={handleDeleteItems}>
+                    Excluir
+                  </Button>
+                  <Button variant="primary">
+                    <CSVLink
+                      data={dados}
+                      target="_blank"
+                      filename={`Table Members ${formatDateToExport()}`}
+                      className="text-white text-decoration-none"
+                    >
+                      Exportar <FontAwesomeIcon icon={faDownload} />
+                    </CSVLink>
+                  </Button>
+                </div>
+              </div>
+            </Col>
+          </Row>
 
-        <div className="componentTable">
-          <table>
-            <thead>
-              <tr>
-                <th className="checked">
-                  <input
-                    type="checkbox"
-                    checked={selectAll}
-                    onChange={handleSelectAllChange}
-                  />
-                </th>
+          {/* Tabela dentro de card com rolagem */}
+          {/* Tabela dentro de card com rolagem */}
+          <Card className="mt-4 shadow-sm flex-grow-1 d-flex flex-column">
+            <Card.Header className="bg-secondary-custom flex-shrink-0">
+              <h4 className="mb-0 fw-semibold">Lista de Membros</h4>
+            </Card.Header>
+            <Card.Body className="p-0 flex-grow-1">
+              <div className="overflow-auto" style={{ maxHeight: "70vh" }}>
+                <Table striped bordered hover responsive className="mb-0">
+                  <thead className="sticky-top bg-light text-center">
+                    <tr>
+                      <th>
+                        <Form.Check
+                          type="checkbox"
+                          checked={selectAll}
+                          onChange={handleSelectAllChange}
+                        />
+                      </th>
+                      <th>Visualizar</th>
+                      <th>Matrícula</th>
+                      <th>Data de inscrição</th>
+                      <th>Nome</th>
+                      <th>Nome da Mãe</th>
+                      <th>Nome do Pai</th>
+                      <th>Data Nasc.</th>
+                      <th>Sexo</th>
+                      <th>Telefone</th>
+                      <th>Telefone 2</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-muted-custom align-middle text-center">
+                    {filteredDados.map((dado) => (
+                      <tr key={dado._id} className="align-middle">
+                        <td>
+                          <Form.Check
+                            type="checkbox"
+                            checked={selectedItems.includes(dado._id)}
+                            onChange={(event) =>
+                              handleCheckboxChange(event, dado._id)
+                            }
+                          />
+                        </td>
+                        <td className="align-middle text-center">
+                          <Button variant="secondary" size="sm">
+                            <Link
+                              to={`/membro/${dado._id}`}
+                              className="text-black text-decoration-none"
+                            >
+                              Detalhes
+                            </Link>
+                          </Button>
+                        </td>
+                        <td>{dado._id}</td>
+                        <td>{dado.datacriacao}</td>
+                        <td>{dado.name}</td>
+                        <td>{dado.mothersname}</td>
+                        <td>{dado.fathersname}</td>
+                        <td>{dado.dateBirth}</td>
+                        <td>{dado.sex}</td>
+                        <td>{dado.telone}</td>
+                        <td>{dado.teltwo}</td>
+                        <td>{dado.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Card.Body>
+          </Card>
+        </Container>
 
-                <th className="detalhes">Visualizar</th>
-                <th className="detalhes">Matrícula</th>
-                <th className="detalhes">Data de inscrição</th>
-                <th className="titleTable">Nome Completo</th>
-                <th className="titleTable">Nome da Mãe</th>
-                <th className="titleTable">Nome da Pai</th>
-                <th className="titleTable">Data de nascimento</th>
-                <th className="titleTable">Sexo</th>
-                <th className="titleTable">Telefone</th>
-                <th className="titleTable">Telefone 2</th>
-                <th className="titleTable">E-mail</th>
-                <th className="titleTable">Nacionalidade</th>
-                <th className="titleTable">Naturalidade</th>
-                <th className="titleTable">Profissão</th>
-                <th className="titleTable">Onde trabalha</th>
-                <th className="titleTable">Grau de escolaridade</th>
-                <th className="titleTable">Cep</th>
-                <th className="titleTable">Endereço</th>
-                <th className="titleTable">Número</th>
-                <th className="titleTable">Complemento</th>
-                <th className="titleTable">Bairro</th>
-                <th className="titleTable">Cidade</th>
-                <th className="titleTable">Estado</th>
-                <th className="titleTable">Tempo de residência</th>
-                <th className="titleTable">Estado Civil</th>
-                <th className="titleTable">Nome do Cônjuge</th>
-                <th className="titleTable">Possui Filhos</th>
-                <th className="titleTable">Quantidade de filhos</th>
-                <th className="titleTable">Filho 1</th>
-                <th className="titleTable">Idade filho 1</th>
-                <th className="titleTable">Filho 2</th>
-                <th className="titleTable">Idade filho 2</th>
-                <th className="titleTable">Filho 3</th>
-                <th className="titleTable">Idade filho 3</th>
-                <th className="titleTable">Filho 4</th>
-                <th className="titleTable">Idade filho 4</th>
-                <th className="titleTable">Cargo</th>
-                <th className="titleTable">Tempo de Cargo</th>
-                <th className="titleTable">Primeiro Casamento?</th>
-                <th className="titleTable">Casamento Cristão?</th>
-                <th className="titleTable">
-                  Cônjuge irá congregar em nosso ministério?
-                </th>
-                <th className="titleTable">Justificativa</th>
-                <th className="titleTable">Data de Batismo</th>
-                <th className="titleTable">Data de conversão</th>
-                <th className="titleTable">Última igreja</th>
-                <th className="titleTable">Saída da igreja</th>
-                <th className="titleTable">Igrejas que foi membro</th>
-                <th className="titleTable">É Dizimista</th>
-                <th className="titleTable">Ofertante</th>
-                <th className="titleTable">Cargo Anterior</th>
-                <th className="titleTable">Cargo ministerial</th>
-                <th className="titleTable">Posição Ministério</th>
-                <th className="titleTable">Atividades igreja</th>
-                <th className="titleTable">
-                  Dificuldades de liderança, hierarquia
-                </th>
-                <th className="titleTable">Exortação</th>
-                <th className="titleTable">Discípulo pastoreável</th>
-                <th className="titleTable">Participação culto de Oração </th>
-                <th className="titleTable">Participação de cultos e EBDs</th>
-                <th className="titleTable">Informar ausência </th>
-                <th className="titleTable">Conselho Pastoral </th>
-                <th className="titleTable">Desenvolvimento em congregar </th>
-                <th className="titleTable">Convicção Cristã</th>
-                <th className="titleTable">Definição evangelho</th>
-                <th className="titleTable">Frutos do Espírito</th>
-                <th className="titleTable">Cuidado com a fé</th>
-                <th className="titleTable">Lutas pessoais</th>
-                <th className="titleTable">Convicções teológicas</th>
-                <th className="titleTable">Hábito de Evangelizar</th>
-                <th className="titleTable">Hábito de Jejuar</th>
-                <th className="titleTable">Leitura completa da bíblia</th>
-                <th className="titleTable">Últimos livros lidos</th>
-                <th className="titleTable">Últimas informações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredDados.map((dado) => (
-                <tr key={dado._id}>
-                  <td className="checked">
-                    <input
-                      type="checkbox"
-                      checked={selectedItems.includes(dado._id)}
-                      onChange={(event) =>
-                        handleCheckboxChange(event, dado._id)
-                      }
-                    />
-                  </td>
-                  <td className="detalhes">
-                    <button className="secundary">
-                      <Link to={`/membro/${dado._id}`}>Detalhes</Link>
-                    </button>
-                  </td>
-                  <td className="detalhes">{dado._id}</td>
-                  <td className="">{dado.datacriacao}</td>
-                  <td>{dado.name}</td>
-                  <td>{dado.mothersname}</td>
-                  <td>{dado.fathersname}</td>
-                  <td>{dado.dateBirth}</td>
-                  <td>{dado.sex}</td>
-                  <td>{dado.telone}</td>
-                  <td>{dado.teltwo}</td>
-                  <td>{dado.email}</td>
-                  <td>{dado.national}</td>
-                  <td>{dado.natural}</td>
-                  <td>{dado.profession}</td>
-                  <td>{dado.companywork}</td>
-                  <td>{dado.education}</td>
-                  <td>{dado.cep}</td>
-                  <td>{dado.address}</td>
-                  <td>{dado.number}</td>
-                  <td>{dado.complement}</td>
-                  <td>{dado.district}</td>
-                  <td>{dado.city}</td>
-                  <td>{dado.state}</td>
-                  <td>{dado.timeinresidence}</td>
-                  <td>{dado.estadocivil}</td>
-                  <td>{dado.conjuge}</td>
-                  <td>{dado.filhos}</td>
-                  <td>{dado.qtdfilhos}</td>
-                  <td>{dado.nomefilhoum}</td>
-                  <td>{dado.idadefilhoum}</td>
-                  <td>{dado.nomefilhodois}</td>
-                  <td>{dado.idadefilhodois}</td>
-                  <td>{dado.nomefilhotres}</td>
-                  <td>{dado.idadefilhotres}</td>
-                  <td>{dado.nomefilhoquatro}</td>
-                  <td>{dado.idadefilhoquatro}</td>
-                  <td>{dado.jobChurch}</td>
-                  <td>{dado.jobChurchTemp}</td>
-                  <td>{dado.optionprimeirocasamento}</td>
-                  <td>{dado.casamentocristao}</td>
-                  <td>{dado.parceironaigreja}</td>
-                  <td>{dado.justificativa}</td>
-                  <td>{dado.databatismo}</td>
-                  <td>{dado.dataconversao}</td>
-                  <td>{dado.lastchurch}</td>
-                  <td>{dado.motivosaida}</td>
-                  <td>{dado.igrejasquefoimembro}</td>
-                  <td>{dado.dizimista}</td>
-                  <td>{dado.ofertante}</td>
-                  <td>{dado.cargoanterior}</td>
-                  <td>{dado.separadoanterior}</td>
-                  <td>{dado.posicaoanterior}</td>
-                  <td>{dado.atividadeanterior}</td>
-                  <td>{dado.problema}</td>
-                  <td>{dado.exortacao}</td>
-                  <td>{dado.discipulo}</td>
-                  <td>{dado.participacaocultos}</td>
-                  <td>{dado.habito}</td>
-                  <td>{dado.cultosdeoracao}</td>
-                  <td>{dado.aconselhamentopastoral}</td>
-                  <td>{dado.desenvolvimento}</td>
-                  <td>{dado.conviccaodiscipulo}</td>
-                  <td>{dado.definicaoevangelho}</td>
-                  <td>{dado.frutosespirito}</td>
-                  <td>{dado.desenvolvimentodafe}</td>
-                  <td>{dado.pecado}</td>
-                  <td>{dado.conviccaoteologica}</td>
-                  <td>{dado.evangelizar}</td>
-                  <td>{dado.jejuar}</td>
-                  <td>{dado.leiturabiblica}</td>
-                  <td>{dado.livros}</td>
-                  <td>{dado.ultimasconsideracoes}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <Footer />
+        <Col
+          className="footer-container d-flex justify-content-center align-items-center border-top"
+          style={{ flex: "0 0 5vh" }}
+        >
+          <Footer />
+        </Col>
       </div>
     </div>
   );
