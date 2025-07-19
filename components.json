@@ -1,0 +1,15 @@
+{
+  "components": "./src/components/ui",
+  "rsc": false,
+  "typescript": false, 
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "./src/index.css",
+    "baseColor": "zinc",
+    "cssVariables": true
+  },
+  "aliases": {
+    "@/components": "./src/components",
+    "@/lib": "./src/lib"
+  }
+}

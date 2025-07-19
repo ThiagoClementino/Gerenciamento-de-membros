@@ -1,9 +1,13 @@
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+
+// Contexto para compartilhar os dados com toda a aplicação
+import Datainfor from "./Contexts/DataInfor";
+
+// Componentes e Páginas
+import PrivateRoute from "./Components/PrivateRoute";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Membros from "./Pages/Membros/Membros";
-import { useState, useEffect } from "react";
-import Datainfor from "./Contexts/DataInfor";
-import DataApiOne from "./Contexts/DataApiOne";
 import Cadastro from "./Pages/Cadastro/Cadastro";
 import { Financeiro } from "./Pages/Financeiro/Financeiro";
 import Sidebar from "./Pages/Header/Sidebar";
@@ -11,19 +15,22 @@ import MembroMinisterio from "./Pages/Membros/MembroMinisterio";
 import Home from "./Pages/Home/Home";
 import Config from "./Pages/Config/Config";
 import CadMembers from "./Pages/Membros/CadMembers";
-
 import Login from "./Pages/Login/Login";
 import CreateUser from "./Pages/Users/CreateUser";
-import PrivateRoute from "./Components/PrivateRoute";
+import { Comprovantes } from "./Pages/Financeiro/Comprovantes";
 
 const AppRoutes = () => {
-  const [dados, setDados] = useState([]);
-  const [dadosfinance, setDadosfinance] = useState([]);
+  // --- ESTADOS CORRIGIDOS E ESPECÍFICOS ---
+  const [dadosDashboard, setDadosDashboard] = useState(null);
+  const [listaMembros, setListaMembros] = useState([]);
+  const [dadosFinanceiro, setDadosFinanceiro] = useState([]);
+  const [erro, setErro] = useState(null);
 
-  // Rota de consulta todos menbros
-
+  // --- LÓGICA DE BUSCA DE DADOS CORRIGIDA ---
   useEffect(() => {
-    fetch("https://api-gestao-igreja-jcod.vercel.app/membros", {
+    const apiUrl = "https://api-gestao-igreja-jcod.vercel.app/membros/";
+
+    fetch(apiUrl, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -33,132 +40,145 @@ const AppRoutes = () => {
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(`Erro na requisição de membros: ${res.statusText}`);
         }
         return res.json();
       })
       .then((data) => {
-        if (Array.isArray(data)) {
-          setDados(data);
-        } else {
-          console.error("Dados da API não é um array");
-        }
-      })
-      .catch((error) =>
-        console.error("There was a problem with the fetch operation:", error)
-      );
-  }, []);
+        // CORREÇÃO: 'data' é o objeto { count: XX, results: [...] }
 
-  useEffect(() => {
-    fetch("https://api-gestao-igreja-jcod.vercel.app/finance", {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
+        // 1. Preenche o estado do Dashboard com a contagem
+        setDadosDashboard({
+          contagemMembros: data.count,
+        });
+
+        // 2. Preenche o estado da lista de membros com o array de resultados
+        setListaMembros(data.results);
       })
+      .catch((error) => {
+        console.error("Falha ao buscar dados dos membros:", error);
+        setErro("Não foi possível carregar os dados dos membros.");
+      });
+  }, []); // Array vazio [] para rodar apenas uma vez.
+
+  // Efeito para buscar dados financeiros (seu código já estava bom aqui)
+  useEffect(() => {
+    const apiUrl = "https://api-gestao-igreja-jcod.vercel.app/finance/";
+    fetch(apiUrl, {
+      /* ... */
+    })
+      .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setDadosfinance(data);
-        } else {
-          console.error(`error`);
+          setDadosFinanceiro(data);
         }
       })
-      .catch((error) =>
-        console.error("There was a problem with the fetch operation:", error)
-      );
+      .catch((error) => {
+        console.error("Falha ao buscar dados financeiros:", error);
+        setErro("Não foi possível carregar os dados financeiros.");
+      });
   }, []);
 
   return (
-    <DataApiOne.Provider>
-      <Datainfor.Provider
-        value={{ dadosfinance, setDadosfinance, dados, setDados }}
-      >
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/criarusuario" element={<CreateUser />} />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/membros"
-            element={
-              <PrivateRoute>
-                <Membros />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/cadastro"
-            element={
-              <PrivateRoute>
-                <Cadastro />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/financeiro"
-            element={
-              <PrivateRoute>
-                <Financeiro />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/sidebar"
-            element={
-              <PrivateRoute>
-                <Sidebar />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/membro/:id"
-            element={
-              <PrivateRoute>
-                <MembroMinisterio />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/config"
-            element={
-              <PrivateRoute>
-                <Config />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/cad"
-            element={
-              <PrivateRoute>
-                <CadMembers />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Datainfor.Provider>
-    </DataApiOne.Provider>
+    // --- CONTEXTO CORRIGIDO ---
+    // O Provider agora fornece todos os estados de forma organizada.
+    <Datainfor.Provider
+      value={{
+        dadosDashboard,
+        listaMembros,
+        dadosFinanceiro,
+        erro,
+        setListaMembros, // Exemplo de como passar uma função 'set'
+      }}
+    >
+      <Routes>
+        {/* Rotas Públicas */}
+        <Route path="/" element={<Login />} />
+        <Route path="/criarusuario" element={<CreateUser />} />
+
+        {/* Rotas Privadas (Protegidas) */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/membros"
+          element={
+            <PrivateRoute>
+              <Membros />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cadastro"
+          element={
+            <PrivateRoute>
+              <Cadastro />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/financeiro"
+          element={
+            <PrivateRoute>
+              <Financeiro />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/sidebar"
+          element={
+            <PrivateRoute>
+              <Sidebar />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/membro/:id"
+          element={
+            <PrivateRoute>
+              <MembroMinisterio />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/config"
+          element={
+            <PrivateRoute>
+              <Config />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cad"
+          element={
+            <PrivateRoute>
+              <CadMembers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/comprovante"
+          element={
+            <PrivateRoute>
+              <Comprovantes />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </Datainfor.Provider>
   );
 };
 

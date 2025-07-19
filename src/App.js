@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Importante para funcional
 import "./css/CustomTheme.css"; // CSS customizado para theming
 import { AuthProvider } from "./Contexts/AuthContext";
 import { ThemeProvider } from "./Contexts/ThemeContext";
+import "./index.css"; // ou './App.css', dependendo do projeto
 
 function App() {
   return (

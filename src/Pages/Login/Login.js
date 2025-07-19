@@ -108,7 +108,7 @@ const Login = () => {
       <Row className="justify-content-center w-100">
         <Col
           xs={12}
-          sm={10}
+          sm={2}
           md={8}
           lg={6}
           xl={4}
@@ -116,7 +116,7 @@ const Login = () => {
           className="d-flex justify-content-center align-items-center"
         >
           <Card className="shadow-custom-lg border-0">
-            <Card.Body className="p-4">
+            <Card.Body className="p-4 ">
               {/* Logo e Título */}
               <div className="text-center mb-4">
                 <div className="mb-3">

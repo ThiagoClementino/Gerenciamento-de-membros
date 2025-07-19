@@ -15,13 +15,13 @@ import {
   faMapMarkerAlt,
   faBriefcase,
   faHeart,
-  faBook,
+  
   faEdit,
   faUserCheck
 } from "@fortawesome/free-solid-svg-icons";
 import { IMaskInput } from "react-imask";
 import axios from "axios";
-import { useTheme } from "../../Contexts/ThemeContext";
+
 import Header from "../Header/Sidebar";
 import Footer from "../Footer/Footer";
 
@@ -35,7 +35,7 @@ const MembroMinisterio = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { theme } = useTheme();
+  
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -71,7 +71,7 @@ const MembroMinisterio = () => {
     try {
       setSaving(true);
       await axios.put(
-        `https://api-gestao-igreja.onrender.com/membros/${id}`,
+        `https://api-gestao-igreja-jcod.vercel.app/membros/${id}`,
         member
       );
       showAlertMessage("Dados salvos com sucesso!", "success");

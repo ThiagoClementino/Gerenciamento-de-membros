@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DataContext from "../../Contexts/DataInfor";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Sidebar";
+
 import {
   Container,
   Row,
@@ -124,10 +125,14 @@ export const Financeiro = () => {
   });
 
   return (
-    <div className="d-flex vh-100">
+    <div className="vh-100 d-flex">
       <Header />
-      <Container fluid className="p-4 flex-grow-1">
-        <Row className="mb-4 flex-shrink-0">
+
+      <Container className="d-flex flex-column flex-grow-1 p-3 justify-content-center ">
+        <Row
+          className="flex-shrink-0 flex-grow-1 overflow-auto p-3 "
+          style={{ maxHeight: "15vh", minHeight: 0 }}
+        >
           <Col>
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
               <div>
@@ -157,9 +162,10 @@ export const Financeiro = () => {
         <Form
           onSubmit={handleFormFinancial}
           encType="multipart/form-data"
-          className="flex-shrink-0"
+          className="flex-shrink-0 flex-grow-1 overflow-auto p-3"
+          style={{ maxHeight: "45vh", minHeight: 0 }}
         >
-          <Row className="mb-3">
+          <Row className="">
             <Col md={4}>
               <Form.Group controlId="tipodedado">
                 <Form.Label>Tipo de registro</Form.Label>
@@ -270,12 +276,15 @@ export const Financeiro = () => {
           </Row>
           <Row className="mb-3"></Row>
         </Form>
-        <Card className="mt-4 shadow-sm flex-grow-1 d-flex flex-column">
-          <Card.Header className="bg-secondary-custom flex-shrink-0">
-            <h4 className="mb-0 fw-semibold">Valores</h4>
+        <Card
+          className="flex-shrink-0 flex-grow-1 overflow-auto p-3 "
+          style={{ maxHeight: "35vh" }}
+        >
+          <Card.Header className="flex-shrink-0">
+            <h4 className="fw-semibold">Valores</h4>
           </Card.Header>
           <Card.Body className="p-0 flex-grow-1">
-            <div className="overflow-auto" style={{ maxHeight: "45vh" }}>
+            <div className="overflow-auto" style={{ maxHeight: "25vh" }}>
               <Table striped bordered hover responsive className="mb-0">
                 <thead className="sticky-top bg-light text-center">
                   <tr>
@@ -328,12 +337,12 @@ export const Financeiro = () => {
             </div>
           </Card.Body>
         </Card>
-        <Col
-          className="footer-container d-flex justify-content-center align-items-center border-top"
-          style={{ flex: "0 0 5vh" }}
+        <Footer
+          className=" d-flex  align-items-center justify-content-center flex-shrink-0"
+          style={{ height: "5vh" }}
         >
           <Footer />
-        </Col>
+        </Footer>
       </Container>
     </div>
   );
