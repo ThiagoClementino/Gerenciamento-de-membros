@@ -12,7 +12,6 @@ import {
   Table,
   Card,
 } from "react-bootstrap";
-import { ChartCard } from "../../Charts/ChartCard";
 
 export const Financeiro = () => {
   const { dadosfinance, setDadosfinance } = useContext(DataContext);
@@ -128,7 +127,6 @@ export const Financeiro = () => {
     <div className="d-flex vh-100">
       <Header />
       <Container fluid className="p-4 flex-grow-1">
-        <ChartCard />
         <Row className="mb-4 flex-shrink-0">
           <Col>
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
