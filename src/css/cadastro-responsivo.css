@@ -1,0 +1,286 @@
+/* CSS específico para o componente Cadastro */
+
+/* Seção do formulário com 75% da altura */
+.form-section-cadastro {
+  height: 75vh;
+  min-height: 75vh;
+  max-height: 75vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ajustes para as tabs do formulário */
+.form-section-cadastro .nav-pills .nav-link {
+  border-radius: 0.5rem;
+  margin: 0 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.form-section-cadastro .nav-pills .nav-link.active {
+  background-color: var(--custom-primary);
+  border-color: var(--custom-primary);
+}
+
+.form-section-cadastro .nav-pills .nav-link:not(.active) {
+  background-color: var(--custom-surface);
+  border: 1px solid var(--custom-border);
+  color: var(--custom-text-secondary);
+}
+
+.form-section-cadastro .nav-pills .nav-link:not(.active):hover {
+  background-color: var(--custom-accent-primary);
+  color: white;
+}
+
+/* Cards das tabs com altura otimizada */
+.form-section-cadastro .card {
+  height: calc(75vh - 80px); /* Altura total menos espaço das tabs */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section-cadastro .card-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+/* Scrollbar personalizada para o conteúdo das tabs */
+.form-section-cadastro .card-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-section-cadastro .card-body::-webkit-scrollbar-track {
+  background: var(--custom-background);
+  border-radius: 4px;
+}
+
+.form-section-cadastro .card-body::-webkit-scrollbar-thumb {
+  background: var(--custom-accent-secondary);
+  border-radius: 4px;
+}
+
+.form-section-cadastro .card-body::-webkit-scrollbar-thumb:hover {
+  background: var(--custom-accent-primary);
+}
+
+/* Ajustes para campos de formulário */
+.form-section-cadastro .form-control,
+.form-section-cadastro .form-select {
+  border: 1px solid var(--custom-border);
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-section-cadastro .form-control:focus,
+.form-section-cadastro .form-select:focus {
+  border-color: var(--custom-accent-primary);
+  box-shadow: 0 0 0 0.2rem rgba(102, 164, 202, 0.25);
+}
+
+/* Ajustes para labels */
+.form-section-cadastro .form-label {
+  font-weight: 600;
+  color: var(--custom-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+/* Cards aninhados (como dados dos filhos) */
+.form-section-cadastro .card .card {
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.form-section-cadastro .card .card .card-body {
+  padding: 1rem;
+  overflow: visible;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 767.98px) {
+  .form-section-cadastro {
+    height: auto;
+    min-height: 70vh;
+    max-height: none;
+  }
+  
+  .form-section-cadastro .card {
+    height: auto;
+    min-height: 60vh;
+  }
+  
+  .form-section-cadastro .card-body {
+    max-height: 60vh;
+  }
+  
+  /* Tabs em mobile ficam mais compactas */
+  .form-section-cadastro .nav-pills .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .form-section-cadastro .nav-pills .nav-link small {
+    font-size: 0.75rem;
+  }
+}
+
+/* Ajustes para tablet */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .form-section-cadastro {
+    height: 70vh;
+    min-height: 70vh;
+    max-height: 70vh;
+  }
+  
+  .form-section-cadastro .card {
+    height: calc(70vh - 80px);
+  }
+}
+
+/* Animações suaves para transições entre tabs */
+.form-section-cadastro .tab-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilo para botões de ação */
+.form-section-cadastro .btn {
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-section-cadastro .btn-primary {
+  background-color: var(--custom-primary);
+  border-color: var(--custom-primary);
+}
+
+.form-section-cadastro .btn-primary:hover {
+  background-color: var(--custom-accent-tertiary);
+  border-color: var(--custom-accent-tertiary);
+  transform: translateY(-1px);
+}
+
+/* Ajustes para textarea */
+.form-section-cadastro textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Estilo para radio buttons */
+.form-section-cadastro .form-check-input:checked {
+  background-color: var(--custom-primary);
+  border-color: var(--custom-primary);
+}
+
+/* Indicadores visuais para campos obrigatórios */
+.form-section-cadastro .form-control[required] {
+  border-left: 3px solid var(--custom-accent-primary);
+}
+
+.form-section-cadastro .form-control[required]:focus {
+  border-left: 3px solid var(--custom-accent-tertiary);
+}
+
+/* Estilo para headers dos cards */
+.form-section-cadastro .card-header {
+  border-bottom: 1px solid var(--custom-border);
+  font-weight: 600;
+}
+
+.form-section-cadastro .card-header.bg-primary {
+  background-color: var(--custom-primary) !important;
+}
+
+.form-section-cadastro .card-header.bg-success {
+  background-color: #28a745 !important;
+}
+
+.form-section-cadastro .card-header.bg-info {
+  background-color: #17a2b8 !important;
+}
+
+.form-section-cadastro .card-header.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+.form-section-cadastro .card-header.bg-secondary {
+  background-color: var(--custom-accent-secondary) !important;
+}
+
+/* Ajustes para tema escuro */
+html.theme-dark .form-section-cadastro .card {
+  background-color: var(--custom-surface);
+  border-color: var(--custom-border);
+}
+
+html.theme-dark .form-section-cadastro .form-control,
+html.theme-dark .form-section-cadastro .form-select {
+  background-color: var(--custom-surface);
+  border-color: var(--custom-border);
+  color: var(--custom-text-primary);
+}
+
+html.theme-dark .form-section-cadastro .form-control:focus,
+html.theme-dark .form-section-cadastro .form-select:focus {
+  background-color: var(--custom-surface);
+  border-color: var(--custom-accent-primary);
+  color: var(--custom-text-primary);
+}
+
+/* Melhorias de acessibilidade */
+.form-section-cadastro .form-control:focus,
+.form-section-cadastro .form-select:focus,
+.form-section-cadastro .btn:focus {
+  outline: 2px solid var(--custom-accent-primary);
+  outline-offset: 2px;
+}
+
+/* Indicador de progresso visual nas tabs */
+.form-section-cadastro .nav-pills {
+  position: relative;
+}
+
+.form-section-cadastro .nav-pills::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background-color: var(--custom-accent-primary);
+  transition: all 0.3s ease;
+  width: 20%; /* 100% / 5 tabs */
+}
+
+.form-section-cadastro .nav-pills .nav-link:nth-child(1).active ~ ::before {
+  left: 0%;
+}
+
+.form-section-cadastro .nav-pills .nav-link:nth-child(2).active ~ ::before {
+  left: 20%;
+}
+
+.form-section-cadastro .nav-pills .nav-link:nth-child(3).active ~ ::before {
+  left: 40%;
+}
+
+.form-section-cadastro .nav-pills .nav-link:nth-child(4).active ~ ::before {
+  left: 60%;
+}
+
+.form-section-cadastro .nav-pills .nav-link:nth-child(5).active ~ ::before {
+  left: 80%;
+}
+

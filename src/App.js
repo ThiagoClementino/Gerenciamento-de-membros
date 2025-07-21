@@ -7,6 +7,10 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Importante para funcional
 import "./css/CustomTheme.css"; // CSS customizado para theming
 import { AuthProvider } from "./Contexts/AuthContext";
 import { ThemeProvider } from "./Contexts/ThemeContext";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./css/layout-responsivo-integrado.css";
+import "./utils/layout-responsivo-utils.js";
 
 function App() {
   return (

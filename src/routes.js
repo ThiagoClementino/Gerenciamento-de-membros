@@ -10,7 +10,6 @@ import Sidebar from "./Pages/Header/Sidebar";
 import MembroMinisterio from "./Pages/Membros/MembroMinisterio";
 import Home from "./Pages/Home/Home";
 import Config from "./Pages/Config/Config";
-import CadMembers from "./Pages/Membros/CadMembers";
 
 import Login from "./Pages/Login/Login";
 import CreateUser from "./Pages/Users/CreateUser";
@@ -145,14 +144,6 @@ const AppRoutes = () => {
             element={
               <PrivateRoute>
                 <Home />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/cad"
-            element={
-              <PrivateRoute>
-                <CadMembers />
               </PrivateRoute>
             }
           />

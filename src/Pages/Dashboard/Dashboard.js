@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Footer/Footer";
 import { useTheme } from "../../Contexts/ThemeContext";
+import "../../css/dashboard.css"; // Importa o CSS específico
 
 const Dashboard = () => {
   const { dados } = React.useContext(Datainfor);
@@ -82,119 +83,121 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="d-flex">
+    <div className="d-flex dashboard-container">
       <Header />
-      <Container fluid className="p-4 flex-grow-1">
+      <Container fluid className="flex-grow-1">
         {/* Cabeçalho do Dashboard */}
-        <Row className="mb-4">
-          <Col>
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-              <div>
-                <h1 className="h3 mb-1 text-primary-custom fw-bold">
-                  Dashboard
-                </h1>
-                <p className="text-muted-custom mb-0">
-                  Gráficos e informações sobre os membros cadastrados
-                </p>
+        <div className="dashboard-header">
+          <Row>
+            <Col>
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <div>
+                  <h1 className="h3 dashboard-title">Dashboard</h1>
+                  <p className="dashboard-subtitle">
+                    Gráficos e informações sobre os membros cadastrados
+                  </p>
+                </div>
+                <div className="text-md-end mt-3 mt-md-0 dashboard-datetime">
+                  <small className="d-block">Data e Hora</small>
+                  <span>{formatarData(data)}</span>
+                </div>
               </div>
-              <div className="text-md-end mt-3 mt-md-0">
-                <small className="text-muted-custom d-block">Data e Hora</small>
-                <span className="fw-semibold">{formatarData(data)}</span>
-              </div>
-            </div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </div>
 
         {/* Cards de Estatísticas */}
-        <Row className="mb-4 g-6">
-          {statsCards.map((stat, index) => (
-            <Col key={index} xs={12} sm={6} md={4} lg={6}>
-              <Card className="h-100  border-0 shadow-custom">
-                <Card.Body className="d-flex align-items-center p-3">
-                  <div className="flex-grow-1">
-                    <h6 className="card-title mb-1 text-muted-custom">
-                      {stat.title}
-                    </h6>
-                    <h3 className="mb-0 fw-bold text-primary-custom">
-                      {stat.value}
-                    </h3>
-                  </div>
-                  <div
-                    className="d-flex align-items-center justify-content-center rounded-circle mb-3"
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      backgroundColor: stat.bgColor,
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={stat.icon}
-                      size="lg"
-                      style={{ color: stat.color }}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <div className="stats-section">
+          <Row className="g-3">
+            {statsCards.map((stat, index) => (
+              <Col key={index} xs={12} sm={6} md={6} lg={3}>
+                <Card className="stats-card border-0">
+                  <Card.Body className="d-flex align-items-center">
+                    <div className="flex-grow-1">
+                      <h6 className="stats-card-title">{stat.title}</h6>
+                      <h3 className="stats-card-value">{stat.value}</h3>
+                    </div>
+                    <div
+                      className="stats-icon-container"
+                      style={{
+                        backgroundColor: stat.bgColor,
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={stat.icon}
+                        size="lg"
+                        style={{ color: stat.color }}
+                      />
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </div>
 
-        {/* Gráficos */}
-        <Row className="mb-4 g-3">
-          <Col xs={12} lg={6}>
-            <Card className="h-100 border-0 shadow-custom">
-              <Card.Header className="bg-secondary-custom border-0">
-                <h6 className="mb-0 fw-semibold">Distribuição por Gênero</h6>
-              </Card.Header>
-              <Card.Body className="p-0">
-                <iframe
-                  src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697f96d-22ee-48b5-871d-fb08a93f831c&maxDataAge=3600&theme=${theme}&autoRefresh=true`}
-                  frameBorder="0"
-                  className="w-100"
-                  style={{ height: "300px" }}
-                  title="Gráfico de Distribuição por Gênero"
-                />
-              </Card.Body>
-            </Card>
-          </Col>
+        {/* Container Único de Gráficos */}
+        <div className="charts-container">
+          <Card className="charts-wrapper-card border-0">
+            <Card.Header className="border-0">
+              <h5 className="mb-0">Gráficos e Relatórios</h5>
+            </Card.Header>
+            <Card.Body className="charts-scrollable-content">
+              <Row className="g-3">
+                <Col xs={12} lg={6}>
+                  <Card className="chart-card border-0">
+                    <Card.Header className="border-0">
+                      <h6 className="mb-0">Distribuição por Gênero</h6>
+                    </Card.Header>
+                    <Card.Body className="p-0">
+                      <iframe
+                        src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697f96d-22ee-48b5-871d-fb08a93f831c&maxDataAge=3600&theme=${theme}&autoRefresh=true`}
+                        frameBorder="0"
+                        className="w-100"
+                        style={{ height: "300px" }}
+                        title="Gráfico de Distribuição por Gênero"
+                      />
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-          <Col xs={12} lg={6}>
-            <Card className="h-100 border-0 shadow-custom">
-              <Card.Header className="bg-secondary-custom border-0">
-                <h6 className="mb-0 fw-semibold">Status dos Membros</h6>
-              </Card.Header>
-              <Card.Body className="p-0">
-                <iframe
-                  src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697fc6b-0a12-483e-8cb3-3ff11fc0d451&maxDataAge=3600&theme=${theme}&autoRefresh=true`}
-                  frameBorder="0"
-                  className="w-100"
-                  style={{ height: "300px" }}
-                  title="Gráfico de Status dos Membros"
-                />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                <Col xs={12} lg={6}>
+                  <Card className="chart-card border-0">
+                    <Card.Header className="border-0">
+                      <h6 className="mb-0">Status dos Membros</h6>
+                    </Card.Header>
+                    <Card.Body className="p-0">
+                      <iframe
+                        src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697fc6b-0a12-483e-8cb3-3ff11fc0d451&maxDataAge=3600&theme=${theme}&autoRefresh=true`}
+                        frameBorder="0"
+                        className="w-100"
+                        style={{ height: "300px" }}
+                        title="Gráfico de Status dos Membros"
+                      />
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-        {/* Painel Completo */}
-        <Row className="mb-4">
-          <Col xs={12}>
-            <Card className="border-0 shadow-custom">
-              <Card.Header className="bg-secondary-custom border-0">
-                <h6 className="mb-0 fw-semibold">Painel Geral de Membros</h6>
-              </Card.Header>
-              <Card.Body className="p-0">
-                <iframe
-                  src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=66982cc4-1232-4aea-8407-a721d3d95ec4&maxDataAge=3600&theme=${theme}&autoRefresh=true`}
-                  frameBorder="0"
-                  className="w-100"
-                  style={{ height: "400px" }}
-                  title="Painel Geral de Membros"
-                />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                <Col xs={12}>
+                  <Card className="chart-card border-0">
+                    <Card.Header className="border-0">
+                      <h6 className="mb-0">Painel Geral de Membros</h6>
+                    </Card.Header>
+                    <Card.Body className="p-0">
+                      <iframe
+                        src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=66982cc4-1232-4aea-8407-a721d3d95ec4&maxDataAge=3600&theme=${theme}&autoRefresh=true`}
+                        frameBorder="0"
+                        className="w-100"
+                        style={{ height: "400px" }}
+                        title="Painel Geral de Membros"
+                      />
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </div>
 
         <Footer />
       </Container>
