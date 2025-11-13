@@ -204,7 +204,7 @@ const Membros = () => {
         </nav>
 
         {/* SEÇÃO DE CONTROLES E BUSCA - 35% */}
-        <section className="form-section">
+        <section className="form-section-membros">
           <Container fluid>
             <div className="form-container">
               {/* Header da seção */}
@@ -383,7 +383,7 @@ const Membros = () => {
         </section>
 
         {/* SEÇÃO DA TABELA - 40% */}
-        <section className="table-section">
+        <section className="table-section-membros">
           <Container fluid className="h-100">
             <div className="table-container">
               <div className="d-flex justify-content-between align-items-center mb-3">

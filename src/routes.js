@@ -19,8 +19,6 @@ const AppRoutes = () => {
   const [dados, setDados] = useState([]);
   const [dadosfinance, setDadosfinance] = useState([]);
 
-  // Rota de consulta todos menbros
-
   useEffect(() => {
     fetch("https://api-gestao-igreja-jcod.vercel.app/membros", {
       method: "GET",
@@ -76,7 +74,7 @@ const AppRoutes = () => {
   }, []);
 
   return (
-    <DataApiOne.Provider>
+    <DataApiOne.Provider value={{}}>
       <Datainfor.Provider
         value={{ dadosfinance, setDadosfinance, dados, setDados }}
       >
