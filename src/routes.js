@@ -14,6 +14,8 @@ import Config from "./Pages/Config/Config";
 import Login from "./Pages/Login/Login";
 import CreateUser from "./Pages/Users/CreateUser";
 import PrivateRoute from "./Components/PrivateRoute";
+import ReqEmail from "./Pages/RecuperarSenha/ReqEmail";
+import ResetPassword from "./Pages/RecuperarSenha/ResetPassword";
 
 const AppRoutes = () => {
   const [dados, setDados] = useState([]);
@@ -145,6 +147,8 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
+          <Route path="/recuperarsenha" element={<ReqEmail />} />
+          <Route path="/resetpassword/:token" element={<ResetPassword />} />
         </Routes>
       </Datainfor.Provider>
     </DataApiOne.Provider>
