@@ -1,11 +1,15 @@
-// src/components/ResetPassword.js
+// frontend/src/Pages/RecuperarSenha/ResetPassword.js
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-const API_BASE_URL = "reset-password/:token";
+// Importe o CSS se necessário, ou garanta que ele já está no escopo global
+// import "../../css/layout-responsivo-integrado.css";
+
+// CORREÇÃO: URL base da API
+const API_BASE_URL = "https://api-usuarios-five.vercel.app";
 
 function ResetPassword() {
-  // Extrai o token da URL (ex: /reset-password/TOKEN_AQUI)
   const { token } = useParams();
   const navigate = useNavigate();
 
@@ -34,9 +38,9 @@ function ResetPassword() {
     }
 
     try {
-      // O token é enviado na URL para o endpoint PATCH
+      // CORREÇÃO: Requisição para o endpoint PATCH /api/reset-password/:token
       const response = await axios.patch(
-        `${API_BASE_URL}/reset-password/${token}`,
+        `${API_BASE_URL}/api/reset-password/${token}`, // Incluído /api/
         {
           senha: password,
           confirmarSenha: confirmPassword,
@@ -47,7 +51,6 @@ function ResetPassword() {
         response.data.message + " Você será redirecionado para o login."
       );
 
-      // Redireciona para a página de login após 3 segundos
       setTimeout(() => {
         navigate("/login");
       }, 3000);
@@ -62,74 +65,64 @@ function ResetPassword() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "50px auto",
-        padding: "20px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-      }}
-    >
-      <h2>Redefinir Senha</h2>
-
-      {loading && <p>Processando...</p>}
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!loading && !message && (
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="password"
-              style={{ display: "block", marginBottom: "5px" }}
+    <div className="form-section">
+      {" "}
+      {/* Classe de estilo aplicada */}
+      <div className="form-container">
+        {" "}
+        {/* Classe de estilo aplicada */}
+        <h2>Redefinir Senha</h2>
+        {loading && <p>Processando...</p>}
+        {message && <p className="text-success">{message}</p>}
+        {error && <p className="text-danger">{error}</p>}
+        {!loading && !message && (
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              {" "}
+              {/* Classe de estilo aplicada */}
+              <label htmlFor="password" className="form-label">
+                {" "}
+                {/* Classe de estilo aplicada */}
+                Nova Senha:
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength="6"
+                className="form-control" // Classe de estilo aplicada
+              />
+            </div>
+            <div className="mb-3">
+              {" "}
+              {/* Classe de estilo aplicada */}
+              <label htmlFor="confirmPassword" className="form-label">
+                {" "}
+                {/* Classe de estilo aplicada */}
+                Confirmar Nova Senha:
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength="6"
+                className="form-control" // Classe de estilo aplicada
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary" // Classe de estilo aplicada
             >
-              Nova Senha:
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength="6"
-              style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-            />
-          </div>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="confirmPassword"
-              style={{ display: "block", marginBottom: "5px" }}
-            >
-              Confirmar Nova Senha:
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              minLength="6"
-              style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: "100%",
-              padding: "10px",
-              backgroundColor: "#28a745",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            Redefinir Senha
-          </button>
-        </form>
-      )}
+              Redefinir Senha
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
