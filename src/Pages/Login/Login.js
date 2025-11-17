@@ -1,34 +1,36 @@
 import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  Button,
-  Alert,
-  Card,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod"; // <-- 1. CORREÇÃO: Importação adicionada
 import * as z from "zod";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Contexts/AuthContext";
 import ThemeToggle from "../../Components/ThemeToggle";
 
-// Esquema de validação (sem alterações)
+import {
+  Form,
+  Button,
+  Alert, // <-- Esta importação agora será usada
+  Card,
+  Container,
+  Row,
+  Col,
+  Spinner,
+} from "react-bootstrap";
+
+// Esquema de validação
 const loginSchema = z.object({
   email: z
     .string()
     .min(1, "O e-mail é obrigatório")
     .email("Digite um email válido"),
-  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  senha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
 });
 
-// Serviço de API com a correção na resposta
+// Serviço de API (Corrigido para usar .json() e a URL correta)
 const apiService = {
   login: async (email, senha) => {
-    const API_URL = "https://api-usuarios-five.vercel.app/api/login";
+    const API_URL = "http://localhost:5000/api/auth/login";
 
     const response = await fetch(API_URL, {
       method: "POST",
@@ -36,26 +38,25 @@ const apiService = {
       body: JSON.stringify({ email, senha }),
     });
 
-    // Se a resposta não for OK, primeiro tenta ler o JSON do erro
+    // A API retorna JSON em ambos os casos (erro ou sucesso)
+    const result = await response.json();
+
     if (!response.ok) {
-      const errorResult = await response.json();
-      throw new Error(errorResult.error || `Erro ${response.status}`);
+      throw new Error(result.error || `Erro ${response.status}`);
     }
 
-    // CORREÇÃO AQUI: A API retorna o token como texto/string puro
-    const token = await response.text(); // Usar .text() em vez de .json()
-    if (!token) {
-      throw new Error("A API retornou uma resposta vazia em vez de um token.");
+    if (!result.token) {
+      throw new Error("A API não retornou um token na resposta.");
     }
 
-    return token; // Retorna a string do token diretamente
+    return result.token; // Retorna a string do token de dentro do JSON
   },
 };
 
-// Componente de Login com a correção no tratamento do resultado
+// Componente de Login
 const Login = () => {
   const navigate = useNavigate();
-  const [serverError, setServerError] = useState("");
+  const [serverError, setServerError] = useState(""); // <-- Agora será usado
   const { login } = useContext(AuthContext);
 
   const {
@@ -63,27 +64,27 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema), // <-- Agora 'zodResolver' está definido
   });
 
   const onSubmit = async (data) => {
     setServerError("");
     try {
-      const token = await apiService.login(data.email, data.password);
+      const token = await apiService.login(data.email, data.senha);
 
       localStorage.setItem("token", token);
       console.log("Login bem-sucedido! Token recebido.");
       login(); // Call the login function from AuthContext
       Swal.fire({
-        icon: "success", // Ícone de sucesso
+        icon: "success",
         title: "Logado com sucesso!",
         text: "Você será redirecionado em breve.",
-        showConfirmButton: false, // Esconde o botão de "OK"
-        timer: 2000, // Tempo em milissegundos antes de fechar automaticamente
-        position: "center", // Centraliza a notificação
-        timerProgressBar: true, // Mostra uma barra de progresso do timer
+        showConfirmButton: false,
+        timer: 2000,
+        position: "center",
+        timerProgressBar: true,
         didOpen: () => {
-          Swal.showLoading(); // Mostra um ícone de carregamento sutil
+          Swal.showLoading();
         },
       });
       setTimeout(() => {
@@ -133,6 +134,7 @@ const Login = () => {
                 </p>
               </div>
 
+              {/* 2. CORREÇÃO: Bloco 'Alert' adicionado para usar 'serverError' */}
               {serverError && (
                 <Alert
                   variant="danger"
@@ -169,12 +171,12 @@ const Login = () => {
                   <Form.Control
                     type="password"
                     placeholder="Digite sua senha"
-                    {...register("password")}
-                    isInvalid={!!errors.password}
+                    {...register("senha")}
+                    isInvalid={!!errors.senha}
                     className="border-custom"
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.password?.message}
+                    {errors.senha?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
 
@@ -206,8 +208,9 @@ const Login = () => {
               </Form>
 
               <div className="text-center mb-3">
+                {/* Rota "Esqueceu a senha" corrigida */}
                 <Link
-                  to="/recuperar-senha"
+                  to="/redefinirsenha"
                   className="text-decoration-none text-muted-custom"
                 >
                   <i className="bi bi-question-circle me-1"></i>

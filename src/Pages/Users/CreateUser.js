@@ -19,7 +19,7 @@ import {
 // Schema de validação ajustado para corresponder à API
 const createUserSchema = z
   .object({
-    nome: z
+    nomeCompleto: z
       .string()
       .min(2, { message: "Digite o nome completo" })
       .max(100, { message: "Nome muito longo" }),
@@ -69,7 +69,7 @@ const CreateUser = () => {
   } = useForm({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
-      nome: "",
+      nomeCompleto: "",
       telefone: "",
       email: "",
       senha: "",
@@ -88,7 +88,7 @@ const CreateUser = () => {
 
       // Dados no formato esperado pela API
       const requestData = {
-        nome: data.nome,
+        nomeCompleto: data.nomeCompleto,
         email: data.email,
         telefone: data.telefone, // Mantém a formatação com máscara
         senha: data.senha,
@@ -97,16 +97,13 @@ const CreateUser = () => {
 
       console.log("📤 Enviando dados para API:", requestData);
 
-      const response = await fetch(
-        `https://api-usuarios-five.vercel.app/api/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        }
-      );
+      const response = await fetch(`http://localhost:5000/api/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
 
       // Verifica se a resposta é JSON válida
       const contentType = response.headers.get("content-type");
@@ -206,12 +203,12 @@ const CreateUser = () => {
                   <Form.Control
                     type="text"
                     placeholder="Digite seu nome completo"
-                    {...register("nome")}
-                    isInvalid={!!errors.nome}
+                    {...register("nomeCompleto")}
+                    isInvalid={!!errors.nomeCompleto}
                     disabled={isLoading}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.nome?.message}
+                    {errors.nomeCompleto?.message}
                   </Form.Control.Feedback>
                 </Form.Group>
 
