@@ -147,7 +147,10 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="/reset-password/:resetToken"
+            element={<ResetPassword />}
+          />
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/redefinirsenha" element={<ForgotPassword />} />
         </Routes>

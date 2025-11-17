@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom"; // Alterado para useParams
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Swal from "sweetalert2";
@@ -33,7 +33,7 @@ const resetPasswordSchema = z
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); // Hook para ler a URL
+  const { resetToken } = useParams(); // CORREÇÃO APLICADA AQUI: Usa useParams
   const { login } = useContext(AuthContext); // Para fazer login automático
 
   // Estados
@@ -57,7 +57,7 @@ const ResetPassword = () => {
   // 2. Lógica para capturar o Token da URL
   // Roda uma vez quando o componente é montado
   useEffect(() => {
-    const urlToken = searchParams.get("token");
+    const urlToken = resetToken; // CORREÇÃO APLICADA AQUI: Usa a variável do useParams
     if (urlToken) {
       setToken(urlToken);
     } else {
@@ -65,7 +65,7 @@ const ResetPassword = () => {
         "Token de redefinição inválido ou não encontrado. Por favor, solicite um novo link."
       );
     }
-  }, [searchParams]); // Dependência para re-executar se a URL mudar
+  }, [resetToken]); // CORREÇÃO APLICADA AQUI: Usa resetToken como dependência
 
   // 3. Função de envio
   const onSubmit = async (data) => {
