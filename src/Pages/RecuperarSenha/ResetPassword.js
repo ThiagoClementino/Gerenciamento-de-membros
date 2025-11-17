@@ -80,7 +80,7 @@ const ResetPassword = () => {
     try {
       // A API espera um POST para /api/auth/resetpassword/:token
       // O token vai na URL, a senha vai no body
-      const API_URL = `http://localhost:5000/api/auth/resetpassword/${token}`;
+      const API_URL = `https://usuarios-saas-g-membros.vercel.app/api/auth/resetpassword/${token}`;
 
       const response = await fetch(API_URL, {
         method: "POST",

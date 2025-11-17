@@ -30,7 +30,7 @@ const loginSchema = z.object({
 // Serviço de API (Corrigido para usar .json() e a URL correta)
 const apiService = {
   login: async (email, senha) => {
-    const API_URL = "http://localhost:5000/api/auth/login";
+    const API_URL = "https://usuarios-saas-g-membros.vercel.app/api/auth/login";
 
     const response = await fetch(API_URL, {
       method: "POST",

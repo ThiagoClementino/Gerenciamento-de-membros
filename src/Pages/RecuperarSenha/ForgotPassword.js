@@ -49,7 +49,8 @@ const ForgotPassword = () => {
 
     try {
       // Endpoint da API para "esqueci a senha"
-      const API_URL = "http://localhost:5000/api/auth/forgotpassword";
+      const API_URL =
+        "https://usuarios-saas-g-membros.vercel.app/api/auth/forgotpassword";
 
       const response = await fetch(API_URL, {
         method: "POST",
