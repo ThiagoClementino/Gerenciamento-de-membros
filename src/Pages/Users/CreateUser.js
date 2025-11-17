@@ -98,7 +98,7 @@ const CreateUser = () => {
       console.log("📤 Enviando dados para API:", requestData);
 
       const response = await fetch(
-        `https://gerenciamento-de-membros.vercel.app/api/users/register`,
+        `https://usuarios-saas-g-membros.vercel.app/api/users/register`,
         {
           method: "POST",
           headers: {
