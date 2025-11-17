@@ -81,7 +81,7 @@ const AppRoutes = () => {
         value={{ dadosfinance, setDadosfinance, dados, setDados }}
       >
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/criarusuario" element={<CreateUser />} />
           <Route
             path="/dashboard"

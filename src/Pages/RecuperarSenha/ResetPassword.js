@@ -249,7 +249,7 @@ const ResetPassword = () => {
                 <small className="text-muted-custom">
                   Lembrou a senha?{" "}
                   <Link
-                    to="/login"
+                    to="/"
                     className="text-decoration-none fw-semibold text-primary-custom"
                   >
                     Fazer login
