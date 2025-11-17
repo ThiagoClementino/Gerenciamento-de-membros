@@ -151,6 +151,7 @@ const AppRoutes = () => {
             path="/reset-password/:resetToken"
             element={<ResetPassword />}
           />
+
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/redefinirsenha" element={<ForgotPassword />} />
         </Routes>
