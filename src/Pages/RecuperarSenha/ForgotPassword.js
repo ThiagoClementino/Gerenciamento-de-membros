@@ -193,7 +193,7 @@ const ForgotPassword = () => {
                 <small className="text-muted-custom">
                   Lembrou sua senha?{" "}
                   <Link
-                    to="/login"
+                    to="/"
                     className="text-decoration-none fw-semibold text-primary-custom"
                   >
                     Fazer login
