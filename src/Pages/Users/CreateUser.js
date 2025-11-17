@@ -97,13 +97,16 @@ const CreateUser = () => {
 
       console.log("📤 Enviando dados para API:", requestData);
 
-      const response = await fetch(`http://localhost:5000/api/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+      const response = await fetch(
+        `https://gerenciamento-de-membros.vercel.app/api/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
 
       // Verifica se a resposta é JSON válida
       const contentType = response.headers.get("content-type");
