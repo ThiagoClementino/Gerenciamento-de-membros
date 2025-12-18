@@ -320,7 +320,7 @@ const CreateUser = () => {
                   <Button
                     variant="link"
                     className="p-0 text-decoration-none"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/")}
                     disabled={isLoading}
                   >
                     Faça login aqui
