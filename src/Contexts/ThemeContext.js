@@ -12,47 +12,30 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    // Verifica se há uma preferência salva no localStorage
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      return savedTheme;
-    }
-
-    // Se não há preferência salva, verifica a preferência do sistema
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      return "dark";
-    }
-
-    return "light";
+    return (
+      savedTheme ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
   });
 
   useEffect(() => {
-    // Salva a preferência no localStorage
     localStorage.setItem("theme", theme);
-
-    // Aplica o tema no elemento html
+    // Aplica o tema padrão do Bootstrap 5
     document.documentElement.setAttribute("data-bs-theme", theme);
-
-    // Adiciona classe personalizada para estilos customizados
-    document.documentElement.className =
-      theme === "dark" ? "theme-dark" : "theme-light";
+    // Classe para seletores CSS personalizados
+    document.documentElement.className = `theme-${theme}`;
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-  };
-
-  const value = {
-    theme,
-    toggleTheme,
-    isLight: theme === "light",
-    isDark: theme === "dark",
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
   );
 };
