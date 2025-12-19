@@ -1,32 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, Form, Button, Badge, Alert, Spinner, Breadcrumb } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Badge,
+  Alert,
+  Spinner,
+  Breadcrumb,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faUser, 
-  faHome, 
-  faPhone, 
-  faEnvelope, 
-  faUsers, 
-  faChurch, 
-  faSave, 
+import {
+  faUser,
+  faHome,
+  faPhone,
+  faEnvelope,
+  faUsers,
+  faChurch,
+  faSave,
   faArrowLeft,
   faCalendarAlt,
   faMapMarkerAlt,
   faBriefcase,
   faHeart,
-  faBook,
   faEdit,
-  faUserCheck
+  faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { IMaskInput } from "react-imask";
 import axios from "axios";
-import { useTheme } from "../../Contexts/ThemeContext";
+
 import ResponsiveSidebar from "../Header/ResponsiveSidebar";
 import { useSidebar } from "../Header/useSidebar";
 
 const MembroMinisterio = () => {
-  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } = useSidebar();
+  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
+    useSidebar();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,7 +47,6 @@ const MembroMinisterio = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -89,7 +99,7 @@ const MembroMinisterio = () => {
     if (!dateString) return "-";
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('pt-BR');
+      return date.toLocaleDateString("pt-BR");
     } catch {
       return dateString;
     }
@@ -125,10 +135,17 @@ const MembroMinisterio = () => {
       <div className="content-container">
         {/* Navbar Section - 10% da altura */}
         <nav className="navbar-section">
-          <Container fluid className="h-100 d-flex align-items-center justify-content-between">
+          <Container
+            fluid
+            className="h-100 d-flex align-items-center justify-content-between"
+          >
             <div className="d-flex align-items-center">
               {isMobile && (
-                <Button variant="link" onClick={toggleSidebar} className="me-3 d-lg-none">
+                <Button
+                  variant="link"
+                  onClick={toggleSidebar}
+                  className="me-3 d-lg-none"
+                >
                   <i className="bi bi-list fs-4 text-primary-custom"></i>
                 </Button>
               )}
@@ -146,7 +163,7 @@ const MembroMinisterio = () => {
               <Button
                 variant="outline-secondary"
                 size="sm"
-                onClick={() => navigate('/membros')}
+                onClick={() => navigate("/membros")}
                 className="d-flex align-items-center"
               >
                 <FontAwesomeIcon icon={faArrowLeft} className="me-1" />
@@ -159,7 +176,10 @@ const MembroMinisterio = () => {
                 disabled={saving}
                 className="d-flex align-items-center"
               >
-                <FontAwesomeIcon icon={isEditing ? faSave : faEdit} className="me-1" />
+                <FontAwesomeIcon
+                  icon={isEditing ? faSave : faEdit}
+                  className="me-1"
+                />
                 {saving ? "Salvando..." : isEditing ? "Salvar" : "Editar"}
               </Button>
             </div>
@@ -173,17 +193,23 @@ const MembroMinisterio = () => {
             <Row className="mb-3 flex-shrink-0">
               <Col>
                 <Breadcrumb>
-                  <Breadcrumb.Item onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
+                  <Breadcrumb.Item
+                    onClick={() => navigate("/dashboard")}
+                    style={{ cursor: "pointer" }}
+                  >
                     <FontAwesomeIcon icon={faHome} className="me-1" />
                     Dashboard
                   </Breadcrumb.Item>
-                  <Breadcrumb.Item onClick={() => navigate('/membros')} style={{ cursor: 'pointer' }}>
+                  <Breadcrumb.Item
+                    onClick={() => navigate("/membros")}
+                    style={{ cursor: "pointer" }}
+                  >
                     <FontAwesomeIcon icon={faUsers} className="me-1" />
                     Membros
                   </Breadcrumb.Item>
                   <Breadcrumb.Item active>
                     <FontAwesomeIcon icon={faUser} className="me-1" />
-                    {member.name || 'Detalhes do Membro'}
+                    {member.name || "Detalhes do Membro"}
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </Col>
@@ -193,7 +219,11 @@ const MembroMinisterio = () => {
             {showAlert && (
               <Row className="mb-3 flex-shrink-0">
                 <Col>
-                  <Alert variant={alertType} dismissible onClose={() => setShowAlert(false)}>
+                  <Alert
+                    variant={alertType}
+                    dismissible
+                    onClose={() => setShowAlert(false)}
+                  >
                     {alertMessage}
                   </Alert>
                 </Col>
@@ -210,12 +240,18 @@ const MembroMinisterio = () => {
                       <div>
                         <small className="text-muted-custom">Matrícula:</small>
                         <p className="mb-0 fw-semibold">
-                          <code className="text-primary-custom">{member._id}</code>
+                          <code className="text-primary-custom">
+                            {member._id}
+                          </code>
                         </p>
                       </div>
                       <div>
-                        <small className="text-muted-custom">Data de Criação:</small>
-                        <p className="mb-0 fw-semibold">{formatDate(member.datacriacao)}</p>
+                        <small className="text-muted-custom">
+                          Data de Criação:
+                        </small>
+                        <p className="mb-0 fw-semibold">
+                          {formatDate(member.datacriacao)}
+                        </p>
                       </div>
                     </div>
                   </Card.Body>
@@ -226,14 +262,24 @@ const MembroMinisterio = () => {
                   <Card.Body className="p-3">
                     <h6 className="text-muted-custom mb-2">Status</h6>
                     <div className="d-flex align-items-center">
-                      <Badge 
-                        bg={member.cad === true || member.cad === "true" ? "success" : "secondary"}
+                      <Badge
+                        bg={
+                          member.cad === true || member.cad === "true"
+                            ? "success"
+                            : "secondary"
+                        }
                         className="me-2"
                       >
-                        {member.cad === true || member.cad === "true" ? "Ativo" : "Inativo"}
+                        {member.cad === true || member.cad === "true"
+                          ? "Ativo"
+                          : "Inativo"}
                       </Badge>
                       <small className="text-muted-custom">
-                        Membro {member.cad === true || member.cad === "true" ? "ativo" : "inativo"} no sistema
+                        Membro{" "}
+                        {member.cad === true || member.cad === "true"
+                          ? "ativo"
+                          : "inativo"}{" "}
+                        no sistema
                       </small>
                     </div>
                   </Card.Body>
@@ -260,7 +306,9 @@ const MembroMinisterio = () => {
                     <Row>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Nome Completo</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Nome Completo
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="name"
@@ -273,7 +321,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Nome da Mãe</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Nome da Mãe
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="mothersname"
@@ -286,7 +336,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Nome do Pai</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Nome do Pai
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="fathersname"
@@ -300,7 +352,10 @@ const MembroMinisterio = () => {
                       <Col md={6} className="mb-3">
                         <Form.Group>
                           <Form.Label className="fw-semibold">
-                            <FontAwesomeIcon icon={faCalendarAlt} className="me-1" />
+                            <FontAwesomeIcon
+                              icon={faCalendarAlt}
+                              className="me-1"
+                            />
                             Data de Nascimento
                           </Form.Label>
                           <Form.Control
@@ -349,7 +404,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Telefone 2</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Telefone 2
+                          </Form.Label>
                           <Form.Control
                             as={IMaskInput}
                             mask="(00) 00000-0000"
@@ -365,7 +422,10 @@ const MembroMinisterio = () => {
                       <Col md={6} className="mb-3">
                         <Form.Group>
                           <Form.Label className="fw-semibold">
-                            <FontAwesomeIcon icon={faEnvelope} className="me-1" />
+                            <FontAwesomeIcon
+                              icon={faEnvelope}
+                              className="me-1"
+                            />
                             E-mail
                           </Form.Label>
                           <Form.Control
@@ -380,7 +440,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={3} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Nacionalidade</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Nacionalidade
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="national"
@@ -393,7 +455,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={3} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Naturalidade</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Naturalidade
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="natural"
@@ -407,7 +471,10 @@ const MembroMinisterio = () => {
                       <Col md={6} className="mb-3">
                         <Form.Group>
                           <Form.Label className="fw-semibold">
-                            <FontAwesomeIcon icon={faBriefcase} className="me-1" />
+                            <FontAwesomeIcon
+                              icon={faBriefcase}
+                              className="me-1"
+                            />
                             Profissão
                           </Form.Label>
                           <Form.Control
@@ -422,7 +489,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Empresa</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Empresa
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="companywork"
@@ -468,7 +537,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Endereço</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Endereço
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="address"
@@ -481,7 +552,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={3} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Número</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Número
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="number"
@@ -494,7 +567,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Complemento</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Complemento
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="complement"
@@ -507,7 +582,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Bairro</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Bairro
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="district"
@@ -520,7 +597,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Cidade</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Cidade
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="city"
@@ -533,7 +612,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Estado</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Estado
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="state"
@@ -546,7 +627,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Tempo de Residência</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Tempo de Residência
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="timeinresidence"
@@ -577,7 +660,9 @@ const MembroMinisterio = () => {
                     <Row>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Estado Civil</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Estado Civil
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="estadocivil"
@@ -590,7 +675,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Cônjuge</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Cônjuge
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="conjuge"
@@ -603,7 +690,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={2} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Possui Filhos?</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Possui Filhos?
+                          </Form.Label>
                           <Form.Select
                             name="filhos"
                             value={member.filhos || ""}
@@ -619,7 +708,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={2} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Quantidade</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Quantidade
+                          </Form.Label>
                           <Form.Control
                             type="number"
                             name="qtdfilhos"
@@ -639,11 +730,33 @@ const MembroMinisterio = () => {
                       <Row key={num} className="mb-3">
                         <Col md={8}>
                           <Form.Group>
-                            <Form.Label className="fw-semibold">Nome do Filho {num}</Form.Label>
+                            <Form.Label className="fw-semibold">
+                              Nome do Filho {num}
+                            </Form.Label>
                             <Form.Control
                               type="text"
-                              name={`nomefilho${num === 1 ? 'um' : num === 2 ? 'dois' : num === 3 ? 'tres' : 'quatro'}`}
-                              value={member[`nomefilho${num === 1 ? 'um' : num === 2 ? 'dois' : num === 3 ? 'tres' : 'quatro'}`] || ""}
+                              name={`nomefilho${
+                                num === 1
+                                  ? "um"
+                                  : num === 2
+                                  ? "dois"
+                                  : num === 3
+                                  ? "tres"
+                                  : "quatro"
+                              }`}
+                              value={
+                                member[
+                                  `nomefilho${
+                                    num === 1
+                                      ? "um"
+                                      : num === 2
+                                      ? "dois"
+                                      : num === 3
+                                      ? "tres"
+                                      : "quatro"
+                                  }`
+                                ] || ""
+                              }
                               onChange={handleInputChange}
                               disabled={!isEditing}
                               className="border-custom"
@@ -652,11 +765,33 @@ const MembroMinisterio = () => {
                         </Col>
                         <Col md={4}>
                           <Form.Group>
-                            <Form.Label className="fw-semibold">Idade</Form.Label>
+                            <Form.Label className="fw-semibold">
+                              Idade
+                            </Form.Label>
                             <Form.Control
                               type="number"
-                              name={`idadefilho${num === 1 ? 'um' : num === 2 ? 'dois' : num === 3 ? 'tres' : 'quatro'}`}
-                              value={member[`idadefilho${num === 1 ? 'um' : num === 2 ? 'dois' : num === 3 ? 'tres' : 'quatro'}`] || ""}
+                              name={`idadefilho${
+                                num === 1
+                                  ? "um"
+                                  : num === 2
+                                  ? "dois"
+                                  : num === 3
+                                  ? "tres"
+                                  : "quatro"
+                              }`}
+                              value={
+                                member[
+                                  `idadefilho${
+                                    num === 1
+                                      ? "um"
+                                      : num === 2
+                                      ? "dois"
+                                      : num === 3
+                                      ? "tres"
+                                      : "quatro"
+                                  }`
+                                ] || ""
+                              }
                               onChange={handleInputChange}
                               disabled={!isEditing}
                               className="border-custom"
@@ -671,7 +806,9 @@ const MembroMinisterio = () => {
                     <Row>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Primeiro Casamento?</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Primeiro Casamento?
+                          </Form.Label>
                           <Form.Select
                             name="optionprimeirocasamento"
                             value={member.optionprimeirocasamento || ""}
@@ -687,7 +824,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Casamento Cristão?</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Casamento Cristão?
+                          </Form.Label>
                           <Form.Select
                             name="casamentocristao"
                             value={member.casamentocristao || ""}
@@ -703,7 +842,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Vão Congregar Juntos?</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Vão Congregar Juntos?
+                          </Form.Label>
                           <Form.Select
                             name="parceironaigreja"
                             value={member.parceironaigreja || ""}
@@ -719,7 +860,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={12} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Justificativa</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Justificativa
+                          </Form.Label>
                           <Form.Control
                             as="textarea"
                             rows={3}
@@ -751,7 +894,9 @@ const MembroMinisterio = () => {
                     <Row>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Data de Batismo</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Data de Batismo
+                          </Form.Label>
                           <Form.Control
                             as={IMaskInput}
                             mask="00/00/0000"
@@ -766,7 +911,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Data de Conversão</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Data de Conversão
+                          </Form.Label>
                           <Form.Control
                             as={IMaskInput}
                             mask="00/00/0000"
@@ -781,7 +928,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={4} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Cargo na Igreja</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Cargo na Igreja
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="jobChurch"
@@ -794,7 +943,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Última Congregação</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Última Congregação
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="lastchurch"
@@ -807,7 +958,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={6} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Motivo da Saída</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Motivo da Saída
+                          </Form.Label>
                           <Form.Control
                             as="textarea"
                             rows={2}
@@ -821,7 +974,9 @@ const MembroMinisterio = () => {
                       </Col>
                       <Col md={12} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Igrejas das Quais Foi Membro</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Igrejas das Quais Foi Membro
+                          </Form.Label>
                           <Form.Control
                             as="textarea"
                             rows={3}
@@ -838,20 +993,43 @@ const MembroMinisterio = () => {
                     {/* Perguntas de Sim/Não */}
                     <Row>
                       {[
-                        { name: 'dizimista', label: 'É Dizimista?' },
-                        { name: 'ofertante', label: 'É Ofertante?' },
-                        { name: 'discipulo', label: 'Entende ser um Bom Discípulo?' },
-                        { name: 'participacaocultos', label: 'Participante Efetivo de Cultos?' },
-                        { name: 'habito', label: 'Tem Hábito de Informar Ausências?' },
-                        { name: 'cultosdeoracao', label: 'Participante dos Cultos de Oração?' },
-                        { name: 'aconselhamentopastoral', label: 'Procura Conselhos Pastorais?' },
-                        { name: 'evangelizar', label: 'Tem Hábito de Evangelizar?' },
-                        { name: 'jejuar', label: 'Tem Hábito de Jejuar?' },
-                        { name: 'leiturabiblica', label: 'Faz Leitura Bíblica?' }
+                        { name: "dizimista", label: "É Dizimista?" },
+                        { name: "ofertante", label: "É Ofertante?" },
+                        {
+                          name: "discipulo",
+                          label: "Entende ser um Bom Discípulo?",
+                        },
+                        {
+                          name: "participacaocultos",
+                          label: "Participante Efetivo de Cultos?",
+                        },
+                        {
+                          name: "habito",
+                          label: "Tem Hábito de Informar Ausências?",
+                        },
+                        {
+                          name: "cultosdeoracao",
+                          label: "Participante dos Cultos de Oração?",
+                        },
+                        {
+                          name: "aconselhamentopastoral",
+                          label: "Procura Conselhos Pastorais?",
+                        },
+                        {
+                          name: "evangelizar",
+                          label: "Tem Hábito de Evangelizar?",
+                        },
+                        { name: "jejuar", label: "Tem Hábito de Jejuar?" },
+                        {
+                          name: "leiturabiblica",
+                          label: "Faz Leitura Bíblica?",
+                        },
                       ].map((field, index) => (
                         <Col md={6} key={index} className="mb-3">
                           <Form.Group>
-                            <Form.Label className="fw-semibold">{field.label}</Form.Label>
+                            <Form.Label className="fw-semibold">
+                              {field.label}
+                            </Form.Label>
                             <Form.Select
                               name={field.name}
                               value={member[field.name] || ""}
@@ -871,16 +1049,27 @@ const MembroMinisterio = () => {
                     {/* Campos de Texto Longos */}
                     <Row>
                       {[
-                        { name: 'definicaoevangelho', label: 'Definição do Evangelho' },
-                        { name: 'frutosespirito', label: 'Frutos do Espírito' },
-                        { name: 'desenvolvimentodafe', label: 'Cuidados da Fé' },
-                        { name: 'pecado', label: 'Lutas Pessoais' },
-                        { name: 'conviccaoteologica', label: 'Convicções Teológicas' },
-                        { name: 'livros', label: 'Livros Lidos' }
+                        {
+                          name: "definicaoevangelho",
+                          label: "Definição do Evangelho",
+                        },
+                        { name: "frutosespirito", label: "Frutos do Espírito" },
+                        {
+                          name: "desenvolvimentodafe",
+                          label: "Cuidados da Fé",
+                        },
+                        { name: "pecado", label: "Lutas Pessoais" },
+                        {
+                          name: "conviccaoteologica",
+                          label: "Convicções Teológicas",
+                        },
+                        { name: "livros", label: "Livros Lidos" },
                       ].map((field, index) => (
                         <Col md={6} key={index} className="mb-3">
                           <Form.Group>
-                            <Form.Label className="fw-semibold">{field.label}</Form.Label>
+                            <Form.Label className="fw-semibold">
+                              {field.label}
+                            </Form.Label>
                             <Form.Control
                               type="text"
                               name={field.name}
@@ -897,7 +1086,9 @@ const MembroMinisterio = () => {
                     <Row>
                       <Col md={12} className="mb-3">
                         <Form.Group>
-                          <Form.Label className="fw-semibold">Últimas Considerações</Form.Label>
+                          <Form.Label className="fw-semibold">
+                            Últimas Considerações
+                          </Form.Label>
                           <Form.Control
                             as="textarea"
                             rows={4}
@@ -919,7 +1110,10 @@ const MembroMinisterio = () => {
 
         {/* Footer Section - 5% da altura */}
         <footer className="footer-section">
-          <Container fluid className="h-100 d-flex align-items-center justify-content-center">
+          <Container
+            fluid
+            className="h-100 d-flex align-items-center justify-content-center"
+          >
             <small>© 2024 Sistema de Gestão</small>
           </Container>
         </footer>
@@ -929,4 +1123,3 @@ const MembroMinisterio = () => {
 };
 
 export default MembroMinisterio;
-

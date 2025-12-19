@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import ResponsiveSidebar from "../Header/ResponsiveSidebar";
 import { useSidebar } from "../Header/useSidebar";
-import { useParams } from "react-router-dom";
+
 const Cadastro = () => {
   const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
     useSidebar();

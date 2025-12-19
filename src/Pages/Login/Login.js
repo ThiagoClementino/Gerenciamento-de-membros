@@ -15,7 +15,6 @@ import {
   Container,
   Row,
   Col,
-  Spinner,
 } from "react-bootstrap";
 
 // Esquema de validação
