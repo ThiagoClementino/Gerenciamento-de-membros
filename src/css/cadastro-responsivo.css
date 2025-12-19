@@ -104,22 +104,22 @@
     min-height: 70vh;
     max-height: none;
   }
-  
+
   .form-section-cadastro .card {
     height: auto;
     min-height: 60vh;
   }
-  
+
   .form-section-cadastro .card-body {
     max-height: 60vh;
   }
-  
+
   /* Tabs em mobile ficam mais compactas */
   .form-section-cadastro .nav-pills .nav-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.875rem;
   }
-  
+
   .form-section-cadastro .nav-pills .nav-link small {
     font-size: 0.75rem;
   }
@@ -132,7 +132,7 @@
     min-height: 70vh;
     max-height: 70vh;
   }
-  
+
   .form-section-cadastro .card {
     height: calc(70vh - 80px);
   }
@@ -254,7 +254,7 @@ html.theme-dark .form-section-cadastro .form-select:focus {
 }
 
 .form-section-cadastro .nav-pills::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -283,4 +283,3 @@ html.theme-dark .form-section-cadastro .form-select:focus {
 .form-section-cadastro .nav-pills .nav-link:nth-child(5).active ~ ::before {
   left: 80%;
 }
-

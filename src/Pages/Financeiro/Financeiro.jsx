@@ -21,9 +21,10 @@ export const Financeiro = () => {
   const { dadosfinance, setDadosfinance } = useContext(DataContext);
   const [dataRegistro, setDataRegistro] = useState("");
   const [formError, setFormError] = useState(null);
-  
+
   // Hook para gerenciar sidebar responsiva
-  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } = useSidebar();
+  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
+    useSidebar();
 
   const [financialData, setFinancialData] = useState({
     tipodedado: "",
@@ -150,7 +151,6 @@ export const Financeiro = () => {
 
       {/* Container Principal de Conteúdo */}
       <div className="content-container">
-        
         {/* BARRA DE NAVEGAÇÃO - 10% */}
         <nav className="navbar-section">
           <Container fluid className="d-flex align-items-center">
@@ -166,17 +166,17 @@ export const Financeiro = () => {
                 <i className="bi bi-list"></i>
               </Button>
             )}
-            
+
             <h5 className="mb-0 me-auto text-primary-custom fw-bold">
               💰 Gestão Financeira
             </h5>
-            
+
             <div className="d-flex align-items-center gap-2">
               <Badge bg="success" className="d-none d-sm-inline">
                 Online
               </Badge>
               <small className="text-muted-custom d-none d-md-inline">
-                {new Date().toLocaleDateString('pt-BR')}
+                {new Date().toLocaleDateString("pt-BR")}
               </small>
             </div>
           </Container>
@@ -215,7 +215,10 @@ export const Financeiro = () => {
 
               {/* Alerta de Erro */}
               {formError && (
-                <Alert variant="danger" className="mb-3 shadow-custom-sm border-custom">
+                <Alert
+                  variant="danger"
+                  className="mb-3 shadow-custom-sm border-custom"
+                >
                   <Alert.Heading className="h6 text-danger">
                     <i className="bi bi-exclamation-triangle me-2"></i>
                     Erro no processamento
@@ -225,7 +228,10 @@ export const Financeiro = () => {
               )}
 
               {/* Formulário */}
-              <Form onSubmit={handleFormFinancial} encType="multipart/form-data">
+              <Form
+                onSubmit={handleFormFinancial}
+                encType="multipart/form-data"
+              >
                 {/* Primeira linha */}
                 <Row className="g-3 mb-3">
                   <Col xs={12} md={6} lg={4}>
@@ -334,7 +340,9 @@ export const Financeiro = () => {
                         <option value="Agua">💧 Água</option>
                         <option value="Luz">💡 Energia Elétrica</option>
                         <option value="Aluguel">🏠 Aluguel</option>
-                        <option value="Despesa de departamento">🏢 Despesa Departamental</option>
+                        <option value="Despesa de departamento">
+                          🏢 Despesa Departamental
+                        </option>
                         <option value="Internet">🌐 Internet</option>
                       </Form.Select>
                     </Form.Group>
@@ -394,10 +402,18 @@ export const Financeiro = () => {
                         type="button"
                         variant="outline-secondary"
                         size="sm"
-                        onClick={() => setFinancialData({
-                          tipodedado: "", valor: "", statuspagamento: "", datapagamento: "",
-                          tipolancamento: "", comprovante: null, observacao: "", descricao: ""
-                        })}
+                        onClick={() =>
+                          setFinancialData({
+                            tipodedado: "",
+                            valor: "",
+                            statuspagamento: "",
+                            datapagamento: "",
+                            tipolancamento: "",
+                            comprovante: null,
+                            observacao: "",
+                            descricao: "",
+                          })
+                        }
                       >
                         <i className="bi bi-arrow-clockwise me-1"></i>
                         Limpar
@@ -441,9 +457,14 @@ export const Financeiro = () => {
                   {filteredFinance.length} registros
                 </Badge>
               </div>
-              
+
               <div className="table-responsive">
-                <Table striped hover size="sm" className="mb-0 align-middle border-custom">
+                <Table
+                  striped
+                  hover
+                  size="sm"
+                  className="mb-0 align-middle border-custom"
+                >
                   <thead
                     className="sticky-top"
                     style={{
@@ -452,10 +473,16 @@ export const Financeiro = () => {
                     }}
                   >
                     <tr>
-                      <th className="text-center border-custom" style={{ width: "50px" }}>
+                      <th
+                        className="text-center border-custom"
+                        style={{ width: "50px" }}
+                      >
                         <Form.Check type="checkbox" size="sm" />
                       </th>
-                      <th className="text-center border-custom" style={{ width: "100px" }}>
+                      <th
+                        className="text-center border-custom"
+                        style={{ width: "100px" }}
+                      >
                         <i className="bi bi-gear me-1"></i>
                         Ações
                       </th>
@@ -485,10 +512,15 @@ export const Financeiro = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody style={{ backgroundColor: "var(--custom-bg-secondary)" }}>
+                  <tbody
+                    style={{ backgroundColor: "var(--custom-bg-secondary)" }}
+                  >
                     {filteredFinance.length === 0 ? (
                       <tr>
-                        <td colSpan="8" className="text-center py-4 border-custom">
+                        <td
+                          colSpan="8"
+                          className="text-center py-4 border-custom"
+                        >
                           <div className="text-muted-custom">
                             <i className="bi bi-inbox display-6 d-block mb-2 opacity-50"></i>
                             <h6 className="text-secondary-custom">
@@ -578,7 +610,8 @@ export const Financeiro = () => {
                               bg="secondary"
                               className="fw-normal px-2 py-1"
                               style={{
-                                backgroundColor: "var(--custom-accent-secondary)",
+                                backgroundColor:
+                                  "var(--custom-accent-secondary)",
                               }}
                             >
                               {dado.tipolancamento}
@@ -611,21 +644,26 @@ export const Financeiro = () => {
           <Container fluid>
             <Row className="w-100 align-items-center">
               <Col xs={12} md={6} className="text-center text-md-start">
-                <small>© 2024 Sistema de Gestão - Todos os direitos reservados</small>
+                <small>
+                  © 2024 Sistema de Gestão - Todos os direitos reservados
+                </small>
               </Col>
               <Col xs={12} md={6} className="text-center text-md-end">
                 <small>
-                  Versão 1.0.0 | 
-                  <a href="#suporte" className="text-light ms-1">Suporte</a> | 
-                  <a href="#contato" className="text-light ms-1">Contato</a>
+                  Versão 1.0.0 |
+                  <a href="#suporte" className="text-light ms-1">
+                    Suporte
+                  </a>{" "}
+                  |
+                  <a href="#contato" className="text-light ms-1">
+                    Contato
+                  </a>
                 </small>
               </Col>
             </Row>
           </Container>
         </footer>
-
       </div>
     </div>
   );
 };
-

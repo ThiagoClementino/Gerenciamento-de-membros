@@ -32,11 +32,11 @@
   --custom-shadow-lg: 0 1rem 3rem rgba(75, 85, 99, 0.175);
 
   /* Fontes pequenas mas legíveis */
-  --custom-font-size-xs: 0.75rem;
-  --custom-font-size-sm: 0.875rem;
-  --custom-font-size-base: 0.9rem;
-  --custom-font-size-lg: 1rem;
-  --custom-font-size-xl: 1.125rem;
+  --custom-font-size-xs: 0.7rem;
+  --custom-font-size-sm: 0.9rem;
+  --custom-font-size-base: 1rem;
+  --custom-font-size-lg: 1.125rem;
+  --custom-font-size-xl: 1.2rem;
 
   /* Line heights para melhor legibilidade */
   --custom-line-height-sm: 1.25;

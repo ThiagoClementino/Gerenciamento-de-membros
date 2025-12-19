@@ -4,7 +4,12 @@ import { Tooltip } from "bootstrap";
 import { AuthContext } from "../../Contexts/AuthContext";
 import ThemeToggle from "../../Components/ThemeToggle";
 
-const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseSidebar }) => {
+const ResponsiveSidebar = ({
+  isMobile,
+  sidebarVisible,
+  onToggleSidebar,
+  onCloseSidebar,
+}) => {
   const [expanded, setExpanded] = useState(!isMobile);
   const sidebarRef = useRef(null);
   const iconlogo = require("../../img/iconlogo.png");
@@ -69,9 +74,15 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
     "vh-100",
     "p-3",
     "transition-width",
-    isMobile ? "sidebar-mobile" : expanded ? "sidebar-expanded" : "sidebar-collapsed",
+    isMobile
+      ? "sidebar-mobile"
+      : expanded
+      ? "sidebar-expanded"
+      : "sidebar-collapsed",
     isMobile && sidebarVisible ? "sidebar-mobile-show" : "",
-  ].filter(Boolean).join(" ");
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const sidebarStyles = {
     width: isMobile ? "280px" : expanded ? "280px" : "80px",
@@ -104,13 +115,15 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
       )}
 
       {/* Sidebar */}
-      <div
-        ref={sidebarRef}
-        className={sidebarClasses}
-        style={sidebarStyles}
-      >
+      <div ref={sidebarRef} className={sidebarClasses} style={sidebarStyles}>
         {/* Cabeçalho da Sidebar */}
-        <div className={expanded || isMobile ? "d-flex justify-content-between mb-3" : "d-flex justify-content-center mb-3"}>
+        <div
+          className={
+            expanded || isMobile
+              ? "d-flex justify-content-between mb-3"
+              : "d-flex justify-content-center mb-3"
+          }
+        >
           {(expanded || isMobile) && (
             <img
               src={iconlogo}
@@ -119,11 +132,11 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
               className="me-2"
             />
           )}
-          <div className={(expanded || isMobile) ? "mb-2 text-center" : "mb-2"}>
+          <div className={expanded || isMobile ? "mb-2 text-center" : "mb-2"}>
             <button
               onClick={toggleSidebar}
               className={`btn btn-outline-secondary ${
-                (expanded || isMobile)
+                expanded || isMobile
                   ? "d-flex justify-content-end"
                   : "d-flex justify-content-center"
               }`}
@@ -134,11 +147,11 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
             >
               <i
                 className={`bi ${
-                  isMobile 
-                    ? "bi-x-lg" 
-                    : expanded 
-                      ? "bi-chevron-left" 
-                      : "bi-chevron-right"
+                  isMobile
+                    ? "bi-x-lg"
+                    : expanded
+                    ? "bi-chevron-left"
+                    : "bi-chevron-right"
                 }`}
               ></i>
             </button>
@@ -161,10 +174,12 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
               >
                 <i
                   className={`bi ${item.icon} ${
-                    (expanded || isMobile) ? "me-2" : "fs-5 mx-auto"
+                    expanded || isMobile ? "me-2" : "fs-5 mx-auto"
                   }`}
                 ></i>
-                {(expanded || isMobile) && <span className="ms-1">{item.text}</span>}
+                {(expanded || isMobile) && (
+                  <span className="ms-1">{item.text}</span>
+                )}
               </Link>
             </li>
           ))}
@@ -176,7 +191,7 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
         <div className="d-flex align-items-center">
           <i
             className={`bi bi-person-circle ${
-              (expanded || isMobile) ? "me-2" : "fs-4 mx-auto"
+              expanded || isMobile ? "me-2" : "fs-4 mx-auto"
             }`}
           ></i>
           {(expanded || isMobile) && (
@@ -188,7 +203,10 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
         </div>
 
         {/* Toggle de Tema */}
-        <ThemeToggle size="sm" className={(expanded || isMobile) ? "mb-2" : "mb-2"} />
+        <ThemeToggle
+          size="sm"
+          className={expanded || isMobile ? "mb-2" : "mb-2"}
+        />
 
         {/* Botão de Logout */}
         <div className="mb-3">
@@ -200,7 +218,9 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
             title={!expanded && !isMobile ? "Sair" : undefined}
           >
             <i
-              className={`bi bi-box-arrow-right ${(expanded || isMobile) ? "me-2" : "fs-5"}`}
+              className={`bi bi-box-arrow-right ${
+                expanded || isMobile ? "me-2" : "fs-5"
+              }`}
             ></i>
             {(expanded || isMobile) && <span>Sair</span>}
           </button>
@@ -211,4 +231,3 @@ const ResponsiveSidebar = ({ isMobile, sidebarVisible, onToggleSidebar, onCloseS
 };
 
 export default ResponsiveSidebar;
-
