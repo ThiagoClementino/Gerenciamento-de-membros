@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap";
 import ResponsiveSidebar from "../Header/ResponsiveSidebar";
 import { useSidebar } from "../Header/useSidebar";
-
 const Cadastro = () => {
   const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
     useSidebar();

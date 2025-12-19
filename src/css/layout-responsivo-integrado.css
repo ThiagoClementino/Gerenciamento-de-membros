@@ -32,11 +32,11 @@
   --custom-shadow-lg: 0 1rem 3rem rgba(75, 85, 99, 0.175);
 
   /* Fontes pequenas mas legíveis */
-  --custom-font-size-xs: 0.875rem;
-  --custom-font-size-sm: 0.9rem;
-  --custom-font-size-base: 1rem;
-  --custom-font-size-lg: 1.25rem;
-  --custom-font-size-xl: 1.5rem;
+  --custom-font-size-xs: 0.75rem;
+  --custom-font-size-sm: 0.875rem;
+  --custom-font-size-base: 0.9rem;
+  --custom-font-size-lg: 1rem;
+  --custom-font-size-xl: 1.125rem;
 
   /* Line heights para melhor legibilidade */
   --custom-line-height-sm: 1.25;
@@ -291,7 +291,7 @@ body {
 
 /* Cards */
 .card {
-  background-color: var(--custom-bg-primary) !important;
+  background-color: var(--custom-bg-secondary) !important;
   border: 1px solid var(--custom-border-color) !important;
   box-shadow: var(--custom-shadow) !important;
   transition: all 0.3s ease;

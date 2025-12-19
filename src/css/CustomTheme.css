@@ -1,64 +1,446 @@
+/* Paleta de cores personalizada baseada na especificação do usuário */
 :root {
-  /* Fundo mais escuro (tendência Slate/Onyx) */
-  --bg-main: #121418;
+  /* Cores da paleta fornecida */
+  --color-1: #f4f8fb;
+  --color-2: #e7f0f7;
+  --color-3: #cadfed;
+  --color-4: #9cc3dd;
+  --color-5: #66a4ca;
+  --color-6: #4389b4;
+  --color-7: #326e97;
 
-  /* Cores dos textos conforme solicitado */
-  --text-main: #000000;
-  --text-muted: #4b5563;
+  /* Variáveis customizadas para tema claro */
+  --custom-bg-primary: var(--color-1);
+  --custom-bg-secondary: var(--color-2);
+  --custom-bg-tertiary: var(--color-3);
+  --custom-text-primary: #212529;
+  --custom-text-secondary: #6c757d;
+  --custom-text-muted: #8a8a8a;
+  --custom-border-color: var(--color-3);
+  --custom-accent-primary: var(--color-6);
+  --custom-accent-secondary: var(--color-5);
+  --custom-accent-tertiary: var(--color-7);
 
-  /* Cards com fundo branco e sombra harmoniosa */
-  --bg-card: #ffffff;
-  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
-    0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  /* Sombras customizadas */
+  --custom-shadow-sm: 0 0.125rem 0.25rem rgba(75, 85, 99, 0.075);
+  --custom-shadow: 0 0.5rem 1rem rgba(75, 85, 99, 0.15);
+  --custom-shadow-lg: 0 1rem 3rem rgba(75, 85, 99, 0.175);
+
+  /* Fontes pequenas mas legíveis */
+  --custom-font-size-xs: 0.75rem;
+  --custom-font-size-sm: 0.875rem;
+  --custom-font-size-base: 0.9rem;
+  --custom-font-size-lg: 1rem;
+  --custom-font-size-xl: 1.125rem;
+
+  /* Line heights para melhor legibilidade */
+  --custom-line-height-sm: 1.25;
+  --custom-line-height-base: 1.5;
+  --custom-line-height-lg: 1.75;
 }
 
-* {
-  box-sizing: border-box;
+/* Tema escuro */
+.theme-dark {
+  --custom-bg-primary: #1a1d23;
+  --custom-bg-secondary: #242831;
+  --custom-bg-tertiary: #2d3139;
+  --custom-text-primary: #f8f9fa;
+  --custom-text-secondary: #adb5bd;
+  --custom-text-muted: #6c757d;
+  --custom-border-color: #495057;
+  --custom-accent-primary: var(--color-5);
+  --custom-accent-secondary: var(--color-4);
+  --custom-accent-tertiary: var(--color-6);
+
+  /* Sombras para tema escuro */
+  --custom-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+  --custom-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  --custom-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.4);
 }
 
+/* Aplicação global das variáveis customizadas */
 body {
-  background-color: var(--bg-main) !important;
-  color: var(--text-main);
-  /* Aumento do tamanho padrão da fonte para 1rem */
-  font-size: 1rem !important;
-  line-height: 1.5;
-  margin: 0;
-  font-family: "Inter", -apple-system, sans-serif;
+  font-size: var(--custom-font-size-base) !important;
+  line-height: var(--custom-line-height-base) !important;
+  background-color: var(--custom-bg-primary) !important;
+  color: var(--custom-text-primary) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Estilização universal para os Cards do sistema */
-.card,
-.paper-container,
-.MuiPaper-root {
-  background-color: var(--bg-card) !important;
-  border: none !important;
-  box-shadow: var(--card-shadow) !important;
-  border-radius: 12px !important;
-  color: var(--text-main) !important;
+/* Cards customizados */
+.card {
+  background-color: var(--custom-bg-secondary) !important;
+  border: 1px solid var(--custom-border-color) !important;
+  box-shadow: var(--custom-shadow) !important;
+  transition: all 0.3s ease;
 }
 
-/* Garantir que textos dentro de cards e inputs sejam pretos */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-label,
-span,
-input,
-select,
-textarea {
-  color: var(--text-main) !important;
-  font-size: 1rem; /* Aplica o padrão solicitado */
+.nav-pills .nav-link.active {
+  background-color: var(--custom-accent-tertiary) !important; /* Azul */
+  color: white !important;
 }
 
-/* Ajuste para inputs dentro de fundo branco */
-input.form-control,
-select.form-select {
-  background-color: #f9fafb !important;
-  border: 1px solid #e5e7eb !important;
-  color: #000000 !important;
-  font-size: 1rem !important;
+.card:hover {
+  box-shadow: var(--custom-shadow-lg) !important;
+  transform: translateY(-2px);
+}
+
+.card-header {
+  background-color: var(--custom-bg-tertiary) !important;
+  border-bottom: 1px solid var(--custom-border-color) !important;
+  font-size: var(--custom-font-size-sm) !important;
+  font-weight: 600 !important;
+}
+
+.card-body {
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.card-title {
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-lg) !important;
+  font-weight: 600 !important;
+}
+
+.card-text {
+  color: var(--custom-text-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+/* Containers customizados */
+.container,
+.container-fluid {
+  background-color: var(--custom-bg-primary) !important;
+}
+
+/* Botões customizados */
+.btn-primary {
+  background-color: var(--custom-accent-primary) !important;
+  border-color: var(--custom-accent-primary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+  font-weight: 500 !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--custom-accent-tertiary) !important;
+  border-color: var(--custom-accent-tertiary) !important;
+}
+
+.btn-secondary {
+  background-color: var(--custom-accent-secondary) !important;
+  border-color: var(--custom-accent-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.btn-outline-primary {
+  color: var(--custom-accent-primary) !important;
+  border-color: var(--custom-accent-primary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--custom-accent-primary) !important;
+  border-color: var(--custom-accent-primary) !important;
+}
+
+/* Formulários customizados */
+.form-control {
+  background-color: var(--custom-bg-secondary) !important;
+  border: 1px solid var(--custom-border-color) !important;
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.form-control:focus {
+  background-color: var(--custom-bg-secondary) !important;
+  border-color: var(--custom-accent-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(102, 164, 202, 0.25) !important;
+}
+
+.form-label {
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+  font-weight: 500 !important;
+}
+
+/* Navegação customizada */
+.navbar {
+  background-color: var(--custom-bg-secondary) !important;
+  border-bottom: 1px solid var(--custom-border-color) !important;
+  box-shadow: var(--custom-shadow-sm) !important;
+}
+
+.navbar-brand {
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-lg) !important;
+  font-weight: 600 !important;
+}
+
+.nav-link {
+  color: var(--custom-text-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.nav-link:hover {
+  color: var(--custom-accent-primary) !important;
+}
+
+.nav-link.active {
+  color: var(--custom-accent-primary) !important;
+  font-weight: 500 !important;
+}
+
+/* Sidebar customizada */
+.sidebar {
+  background-color: var(--custom-bg-secondary) !important;
+  border-right: 1px solid var(--custom-border-color) !important;
+  box-shadow: var(--custom-shadow) !important;
+}
+
+.sidebar .nav-link {
+  color: var(--custom-text-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.375rem !important;
+  margin: 0.125rem 0 !important;
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--custom-bg-tertiary) !important;
+  color: var(--custom-accent-primary) !important;
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--custom-accent-primary) !important;
+  color: white !important;
+}
+
+/* Tabelas customizadas */
+.table {
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.table th {
+  background-color: var(--custom-bg-tertiary) !important;
+  border-color: var(--custom-border-color) !important;
+  font-size: var(--custom-font-size-xs) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  border-color: var(--custom-border-color) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--custom-bg-secondary) !important;
+}
+
+/* Alertas customizados */
+.alert {
+  font-size: var(--custom-font-size-sm) !important;
+  border: 1px solid var(--custom-border-color) !important;
+}
+
+.alert-primary {
+  background-color: rgba(102, 164, 202, 0.1) !important;
+  border-color: var(--custom-accent-primary) !important;
+  color: var(--custom-accent-tertiary) !important;
+}
+
+.alert-success {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+  border-color: #28a745 !important;
+  color: #155724 !important;
+}
+
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.1) !important;
+  border-color: #dc3545 !important;
+  color: #721c24 !important;
+}
+
+/* Badges customizados */
+.badge {
+  font-size: var(--custom-font-size-xs) !important;
+  font-weight: 500 !important;
+}
+
+.badge-primary {
+  background-color: var(--custom-accent-primary) !important;
+}
+
+/* Modais customizados */
+.modal-content {
+  background-color: var(--custom-bg-secondary) !important;
+  border: 1px solid var(--custom-border-color) !important;
+  box-shadow: var(--custom-shadow-lg) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--custom-border-color) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--custom-border-color) !important;
+}
+
+.modal-title {
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-lg) !important;
+  font-weight: 600 !important;
+}
+
+/* Dropdown customizado */
+.dropdown-menu {
+  background-color: var(--custom-bg-secondary) !important;
+  border: 1px solid var(--custom-border-color) !important;
+  box-shadow: var(--custom-shadow) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.dropdown-item {
+  color: var(--custom-text-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.dropdown-item:hover {
+  background-color: var(--custom-bg-tertiary) !important;
+  color: var(--custom-accent-primary) !important;
+}
+
+/* Breadcrumb customizado */
+.breadcrumb {
+  background-color: var(--custom-bg-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.breadcrumb-item a {
+  color: var(--custom-accent-primary) !important;
+}
+
+/* Paginação customizada */
+.pagination .page-link {
+  background-color: var(--custom-bg-secondary) !important;
+  border-color: var(--custom-border-color) !important;
+  color: var(--custom-text-secondary) !important;
+  font-size: var(--custom-font-size-sm) !important;
+}
+
+.pagination .page-link:hover {
+  background-color: var(--custom-bg-tertiary) !important;
+  color: var(--custom-accent-primary) !important;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--custom-accent-primary) !important;
+  border-color: var(--custom-accent-primary) !important;
+}
+
+/* Progress bars customizadas */
+.progress {
+  background-color: var(--custom-bg-tertiary) !important;
+}
+
+.progress-bar {
+  background-color: var(--custom-accent-primary) !important;
+}
+
+/* Tooltips customizados */
+.tooltip .tooltip-inner {
+  background-color: var(--custom-bg-tertiary) !important;
+  color: var(--custom-text-primary) !important;
+  font-size: var(--custom-font-size-xs) !important;
+}
+
+/* Utilitários de texto customizados */
+.text-primary-custom {
+  color: var(--custom-accent-primary) !important;
+}
+
+.text-secondary-custom {
+  color: var(--custom-text-secondary) !important;
+}
+
+.text-muted-custom {
+  color: var(--custom-text-muted) !important;
+}
+
+/* Utilitários de background customizados */
+.bg-primary-custom {
+  background-color: var(--custom-bg-primary) !important;
+}
+
+.bg-secondary-custom {
+  background-color: var(--custom-bg-secondary) !important;
+}
+
+.bg-tertiary-custom {
+  background-color: var(--custom-bg-tertiary) !important;
+}
+
+/* Bordas customizadas */
+.border-custom {
+  border-color: var(--custom-border-color) !important;
+}
+
+/* Sombras customizadas */
+.shadow-custom-sm {
+  box-shadow: var(--custom-shadow-sm) !important;
+}
+
+.shadow-custom {
+  box-shadow: var(--custom-shadow) !important;
+}
+
+.shadow-custom-lg {
+  box-shadow: var(--custom-shadow-lg) !important;
+}
+
+/* Responsividade para fontes pequenas */
+@media (max-width: 576px) {
+  body {
+    font-size: var(--custom-font-size-sm) !important;
+  }
+
+  .card-title {
+    font-size: var(--custom-font-size-base) !important;
+  }
+
+  .btn {
+    font-size: var(--custom-font-size-xs) !important;
+    padding: 0.375rem 0.75rem !important;
+  }
+}
+
+/* Animações suaves para transições de tema */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Melhorias de acessibilidade */
+.btn:focus,
+.form-control:focus,
+.nav-link:focus {
+  outline: 2px solid var(--custom-accent-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* Estilos para o botão de toggle de tema */
+.theme-toggle {
+  background: none !important;
+  border: 1px solid var(--custom-border-color) !important;
+  color: var(--custom-text-primary) !important;
+  padding: 0.5rem !important;
+  border-radius: 0.375rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.theme-toggle:hover {
+  background-color: var(--custom-bg-tertiary) !important;
+  color: var(--custom-accent-primary) !important;
 }
