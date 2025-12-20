@@ -172,7 +172,6 @@ const Cadastro = () => {
   return (
     <div className="main-wrapper">
       <div className="content-container">
-        {/* Navbar Section - 10% da altura */}
         <nav className="navbar-section">
           <Container
             fluid
