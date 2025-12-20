@@ -1,17 +1,18 @@
-.form-section-cadastro {
-  height: 75vh;
+.cadastro-container {
+  height: calc(100vh - var(--navbar-height));
   display: flex;
   flex-direction: column;
 }
 
-.form-section-cadastro .card {
-  height: calc(75vh - 80px); /* Espaço original das tabs */
-  display: flex;
-  flex-direction: column;
-}
-
-.form-section-cadastro .card-body {
+.form-tabs-wrapper {
   flex: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cadastro-card-body {
+  flex: 1;
+  overflow-y: auto; /* Scroll apenas dentro do card de cadastro */
   padding: 1.5rem;
 }

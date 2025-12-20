@@ -1,5 +1,5 @@
 :root {
-  /* --- PALETA ORIGINAL (CustomTheme.css) --- */
+  /* Cores Originais extraídas do CustomTheme */
   --brand-primary: #3b82f6;
   --brand-secondary: #6366f1;
   --brand-success: #10b981;
@@ -7,23 +7,17 @@
   --custom-bg-primary: #f8fafc;
   --custom-bg-secondary: #ffffff;
   --custom-bg-tertiary: #f1f5f9;
+
   --custom-text-primary: #0f172a;
   --custom-text-secondary: #475569;
   --custom-text-muted: #94a3b8;
   --custom-border-color: #e2e8f0;
 
-  /* --- DIMENSÕES ORIGINAIS (dashboard.css) --- */
-  --sidebar-width-desktop: 280px;
-  --navbar-height-desktop: 10vh;
-  --form-height-desktop: 40vh;
-  --table-height-desktop: 45vh;
-
-  /* --- SOMBRAS ORIGINAIS --- */
-  --custom-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --custom-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  /* Layout Tokens */
+  --sidebar-width: 280px;
+  --navbar-height: 70px; /* Altura fixa para cálculo de scroll */
 }
 
-/* --- TEMA DARK ORIGINAL --- */
 .theme-dark {
   --custom-bg-primary: #0f172a;
   --custom-bg-secondary: #1e293b;

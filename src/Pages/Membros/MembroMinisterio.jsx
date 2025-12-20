@@ -26,12 +26,13 @@ import {
   faMapMarkerAlt,
   faBriefcase,
   faHeart,
+  faBook,
   faEdit,
   faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { IMaskInput } from "react-imask";
 import axios from "axios";
-
+import { useTheme } from "../../Contexts/ThemeContext";
 import ResponsiveSidebar from "../Header/ResponsiveSidebar";
 import { useSidebar } from "../Header/useSidebar";
 
@@ -47,6 +48,7 @@ const MembroMinisterio = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -149,7 +151,7 @@ const MembroMinisterio = () => {
                   <i className="bi bi-list fs-4 text-primary-custom"></i>
                 </Button>
               )}
-              <div className="w-100">
+              <div>
                 <h1 className="h3 mb-1 text-primary-custom fw-bold">
                   <FontAwesomeIcon icon={faUserCheck} className="me-2" />
                   Membro do Ministério
@@ -231,19 +233,19 @@ const MembroMinisterio = () => {
             )}
 
             {/* Informações de Identificação */}
-            <Row className="flex-grow-1 overflow-auto h-100">
+            <Row className="flex-grow-1 overflow-auto">
               <Col md={6} className="mb-3">
                 <Card className="border-0 shadow-custom-sm h-100">
                   <Card.Body className="p-3">
-                    <h6 className="text-muted-custom">Identificação</h6>
+                    <h6 className="text-muted-custom mb-2">Identificação</h6>
                     <div className="d-flex justify-content-between">
                       <div>
                         <small className="text-muted-custom">Matrícula:</small>
-                        <h4 className="mb-0 fw-bold">
+                        <p className="mb-0 fw-semibold">
                           <code className="text-primary-custom">
                             {member._id}
                           </code>
-                        </h4>
+                        </p>
                       </div>
                       <div>
                         <small className="text-muted-custom">
@@ -290,8 +292,8 @@ const MembroMinisterio = () => {
         </section>
 
         {/* Table Section - 40% da altura (para formulários detalhados) */}
-        <section className="table-section">
-          <Container fluid className="h-100 overflow-auto">
+        <section className="scrollable-content-section">
+          <Container fluid className="h-100 overflow-y-auto">
             {/* Dados Pessoais */}
             <Row className="mb-4">
               <Col>

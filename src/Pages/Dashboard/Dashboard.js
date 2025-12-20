@@ -1,9 +1,9 @@
-import React from "react";
-import Header from "../Header/Sidebar";
+import React, { useState, useEffect } from "react";
+
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Datainfor from "../../Contexts/DataInfor";
-import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faChildDress,
   faChildReaching,
@@ -42,37 +42,27 @@ const Dashboard = () => {
   const ativos = dados.filter((d) => d.cad === true).length;
 
   return (
-    /* CONTAINER PRINCIPAL: d-flex garante lado a lado */
-    <div className="main-layout-wrapper d-flex">
-      {/* SIDEBAR: Fixa na lateral esquerda */}
-      <Header />
+    <div
+      className="main-layout-wrapper d-flex"
+      style={{ height: "100vh", overflow: "hidden" }}
+    >
+      <div className="dashboard-content-area flex-grow-1 d-flex flex-column">
+        {/* 1. Cabeçalho da Página (Fixo) */}
+        <div className="fixed-top-section">
+          <Row className="align-items-center mb-3">
+            <Col>
+              <h1 className="h3 mb-1 fw-bold">Dashboard</h1>
+              <p className="text-secondary small">Análise em tempo real</p>
+            </Col>
+            <Col xs="auto">
+              <div className="bg-white p-2 rounded shadow-sm border small fw-bold text-primary">
+                {formatarData(data)}
+              </div>
+            </Col>
+          </Row>
 
-      {/* ÁREA DO DASHBOARD: flex-grow-1 ocupa todo o resto da tela */}
-      <div className="dashboard-content-area flex-grow-1 w-100 h-100">
-        <Container fluid className="p-4">
-          <div className="dashboard-header mb-4 h-auto">
-            <Row className="align-items-center">
-              <Col>
-                <h1 className="h3 mb-1 fw-bold">Dashboard</h1>
-                <p className="text-secondary small">
-                  Análise em tempo real dos membros
-                </p>
-              </Col>
-              <Col xs="auto" className="text-end">
-                <div className="bg-white p-2 rounded shadow-sm border">
-                  <span className="small text-muted d-block">
-                    Atualizado em:
-                  </span>
-                  <span className="fw-bold text-primary">
-                    {formatarData(data)}
-                  </span>
-                </div>
-              </Col>
-            </Row>
-          </div>
-
-          {/* Cards de Estatísticas */}
-          <Row className="g-3 mb-4">
+          {/* 2. Cards de Estatísticas (FIXOS) */}
+          <Row className="g-3 mb-2">
             {[
               { t: "Total", v: dados.length, i: faPeopleGroup, c: "#3b82f6" },
               { t: "Ativos", v: ativos, i: faPeopleLine, c: "#6366f1" },
@@ -80,73 +70,68 @@ const Dashboard = () => {
               { t: "Mulheres", v: Feminino, i: faChildDress, c: "#10b981" },
             ].map((s, i) => (
               <Col key={i} xs={12} sm={6} lg={3}>
-                <Card className="border-0 shadow-sm h-75">
+                <Card className="border-0 shadow-sm">
                   <Card.Body className="d-flex align-items-center p-3">
                     <div
-                      className="me-3 p-3 rounded-circle"
+                      className="me-3 p-2 rounded-circle"
                       style={{ backgroundColor: `${s.c}15` }}
                     >
-                      <FontAwesomeIcon
-                        icon={s.i}
-                        style={{ color: s.c }}
-                        size="lg"
-                      />
+                      <FontAwesomeIcon icon={s.i} style={{ color: s.c }} />
                     </div>
                     <div>
-                      <h6 className="text-muted small mb-1">{s.t}</h6>
-                      <h3 className="mb-0 fw-bold">{s.v}</h3>
+                      <h6 className="text-muted small mb-0">{s.t}</h6>
+                      <h4 className="mb-0 fw-bold">{s.v}</h4>
                     </div>
                   </Card.Body>
                 </Card>
               </Col>
             ))}
           </Row>
+          <hr />
+        </div>
 
-          {/* ÁREA DOS GRÁFICOS COM SCROLL INTERNO */}
-          <Card className="border-0 shadow-sm mb-4 overflow-overflow-y-auto h-75">
-            <Card.Header className="bg-white border-0 py-3">
-              <h5 className="mb-0 fw-bold">Gráficos Analíticos</h5>
-            </Card.Header>
-            <Card.Body className="p-3">
-              <div className="charts-scroll-viewport">
-                <Row className="g-4">
-                  <Col xs={12} lg={6}>
-                    <div className="p-2 border rounded bg-light">
-                      <iframe
-                        src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697f96d-22ee-48b5-871d-fb08a93f831c&theme=${theme}`}
-                        className="w-100 border-0"
-                        style={{ height: "350px" }}
-                        title="Gênero"
-                      />
-                    </div>
-                  </Col>
-                  <Col xs={12} lg={6}>
-                    <div className="p-2 border rounded bg-light">
-                      <iframe
-                        src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697fc6b-0a12-483e-8cb3-3ff11fc0d451&theme=${theme}`}
-                        className="w-100 border-0"
-                        style={{ height: "350px" }}
-                        title="Status"
-                      />
-                    </div>
-                  </Col>
-                  <Col xs={12}>
-                    <div className="p-2 border rounded bg-light">
-                      <iframe
-                        src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=66982cc4-1232-4aea-8407-a721d3d95ec4&theme=${theme}`}
-                        className="w-100 border-0"
-                        style={{ height: "500px" }}
-                        title="Geral"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-            </Card.Body>
-          </Card>
-
+        {/* 3. Área de Gráficos (ROLÁVEL) */}
+        <div className="scrollable-content-section">
+          <Row className="g-4">
+            <Col xs={12} lg={6}>
+              <Card className="border-0 shadow-sm">
+                <Card.Body>
+                  <iframe
+                    src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697f96d-22ee-48b5-871d-fb08a93f831c&theme=${theme}`}
+                    className="w-100 border-0"
+                    style={{ height: "350px" }}
+                    title="Gênero"
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col xs={12} lg={6}>
+              <Card className="border-0 shadow-sm">
+                <Card.Body>
+                  <iframe
+                    src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=6697fc6b-0a12-483e-8cb3-3ff11fc0d451&theme=${theme}`}
+                    className="w-100 border-0"
+                    style={{ height: "350px" }}
+                    title="Status"
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col xs={12}>
+              <Card className="border-0 shadow-sm">
+                <Card.Body>
+                  <iframe
+                    src={`https://charts.mongodb.com/charts-gerenciadordemembros-oikrdpy/embed/charts?id=66982cc4-1232-4aea-8407-a721d3d95ec4&theme=${theme}`}
+                    className="w-100 border-0"
+                    style={{ height: "500px" }}
+                    title="Geral"
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
           <Footer />
-        </Container>
+        </div>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import ResetPassword from "./Pages/RecuperarSenha/ResetPassword";
 import ChangePassword from "./Pages/RecuperarSenha/ChangePassword";
 import ForgotPassword from "./Pages/RecuperarSenha/ForgotPassword";
+import MainLayout from "./Components/MainLayout";
 
 const AppRoutes = () => {
   const [dados, setDados] = useState([]);
@@ -81,6 +82,7 @@ const AppRoutes = () => {
         value={{ dadosfinance, setDadosfinance, dados, setDados }}
       >
         <Routes>
+          <Route element={<MainLayout />} />
           <Route path="/" element={<Login />} />
           <Route path="/criarusuario" element={<CreateUser />} />
           <Route

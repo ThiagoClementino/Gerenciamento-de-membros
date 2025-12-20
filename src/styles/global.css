@@ -5,21 +5,21 @@
 }
 
 body {
-  font-family: "Inter", "Roboto", sans-serif !important;
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
   background-color: var(--custom-bg-primary) !important;
   color: var(--custom-text-primary) !important;
-  margin: 0;
-  overflow-x: hidden;
+  overflow: hidden; /* O scroll será controlado pelos containers internos */
 }
 
-/* Scrollbar Original (cadastro-responsivo.css) */
+/* Scrollbar Unificada (Design Original) */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--custom-bg-primary);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--brand-secondary);
-  border-radius: 4px;
+  border-radius: 10px;
 }
