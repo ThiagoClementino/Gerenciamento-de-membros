@@ -149,7 +149,7 @@ const MembroMinisterio = () => {
                   <i className="bi bi-list fs-4 text-primary-custom"></i>
                 </Button>
               )}
-              <div>
+              <div className="w-100">
                 <h1 className="h3 mb-1 text-primary-custom fw-bold">
                   <FontAwesomeIcon icon={faUserCheck} className="me-2" />
                   Membro do Ministério
@@ -231,19 +231,19 @@ const MembroMinisterio = () => {
             )}
 
             {/* Informações de Identificação */}
-            <Row className="flex-grow-1 overflow-auto">
+            <Row className="flex-grow-1 overflow-auto h-100">
               <Col md={6} className="mb-3">
                 <Card className="border-0 shadow-custom-sm h-100">
                   <Card.Body className="p-3">
-                    <h6 className="text-muted-custom mb-2">Identificação</h6>
+                    <h6 className="text-muted-custom">Identificação</h6>
                     <div className="d-flex justify-content-between">
                       <div>
                         <small className="text-muted-custom">Matrícula:</small>
-                        <p className="mb-0 fw-semibold">
+                        <h4 className="mb-0 fw-bold">
                           <code className="text-primary-custom">
                             {member._id}
                           </code>
-                        </p>
+                        </h4>
                       </div>
                       <div>
                         <small className="text-muted-custom">

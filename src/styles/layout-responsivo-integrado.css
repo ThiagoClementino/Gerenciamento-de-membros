@@ -1,0 +1,169 @@
+/* ============================================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GLOBAIS (Compartilhadas)
+   ============================================================ */
+:root {
+  /* Paleta de Cores e Identidade */
+  --brand-primary: #3b82f6;
+  --custom-bg-primary: #f8fafc;
+  --custom-bg-secondary: #ffffff;
+  --custom-border-color: #e2e8f0;
+
+  /* Dimensões Desktop */
+  --sidebar-width: 280px;
+  --navbar-height: 500px;
+  --footer-height: 50px;
+
+  /* Alturas Dinâmicas (Desktop) */
+  --form-height-dsktp: 25vh;
+  --table-height-dsktp: 60vh;
+}
+
+/* Reset de Comportamento */
+* {
+  box-sizing: border-box;
+  transition: 0.3s ease;
+}
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+  background: var(--custom-bg-primary);
+}
+@media (max-width: 991px) {
+  .content-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .h3,
+  h3 {
+    font-size: calc(1rem + 0.6vw);
+  }
+
+  /* Sidebar Mobile: Estilo "Gaveta" (Drawer) */
+  .sidebar {
+    position: fixed;
+    left: -100%; /* Escondida por padrão */
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 1100;
+    box-shadow: 10px 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-mobile-show {
+    left: 0;
+  } /* Gatilho de abertura */
+
+  /* Seções Mobile: Empilhamento Vertical */
+  .form-section,
+  .table-section {
+    height: auto !important; /* Altura automática para o conteúdo crescer */
+    min-height: 300px;
+    overflow-y: visible; /* O scroll é controlado pelo container pai */
+    padding: 15px;
+    border-bottom: 1px solid var(--custom-border-color);
+  }
+
+  .navbar-section {
+    height: 200px;
+    display: flex;
+    padding: 0 10px;
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   3. ESTRUTURA PARA DESKTOP (Telas > 992px)
+   Aqui o layout se torna fixo e dividido por proporções de altura
+   ============================================================ */
+@media (min-width: 992px) {
+  /* Layout Lado a Lado */
+  .main-wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Trava o scroll da página externa */
+  }
+  .form-section {
+    height: 25vh !important;
+    min-height: 25vh !important;
+    max-height: 25vh !important;
+    overflow: hidden; /* Mantém o cabeçalho fixo */
+  }
+
+  /* Ajuste da altura para 50% */
+  .table-section {
+    height: 60vh !important;
+    min-height: 60vh !important;
+    max-height: 60vh !important;
+    overflow-y: auto; /* Permite scroll nos dados vindos da API */
+  }
+
+  /* Otimização para os cards dentro da seção de dados */
+  .table-section .card {
+    height: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Sidebar Fixa Lateral */
+  .sidebar {
+    position: relative;
+    left: 0;
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    height: 100vh;
+  }
+
+  /* Container Interno com Scroll Independente */
+  .content-container {
+    flex: 1;
+    height: 100vh;
+    overflow: hidden; /* O container não rola, as seções dentro dele sim */
+  }
+
+  /* Divisão de Altura % (Área de Trabalho) */
+  .navbar-section {
+    height: var(--navbar-height);
+    flex-shrink: 0;
+  }
+
+  .form-section-membros {
+    height: var(--form-height-dsktp); /* 25% da tela */
+    overflow-y: auto; /* Scroll apenas dentro do formulário */
+  }
+
+  .table-section-membros {
+    height: var(--table-height-dsktp); /* 60% da tela */
+    overflow-y: auto; /* Scroll apenas dentro da lista/tabela */
+  }
+
+  .footer-section {
+    height: var(--footer-height);
+    flex-shrink: 0;
+  }
+}
+
+/* ============================================================
+   4. ESTILIZAÇÃO DOS COMPONENTES (UI Design)
+   Aplicável a todas as telas, respeitando as variáveis acima
+   ============================================================ */
+.card {
+  border-radius: 12px;
+  border: 1px solid var(--custom-border-color);
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
+
+/* Estilo para Touch Devices (Melhora o clique no celular) */
+@media (pointer: coarse) {
+  .btn,
+  .form-control,
+  .nav-link {
+    min-height: 44px; /* Tamanho mínimo recomendado pela Apple/Google */
+  }
+}

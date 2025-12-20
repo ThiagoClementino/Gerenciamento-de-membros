@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease !important;
+}
+
+body {
+  font-family: "Inter", "Roboto", sans-serif !important;
+  background-color: var(--custom-bg-primary) !important;
+  color: var(--custom-text-primary) !important;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Original (cadastro-responsivo.css) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--custom-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-secondary);
+  border-radius: 4px;
+}
