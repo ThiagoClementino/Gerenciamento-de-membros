@@ -26,19 +26,13 @@ import {
   faMapMarkerAlt,
   faBriefcase,
   faHeart,
-  faBook,
   faEdit,
   faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { IMaskInput } from "react-imask";
 import axios from "axios";
-import { useTheme } from "../../Contexts/ThemeContext";
-import ResponsiveSidebar from "../Header/ResponsiveSidebar";
-import { useSidebar } from "../Header/useSidebar";
 
 const MembroMinisterio = () => {
-  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
-    useSidebar();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -48,7 +42,6 @@ const MembroMinisterio = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -110,12 +103,6 @@ const MembroMinisterio = () => {
   if (loading) {
     return (
       <div className="main-wrapper">
-        <ResponsiveSidebar
-          isMobile={isMobile}
-          sidebarVisible={sidebarVisible}
-          onToggleSidebar={toggleSidebar}
-          onCloseSidebar={closeSidebar}
-        />
         <div className="content-container d-flex justify-content-center align-items-center">
           <div className="text-center">
             <Spinner animation="border" variant="primary" className="mb-3" />
@@ -128,12 +115,6 @@ const MembroMinisterio = () => {
 
   return (
     <div className="main-wrapper">
-      <ResponsiveSidebar
-        isMobile={isMobile}
-        sidebarVisible={sidebarVisible}
-        onToggleSidebar={toggleSidebar}
-        onCloseSidebar={closeSidebar}
-      />
       <div className="content-container">
         {/* Navbar Section - 10% da altura */}
         <nav className="navbar-section">
@@ -142,15 +123,6 @@ const MembroMinisterio = () => {
             className="h-100 d-flex align-items-center justify-content-between"
           >
             <div className="d-flex align-items-center">
-              {isMobile && (
-                <Button
-                  variant="link"
-                  onClick={toggleSidebar}
-                  className="me-3 d-lg-none"
-                >
-                  <i className="bi bi-list fs-4 text-primary-custom"></i>
-                </Button>
-              )}
               <div>
                 <h1 className="h3 mb-1 text-primary-custom fw-bold">
                   <FontAwesomeIcon icon={faUserCheck} className="me-2" />
@@ -1109,16 +1081,6 @@ const MembroMinisterio = () => {
             </Row>
           </Container>
         </section>
-
-        {/* Footer Section - 5% da altura */}
-        <footer className="footer-section">
-          <Container
-            fluid
-            className="h-100 d-flex align-items-center justify-content-center"
-          >
-            <small>© 2024 Sistema de Gestão</small>
-          </Container>
-        </footer>
       </div>
     </div>
   );

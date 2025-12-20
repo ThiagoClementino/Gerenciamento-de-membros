@@ -1,12 +1,9 @@
 import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Membros from "./Pages/Membros/Membros";
-import { useState, useEffect } from "react";
-import Datainfor from "./Contexts/DataInfor";
-import DataApiOne from "./Contexts/DataApiOne";
 import Cadastro from "./Pages/Cadastro/Cadastro";
 import { Financeiro } from "./Pages/Financeiro/Financeiro";
-import Sidebar from "./Pages/Header/Sidebar";
 import MembroMinisterio from "./Pages/Membros/MembroMinisterio";
 import Home from "./Pages/Home/Home";
 import Config from "./Pages/Config/Config";
@@ -16,7 +13,9 @@ import PrivateRoute from "./Components/PrivateRoute";
 import ResetPassword from "./Pages/RecuperarSenha/ResetPassword";
 import ChangePassword from "./Pages/RecuperarSenha/ChangePassword";
 import ForgotPassword from "./Pages/RecuperarSenha/ForgotPassword";
-import MainLayout from "./Components/MainLayout";
+import MainLayout from "./Components/MainLayout"; // Componente de Layout Global
+import Datainfor from "./Contexts/DataInfor";
+import DataApiOne from "./Contexts/DataApiOne";
 
 const AppRoutes = () => {
   const [dados, setDados] = useState([]);
@@ -82,80 +81,75 @@ const AppRoutes = () => {
         value={{ dadosfinance, setDadosfinance, dados, setDados }}
       >
         <Routes>
-          <Route element={<MainLayout />} />
+          {/* Rotas Públicas (Sem Sidebar/Footer) */}
           <Route path="/" element={<Login />} />
           <Route path="/criarusuario" element={<CreateUser />} />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/membros"
-            element={
-              <PrivateRoute>
-                <Membros />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/cadastro"
-            element={
-              <PrivateRoute>
-                <Cadastro />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/financeiro"
-            element={
-              <PrivateRoute>
-                <Financeiro />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/sidebar"
-            element={
-              <PrivateRoute>
-                <Sidebar />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/membro/:id"
-            element={
-              <PrivateRoute>
-                <MembroMinisterio />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/config"
-            element={
-              <PrivateRoute>
-                <Config />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
           <Route
             path="/reset-password/:resetToken"
             element={<ResetPassword />}
           />
-
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/redefinirsenha" element={<ForgotPassword />} />
+
+          {/* Rotas Privadas com Layout Global (Sidebar e Footer Fixos) */}
+          <Route element={<MainLayout />}>
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/membros"
+              element={
+                <PrivateRoute>
+                  <Membros />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/cadastro"
+              element={
+                <PrivateRoute>
+                  <Cadastro />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/financeiro"
+              element={
+                <PrivateRoute>
+                  <Financeiro />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/membro/:id"
+              element={
+                <PrivateRoute>
+                  <MembroMinisterio />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/config"
+              element={
+                <PrivateRoute>
+                  <Config />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+          </Route>
         </Routes>
       </Datainfor.Provider>
     </DataApiOne.Provider>

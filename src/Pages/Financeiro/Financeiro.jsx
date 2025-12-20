@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../../Contexts/DataInfor";
-import { useSidebar } from "../Header/useSidebar";
-import ResponsiveSidebar from "../Header/ResponsiveSidebar";
 import {
   Container,
   Row,
@@ -10,11 +8,9 @@ import {
   Form,
   Button,
   Table,
-  Card,
   Alert,
   Badge,
   InputGroup,
-  Navbar,
 } from "react-bootstrap";
 
 export const Financeiro = () => {
@@ -23,8 +19,6 @@ export const Financeiro = () => {
   const [formError, setFormError] = useState(null);
 
   // Hook para gerenciar sidebar responsiva
-  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
-    useSidebar();
 
   const [financialData, setFinancialData] = useState({
     tipodedado: "",
@@ -142,31 +136,12 @@ export const Financeiro = () => {
   return (
     <div className="main-wrapper">
       {/* Sidebar Responsiva */}
-      <ResponsiveSidebar
-        isMobile={isMobile}
-        sidebarVisible={sidebarVisible}
-        onToggleSidebar={toggleSidebar}
-        onCloseSidebar={closeSidebar}
-      />
 
       {/* Container Principal de Conteúdo */}
       <div className="content-container">
         {/* BARRA DE NAVEGAÇÃO - 10% */}
         <nav className="navbar-section">
           <Container fluid className="d-flex align-items-center">
-            {/* Botão toggle sidebar para mobile */}
-            {isMobile && (
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                className="me-3"
-                onClick={toggleSidebar}
-                aria-label="Toggle Sidebar"
-              >
-                <i className="bi bi-list"></i>
-              </Button>
-            )}
-
             <h5 className="mb-0 me-auto text-primary-custom fw-bold">
               💰 Gestão Financeira
             </h5>

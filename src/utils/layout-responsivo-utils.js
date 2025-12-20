@@ -94,7 +94,6 @@ class ResponsiveLayoutManager {
     const navbarSection = document.querySelector(".navbar-section");
     const formSection = document.querySelector(".form-section");
     const tableSection = document.querySelector(".table-section");
-    const footerSection = document.querySelector(".footer-section");
 
     if (!contentContainer) return;
 

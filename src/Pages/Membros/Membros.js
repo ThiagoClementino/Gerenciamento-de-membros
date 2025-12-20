@@ -1,6 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import ResponsiveSidebar from "../Header/ResponsiveSidebar";
-import { useSidebar } from "../Header/useSidebar";
 import MobileCardsView from "./MobileCardsView";
 import DataInfor from "../../Contexts/DataInfor";
 import { Link } from "react-router-dom";
@@ -28,10 +26,6 @@ const Membros = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [showAlert, setShowAlert] = useState(null);
   const [isMobileView, setIsMobileView] = useState(false);
-
-  // Hook para gerenciar sidebar responsiva
-  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
-    useSidebar();
 
   // Detecta se deve usar visualização mobile
   useEffect(() => {
@@ -158,31 +152,12 @@ const Membros = () => {
   return (
     <div className="main-wrapper">
       {/* Sidebar Responsiva */}
-      <ResponsiveSidebar
-        isMobile={isMobile}
-        sidebarVisible={sidebarVisible}
-        onToggleSidebar={toggleSidebar}
-        onCloseSidebar={closeSidebar}
-      />
 
       {/* Container Principal de Conteúdo */}
       <div className="content-container">
         {/* BARRA DE NAVEGAÇÃO - 10% */}
         <nav className="navbar-section">
           <Container fluid className="d-flex align-items-center">
-            {/* Botão toggle sidebar para mobile */}
-            {isMobile && (
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                className="me-3"
-                onClick={toggleSidebar}
-                aria-label="Toggle Sidebar"
-              >
-                <i className="bi bi-list"></i>
-              </Button>
-            )}
-
             <div className="d-flex align-items-center me-auto">
               <h5 className="mb-0 text-primary-custom fw-bold me-3">
                 👥 Gestão de Membros

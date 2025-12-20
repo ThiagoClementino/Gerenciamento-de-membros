@@ -11,12 +11,8 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import ResponsiveSidebar from "../Header/ResponsiveSidebar";
-import { useSidebar } from "../Header/useSidebar";
-const Cadastro = () => {
-  const { isMobile, sidebarVisible, toggleSidebar, closeSidebar } =
-    useSidebar();
 
+const Cadastro = () => {
   const dataMatricula = () => {
     const data = new Date();
     const dia = data.getDate().toString().padStart(2, "0");
@@ -175,12 +171,6 @@ const Cadastro = () => {
 
   return (
     <div className="main-wrapper">
-      <ResponsiveSidebar
-        isMobile={isMobile}
-        sidebarVisible={sidebarVisible}
-        onToggleSidebar={toggleSidebar}
-        onCloseSidebar={closeSidebar}
-      />
       <div className="content-container">
         {/* Navbar Section - 10% da altura */}
         <nav className="navbar-section">
@@ -189,15 +179,6 @@ const Cadastro = () => {
             className="h-100 d-flex align-items-center justify-content-between"
           >
             <div className="d-flex align-items-center">
-              {isMobile && (
-                <Button
-                  variant="link"
-                  onClick={toggleSidebar}
-                  className="me-3 d-lg-none"
-                >
-                  <i className="bi bi-list fs-4 text-primary-custom"></i>
-                </Button>
-              )}
               <div>
                 <h1 className="h3 mb-1 text-primary-custom fw-bold">
                   Cadastro de Membros
