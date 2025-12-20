@@ -1,8 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
-// CORREÇÃO 1: Ajuste da importação para o nome exato do arquivo (case-sensitive)
-import useFinanceiro from "../../utils/useFinanceiro";
-
+import DataContext from "../../Contexts/DataInfor";
 import {
   Container,
   Row,
@@ -13,14 +11,15 @@ import {
   Alert,
   Badge,
   InputGroup,
+  Navbar,
 } from "react-bootstrap";
 
 export const Financeiro = () => {
-  // 1. CHAMA O CUSTOM HOOK E TODOS OS OUTROS HOOKS NO TOPO (CORREÇÃO 2)
-  const { dadosfinance, setDadosfinance, isLoading, error } = useFinanceiro();
-
+  const { dadosfinance, setDadosfinance } = useContext(DataContext);
   const [dataRegistro, setDataRegistro] = useState("");
   const [formError, setFormError] = useState(null);
+
+  // Hook para gerenciar sidebar responsiva
 
   const [financialData, setFinancialData] = useState({
     tipodedado: "",
@@ -78,7 +77,6 @@ export const Financeiro = () => {
         const json = await response.json();
         console.log(json);
 
-        // ATUALIZAÇÃO DO ESTADO LOCAL VIA SETTER DO HOOK
         if (setDadosfinance) {
           setDadosfinance((prevDados) => [
             ...prevDados,
@@ -136,35 +134,6 @@ export const Financeiro = () => {
     return tipo === "Receita" ? "primary" : "danger";
   };
 
-  // 2. EARLY RETURNS APÓS A CHAMADA DE TODOS OS HOOKS
-  if (isLoading) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Carregando...</span>
-        </div>
-        <p className="ms-3">Carregando dados financeiros...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <Alert variant="danger" className="m-4">
-        <Alert.Heading>Erro ao carregar dados</Alert.Heading>
-        <p>{error}</p>
-        <hr />
-        <p className="mb-0">
-          Verifique sua conexão ou a disponibilidade da API.
-        </p>
-      </Alert>
-    );
-  }
-
-  // RESTANTE DO COMPONENTE (JSX)
   return (
     <div className="main-wrapper">
       {/* Sidebar Responsiva */}

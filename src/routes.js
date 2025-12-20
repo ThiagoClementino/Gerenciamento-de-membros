@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-// Removidas as importações de useState e useEffect
+import { useState, useEffect } from "react";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Membros from "./Pages/Membros/Membros";
 import Cadastro from "./Pages/Cadastro/Cadastro";
@@ -17,38 +17,69 @@ import MainLayout from "./Components/MainLayout"; // Componente de Layout Global
 import Datainfor from "./Contexts/DataInfor";
 import DataApiOne from "./Contexts/DataApiOne";
 
-// Importação dos Custom Hooks (Assumindo que foram criados em src/utils/)
-import useMembros from "./utils/useMembros";
-import useFinanceiro from "./utils/useFinanceiro";
-
 const AppRoutes = () => {
-  // 1. Chamada dos Custom Hooks para obter os dados e estados de carregamento
-  const {
-    dados: dadosMembros,
-    isLoading: isLoadingMembros,
-    error: errorMembros,
-  } = useMembros();
-  const {
-    dados: dadosFinanceiro,
-    isLoading: isLoadingFinanceiro,
-    error: errorFinanceiro,
-  } = useFinanceiro();
+  const [dados, setDados] = useState([]);
+  const [dadosfinance, setDadosfinance] = useState([]);
 
-  // 2. Criação de um objeto de contexto mais completo
-  const contextValue = {
-    dadosMembros,
-    isLoadingMembros,
-    errorMembros,
-    dadosFinanceiro,
-    isLoadingFinanceiro,
-    errorFinanceiro,
-    // Se necessário, inclua funções de set, mas o ideal é que o hook gerencie o estado.
-  };
+  useEffect(() => {
+    fetch("https://api-gestao-igreja-jcod.vercel.app/membros", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setDados(data);
+        } else {
+          console.error("Dados da API não é um array");
+        }
+      })
+      .catch((error) =>
+        console.error("There was a problem with the fetch operation:", error)
+      );
+  }, []);
+
+  useEffect(() => {
+    fetch("https://api-gestao-igreja-jcod.vercel.app/finance", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setDadosfinance(data);
+        } else {
+          console.error(`error`);
+        }
+      })
+      .catch((error) =>
+        console.error("There was a problem with the fetch operation:", error)
+      );
+  }, []);
 
   return (
     <DataApiOne.Provider value={{}}>
-      {/* O Datainfor.Provider agora recebe os dados e estados dos hooks */}
-      <Datainfor.Provider value={contextValue}>
+      <Datainfor.Provider
+        value={{ dadosfinance, setDadosfinance, dados, setDados }}
+      >
         <Routes>
           {/* Rotas Públicas (Sem Sidebar/Footer) */}
           <Route path="/" element={<Login />} />
