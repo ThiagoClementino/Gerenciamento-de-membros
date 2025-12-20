@@ -23,3 +23,62 @@ body {
   background: var(--brand-secondary);
   border-radius: 10px;
 }
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Impede o "elástico" do browser e scroll duplo */
+  width: 100vw;
+}
+
+/* Container do Layout Global */
+.main-layout-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--custom-bg-primary);
+}
+
+/* Container de Conteúdo (Direita) */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0; /* Previne que elementos longos quebrem o layout horizontal */
+  height: 100vh;
+}
+.scrollable-content-section {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden; /* Proíbe scroll horizontal na página */
+  padding: 1rem;
+  -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+}
+
+/* Correção de Tabelas Mobile */
+.table-responsive {
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: nowrap; /* Garante que a tabela role dentro do card, não na página */
+}
+
+/* Cards Fluidos */
+.card {
+  border: none !important;
+  border-radius: 12px !important;
+  transition: transform 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+/* Reset de margens negativas do Bootstrap que causam scroll horizontal */
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+.col,
+[class*="col-"] {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}

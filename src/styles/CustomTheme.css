@@ -1,0 +1,272 @@
+/* ================================================================
+   THEME RE-DESIGN: GERENCIAMENTO DE MEMBROS
+   Foco: Fluidez, Contraste Moderno e Hierarquia Visual
+   ================================================================
+*/
+/* No CustomTheme.css */
+* {
+  /* Isso garante que a mudança de cores entre light/dark seja suave em todos os elementos */
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease !important;
+}
+:root {
+  /* --- PALETA BRAND (VIBRANT) --- */
+  --brand-primary: #3b82f6; /* Blue 500 */
+  --brand-secondary: #6366f1; /* Indigo 500 */
+  --brand-success: #10b981; /* Emerald 500 */
+  --custom-bg-secondary-rgb: 255, 255, 255;
+
+  --custom-bg-primary: #f8fafc; /* Fundo suave (Slate 50) */
+  --custom-bg-secondary: #ffffff; /* Superfícies/Cards */
+  --custom-bg-tertiary: #f1f5f9; /* Hover e inputs (Slate 100) */
+
+  --custom-text-primary: #0f172a; /* Texto principal (Slate 900) */
+  --custom-text-secondary: #475569; /* Texto de apoio (Slate 600) */
+  --custom-text-muted: #94a3b8; /* Muted (Slate 400) */
+
+  --custom-border-color: #e2e8f0; /* Slate 200 */
+  --custom-accent-primary: var(--brand-primary);
+  --custom-accent-secondary: var(--brand-secondary);
+
+  /* --- SOMBRAS (SOFT ELEVATION) --- */
+  --custom-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --custom-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --custom-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* --- TIPOGRAFIA --- */
+  --custom-font-size-base: 0.95rem;
+  --custom-line-height-base: 1.6;
+}
+
+/* --- TEMA DARK (DEEP MIDNIGHT) --- */
+.theme-dark {
+  --custom-bg-primary: #0f172a; /* Deep Navy (Slate 900) */
+  --custom-bg-secondary: #1e293b; /* Surface (Slate 800) */
+  --custom-bg-tertiary: #334155; /* Elements (Slate 700) */
+  --custom-bg-secondary-rgb: 30, 41, 59;
+  --custom-text-primary: #f8fafc;
+  --custom-text-secondary: #cbd5e1;
+  --custom-text-muted: #64748b;
+
+  --custom-border-color: #334155;
+  --custom-accent-primary: #38bdf8; /* Azul Sky para melhor leitura no Dark */
+
+  --custom-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+/* --- ESTILIZAÇÃO GLOBAL --- */
+body {
+  font-family: "Inter", "Roboto", sans-serif !important;
+  background-color: var(--custom-bg-primary) !important;
+  color: var(--custom-text-primary) !important;
+  transition: all 0.25s ease;
+}
+
+/* --- COMPONENTES FLUIDOS --- */
+.card {
+  background-color: var(--custom-bg-secondary) !important;
+  border: 1px solid var(--custom-border-color) !important;
+  border-radius: 12px !important; /* Bordas mais suaves */
+  box-shadow: var(--custom-shadow) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--custom-shadow-lg) !important;
+}
+
+.card-header {
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--custom-border-color) !important;
+  padding: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--custom-accent-primary) !important;
+}
+
+/* --- BOTÕES --- */
+.btn {
+  border-radius: 8px !important;
+  padding: 0.6rem 1.25rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-primary {
+  background-color: var(--custom-accent-primary) !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+/* --- FORMULÁRIOS --- */
+.form-control,
+.form-select {
+  background-color: var(--custom-bg-tertiary) !important;
+  border: 1px solid var(--custom-border-color) !important;
+  color: var(--custom-text-primary) !important;
+  padding: 0.6rem 0.8rem !important;
+  border-radius: 8px !important;
+}
+
+.form-control:focus {
+  background-color: var(--custom-bg-secondary) !important;
+  border-color: var(--custom-accent-primary) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* ================================================================
+   DASHBOARD LAYOUT FIX - 100VH COM SCROLL NOS GRÁFICOS
+   ================================================================
+*/
+
+/* Layout principal - garante 100vh */
+.main-layout-wrapper {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
+
+/* Área de conteúdo do dashboard */
+.dashboard-content-area {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* Container principal com altura controlada */
+.dashboard-content-area .container-fluid {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 0.75rem !important;
+  gap: 0.75rem;
+}
+
+/* Header do dashboard - compacto */
+.dashboard-header {
+  flex-shrink: 0;
+  margin-bottom: 0 !important;
+  padding: 0.5rem 0 !important;
+}
+
+/* Reduz espaçamento do título */
+.dashboard-header h1 {
+  margin-bottom: 0.25rem !important;
+  font-size: 1.5rem !important;
+}
+
+.dashboard-header p {
+  margin-bottom: 0 !important;
+  font-size: 0.85rem !important;
+}
+
+/* Cards de estatísticas - 20% da altura disponível */
+.dashboard-content-area .g-3.mb-4 {
+  flex: 0 0 20%;
+  margin-bottom: 0 !important;
+  min-height: 0;
+}
+
+/* Reduz padding interno dos cards de estatísticas */
+.dashboard-content-area .g-3.mb-4 .card-body {
+  padding: 0.75rem !important;
+}
+
+/* Card dos gráficos - 80% da altura disponível */
+.dashboard-content-area > .container-fluid > .card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 0 !important;
+}
+
+/* Header do card de gráficos - compacto */
+.dashboard-content-area .card > .card-header {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem !important;
+}
+
+.dashboard-content-area .card-header h5 {
+  font-size: 1rem !important;
+  margin-bottom: 0 !important;
+}
+
+/* Body do card com scroll */
+.dashboard-content-area .card > .card-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.75rem !important;
+}
+
+/* Área de scroll dos gráficos */
+.charts-scroll-viewport {
+  min-height: min-content;
+}
+
+/* Footer - compacto e fixo no final */
+.dashboard-content-area footer {
+  flex-shrink: 0;
+  margin-top: 0;
+  padding: 0.5rem 0 !important;
+  font-size: 0.85rem !important;
+}
+
+/* Garante que iframes não quebrem o layout */
+.dashboard-content-area iframe {
+  display: block;
+  max-width: 100%;
+}
+
+/* Customização da scrollbar (integrada ao tema) */
+.dashboard-content-area .card-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-content-area .card-body::-webkit-scrollbar-track {
+  background: var(--custom-bg-tertiary);
+  border-radius: 4px;
+}
+
+.dashboard-content-area .card-body::-webkit-scrollbar-thumb {
+  background: var(--custom-border-color);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.dashboard-content-area .card-body::-webkit-scrollbar-thumb:hover {
+  background: var(--custom-accent-primary);
+}
+
+/* Remove o efeito hover no card de gráficos para evitar movimento durante scroll */
+.dashboard-content-area > .container-fluid > .card:hover {
+  transform: none;
+}
+
+/* Ajustes para responsividade */
+@media (max-width: 768px) {
+  .main-layout-wrapper {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .dashboard-content-area {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .dashboard-content-area .container-fluid {
+    padding: 1rem !important;
+  }
+}

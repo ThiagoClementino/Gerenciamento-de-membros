@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 import Datainfor from "../../Contexts/DataInfor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

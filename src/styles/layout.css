@@ -101,11 +101,34 @@ footer {
 }
 
 @media (max-width: 991px) {
-  .sidebar {
-    position: fixed;
-    left: calc(-1 * var(--sidebar-width));
-    z-index: 1050;
+  @media (max-width: 991px) {
+    .sidebar {
+      position: fixed !important;
+      top: 0;
+      left: -280px; /* Escondida */
+      width: 280px;
+      height: 100vh;
+      z-index: 2000; /* Acima de tudo */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 10px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.show {
+      left: 0 !important;
+    }
+
+    /* Overlay para fechar o menu ao clicar fora */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+    }
   }
+
   .sidebar.show {
     transform: translateX(var(--sidebar-width));
   }
