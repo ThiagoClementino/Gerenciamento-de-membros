@@ -9,6 +9,7 @@ import Home from "./Pages/Home/Home";
 import Config from "./Pages/Config/Config";
 import Login from "./Pages/Login/Login";
 import CreateUser from "./Pages/Users/CreateUser";
+import TransacaoFinanceiro from "./Pages/Financeiro/TransacaoFinanceiro";
 import PrivateRoute from "./Components/PrivateRoute";
 import ResetPassword from "./Pages/RecuperarSenha/ResetPassword";
 import ChangePassword from "./Pages/RecuperarSenha/ChangePassword";
@@ -130,6 +131,14 @@ const AppRoutes = () => {
               element={
                 <PrivateRoute>
                   <MembroMinisterio />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/financeiro/:id"
+              element={
+                <PrivateRoute>
+                  <TransacaoFinanceiro />
                 </PrivateRoute>
               }
             />

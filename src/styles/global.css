@@ -1,84 +1,185 @@
+/* SISTEMA DE DESIGN - GERENCIAMENTO DE MEMBROS
+  Metodologia: Modern CSS (Variables + Utility First + Fluid Design)
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Palette - Profissional & Moderna */
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+
+  /* Typography Scale - Fluida com clamp() */
+  --text-xs: clamp(0.7rem, 0.65rem + 0.2vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.9rem, 0.85rem + 0.3vw, 1rem);
+  --text-lg: clamp(1.1rem, 1rem + 0.4vw, 1.25rem);
+  --text-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+
+  /* Spacing & Borders */
+  --space-unit: 1rem;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  /* Layout Constants */
+  --sidebar-width: 260px;
+  --header-height: 70px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 1. RESET PROFISSIONAL */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease !important;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  margin: 0;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background-color: var(--custom-bg-primary) !important;
-  color: var(--custom-text-primary) !important;
-  overflow: hidden; /* O scroll será controlado pelos containers internos */
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-main);
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* Scrollbar Unificada (Design Original) */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--brand-secondary);
-  border-radius: 10px;
-}
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Impede o "elástico" do browser e scroll duplo */
-  width: 100vw;
-}
-
-/* Container do Layout Global */
-.main-layout-wrapper {
+/* 2. ESTRUTURA DE LAYOUT (FLUIDA) */
+.app-container {
   display: flex;
-  height: 100vh;
-  width: 100vw;
-  background-color: var(--custom-bg-primary);
+  min-height: 100vh;
+  position: relative;
 }
 
-/* Container de Conteúdo (Direita) */
-.content-container {
+/* Main Content: O segredo para não ocultar itens */
+.main-viewport {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-width: 0; /* Previne que elementos longos quebrem o layout horizontal */
+  min-width: 0; /* Evita quebra de grid */
   height: 100vh;
-}
-.scrollable-content-section {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden; /* Proíbe scroll horizontal na página */
-  padding: 1rem;
-  -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+  overflow-y: auto; /* Scroll principal aqui */
+  scroll-behavior: smooth;
 }
 
-/* Correção de Tabelas Mobile */
-.table-responsive {
-  border-radius: 8px;
+.content-wrapper {
+  padding: clamp(1rem, 5%, 2.5rem);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 3. COMPONENTES: CARDS & GRIDS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.ui-card {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #e2e8f0;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* 4. TABELAS E DADOS FINANCEIROS */
+.data-table-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid #e2e8f0;
+  overflow: hidden; /* Para rounded corners funcionarem */
+  margin-top: 1rem;
+}
+
+.scrollable-table {
   overflow-x: auto;
-  white-space: nowrap; /* Garante que a tabela role dentro do card, não na página */
+  width: 100%;
 }
 
-/* Cards Fluidos */
-.card {
-  border: none !important;
-  border-radius: 12px !important;
-  transition: transform 0.2s ease;
-  margin-bottom: 1rem;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: var(--text-sm);
 }
 
-/* Reset de margens negativas do Bootstrap que causam scroll horizontal */
-.row {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
+th {
+  background-color: #f8fafc;
+  padding: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
 }
-.col,
-[class*="col-"] {
-  padding-left: 8px !important;
-  padding-right: 8px !important;
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* 5. RESPONSIVIDADE & MOBILE UI */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  /* Melhora área de clique em dispositivos touch */
+  button,
+  .nav-link,
+  select,
+  input {
+    min-height: 48px;
+    font-size: 16px !important; /* Impede zoom no iOS */
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 6. CLASSES DE UTILIDADE */
+.text-success {
+  color: var(--color-success);
+}
+.text-danger {
+  color: var(--color-danger);
+}
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge-success {
+  background: #dcfce7;
+  color: #166534;
+}
+.badge-danger {
+  background: #fee2e2;
+  color: #991b1b;
 }
