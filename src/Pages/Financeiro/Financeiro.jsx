@@ -358,7 +358,7 @@ export const Financeiro = () => {
                       <Button
                         variant="link"
                         className="p-0 text-primary"
-                        onClick={() => navigate(`/finance/${dado._id}`)} // Certifique-se que a rota no App.js seja /finance/:id
+                        onClick={() => navigate(`/financeiro/${dado._id}`)} // Certifique-se que a rota no App.js seja /finance/:id
                       >
                         <i className="bi bi-eye-fill fs-5"></i>
                       </Button>

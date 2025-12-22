@@ -42,6 +42,7 @@ const TransacaoFinanceiro = () => {
     const fetchDados = async () => {
       try {
         setLoading(true);
+        // Use encodeURIComponent para tratar caracteres especiais no ID
         const response = await axios.get(
           `https://api-gestao-igreja-jcod.vercel.app/finance/${id}`
         );
