@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import DataContext from "../../Contexts/DataInfor";
 import {
   Container,
   Row,
@@ -34,28 +35,49 @@ const TransacaoFinanceiro = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
   const [isEditing, setIsEditing] = useState(false);
+  const { dadosfinance } = useContext(DataContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   // Carregar dados da transação
   useEffect(() => {
-    const fetchDados = async () => {
-      try {
-        setLoading(true);
-        // Use encodeURIComponent para tratar caracteres especiais no ID
-        const response = await axios.get(
-          `https://api-gestao-igreja-jcod.vercel.app/finance/${id}`
-        );
-        setTransaction(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        showAlertMessage("Erro ao carregar dados da transação.", "danger");
-        setLoading(false);
-      }
-    };
-    fetchDados();
-  }, [id]);
+    setLoading(true);
+
+    // 1. Tenta encontrar a transação nos dados do contexto
+    const foundTransaction = dadosfinance.find((dado) => dado._id === id);
+
+    if (foundTransaction) {
+      setTransaction(foundTransaction);
+      setLoading(false);
+    } else {
+      // 2. Se não encontrar no contexto (acesso direto ou primeiro carregamento), faz a chamada à API (fallback)
+      const fetchDados = async () => {
+        try {
+          // Use encodeURIComponent para tratar caracteres especiais no ID
+          const response = await axios.get(
+            `https://api-gestao-igreja-jcod.vercel.app/finance/${id}`
+          );
+          // Verifica se a API retorna um array ou um objeto
+          const data = Array.isArray(response.data)
+            ? response.data[0]
+            : response.data;
+
+          if (data) {
+            setTransaction(data);
+          } else {
+            // Tratar caso em que a API retorna vazio
+            showAlertMessage("Transação não encontrada.", "danger");
+          }
+          setLoading(false);
+        } catch (error) {
+          console.error("Erro ao buscar na API:", error);
+          showAlertMessage("Erro ao carregar dados da transação.", "danger");
+          setLoading(false);
+        }
+      };
+      fetchDados();
+    }
+  }, [id, dadosfinance]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -164,7 +186,7 @@ const TransacaoFinanceiro = () => {
               <Col>
                 <Breadcrumb>
                   <Breadcrumb.Item
-                    onClick={() => navigate("/dashboard")}
+                    onClick={() => navigate("/financeiro")}
                     style={{ cursor: "pointer" }}
                   >
                     <FontAwesomeIcon icon={faHome} className="me-1" /> Dashboard
@@ -300,7 +322,6 @@ const TransacaoFinanceiro = () => {
                           </Form.Label>
                           <Form.Control
                             type="number"
-                            step="0.01"
                             name="valor"
                             value={transaction.valor || ""}
                             onChange={handleInputChange}
