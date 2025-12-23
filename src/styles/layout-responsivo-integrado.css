@@ -10,7 +10,7 @@
 
   /* Dimensões Desktop */
   --sidebar-width: 280px;
-  --navbar-height: 500px;
+  --navbar-height: auto;
   --footer-height: 50px;
 
   /* Alturas Dinâmicas (Desktop) */
@@ -49,13 +49,20 @@ body {
     top: 0;
     height: 100vh;
     width: 280px;
-    z-index: 1100;
+    z-index: 1050;
     box-shadow: 10px 0 15px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out;
+    background-color: var(--custom-bg-secondary);
   }
 
   .sidebar-mobile-show {
-    left: 0;
+    left: 0 !important;
   } /* Gatilho de abertura */
+
+  /* Overlay para mobile */
+  .sidebar-overlay {
+    display: block;
+  }
 
   /* Seções Mobile: Empilhamento Vertical */
   .form-section,

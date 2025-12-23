@@ -21,10 +21,10 @@
   --custom-bg-tertiary: #f1f5f9; /* Hover e inputs (Slate 100) */
 
   --custom-text-primary: #0f172a; /* Texto principal (Slate 900) */
-  --custom-text-secondary: #475569; /* Texto de apoio (Slate 600) */
-  --custom-text-muted: #94a3b8; /* Muted (Slate 400) */
+  --custom-text-secondary: #334155; /* Texto de apoio (Slate 700) - Melhor contraste
+  --custom-text-muted: #64748b; /* Muted (Slate 500) - Melhor contraste (WCAG AA)
 
-  --custom-border-color: #e2e8f0; /* Slate 200 */
+  --custom-border-color: #cbd5e1; /* Slate 300 - Melhor contraste
   --custom-accent-primary: var(--brand-primary);
   --custom-accent-secondary: var(--brand-secondary);
 

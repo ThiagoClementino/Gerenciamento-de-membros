@@ -316,7 +316,7 @@ export const Financeiro = () => {
         <section className="table-section p-4">
           <div className=" border rounded shadow-sm overflow-hidden">
             <Table hover responsive size="sm" className="mb-0 align-middle">
-              <thead className="bg-light">
+              <thead className="">
                 <tr>
                   <th className="text-center" style={{ width: "40px" }}>
                     <Form.Check
