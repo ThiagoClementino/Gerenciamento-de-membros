@@ -9,7 +9,6 @@ import {
   faGear,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import "./Sidebar.css"; // Certifique-se de que este arquivo herde do global.css
 
 const Sidebar = ({ handleLogout }) => {
   const location = useLocation();
