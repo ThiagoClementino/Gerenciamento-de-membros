@@ -145,21 +145,21 @@ const Dashboard = () => {
   }, [dadosfinance]);
 
   return (
-    <div className="dashboard-fixed-wrapper">
-      <header className="dashboard-sticky-header">
+    /* O estilo inline abaixo força o container a ter exatamente a altura da tela e esconde o scroll externo */
+    <div
+      className="dashboard-fixed-wrapper"
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
+    >
+      <header className="dashboard-sticky-header" style={{ flexShrink: 0 }}>
         <Container fluid>
           <Row className="align-items-center g-3">
             <Col md={7}>
-              <InputGroup className="rounded-pill overflow-hidden border-custom shadow-sm">
-                <InputGroup.Text className="bg-tertiary-custom border-0 text-muted">
-                  <FontAwesomeIcon icon={faSearch} />
-                </InputGroup.Text>
-                <Form.Control
-                  className="bg-tertiary-custom border-0 text-light shadow-none"
-                  placeholder="Pesquisar métricas..."
-                />
-                <Button variant="primary">Buscar</Button>
-              </InputGroup>
+              <h2 className="fw-bold text-light mb-0">Dashboard</h2>
             </Col>
             <Col md={5} className="text-end">
               <div className="d-inline-flex p-1 bg-tertiary-custom rounded-pill border-custom shadow-sm">
@@ -183,7 +183,11 @@ const Dashboard = () => {
         </Container>
       </header>
 
-      <main className="dashboard-scroll-content">
+      {/* Este container agora é o único responsável pelo scroll da aplicação */}
+      <main
+        className="dashboard-scroll-content"
+        style={{ flex: 1, overflowY: "auto", paddingBottom: "2rem" }}
+      >
         <Container fluid>
           {show === "showOne" ? (
             <div className="animate__animated animate__fadeIn">

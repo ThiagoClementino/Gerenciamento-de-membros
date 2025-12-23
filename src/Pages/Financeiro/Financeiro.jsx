@@ -171,7 +171,7 @@ export const Financeiro = () => {
 
         {/* SEÇÃO DO FORMULÁRIO (TODOS OS CAMPOS) */}
         <section className="form-section p-4">
-          <Container fluid className=" p-4 shadow-sm rounded border">
+          <Container fluid className=" p-4 shadow-sm rounded ">
             <Row className="mb-4">
               <Col md={8}>
                 <h6 className="fw-bold">Cadastro de Lançamento</h6>
@@ -313,10 +313,10 @@ export const Financeiro = () => {
         </section>
 
         {/* TABELA DE DADOS COM DESCRIÇÃO E OBSERVAÇÃO SEPARADOS */}
-        <section className="table-section p-4">
-          <div className=" border rounded shadow-sm overflow-hidden">
+        <section className="table-section p-4 chart-premium-card border-0 overflow-hidden card">
+          <div className="rounded shadow-sm overflow-hidden">
             <Table hover responsive size="sm" className="mb-0 align-middle">
-              <thead className="">
+              <thead className="bg-light">
                 <tr>
                   <th className="text-center" style={{ width: "40px" }}>
                     <Form.Check

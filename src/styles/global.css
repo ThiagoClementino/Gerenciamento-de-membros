@@ -1,65 +1,86 @@
 /* ==========================================================================
-   SISTEMA DE DESIGN SAAS PREMIUM - UNIFICADO
+   ARQUITETURA DE DESIGN SYSTEM - SAAS PREMIUM
    ========================================================================== */
 
 :root {
-  /* TEMA LIGHT (Contraste Aperfeiçoado) */
-  --custom-bg-primary: #f8fafc; /* Fundo geral (Gelo) */
-  --custom-bg-secondary: #ffffff; /* Cabeçalhos e Menus */
-  --custom-bg-tertiary: #ffffff; /* Cards */
+  /* --- PALETA LIGHT (Contraste Aprimorado) --- */
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff; /* Cards e Containers */
+  --bg-header: rgba(255, 255, 255, 0.8);
 
-  --custom-primary: #0d6efd; /* Azul Identidade */
-  --custom-primary-soft: #eef2ff;
+  --text-primary: #0f172a; /* Slate 900 - Títulos */
+  --text-secondary: #475569; /* Slate 600 - Parágrafos */
+  --text-muted: #f8fafc; /* Slate 400 - Detalhes */
 
-  --custom-text-main: #1e293b; /* Slate 900 - Títulos (Contraste alto) */
-  --custom-text-secondary: #475569; /* Slate 600 - Textos */
-  --custom-text-muted: #64748b; /* Slate 500 - Detalhes */
+  --brand-primary: #0d6efd; /* Azul Royal */
+  --brand-secondary: #6366f1; /* Indigo */
 
-  --custom-border-color: #cbd5e1; /* Slate 300 - Bordas nítidas */
-  --custom-success: #10b981;
-  --custom-danger: #ef4444;
+  --border-color: #e2e8f0; /* Slate 200 */
+  --input-bg: #ffffff;
 
-  --custom-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --custom-shadow-premium: 0 10px 25px -3px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* TEMA DARK (Acionado pela classe no body) */
+/* --- PALETA DARK (Fluidez e Profundidade) --- */
 body.dark-theme {
-  --custom-bg-primary: #0f172a; /* Slate 950 */
-  --custom-bg-secondary: #1e293b; /* Slate 800 */
-  --custom-bg-tertiary: #1e293b;
+  --bg-main: #020617; /* Slate 950 */
+  --bg-surface: #0f172a; /* Slate 900 */
+  --bg-header: rgba(15, 23, 42, 0.8);
 
-  --custom-text-main: #f1f5f9; /* Slate 100 */
-  --custom-text-secondary: #cbd5e1;
-  --custom-text-muted: #94a3b8;
+  --text-primary: #f8fafc; /* Slate 50 */
+  --text-secondary: #94a3b8; /* Slate 400 */
+  --text-muted: #64748b; /* Slate 500 */
 
-  --custom-border-color: #334155; /* Slate 700 */
-  --custom-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --brand-primary: #3b82f6; /* Azul vibrante para Dark */
+  --border-color: #1e293b; /* Slate 800 */
+  --input-bg: #1e293b;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.6);
 }
 
-/* ESTRUTURA BASE */
+/* ==========================================================================
+   ESTILOS BASE & TRANSITIONS
+   ========================================================================== */
+
+* {
+  transition: background-color var(--transition-fast),
+    border-color var(--transition-fast), color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
 body {
-  background-color: var(--custom-bg-primary) !important;
-  color: var(--custom-text-main) !important;
+  background-color: var(--bg-main) !important;
+  color: var(--text-primary) !important;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  overflow: hidden; /* Mantém o scroll apenas no conteúdo */
+  margin: 0;
+  overflow: hidden; /* Scroll controlado internamente */
 }
 
-/* LAYOUT FIXO (UX SAAS) */
+/* ==========================================================================
+   LAYOUT ESTRUTURAL (Dashboard/Tabelas/Financeiro)
+   ========================================================================== */
+
 .dashboard-fixed-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100%;
 }
 
 .dashboard-sticky-header {
   flex-shrink: 0;
-  z-index: 1020;
-  background-color: var(--custom-bg-secondary) !important;
-  border-bottom: 2px solid var(--custom-border-color) !important;
-  padding: 1rem 2rem;
+  background-color: var(--bg-header) !important;
+  backdrop-filter: blur(12px); /* Efeito de vidro moderno */
+  border-bottom: 1px solid var(--border-color) !important;
+  padding: 1.25rem 2rem;
+  z-index: 1000;
 }
 
 .dashboard-scroll-content {
@@ -68,73 +89,109 @@ body {
   padding: 2rem;
 }
 
-/* Scrollbar Elegante */
+/* Custom Scrollbar */
 .dashboard-scroll-content::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 .dashboard-scroll-content::-webkit-scrollbar-thumb {
-  background-color: var(--custom-primary);
-  border-radius: 10px;
+  background-color: var(--border-color);
+  border-radius: 20px;
+}
+.dashboard-scroll-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
 }
 
-/* CARDS E ELEMENTOS UI */
-.chart-premium-card,
+/* ==========================================================================
+   COMPONENTES PREMIUM (Cards e Tabelas)
+   ========================================================================== */
+
 .premium-card,
+.chart-premium-card,
 .card {
-  background-color: var(--custom-bg-tertiary) !important;
-  color: var(--custom-text-main) !important;
-  border: 1px solid var(--custom-border-color) !important;
-  border-radius: 1.25rem !important;
-  box-shadow: var(--custom-shadow) !important;
-  transition: transform 0.3s ease;
+  background-color: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 1rem !important;
+  box-shadow: var(--shadow-md) !important;
+  padding: 1.5rem;
+  color: var(--text-primary) !important;
 }
 
-.premium-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--custom-shadow-premium) !important;
+/* Ajuste específico para Tabelas (Fix para o fundo branco) */
+.table {
+  --bs-table-bg: transparent !important;
+  --bs-table-color: var(--text-primary) !important;
+  --bs-table-border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
 }
 
-/* FORMULÁRIOS */
+.table thead th {
+  background-color: var(--bg-main) !important;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color) !important;
+}
+
+.table td {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* ==========================================================================
+   FORMULÁRIOS & INPUTS
+   ========================================================================== */
+
 .form-control,
 .form-select {
-  background-color: var(--custom-bg-tertiary) !important;
-  color: var(--custom-text-main) !important;
-  border: 1.5px solid var(--custom-border-color) !important;
+  background-color: var(--input-bg) !important;
+  border: 1.5px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
   border-radius: 0.75rem !important;
+  padding: 0.6rem 1rem;
 }
 
 .form-control:focus {
-  border-color: var(--custom-primary) !important;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15) !important;
+  outline: none;
 }
 
-/* SIDEBAR LINKS */
+/* ==========================================================================
+   SIDEBAR & BOTÕES
+   ========================================================================== */
+
 .sidebar-link-item {
-  display: flex;
-  align-items: center;
-  padding: 0.8rem 1.2rem;
-  color: var(--custom-text-secondary);
-  text-decoration: none;
+  color: var(--text-secondary);
   border-radius: 0.75rem;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .sidebar-link-item:hover {
-  background-color: var(--custom-primary-soft);
-  color: var(--custom-primary);
+  background-color: var(--border-color);
+  color: var(--brand-primary);
+  transform: translateX(4px);
 }
 
 .sidebar-link-item.active {
-  background-color: var(--custom-primary) !important;
+  background-color: var(--brand-primary) !important;
   color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
-.btn-logout-premium {
-  background: transparent;
-  border: 1px solid var(--custom-border-color);
-  color: var(--custom-danger);
-  border-radius: 0.75rem;
-  padding: 0.7rem;
-  font-weight: 600;
-  width: 100%;
+.btn-primary {
+  background-color: var(--brand-primary) !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  padding: 0.7rem 1.5rem !important;
+  font-weight: 600 !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
