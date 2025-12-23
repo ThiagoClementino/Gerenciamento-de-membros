@@ -1,171 +1,63 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { Link } from "react-router-dom";
-import { Tooltip } from "bootstrap"; // Import Bootstrap's Tooltip
-import { AuthContext } from "../../Contexts/AuthContext";
-import ThemeToggle from "../../Components/ThemeToggle";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChartPie,
+  faUserPlus,
+  faUsers,
+  faWallet,
+  faGear,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import "./Sidebar.css"; // Certifique-se de que este arquivo herde do global.css
 
-const Sidebar = () => {
-  const [expanded, setExpanded] = useState(true);
-  const sidebarRef = useRef(null); // Ref para o elemento da sidebar
-  const iconlogo = require("../../img/iconlogo.png");
-  const { logout } = useContext(AuthContext);
+const Sidebar = ({ handleLogout }) => {
+  const location = useLocation();
 
-  // Efeito para inicializar os tooltips do Bootstrap quando o componente monta
-  // ou quando o estado 'expanded' muda
-  useEffect(() => {
-    if (!expanded && sidebarRef.current) {
-      // Seleciona todos os elementos com data-bs-toggle="tooltip" dentro da sidebar
-      const tooltipTriggerList = [].slice.call(
-        sidebarRef.current.querySelectorAll('[data-bs-toggle="tooltip"]')
-      );
-      // Inicializa um tooltip para cada elemento encontrado
-      const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new Tooltip(tooltipTriggerEl);
-      });
-
-      // Função de limpeza para destruir os tooltips quando o componente desmonta
-      // ou quando a sidebar expande (para evitar tooltips desnecessários)
-      return () => {
-        tooltipList.forEach((tooltip) => tooltip.dispose());
-      };
-    } else {
-      // Se a sidebar estiver expandida, garante que tooltips antigos sejam removidos
-      const tooltips = document.querySelectorAll(".tooltip");
-      tooltips.forEach((tooltip) => tooltip.remove());
-    }
-  }, [expanded]); // Dependência: re-executa quando 'expanded' muda
-
-  const toggleSidebar = () => {
-    setExpanded(!expanded);
-  };
-
-  // Definição dos itens de navegação com ícones do Bootstrap
-  const navItems = [
-    { path: "/dashboard", icon: "bi-house-door-fill", text: "Dashboard" },
-    { path: "/membros", icon: "bi-people-fill", text: "Membros" },
-    { path: "/cadastro", icon: "bi-clipboard-data-fill", text: "Cadastro" },
-    { path: "/financeiro", icon: "bi-cash-stack", text: "Financeiro" },
+  const menuItems = [
+    { path: "/Dashboard", label: "Dashboard", icon: faChartPie },
+    { path: "/Cadastro", label: "Cadastrar", icon: faUserPlus },
+    { path: "/Membros", label: "Membros", icon: faUsers },
+    { path: "/Financeiro", label: "Financeiro", icon: faWallet },
+    { path: "/Config", label: "Configurações", icon: faGear },
   ];
 
   return (
-    <div
-      ref={sidebarRef} // Atribui a ref ao elemento principal da sidebar
-      className={`sidebar d-flex flex-column vh-100 p-3 transition-width ${
-        expanded ? "sidebar-expanded" : "sidebar-collapsed"
-      }`}
-      style={{
-        width: expanded ? "280px" : "80px",
-        transition: "width 0.3s ease-in-out",
-      }} // Estilo inline para transição suave da largura
-    >
-      {/* Cabeçalho da Sidebar */}
-      <div
-        className={
-          expanded
-            ? "d-flex justify-content-between  mb-3"
-            : "d-flex justify-content-center  mb-3"
-        }
-      >
-        {expanded && (
-          // Logo ou Título - Aparece apenas quando expandido
-          <img
-            src={iconlogo}
-            alt="Logo"
-            style={{ height: "40px" }}
-            className="me-2"
-          />
-        )}
-        <div className={expanded ? "mb-2 text-center" : "mb-2"}>
-          <button
-            onClick={toggleSidebar}
-            className={`btn btn-outline-secondary ${
-              expanded
-                ? "d-flex justify-content-end"
-                : "d-flex justify-content-center"
-            }`}
-            aria-label={expanded ? "Contrair sidebar" : "Expandir sidebar"}
-            data-bs-toggle={!expanded ? "tooltip" : undefined}
-            data-bs-placement={!expanded ? "right" : undefined}
-            title={!expanded ? "Expandir menu" : undefined}
-          >
-            <i
-              className={`bi ${
-                expanded ? "bi-chevron-left" : "bi-chevron-right"
-              }`}
-            ></i>
-          </button>
-        </div>
+    <aside className="sidebar-premium shadow-sm">
+      <div className="sidebar-header-logo p-4 text-center">
+        <h4 className="fw-bold text-primary mb-0">
+          Gestão <span className="text-secondary">Igreja</span>
+        </h4>
       </div>
 
-      {/* Controles da Sidebar */}
-      <div
-        className={`d-flex ${
-          expanded ? "justify-content-between" : "justify-content-center"
-        } align-items-center mb-3`}
-      >
-        {/* Botão de Toggle da Sidebar */}
-      </div>
-
-      <hr className="border-custom" />
-
-      {/* Lista de Navegação */}
-      <ul className="nav nav-pills flex-column mb-auto">
-        {navItems.map((item, index) => (
-          <li key={index} className="nav-item">
-            <Link
-              to={item.path}
-              className="nav-link d-flex align-items-center py-2"
-              // Atributos do Tooltip - aplicados apenas quando contraído
-              data-bs-toggle={!expanded ? "tooltip" : undefined}
-              data-bs-placement={!expanded ? "right" : undefined}
-              title={!expanded ? item.text : undefined}
-            >
-              <i
-                className={`bi ${item.icon} ${
-                  expanded ? "me-2" : "fs-5 mx-auto"
+      <nav className="sidebar-nav px-3">
+        <ul className="list-unstyled">
+          {menuItems.map((item) => (
+            <li key={item.path} className="mb-2">
+              <Link
+                to={item.path}
+                className={`sidebar-link-item ${
+                  location.pathname === item.path ? "active" : ""
                 }`}
-              ></i>
-              {expanded && <span className="ms-1">{item.text}</span>}
-            </Link>
-          </li>
-        ))}
-      </ul>
+              >
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  className="sidebar-icon-fixed"
+                />
+                <span className="sidebar-text-label">{item.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-      <hr className="border-custom" />
-
-      {/* Rodapé da Sidebar (Exemplo: Informações do Usuário/Admin) */}
-      <div className="d-flex align-items-center">
-        <i
-          className={`bi bi-person-circle ${
-            expanded ? "me-2" : "fs-4 mx-auto"
-          }`}
-        ></i>
-        {expanded && (
-          <div className="mb-2">
-            <strong className="text-primary-custom">Admin</strong>
-            <small className="d-block text-muted-custom">Online</small>
-          </div>
-        )}
-      </div>
-
-      {/* Botão de Logout */}
-      <ThemeToggle size="sm" className={expanded ? "mb-2" : "mb-2"} />
-      <div className="mb-3">
-        <button
-          onClick={logout}
-          className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center"
-          data-bs-toggle={!expanded ? "tooltip" : undefined}
-          data-bs-placement={!expanded ? "right" : undefined}
-          title={!expanded ? "Sair" : undefined}
-        >
-          <i
-            className={`bi bi-box-arrow-right ${expanded ? "me-2" : "fs-5"}`}
-          ></i>
-          {expanded && <span>Sair</span>}
-          {/* Toggle de Tema */}
+      <div className="sidebar-footer mt-auto p-3">
+        <button onClick={handleLogout} className="btn-logout-premium w-100">
+          <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
+          Sair
         </button>
       </div>
-    </div>
+    </aside>
   );
 };
 

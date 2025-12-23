@@ -41,11 +41,11 @@ const Dashboard = () => {
   const [show, setShow] = useState("showOne");
   const { dados, dadosfinance } = useContext(Datainfor);
 
-  // --- LÓGICA SOCIOECONÔMICA ---
+  const BLUE_PALETTE = ["#0d6efd", "#0a58ca", "#3d8bfd", "#6ea8fe", "#9ec5fe"];
+
   const socioStats = useMemo(() => {
     if (!dados)
       return { sex: [], civil: [], dizimista: [], timeline: [], cards: {} };
-
     const mesesNome = [
       "Jan",
       "Fev",
@@ -69,14 +69,12 @@ const Dashboard = () => {
 
     dados.forEach((m) => {
       if (m.datacriacao) {
-        const partes = m.datacriacao.split("-");
-        const mes = parseInt(partes[1]) - 1;
+        const mes = parseInt(m.datacriacao.split("-")[1]) - 1;
         if (mes >= 0 && mes < 12) timelineMap[mes].membros++;
       }
       if (m.sex) sexMap[m.sex] = (sexMap[m.sex] || 0) + 1;
       if (m.estadocivil)
         civilMap[m.estadocivil] = (civilMap[m.estadocivil] || 0) + 1;
-
       const diz = m.dizimista?.toLowerCase() === "sim" ? "Sim" : "Não";
       dizimistaMap[diz]++;
     });
@@ -98,15 +96,9 @@ const Dashboard = () => {
     };
   }, [dados]);
 
-  // --- LÓGICA FINANCEIRA ---
   const finStats = useMemo(() => {
     if (!dadosfinance)
-      return {
-        mensal: [],
-        categorias: [],
-        status: [],
-        totais: { r: 0, d: 0, l: 0 },
-      };
+      return { mensal: [], categorias: [], totais: { r: 0, d: 0, l: 0 } };
     const mesesNome = [
       "Jan",
       "Fev",
@@ -123,7 +115,6 @@ const Dashboard = () => {
     ];
     const mensal = mesesNome.map((m) => ({ name: m, receita: 0, despesa: 0 }));
     const catMap = {};
-    const statusMap = { Pago: 0, Pendente: 0 };
 
     dadosfinance.forEach((item) => {
       const dataStr = item.datapagamento || "";
@@ -131,7 +122,6 @@ const Dashboard = () => {
         ? parseInt(dataStr.split("-")[1]) - 1
         : parseInt(dataStr.split("/")[1]) - 1;
       const valor = parseFloat(item.valor || 0);
-
       if (mesIdx >= 0 && mesIdx < 12) {
         if (item.tipodedado?.toLowerCase() === "receita")
           mensal[mesIdx].receita += valor;
@@ -140,22 +130,13 @@ const Dashboard = () => {
       }
       const cat = item.tipolancamento || "Outros";
       catMap[cat] = (catMap[cat] || 0) + valor;
-
-      const st =
-        item.statuspagamento?.toLowerCase() === "pago" ? "Pago" : "Pendente";
-      statusMap[st]++;
     });
 
     const totalR = mensal.reduce((acc, m) => acc + m.receita, 0);
     const totalD = mensal.reduce((acc, m) => acc + m.despesa, 0);
-
     return {
       mensal,
       categorias: Object.entries(catMap).map(([name, value]) => ({
-        name,
-        value,
-      })),
-      status: Object.entries(statusMap).map(([name, value]) => ({
         name,
         value,
       })),
@@ -163,28 +144,25 @@ const Dashboard = () => {
     };
   }, [dadosfinance]);
 
-  // --- PALETA DE AZUIS ---
-  const BLUE_PALETTE = [
-    "#0d6efd",
-    "#0a58ca",
-    "#3d8bfd",
-    "#6ea8fe",
-    "#9ec5fe",
-    "#052c65",
-  ];
-
   return (
     <div className="dashboard-fixed-wrapper">
-      {/* 1. HEADER FIXO */}
       <header className="dashboard-sticky-header">
         <Container fluid>
           <Row className="align-items-center g-3">
             <Col md={7}>
-              <h1>Dashboard</h1>
-              <p>Dados para consulta</p>
+              <InputGroup className="rounded-pill overflow-hidden border-custom shadow-sm">
+                <InputGroup.Text className="bg-tertiary-custom border-0 text-muted">
+                  <FontAwesomeIcon icon={faSearch} />
+                </InputGroup.Text>
+                <Form.Control
+                  className="bg-tertiary-custom border-0 text-light shadow-none"
+                  placeholder="Pesquisar métricas..."
+                />
+                <Button variant="primary">Buscar</Button>
+              </InputGroup>
             </Col>
             <Col md={5} className="text-end">
-              <div className="d-inline-flex p-1 bg-tertiary-custom rounded-pill border-custom">
+              <div className="d-inline-flex p-1 bg-tertiary-custom rounded-pill border-custom shadow-sm">
                 <Button
                   variant={show === "showOne" ? "primary" : "link"}
                   className="rounded-pill px-4 text-decoration-none text-light"
@@ -205,14 +183,13 @@ const Dashboard = () => {
         </Container>
       </header>
 
-      {/* 2. CONTEÚDO COM SCROLL */}
       <main className="dashboard-scroll-content">
         <Container fluid>
           {show === "showOne" ? (
             <div className="animate__animated animate__fadeIn">
-              <Row className="g-3 mb-4">
+              <Row className="g-3 mb-4 text-center">
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center">
+                  <Card className="chart-premium-card p-3">
                     <FontAwesomeIcon
                       icon={faUserCheck}
                       className="text-primary mb-2"
@@ -223,30 +200,19 @@ const Dashboard = () => {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center bg-primary text-white border-0 shadow-sm">
-                    <FontAwesomeIcon icon={faMale} className="mb-2" size="lg" />
+                  <Card className="chart-premium-card p-3 bg-primary text-white border-0">
                     <h6>Homens</h6>
                     <h3 className="fw-bold">{socioStats.cards.homens}</h3>
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center">
-                    <FontAwesomeIcon
-                      icon={faFemale}
-                      className="text-primary mb-2 opacity-75"
-                      size="lg"
-                    />
+                  <Card className="chart-premium-card p-3">
                     <h6>Mulheres</h6>
                     <h3 className="fw-bold">{socioStats.cards.mulheres}</h3>
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center">
-                    <FontAwesomeIcon
-                      icon={faHistory}
-                      className="text-primary opacity-50 mb-2"
-                      size="lg"
-                    />
+                  <Card className="chart-premium-card p-3">
                     <h6>Total</h6>
                     <h3 className="fw-bold">{socioStats.cards.total}</h3>
                   </Card>
@@ -258,55 +224,53 @@ const Dashboard = () => {
                     <h6 className="text-center mb-4 text-uppercase fw-bold text-muted small">
                       Crescimento de Membros
                     </h6>
-                    <div style={{ width: "100%", height: 300 }}>
-                      <ResponsiveContainer>
-                        <AreaChart data={socioStats.timeline}>
-                          <defs>
-                            <linearGradient
-                              id="colorBlue"
-                              x1="0"
-                              y1="0"
-                              x2="0"
-                              y2="1"
-                            >
-                              <stop
-                                offset="5%"
-                                stopColor="#0d6efd"
-                                stopOpacity={0.4}
-                              />
-                              <stop
-                                offset="95%"
-                                stopColor="#0d6efd"
-                                stopOpacity={0}
-                              />
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid
-                            strokeDasharray="3 3"
-                            vertical={false}
-                            stroke="var(--custom-border-color)"
-                          />
-                          <XAxis
-                            dataKey="name"
-                            stroke="var(--custom-text-muted)"
-                          />
-                          <YAxis stroke="var(--custom-text-muted)" />
-                          <Tooltip />
-                          <Area
-                            type="monotone"
-                            dataKey="membros"
-                            stroke="#0d6efd"
-                            fill="url(#colorBlue)"
-                            strokeWidth={3}
-                          />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                    </div>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <AreaChart data={socioStats.timeline}>
+                        <defs>
+                          <linearGradient
+                            id="colorB"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#0d6efd"
+                              stopOpacity={0.4}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#0d6efd"
+                              stopOpacity={0}
+                            />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          vertical={false}
+                          stroke="var(--custom-border-color)"
+                        />
+                        <XAxis
+                          dataKey="name"
+                          stroke="var(--custom-text-muted)"
+                        />
+                        <YAxis stroke="var(--custom-text-muted)" />
+                        <Tooltip />
+                        <Area
+                          type="monotone"
+                          dataKey="membros"
+                          stroke="#0d6efd"
+                          fill="url(#colorB)"
+                          strokeWidth={3}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </Card>
                 </Col>
                 <Col md={4}>
                   <Card className="chart-premium-card p-4 h-100">
-                    <h6 className="text-center mb-3 small fw-bold">GÊNERO</h6>
+                    <h6 className="text-center mb-3 fw-bold">GÊNERO</h6>
                     <ResponsiveContainer width="100%" height={200}>
                       <PieChart>
                         <Pie
@@ -326,9 +290,7 @@ const Dashboard = () => {
                 </Col>
                 <Col md={4}>
                   <Card className="chart-premium-card p-4 h-100">
-                    <h6 className="text-center mb-3 small fw-bold">
-                      DIZIMISTAS
-                    </h6>
+                    <h6 className="text-center mb-3 fw-bold">DIZIMISTAS</h6>
                     <ResponsiveContainer width="100%" height={200}>
                       <PieChart>
                         <Pie
@@ -350,9 +312,7 @@ const Dashboard = () => {
                 </Col>
                 <Col md={4}>
                   <Card className="chart-premium-card p-4 h-100">
-                    <h6 className="text-center mb-3 small fw-bold">
-                      ESTADO CIVIL
-                    </h6>
+                    <h6 className="text-center mb-3 fw-bold">ESTADO CIVIL</h6>
                     <ResponsiveContainer width="100%" height={200}>
                       <BarChart data={socioStats.civil}>
                         <XAxis
@@ -375,9 +335,9 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="animate__animated animate__fadeIn">
-              <Row className="g-3 mb-4">
+              <Row className="g-3 mb-4 text-center">
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center">
+                  <Card className="chart-premium-card p-3">
                     <h6>Receita</h6>
                     <h3 className="text-primary fw-bold">
                       R$ {finStats.totais.r.toLocaleString()}
@@ -385,7 +345,7 @@ const Dashboard = () => {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center">
+                  <Card className="chart-premium-card p-3">
                     <h6>Despesas</h6>
                     <h3 className="text-primary opacity-75 fw-bold">
                       R$ {finStats.totais.d.toLocaleString()}
@@ -393,7 +353,7 @@ const Dashboard = () => {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center">
+                  <Card className="chart-premium-card p-3">
                     <h6>Lucro</h6>
                     <h3 className="text-primary opacity-50 fw-bold">
                       R$ {finStats.totais.l.toLocaleString()}
@@ -401,8 +361,8 @@ const Dashboard = () => {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card className="chart-premium-card p-3 text-center bg-primary text-white border-0 shadow-sm">
-                    <h6>Saldo Total</h6>
+                  <Card className="chart-premium-card p-3 bg-primary text-white border-0">
+                    <h6>Saldo</h6>
                     <h3 className="fw-bold">
                       R$ {finStats.totais.l.toLocaleString()}
                     </h3>
@@ -413,34 +373,32 @@ const Dashboard = () => {
                 <Col xs={12}>
                   <Card className="chart-premium-card p-4">
                     <h6 className="text-center mb-4 text-uppercase fw-bold text-muted small">
-                      Fluxo de Caixa (Saídas)
+                      Fluxo de Caixa Mensal
                     </h6>
-                    <div style={{ width: "100%", height: 300 }}>
-                      <ResponsiveContainer>
-                        <LineChart data={finStats.mensal}>
-                          <CartesianGrid
-                            strokeDasharray="3 3"
-                            vertical={false}
-                            stroke="var(--custom-border-color)"
-                          />
-                          <XAxis
-                            dataKey="name"
-                            stroke="var(--custom-text-muted)"
-                          />
-                          <YAxis stroke="var(--custom-text-muted)" />
-                          <Tooltip />
-                          <Legend />
-                          <Line
-                            type="monotone"
-                            dataKey="despesa"
-                            stroke="#0d6efd"
-                            strokeWidth={3}
-                            dot={{ r: 5, fill: "#052c65" }}
-                            name="Gastos"
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={finStats.mensal}>
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          vertical={false}
+                          stroke="var(--custom-border-color)"
+                        />
+                        <XAxis
+                          dataKey="name"
+                          stroke="var(--custom-text-muted)"
+                        />
+                        <YAxis stroke="var(--custom-text-muted)" />
+                        <Tooltip />
+                        <Legend />
+                        <Line
+                          type="monotone"
+                          dataKey="despesa"
+                          stroke="#0d6efd"
+                          strokeWidth={3}
+                          dot={{ r: 5 }}
+                          name="Gastos"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
                   </Card>
                 </Col>
                 <Col md={6}>
@@ -452,18 +410,13 @@ const Dashboard = () => {
                           data={finStats.categorias}
                           innerRadius={60}
                           outerRadius={80}
-                          paddingAngle={5}
                           dataKey="value"
                         >
                           {finStats.categorias.map((e, i) => (
-                            <Cell
-                              key={i}
-                              fill={BLUE_PALETTE[i % BLUE_PALETTE.length]}
-                            />
+                            <Cell key={i} fill={BLUE_PALETTE[i % 5]} />
                           ))}
                         </Pie>
                         <Tooltip />
-                        <Legend />
                       </PieChart>
                     </ResponsiveContainer>
                   </Card>
@@ -473,11 +426,6 @@ const Dashboard = () => {
                     <h6>ARRECADAÇÃO MENSAL</h6>
                     <ResponsiveContainer width="100%" height={250}>
                       <BarChart data={finStats.mensal}>
-                        <CartesianGrid
-                          strokeDasharray="3 3"
-                          vertical={false}
-                          stroke="var(--custom-border-color)"
-                        />
                         <XAxis
                           dataKey="name"
                           stroke="var(--custom-text-muted)"
