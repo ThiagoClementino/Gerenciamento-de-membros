@@ -8,7 +8,7 @@ import { AuthProvider } from "./Contexts/AuthContext";
 import { ThemeProvider } from "./Contexts/ThemeContext";
 import "./styles/CustomTheme.css";
 import "./styles/global.css";
-import "./styles/layout-responsivo-integrado.css";
+
 import "./styles/membros-dashboard-pattern.css";
 
 function App() {

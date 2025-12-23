@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IMaskInput } from "react-imask";
-import "../../styles/components/Cadastro.css";
+
 import {
   Container,
   Row,
