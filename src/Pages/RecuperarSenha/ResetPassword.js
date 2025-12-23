@@ -1,23 +1,33 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useParams, Link } from "react-router-dom"; // Alterado para useParams
+import { useForm, Controller } from "react-hook-form";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../Contexts/AuthContext"; // (Seu context de Auth)
+import { AuthContext } from "../../Contexts/AuthContext";
+import ThemeToggle from "../../Components/ThemeToggle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faKey,
+  faLock,
+  faCheckCircle,
+  faExclamationTriangle,
+  faArrowLeft,
+  faShieldAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   Form,
   Button,
-  Card,
   Container,
   Row,
   Col,
   Alert,
   Spinner,
+  InputGroup,
 } from "react-bootstrap";
 
-// 1. Schema de validação (Apenas senhas)
+// --- SCHEMA DE VALIDAÇÃO PRESERVADO ---
 const resetPasswordSchema = z
   .object({
     senha: z
@@ -33,13 +43,25 @@ const resetPasswordSchema = z
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const { resetToken } = useParams(); // CORREÇÃO APLICADA AQUI: Usa useParams
-  const { login } = useContext(AuthContext); // Para fazer login automático
+  const { resetToken } = useParams();
+  const { login } = useContext(AuthContext);
 
-  // Estados
-  const [token, setToken] = useState(null); // Armazena o token da URL
+  const [token, setToken] = useState(null);
   const [serverError, setServerError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [theme] = useState("dark");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    const urlToken = resetToken;
+    if (urlToken) {
+      setToken(urlToken);
+    } else {
+      setServerError(
+        "Token de redefinição inválido ou expirado. Solicite um novo link."
+      );
+    }
+  }, [resetToken, theme]);
 
   const {
     register,
@@ -48,26 +70,10 @@ const ResetPassword = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(resetPasswordSchema),
-    defaultValues: {
-      senha: "",
-      confirmarSenha: "",
-    },
+    defaultValues: { senha: "", confirmarSenha: "" },
   });
 
-  // 2. Lógica para capturar o Token da URL
-  // Roda uma vez quando o componente é montado
-  useEffect(() => {
-    const urlToken = resetToken; // CORREÇÃO APLICADA AQUI: Usa a variável do useParams
-    if (urlToken) {
-      setToken(urlToken);
-    } else {
-      setServerError(
-        "Token de redefinição inválido ou não encontrado. Por favor, solicite um novo link."
-      );
-    }
-  }, [resetToken]); // CORREÇÃO APLICADA AQUI: Usa resetToken como dependência
-
-  // 3. Função de envio
+  // --- LÓGICA DE ENVIO PRESERVADA ---
   const onSubmit = async (data) => {
     if (!token) {
       setServerError("Token inválido. Não é possível redefinir a senha.");
@@ -78,186 +84,208 @@ const ResetPassword = () => {
     setServerError("");
 
     try {
-      // A API espera um POST para /api/auth/resetpassword/:token
-      // O token vai na URL, a senha vai no body
       const API_URL = `https://usuarios-saas-g-membros.vercel.app/api/auth/resetpassword/${token}`;
-
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // A API espera apenas o campo 'senha' no body
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ senha: data.senha }),
       });
 
       const result = await response.json();
 
-      if (!response.ok) {
-        // A API retorna { success: false, error: "mensagem" }
+      if (!response.ok)
         throw new Error(result.error || `Erro ${response.status}`);
-      }
 
-      // 4. Sucesso!
-      // A API retorna um *novo* token de login
       localStorage.setItem("token", result.token);
-      login(); // Atualiza o AuthContext
-
-      reset(); // Limpa o formulário
+      login();
+      reset();
 
       Swal.fire({
         icon: "success",
         title: "Senha redefinida!",
-        text: "Sua senha foi alterada e você já está logado.",
+        text: "Sua segurança foi atualizada com sucesso.",
         showConfirmButton: false,
         timer: 2500,
         timerProgressBar: true,
+        background: "var(--bs-body-tertiary)",
+        color: "var(--bs-body-color)",
       });
 
-      // Redireciona para o dashboard
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 2500);
+      setTimeout(() => navigate("/dashboard"), 2500);
     } catch (error) {
-      console.error("Falha ao redefinir senha:", error);
       setServerError(error.message || "Não foi possível conectar ao servidor.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 5. O JSX (Interface)
   return (
-    <Container
-      fluid
-      className="bg-primary-custom min-vh-100 d-flex align-items-center justify-content-center"
-    >
-      <Row className="justify-content-center w-100">
-        <Col xs={12} sm={10} md={8} lg={6} xl={4} xxl={3}>
-          <Card className="shadow-custom-lg border-0">
-            <Card.Body className="p-4">
-              <div className="text-center mb-4">
-                <div className="mb-3">
-                  <i
-                    className="bi bi-key-fill text-primary-custom"
-                    style={{ fontSize: "3rem" }}
-                  ></i>
-                </div>
-                <h3 className="fw-bold text-primary-custom mb-1">
-                  Redefinir Senha
-                </h3>
-                <p className="text-muted-custom mb-0">Digite sua nova senha.</p>
+    <Container fluid className="vh-100 p-0 overflow-hidden bg-body">
+      <Row className="g-0 h-100">
+        {/* LADO ESQUERDO: IMAGEM (Oculto no Mobile) */}
+        <Col
+          md={6}
+          lg={7}
+          className="d-none d-md-flex position-relative overflow-hidden border-end border-primary border-opacity-10"
+        >
+          <div
+            className="position-absolute w-100 h-100"
+            style={{
+              backgroundImage:
+                'url("https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop")',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "brightness(0.3) grayscale(0.3)",
+            }}
+          />
+          <div className="position-relative z-1 d-flex flex-column justify-content-end p-5 text-white w-100 h-100 bg-gradient-dark">
+            <div className="mb-4">
+              <FontAwesomeIcon
+                icon={faShieldAlt}
+                className="fs-1 mb-3 text-primary"
+              />
+              <h1 className="display-4 fw-bold">
+                Segurança <br />
+                <span className="text-primary">Primeiro</span>
+              </h1>
+              <p className="lead opacity-75">
+                Sua senha é a chave para a integridade dos seus dados.
+              </p>
+            </div>
+            <div className="d-flex gap-3 small opacity-50 font-monospace">
+              <span>ESTABELECENDO CONEXÃO SEGURA...</span>
+            </div>
+          </div>
+        </Col>
+
+        <Col
+          xs={12}
+          md={6}
+          lg={5}
+          className="d-flex align-items-center justify-content-center p-4 p-lg-5 bg-body"
+        >
+          <div className="w-100" style={{ maxWidth: "480px" }}>
+            <div className="position-absolute top-0 end-0 p-4">
+              <ThemeToggle size="sm" />
+            </div>
+
+            <div className="mb-5 text-center text-md-start">
+              <div className="bg-primary bg-opacity-10 d-inline-flex p-3 rounded-circle mb-3 d-md-none">
+                <FontAwesomeIcon icon={faKey} className="text-primary fs-3" />
               </div>
+              <h2 className="fw-bold h3 mb-2">Nova Senha</h2>
+              <p className="text-secondary">
+                Escolha uma combinação forte e segura.
+              </p>
+            </div>
 
-              {serverError && (
-                <Alert
-                  variant="danger"
-                  className="mb-3 border-0 shadow-custom-sm"
-                >
-                  <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                  {serverError}
-                </Alert>
-              )}
+            {serverError && (
+              <Alert
+                variant="danger"
+                className="border-0 shadow-sm rounded-3 py-3 small mb-4"
+              >
+                <FontAwesomeIcon
+                  icon={faExclamationTriangle}
+                  className="me-2"
+                />
+                {serverError}
+              </Alert>
+            )}
 
-              {/* Só exibe o formulário se o token foi carregado */}
-              {token ? (
-                <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-                  {/* Senha */}
-                  <Form.Group className="mb-3" controlId="formGroupPassword">
-                    <Form.Label className="fw-semibold">
-                      <i className="bi bi-lock me-2"></i>
-                      Nova Senha
-                    </Form.Label>
+            {token ? (
+              <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+                {/* CAMPO NOVA SENHA */}
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold text-secondary text-uppercase ls-1">
+                    Nova Senha
+                  </Form.Label>
+                  <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                    <InputGroup.Text className="bg-body border-0">
+                      <FontAwesomeIcon icon={faLock} className="text-muted" />
+                    </InputGroup.Text>
                     <Form.Control
                       type="password"
-                      placeholder="Digite a nova senha"
+                      placeholder="Mínimo 6 caracteres"
+                      className="bg-body border-0 shadow-none py-3"
                       {...register("senha")}
                       isInvalid={!!errors.senha}
-                      className="border-custom"
                       disabled={isLoading}
                     />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.senha?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                  </InputGroup>
+                  <Form.Text className="text-danger small">
+                    {errors.senha?.message}
+                  </Form.Text>
+                </Form.Group>
 
-                  {/* Confirmação de Senha */}
-                  <Form.Group
-                    className="mb-4"
-                    controlId="formGroupConfirmPassword"
-                  >
-                    <Form.Label className="fw-semibold">
-                      <i className="bi bi-lock-fill me-2"></i>
-                      Confirmar Nova Senha
-                    </Form.Label>
+                {/* CAMPO CONFIRMAR SENHA */}
+                <Form.Group className="mb-4">
+                  <Form.Label className="small fw-bold text-secondary text-uppercase ls-1">
+                    Confirmar Senha
+                  </Form.Label>
+                  <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                    <InputGroup.Text className="bg-body border-0">
+                      <FontAwesomeIcon
+                        icon={faLock}
+                        className="text-muted opacity-50"
+                      />
+                    </InputGroup.Text>
                     <Form.Control
                       type="password"
-                      placeholder="Confirme a nova senha"
+                      placeholder="Repita a senha"
+                      className="bg-body border-0 shadow-none py-3"
                       {...register("confirmarSenha")}
                       isInvalid={!!errors.confirmarSenha}
-                      className="border-custom"
                       disabled={isLoading}
                     />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.confirmarSenha?.message}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                  </InputGroup>
+                  <Form.Text className="text-danger small">
+                    {errors.confirmarSenha?.message}
+                  </Form.Text>
+                </Form.Group>
 
-                  {/* Botão de envio */}
-                  <div className="d-grid gap-2 mb-3">
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      disabled={isLoading}
-                      size="lg"
-                      className="fw-semibold"
-                    >
-                      {isLoading ? (
-                        <>
-                          <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                            className="me-2"
-                          />
-                          Salvando...
-                        </>
-                      ) : (
-                        <>
-                          <i className="bi bi-check-circle me-2"></i>
-                          Salvar Nova Senha
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </Form>
-              ) : (
-                // Feedback visual se o token estiver carregando ou inválido
-                !serverError && (
-                  <div className="text-center">
-                    <Spinner animation="border" variant="primary" />
-                    <p className="text-muted mt-2">Carregando...</p>
-                  </div>
-                )
-              )}
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-4"
+                >
+                  {isLoading ? (
+                    <>
+                      <Spinner animation="border" size="sm" /> Atualizando...
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon icon={faCheckCircle} /> REDEFINIR E
+                      ENTRAR
+                    </>
+                  )}
+                </Button>
 
-              <hr className="border-custom my-3" />
-
-              <div className="text-center">
-                <small className="text-muted-custom">
-                  Lembrou a senha?{" "}
+                <div className="text-center">
                   <Link
                     to="/"
-                    className="text-decoration-none fw-semibold text-primary-custom"
+                    className="text-decoration-none small text-secondary fw-bold"
                   >
-                    Fazer login
+                    <FontAwesomeIcon icon={faArrowLeft} className="me-2" />{" "}
+                    Voltar para o Login
                   </Link>
-                </small>
-              </div>
-            </Card.Body>
-          </Card>
+                </div>
+              </Form>
+            ) : (
+              !serverError && (
+                <div className="text-center p-5 border rounded-4 bg-body-tertiary shadow-sm">
+                  <Spinner
+                    animation="border"
+                    variant="primary"
+                    className="mb-3"
+                  />
+                  <p className="text-secondary mb-0 fw-bold">
+                    Validando credenciais...
+                  </p>
+                </div>
+              )
+            )}
+          </div>
         </Col>
       </Row>
     </Container>

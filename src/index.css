@@ -1,0 +1,40 @@
+/* Transição suave para troca de tema */
+[data-bs-theme] body,
+[data-bs-theme] .card,
+[data-bs-theme] .nav,
+[data-bs-theme] .btn,
+[data-bs-theme] .form-control,
+[data-bs-theme] header,
+[data-bs-theme] footer {
+  transition: background-color 0.4s ease, color 0.4s ease,
+    border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+/* Ajuste fino para cards no modo claro */
+[data-bs-theme="light"] .card {
+  background-color: #ffffff;
+}
+/* Transição suave de cores e sombras */
+[data-bs-theme] *,
+[data-bs-theme] {
+  transition: background-color 0.4s ease, color 0.4s ease,
+    border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+/* Scrollbar refinada para o tema */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bs-body-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bs-tertiary-bg);
+  border-radius: 10px;
+  border: 2px solid var(--bs-body-bg);
+}
+[data-bs-theme] .card,
+[data-bs-theme] .form-control,
+[data-bs-theme] .btn {
+  transition: all 0.4s ease-in-out !important;
+}

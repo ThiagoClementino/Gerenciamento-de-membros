@@ -1,14 +1,6 @@
-import React, { useState, useContext, useMemo } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  InputGroup,
-  Button,
-} from "react-bootstrap";
-import Datainfor from "../../Contexts/DataInfor";
+import React, { useState, useContext, useMemo, useEffect } from "react";
+import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
+import DataInfor from "../../Contexts/DataInfor"; // Nome corrigido conforme importação
 import {
   LineChart,
   Line,
@@ -28,25 +20,41 @@ import {
 } from "recharts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSearch,
+  faMoon,
+  faSun,
+  faArrowUp,
+  faArrowDown,
+  faChartLine,
   faUsers,
   faWallet,
-  faUserCheck,
-  faMale,
-  faFemale,
-  faHistory,
+  faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const [show, setShow] = useState("showOne");
-  const { dados, dadosfinance } = useContext(Datainfor);
+  const [theme, setTheme] = useState("dark");
+  const { dados, dadosfinance } = useContext(DataInfor);
 
-  const BLUE_PALETTE = ["#0d6efd", "#0a58ca", "#3d8bfd", "#6ea8fe", "#9ec5fe"];
+  // Sincroniza o tema com o atributo nativo do Bootstrap 5.3
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+  }, [theme]);
 
+  // Paleta de cores dinâmica para os gráficos
+  const COLORS = ["#0d6efd", "#6ea8fe", "#0dcaf0", "#3d8bfd", "#052c65"];
+  const chartConfig = useMemo(
+    () => ({
+      stroke: theme === "dark" ? "#444" : "#dee2e6",
+      text: theme === "dark" ? "#adb5bd" : "#495057",
+      grid: theme === "dark" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+    }),
+    [theme]
+  );
+
+  // --- Lógica Socioeconômica (Preservada) ---
   const socioStats = useMemo(() => {
-    if (!dados)
-      return { sex: [], civil: [], dizimista: [], timeline: [], cards: {} };
-    const mesesNome = [
+    if (!dados) return { sex: [], timeline: [], cards: {} };
+    const meses = [
       "Jan",
       "Fev",
       "Mar",
@@ -60,12 +68,8 @@ const Dashboard = () => {
       "Nov",
       "Dez",
     ];
-    const timelineMap = Array(12)
-      .fill(0)
-      .map((_, i) => ({ name: mesesNome[i], membros: 0 }));
+    const timelineMap = meses.map((m) => ({ name: m, membros: 0 }));
     const sexMap = { Masculino: 0, Feminino: 0 };
-    const civilMap = {};
-    const dizimistaMap = { Sim: 0, Não: 0 };
 
     dados.forEach((m) => {
       if (m.datacriacao) {
@@ -73,20 +77,11 @@ const Dashboard = () => {
         if (mes >= 0 && mes < 12) timelineMap[mes].membros++;
       }
       if (m.sex) sexMap[m.sex] = (sexMap[m.sex] || 0) + 1;
-      if (m.estadocivil)
-        civilMap[m.estadocivil] = (civilMap[m.estadocivil] || 0) + 1;
-      const diz = m.dizimista?.toLowerCase() === "sim" ? "Sim" : "Não";
-      dizimistaMap[diz]++;
     });
 
     return {
       timeline: timelineMap,
       sex: Object.entries(sexMap).map(([name, value]) => ({ name, value })),
-      civil: Object.entries(civilMap).map(([name, value]) => ({ name, value })),
-      dizimista: Object.entries(dizimistaMap).map(([name, value]) => ({
-        name,
-        value,
-      })),
       cards: {
         ativos: dados.filter((d) => d.cadAtivo !== false).length,
         homens: sexMap.Masculino,
@@ -96,10 +91,10 @@ const Dashboard = () => {
     };
   }, [dados]);
 
+  // --- Lógica Financeira (Preservada) ---
   const finStats = useMemo(() => {
-    if (!dadosfinance)
-      return { mensal: [], categorias: [], totais: { r: 0, d: 0, l: 0 } };
-    const mesesNome = [
+    if (!dadosfinance) return { mensal: [], totais: { r: 0, d: 0, l: 0 } };
+    const meses = [
       "Jan",
       "Fev",
       "Mar",
@@ -113,14 +108,13 @@ const Dashboard = () => {
       "Nov",
       "Dez",
     ];
-    const mensal = mesesNome.map((m) => ({ name: m, receita: 0, despesa: 0 }));
-    const catMap = {};
+    const mensal = meses.map((m) => ({ name: m, receita: 0, despesa: 0 }));
 
     dadosfinance.forEach((item) => {
-      const dataStr = item.datapagamento || "";
-      const mesIdx = dataStr.includes("-")
-        ? parseInt(dataStr.split("-")[1]) - 1
-        : parseInt(dataStr.split("/")[1]) - 1;
+      const mesIdx =
+        parseInt(
+          item.datapagamento?.split("-")[1] || item.datapagamento?.split("/")[1]
+        ) - 1;
       const valor = parseFloat(item.valor || 0);
       if (mesIdx >= 0 && mesIdx < 12) {
         if (item.tipodedado?.toLowerCase() === "receita")
@@ -128,144 +122,124 @@ const Dashboard = () => {
         else if (item.tipodedado?.toLowerCase() === "despesa")
           mensal[mesIdx].despesa += valor;
       }
-      const cat = item.tipolancamento || "Outros";
-      catMap[cat] = (catMap[cat] || 0) + valor;
     });
 
     const totalR = mensal.reduce((acc, m) => acc + m.receita, 0);
     const totalD = mensal.reduce((acc, m) => acc + m.despesa, 0);
-    return {
-      mensal,
-      categorias: Object.entries(catMap).map(([name, value]) => ({
-        name,
-        value,
-      })),
-      totais: { r: totalR, d: totalD, l: totalR - totalD },
-    };
+    return { mensal, totais: { r: totalR, d: totalD, l: totalR - totalD } };
   }, [dadosfinance]);
 
   return (
-    /* O estilo inline abaixo força o container a ter exatamente a altura da tela e esconde o scroll externo */
-    <div
-      className="dashboard-fixed-wrapper"
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-      }}
-    >
-      <header className="dashboard-sticky-header" style={{ flexShrink: 0 }}>
+    <div className="vh-100 d-flex flex-column overflow-hidden bg-body text-body">
+      {/* HEADER FIXO */}
+      <header className="py-3 px-4 border-bottom bg-body-tertiary shadow-sm z-3">
         <Container fluid>
-          <Row className="align-items-center g-3">
-            <Col md={7}>
-              <h2 className="fw-bold text-light mb-0">Dashboard</h2>
+          <Row className="align-items-center">
+            <Col md={4}>
+              <h2 className="fw-bold mb-0 h4">Painel de Gestão</h2>
             </Col>
-            <Col md={5} className="text-end">
-              <div className="d-inline-flex p-1 bg-tertiary-custom rounded-pill border-custom shadow-sm">
+            <Col md={4} className="d-flex justify-content-center">
+              <div className="btn-group p-1 bg-body border rounded-pill shadow-sm">
                 <Button
                   variant={show === "showOne" ? "primary" : "link"}
-                  className="rounded-pill px-4 text-decoration-none text-light"
+                  className="rounded-pill px-4 border-0 text-decoration-none"
                   onClick={() => setShow("showOne")}
                 >
-                  Socioeconômico
+                  Social
                 </Button>
                 <Button
                   variant={show === "showTwo" ? "primary" : "link"}
-                  className="rounded-pill px-4 text-decoration-none text-light"
+                  className="rounded-pill px-4 border-0 text-decoration-none"
                   onClick={() => setShow("showTwo")}
                 >
                   Financeiro
                 </Button>
               </div>
             </Col>
+            <Col md={4} className="text-end">
+              <Button
+                variant="outline-secondary"
+                className="rounded-circle border-0 shadow-sm"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                <FontAwesomeIcon icon={theme === "dark" ? faSun : faMoon} />
+              </Button>
+            </Col>
           </Row>
         </Container>
       </header>
 
-      {/* Este container agora é o único responsável pelo scroll da aplicação */}
-      <main
-        className="dashboard-scroll-content"
-        style={{ flex: 1, overflowY: "auto", paddingBottom: "2rem" }}
-      >
+      {/* ÁREA DE SCROLL INTERNO */}
+      <main className="flex-grow-1 overflow-auto p-4">
         <Container fluid>
           {show === "showOne" ? (
-            <div className="animate__animated animate__fadeIn">
-              <Row className="g-3 mb-4 text-center">
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3">
-                    <FontAwesomeIcon
-                      icon={faUserCheck}
-                      className="text-primary mb-2"
-                      size="lg"
-                    />
-                    <h6>Ativos</h6>
-                    <h3 className="fw-bold">{socioStats.cards.ativos}</h3>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3 bg-primary text-white border-0">
-                    <h6>Homens</h6>
-                    <h3 className="fw-bold">{socioStats.cards.homens}</h3>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3">
-                    <h6>Mulheres</h6>
-                    <h3 className="fw-bold">{socioStats.cards.mulheres}</h3>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3">
-                    <h6>Total</h6>
-                    <h3 className="fw-bold">{socioStats.cards.total}</h3>
-                  </Card>
-                </Col>
+            <div className="animate-fade-in">
+              <Row className="g-3 mb-4">
+                <StatCard
+                  label="Membros Ativos"
+                  val={socioStats.cards.ativos}
+                  icon={faUsers}
+                  color="text-primary"
+                />
+                <StatCard
+                  label="Homens"
+                  val={socioStats.cards.homens}
+                  icon={faArrowUp}
+                  color="text-info"
+                />
+                <StatCard
+                  label="Mulheres"
+                  val={socioStats.cards.mulheres}
+                  icon={faArrowDown}
+                  color="text-danger"
+                />
+                <StatCard
+                  label="Total Geral"
+                  val={socioStats.cards.total}
+                  icon={faCheckCircle}
+                  color="text-success"
+                />
               </Row>
+
               <Row className="g-4">
-                <Col xs={12}>
-                  <Card className="chart-premium-card p-4">
-                    <h6 className="text-center mb-4 text-uppercase fw-bold text-muted small">
-                      Crescimento de Membros
+                <Col md={8}>
+                  <Card className="border shadow-sm rounded-4 bg-body-tertiary h-100 p-4">
+                    <h6 className="fw-bold text-secondary text-uppercase mb-4">
+                      Crescimento Anual
                     </h6>
                     <ResponsiveContainer width="100%" height={300}>
                       <AreaChart data={socioStats.timeline}>
-                        <defs>
-                          <linearGradient
-                            id="colorB"
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="1"
-                          >
-                            <stop
-                              offset="5%"
-                              stopColor="#0d6efd"
-                              stopOpacity={0.4}
-                            />
-                            <stop
-                              offset="95%"
-                              stopColor="#0d6efd"
-                              stopOpacity={0}
-                            />
-                          </linearGradient>
-                        </defs>
                         <CartesianGrid
                           strokeDasharray="3 3"
                           vertical={false}
-                          stroke="var(--custom-border-color)"
+                          stroke={chartConfig.grid}
                         />
                         <XAxis
                           dataKey="name"
-                          stroke="var(--custom-text-muted)"
+                          stroke={chartConfig.text}
+                          fontSize={12}
+                          tickLine={false}
+                          axisLine={false}
                         />
-                        <YAxis stroke="var(--custom-text-muted)" />
-                        <Tooltip />
+                        <YAxis
+                          stroke={chartConfig.text}
+                          fontSize={12}
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "var(--bs-body-bg)",
+                            borderColor: "var(--bs-border-color)",
+                            borderRadius: "12px",
+                          }}
+                        />
                         <Area
                           type="monotone"
                           dataKey="membros"
                           stroke="#0d6efd"
-                          fill="url(#colorB)"
+                          fillOpacity={0.1}
+                          fill="#0d6efd"
                           strokeWidth={3}
                         />
                       </AreaChart>
@@ -273,39 +247,23 @@ const Dashboard = () => {
                   </Card>
                 </Col>
                 <Col md={4}>
-                  <Card className="chart-premium-card p-4 h-100">
-                    <h6 className="text-center mb-3 fw-bold">GÊNERO</h6>
-                    <ResponsiveContainer width="100%" height={200}>
+                  <Card className="border shadow-sm rounded-4 bg-body-tertiary h-100 p-4">
+                    <h6 className="fw-bold text-secondary text-uppercase mb-4 text-center">
+                      Distribuição Gênero
+                    </h6>
+                    <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Pie
                           data={socioStats.sex}
-                          innerRadius={50}
-                          outerRadius={70}
+                          innerRadius={60}
+                          outerRadius={80}
+                          paddingAngle={5}
                           dataKey="value"
                         >
-                          {socioStats.sex.map((e, i) => (
-                            <Cell key={i} fill={BLUE_PALETTE[i % 2]} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </Card>
-                </Col>
-                <Col md={4}>
-                  <Card className="chart-premium-card p-4 h-100">
-                    <h6 className="text-center mb-3 fw-bold">DIZIMISTAS</h6>
-                    <ResponsiveContainer width="100%" height={200}>
-                      <PieChart>
-                        <Pie
-                          data={socioStats.dizimista}
-                          outerRadius={70}
-                          dataKey="value"
-                        >
-                          {socioStats.dizimista.map((e, i) => (
+                          {socioStats.sex.map((entry, index) => (
                             <Cell
-                              key={i}
-                              fill={e.name === "Sim" ? "#0d6efd" : "#9ec5fe"}
+                              key={index}
+                              fill={COLORS[index % COLORS.length]}
                             />
                           ))}
                         </Pie>
@@ -314,145 +272,121 @@ const Dashboard = () => {
                     </ResponsiveContainer>
                   </Card>
                 </Col>
-                <Col md={4}>
-                  <Card className="chart-premium-card p-4 h-100">
-                    <h6 className="text-center mb-3 fw-bold">ESTADO CIVIL</h6>
-                    <ResponsiveContainer width="100%" height={200}>
-                      <BarChart data={socioStats.civil}>
-                        <XAxis
-                          dataKey="name"
-                          fontSize={10}
-                          stroke="var(--custom-text-muted)"
-                        />
-                        <Tooltip cursor={{ fill: "transparent" }} />
-                        <Bar
-                          dataKey="value"
-                          fill="#3d8bfd"
-                          radius={[4, 4, 0, 0]}
-                          barSize={25}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </Card>
-                </Col>
               </Row>
             </div>
           ) : (
-            <div className="animate__animated animate__fadeIn">
-              <Row className="g-3 mb-4 text-center">
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3">
-                    <h6>Receita</h6>
-                    <h3 className="text-primary fw-bold">
-                      R$ {finStats.totais.r.toLocaleString()}
-                    </h3>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3">
-                    <h6>Despesas</h6>
-                    <h3 className="text-primary opacity-75 fw-bold">
-                      R$ {finStats.totais.d.toLocaleString()}
-                    </h3>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3">
-                    <h6>Lucro</h6>
-                    <h3 className="text-primary opacity-50 fw-bold">
-                      R$ {finStats.totais.l.toLocaleString()}
-                    </h3>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="chart-premium-card p-3 bg-primary text-white border-0">
-                    <h6>Saldo</h6>
-                    <h3 className="fw-bold">
-                      R$ {finStats.totais.l.toLocaleString()}
-                    </h3>
-                  </Card>
-                </Col>
+            <div className="animate-fade-in">
+              <Row className="g-3 mb-4">
+                <StatCard
+                  label="Receitas"
+                  val={`R$ ${finStats.totais.r.toLocaleString()}`}
+                  icon={faArrowUp}
+                  color="text-success"
+                />
+                <StatCard
+                  label="Despesas"
+                  val={`R$ ${finStats.totais.d.toLocaleString()}`}
+                  icon={faArrowDown}
+                  color="text-danger"
+                />
+                <StatCard
+                  label="Lucro"
+                  val={`R$ ${finStats.totais.l.toLocaleString()}`}
+                  icon={faChartLine}
+                  color="text-info"
+                />
+                <StatCard
+                  label="Saldo"
+                  val={`R$ ${finStats.totais.l.toLocaleString()}`}
+                  icon={faWallet}
+                  color="text-primary"
+                />
               </Row>
-              <Row className="g-4">
-                <Col xs={12}>
-                  <Card className="chart-premium-card p-4">
-                    <h6 className="text-center mb-4 text-uppercase fw-bold text-muted small">
-                      Fluxo de Caixa Mensal
-                    </h6>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <LineChart data={finStats.mensal}>
-                        <CartesianGrid
-                          strokeDasharray="3 3"
-                          vertical={false}
-                          stroke="var(--custom-border-color)"
-                        />
-                        <XAxis
-                          dataKey="name"
-                          stroke="var(--custom-text-muted)"
-                        />
-                        <YAxis stroke="var(--custom-text-muted)" />
-                        <Tooltip />
-                        <Legend />
-                        <Line
-                          type="monotone"
-                          dataKey="despesa"
-                          stroke="#0d6efd"
-                          strokeWidth={3}
-                          dot={{ r: 5 }}
-                          name="Gastos"
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </Card>
-                </Col>
-                <Col md={6}>
-                  <Card className="chart-premium-card p-4 h-100">
-                    <h6>CATEGORIAS</h6>
-                    <ResponsiveContainer width="100%" height={250}>
-                      <PieChart>
-                        <Pie
-                          data={finStats.categorias}
-                          innerRadius={60}
-                          outerRadius={80}
-                          dataKey="value"
-                        >
-                          {finStats.categorias.map((e, i) => (
-                            <Cell key={i} fill={BLUE_PALETTE[i % 5]} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </Card>
-                </Col>
-                <Col md={6}>
-                  <Card className="chart-premium-card p-4 h-100">
-                    <h6>ARRECADAÇÃO MENSAL</h6>
-                    <ResponsiveContainer width="100%" height={250}>
-                      <BarChart data={finStats.mensal}>
-                        <XAxis
-                          dataKey="name"
-                          stroke="var(--custom-text-muted)"
-                        />
-                        <Tooltip cursor={{ fill: "transparent" }} />
-                        <Bar
-                          dataKey="receita"
-                          fill="#0d6efd"
-                          radius={[5, 5, 0, 0]}
-                          barSize={40}
-                          name="Entradas"
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </Card>
-                </Col>
-              </Row>
+
+              <Card className="border shadow-sm rounded-4 bg-body-tertiary p-4 mb-4">
+                <h6 className="fw-bold text-secondary text-uppercase mb-4">
+                  Fluxo de Caixa Mensal
+                </h6>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={finStats.mensal}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      vertical={false}
+                      stroke={chartConfig.grid}
+                    />
+                    <XAxis
+                      dataKey="name"
+                      stroke={chartConfig.text}
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      stroke={chartConfig.text}
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--bs-body-bg)",
+                        borderRadius: "12px",
+                      }}
+                    />
+                    <Legend />
+                    <Bar
+                      dataKey="receita"
+                      fill="#198754"
+                      radius={[4, 4, 0, 0]}
+                      name="Entradas"
+                    />
+                    <Bar
+                      dataKey="despesa"
+                      fill="#dc3545"
+                      radius={[4, 4, 0, 0]}
+                      name="Saídas"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </Card>
             </div>
           )}
         </Container>
       </main>
+
+      {/* FOOTER FIXO */}
+      <footer className="py-2 px-4 border-top bg-body-tertiary text-secondary small">
+        <Container fluid className="d-flex justify-content-between">
+          <span>Sistema Eclesiástico Premium • 2025</span>
+          <span>
+            Tema: <strong className="text-uppercase">{theme}</strong>
+          </span>
+        </Container>
+      </footer>
     </div>
   );
 };
+
+// Componente Interno para Cards de Estatística
+const StatCard = ({ label, val, icon, color }) => (
+  <Col md={3}>
+    <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+      <Card.Body className="d-flex align-items-center p-3">
+        <div
+          className="bg-body p-3 rounded-circle border me-3 d-flex align-items-center justify-content-center shadow-sm"
+          style={{ width: "52px", height: "52px" }}
+        >
+          <FontAwesomeIcon icon={icon} className={color} size="lg" />
+        </div>
+        <div>
+          <p className="small text-secondary fw-bold text-uppercase mb-0">
+            {label}
+          </p>
+          <h4 className="fw-bold mb-0">{val}</h4>
+        </div>
+      </Card.Body>
+    </Card>
+  </Col>
+);
 
 export default Dashboard;

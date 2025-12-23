@@ -1,4 +1,10 @@
-import React, { useState, useContext, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  useContext,
+  useCallback,
+  useMemo,
+  useEffect,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import DataContext from "../../Contexts/DataInfor";
 import {
@@ -8,31 +14,45 @@ import {
   Form,
   Button,
   Table,
-  Alert,
   Badge,
   InputGroup,
+  Card,
 } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlus,
+  faTrash,
+  faEye,
+  faSearch,
+  faFileInvoiceDollar,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const Financeiro = () => {
   const { dadosfinance, setDadosfinance } = useContext(DataContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [formError, setFormError] = useState(null);
-  const [selectedIds, setSelectedIds] = useState([]); // Para exclusão múltipla
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [theme, setTheme] = useState("dark"); // Padrão conforme Dashboard
   const navigate = useNavigate();
 
-  // Estado com TODOS os campos do formulário
+  // Aplicação do tema nativo Bootstrap 5.3
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+  }, [theme]);
+
+  // --- Lógica Original Preservada ---
   const [financialData, setFinancialData] = useState({
-    tipodedado: "", // Receita / Despesa
+    tipodedado: "",
     valor: "",
-    statuspagamento: "", // Pago / Pendente
-    datapagamento: "", // Data que o usuário escolhe
-    tipolancamento: "", // Categoria (Dízimo, Luz, etc)
-    descricao: "", // Descrição curta
-    observacao: "", // Detalhes adicionais
-    comprovante: null, // Campo para anexo
+    statuspagamento: "",
+    datapagamento: "",
+    tipolancamento: "",
+    descricao: "",
+    observacao: "",
+    comprovante: null,
   });
 
-  // --- Funções de Seleção Múltipla ---
   const handleSelectOne = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
@@ -47,20 +67,16 @@ export const Financeiro = () => {
     }
   };
 
-  // --- Manipulação do Formulário ---
   const handleCampfinancial = useCallback((event) => {
     const { name, value } = event.target;
     setFinancialData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  // --- Ação de Salvar ---
   const handleFormFinancial = useCallback(
     async (event) => {
       event.preventDefault();
       setFormError(null);
-
       try {
-        // Formatação de datas
         const [ano, mes, dia] = financialData.datapagamento.split("-");
         const dataPagamentoFormatada = `${dia}/${mes}/${ano}`;
         const dataLancamentoFormatada = new Date().toLocaleDateString("pt-BR");
@@ -89,7 +105,6 @@ export const Financeiro = () => {
 
         if (setDadosfinance) setDadosfinance((prev) => [...prev, json]);
 
-        // Reseta o estado com todos os campos vazios
         setFinancialData({
           tipodedado: "",
           valor: "",
@@ -108,7 +123,6 @@ export const Financeiro = () => {
     [financialData, setDadosfinance]
   );
 
-  // --- Ação de Exclusão em Lote ---
   const handleDeleteSelected = useCallback(async () => {
     if (selectedIds.length === 0) return;
     if (
@@ -139,7 +153,6 @@ export const Financeiro = () => {
     }
   }, [selectedIds, setDadosfinance]);
 
-  // --- Filtro de Busca ---
   const filteredFinance = useMemo(() => {
     const search = searchTerm.toLowerCase();
     return (dadosfinance || []).filter(
@@ -151,57 +164,86 @@ export const Financeiro = () => {
   }, [dadosfinance, searchTerm]);
 
   return (
-    <div className="main-wrapper">
-      <div className="content-container">
-        {/* CABEÇALHO COM BOTÕES DE AÇÃO SEPARADOS */}
-        <nav className="navbar-section p-3  border-bottom d-flex align-items-center justify-content-between">
-          <h5 className="mb-0 text-primary fw-bold">💰 Painel Financeiro</h5>
-          <div className="d-flex gap-2">
-            {selectedIds.length > 0 && (
-              <Button variant="danger" size="sm" onClick={handleDeleteSelected}>
-                <i className="bi bi-trash me-2"></i>Excluir Selecionados (
-                {selectedIds.length})
-              </Button>
-            )}
-            <Badge bg="success" className="d-flex align-items-center">
-              Sistema Ativo
-            </Badge>
-          </div>
-        </nav>
+    <div className="vh-100 d-flex flex-column overflow-hidden bg-body text-body">
+      {/* HEADER FIXO - PADRÃO PREMIUM */}
+      <header className="py-3 px-4 border-bottom bg-body-tertiary shadow-sm z-3">
+        <Container fluid>
+          <Row className="align-items-center">
+            <Col md={6}>
+              <h2 className="fw-bold mb-0 h4">
+                <FontAwesomeIcon
+                  icon={faFileInvoiceDollar}
+                  className="me-2 text-primary"
+                />
+                Painel Financeiro
+              </h2>
+              <small className="text-secondary">
+                Gestão de entradas e saídas de caixa
+              </small>
+            </Col>
+            <Col
+              md={6}
+              className="text-end d-flex justify-content-end align-items-center gap-2"
+            >
+              {selectedIds.length > 0 && (
+                <Button
+                  variant="danger"
+                  size="sm"
+                  className="rounded-pill px-3 shadow-sm"
+                  onClick={handleDeleteSelected}
+                >
+                  <FontAwesomeIcon icon={faTrash} className="me-2" />
+                  Excluir ({selectedIds.length})
+                </Button>
+              )}
+              <Badge
+                bg="success-subtle"
+                className="text-success border border-success-subtle rounded-pill px-3 py-2"
+              >
+                <FontAwesomeIcon icon={faCheckCircle} className="me-1" />{" "}
+                Sistema Online
+              </Badge>
+            </Col>
+          </Row>
+        </Container>
+      </header>
 
-        {/* SEÇÃO DO FORMULÁRIO (TODOS OS CAMPOS) */}
-        <section className="form-section p-4">
-          <Container fluid className=" p-4 shadow-sm rounded ">
-            <Row className="mb-4">
-              <Col md={8}>
-                <h6 className="fw-bold">Cadastro de Lançamento</h6>
-              </Col>
-              <Col md={4}>
-                <InputGroup size="sm">
-                  <InputGroup.Text>
-                    <i className="bi bi-search"></i>
+      {/* CONTEÚDO SCROLLÁVEL */}
+      <main className="flex-grow-1 overflow-auto p-4 bg-body">
+        <Container fluid>
+          {/* CARD DE FORMULÁRIO */}
+          <Card className="border shadow-sm rounded-4 bg-body-tertiary mb-4 p-4">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h6 className="fw-bold text-secondary text-uppercase mb-0">
+                Novo Lançamento
+              </h6>
+              <div style={{ width: "300px" }}>
+                <InputGroup size="sm" className="shadow-sm">
+                  <InputGroup.Text className="bg-body border-end-0">
+                    <FontAwesomeIcon icon={faSearch} className="text-muted" />
                   </InputGroup.Text>
                   <Form.Control
-                    placeholder="Filtrar na tabela..."
+                    className="bg-body border-start-0 shadow-none"
+                    placeholder="Filtrar lançamentos..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </InputGroup>
-              </Col>
-            </Row>
+              </div>
+            </div>
 
             <Form onSubmit={handleFormFinancial}>
               <Row className="g-3 mb-3">
                 <Col md={3}>
-                  <Form.Label className="small fw-bold">
-                    TIPO DE DADO
+                  <Form.Label className="small fw-bold text-muted">
+                    TIPO
                   </Form.Label>
                   <Form.Select
+                    className="bg-body border shadow-none"
                     name="tipodedado"
                     value={financialData.tipodedado}
                     onChange={handleCampfinancial}
                     required
-                    size="sm"
                   >
                     <option value="">Selecione...</option>
                     <option value="Receita">Receita (+)</option>
@@ -209,25 +251,29 @@ export const Financeiro = () => {
                   </Form.Select>
                 </Col>
                 <Col md={3}>
-                  <Form.Label className="small fw-bold">VALOR (R$)</Form.Label>
+                  <Form.Label className="small fw-bold text-muted">
+                    VALOR (R$)
+                  </Form.Label>
                   <Form.Control
+                    className="bg-body border shadow-none"
                     type="number"
                     name="valor"
                     step="0.01"
                     value={financialData.valor}
                     onChange={handleCampfinancial}
                     required
-                    size="sm"
                   />
                 </Col>
                 <Col md={3}>
-                  <Form.Label className="small fw-bold">STATUS</Form.Label>
+                  <Form.Label className="small fw-bold text-muted">
+                    STATUS
+                  </Form.Label>
                   <Form.Select
+                    className="bg-body border shadow-none"
                     name="statuspagamento"
                     value={financialData.statuspagamento}
                     onChange={handleCampfinancial}
                     required
-                    size="sm"
                   >
                     <option value="">Selecione...</option>
                     <option value="Pago">Pago</option>
@@ -235,13 +281,15 @@ export const Financeiro = () => {
                   </Form.Select>
                 </Col>
                 <Col md={3}>
-                  <Form.Label className="small fw-bold">CATEGORIA</Form.Label>
+                  <Form.Label className="small fw-bold text-muted">
+                    CATEGORIA
+                  </Form.Label>
                   <Form.Select
+                    className="bg-body border shadow-none"
                     name="tipolancamento"
                     value={financialData.tipolancamento}
                     onChange={handleCampfinancial}
                     required
-                    size="sm"
                   >
                     <option value="">Selecione...</option>
                     <option value="Oferta">Oferta/Dízimo</option>
@@ -253,47 +301,48 @@ export const Financeiro = () => {
               </Row>
 
               <Row className="g-3 mb-3">
-                <Col md={4}>
-                  <Form.Label className="small fw-bold">
-                    DATA DO PAGAMENTO
+                <Col md={3}>
+                  <Form.Label className="small fw-bold text-muted">
+                    DATA
                   </Form.Label>
                   <Form.Control
+                    className="bg-body border shadow-none"
                     type="date"
                     name="datapagamento"
                     value={financialData.datapagamento}
                     onChange={handleCampfinancial}
                     required
-                    size="sm"
                   />
                 </Col>
-                <Col md={8}>
-                  <Form.Label className="small fw-bold">
-                    DESCRIÇÃO DO LANÇAMENTO
+                <Col md={9}>
+                  <Form.Label className="small fw-bold text-muted">
+                    DESCRIÇÃO
                   </Form.Label>
                   <Form.Control
+                    className="bg-body border shadow-none"
                     type="text"
                     name="descricao"
                     value={financialData.descricao}
                     onChange={handleCampfinancial}
                     required
-                    size="sm"
-                    placeholder="Ex: Pagamento mensal de energia"
+                    placeholder="Ex: Manutenção do ar-condicionado"
                   />
                 </Col>
               </Row>
 
               <Row className="g-3 mb-4">
                 <Col md={12}>
-                  <Form.Label className="small fw-bold">
-                    OBSERVAÇÕES ADICIONAIS
+                  <Form.Label className="small fw-bold text-muted">
+                    OBSERVAÇÕES
                   </Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={2}
+                    className="bg-body border shadow-none"
                     name="observacao"
                     value={financialData.observacao}
                     onChange={handleCampfinancial}
-                    placeholder="Detalhes técnicos ou notas importantes..."
+                    placeholder="Notas adicionais..."
                   />
                 </Col>
               </Row>
@@ -302,98 +351,121 @@ export const Financeiro = () => {
                 <Button
                   type="submit"
                   variant="primary"
-                  className="px-5 fw-bold"
-                  size="sm"
+                  className="rounded-pill px-5 fw-bold shadow-sm"
                 >
+                  <FontAwesomeIcon icon={faPlus} className="me-2" />
                   Salvar Lançamento
                 </Button>
               </div>
             </Form>
-          </Container>
-        </section>
+          </Card>
 
-        {/* TABELA DE DADOS COM DESCRIÇÃO E OBSERVAÇÃO SEPARADOS */}
-        <section className="table-section p-4 chart-premium-card border-0 overflow-hidden card">
-          <div className="rounded shadow-sm overflow-hidden">
-            <Table hover responsive size="sm" className="mb-0 align-middle">
-              <thead className="bg-light">
-                <tr>
-                  <th className="text-center" style={{ width: "40px" }}>
-                    <Form.Check
-                      type="checkbox"
-                      onChange={handleSelectAll}
-                      checked={
-                        selectedIds.length === filteredFinance.length &&
-                        filteredFinance.length > 0
-                      }
-                    />
-                  </th>
-                  <th className="text-center">Ação</th>
-                  <th>ID</th>
-                  <th>Pagamento</th>
-                  <th>Tipo</th>
-                  <th>Valor</th>
-                  <th>Descrição</th>
-                  <th>Observação</th>
-                  <th>Lançado em</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredFinance.map((dado) => (
-                  <tr
-                    key={dado._id}
-                    className={
-                      selectedIds.includes(dado._id) ? "table-warning" : ""
-                    }
-                  >
-                    <td className="text-center">
+          {/* CARD DA TABELA */}
+          <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden">
+            <div className="table-responsive">
+              <Table hover className="mb-0 align-middle table-borderless">
+                <thead className="bg-body-secondary">
+                  <tr className="text-secondary small text-uppercase">
+                    <th className="text-center py-3" style={{ width: "50px" }}>
                       <Form.Check
                         type="checkbox"
-                        checked={selectedIds.includes(dado._id)}
-                        onChange={() => handleSelectOne(dado._id)}
-                      />
-                    </td>
-                    <td className="text-center">
-                      {/* BOTÃO PARA IR DIRETO AO ITEM */}
-                      <Button
-                        variant="link"
-                        className="p-0 text-primary"
-                        onClick={() => navigate(`/financeiro/${dado._id}`)} // Certifique-se que a rota no App.js seja /finance/:id
-                      >
-                        <i className="bi bi-eye-fill fs-5"></i>
-                      </Button>
-                    </td>
-                    <td className="small text-secondary">
-                      {dado._id?.substring(0, 8)}...
-                    </td>
-                    <td className="small">{dado.datapagamento}</td>
-                    <td>
-                      <Badge
-                        bg={
-                          dado.tipodedado === "Receita" ? "primary" : "danger"
+                        onChange={handleSelectAll}
+                        checked={
+                          selectedIds.length === filteredFinance.length &&
+                          filteredFinance.length > 0
                         }
-                      >
-                        {dado.tipodedado}
-                      </Badge>
-                    </td>
-                    <td className="fw-bold">
-                      R${" "}
-                      {parseFloat(dado.valor).toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                      })}
-                    </td>
-                    <td className="small">{dado.descricao}</td>
-                    <td className="small text-muted italic">
-                      {dado.observacao || "-"}
-                    </td>
-                    <td className="small text-muted">{dado.dataderegistro}</td>
+                      />
+                    </th>
+                    <th className="text-center">Ação</th>
+                    <th>Pagamento</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Descrição</th>
+                    <th>Lançado em</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        </section>
-      </div>
+                </thead>
+                <tbody className="border-top">
+                  {filteredFinance.map((dado) => (
+                    <tr
+                      key={dado._id}
+                      className={
+                        selectedIds.includes(dado._id)
+                          ? "bg-primary bg-opacity-10"
+                          : ""
+                      }
+                    >
+                      <td className="text-center">
+                        <Form.Check
+                          type="checkbox"
+                          checked={selectedIds.includes(dado._id)}
+                          onChange={() => handleSelectOne(dado._id)}
+                        />
+                      </td>
+                      <td className="text-center">
+                        <Button
+                          variant="link"
+                          className="text-primary p-0 shadow-none"
+                          onClick={() => navigate(`/financeiro/${dado._id}`)}
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </Button>
+                      </td>
+                      <td className="small">{dado.datapagamento}</td>
+                      <td>
+                        <Badge
+                          bg={
+                            dado.tipodedado === "Receita"
+                              ? "primary-subtle"
+                              : "danger-subtle"
+                          }
+                          className={
+                            dado.tipodedado === "Receita"
+                              ? "text-primary border border-primary-subtle"
+                              : "text-danger border border-danger-subtle"
+                          }
+                        >
+                          {dado.tipodedado}
+                        </Badge>
+                      </td>
+                      <td className="fw-bold">
+                        R${" "}
+                        {parseFloat(dado.valor).toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                        })}
+                      </td>
+                      <td className="small">
+                        <div className="fw-bold">{dado.descricao}</div>
+                        <div
+                          className="text-muted text-truncate"
+                          style={{ maxWidth: "200px" }}
+                        >
+                          {dado.observacao || "-"}
+                        </div>
+                      </td>
+                      <td className="small text-muted">
+                        {dado.dataderegistro}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+            {filteredFinance.length === 0 && (
+              <div className="text-center p-5 text-secondary">
+                Nenhum registro encontrado para a busca atual.
+              </div>
+            )}
+          </Card>
+        </Container>
+      </main>
+
+      {/* FOOTER FIXO */}
+      <footer className="py-2 px-4 border-top bg-body-tertiary text-secondary small d-flex justify-content-between">
+        <span>Gestão Financeira • 2025</span>
+        <span>
+          Registros: <strong>{filteredFinance.length}</strong>
+        </span>
+      </footer>
     </div>
   );
 };

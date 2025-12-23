@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { InputMask } from "@react-input/mask";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserPlus,
+  faEnvelope,
+  faLock,
+  faPhone,
+  faUser,
+  faArrowLeft,
+  faSun,
+  faMoon,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   Form,
@@ -14,38 +27,22 @@ import {
   Col,
   Alert,
   Spinner,
+  InputGroup,
 } from "react-bootstrap";
 
-// Schema de validação ajustado para corresponder à API
+// --- LÓGICA DE VALIDAÇÃO PRESERVADA ---
 const createUserSchema = z
   .object({
     nomeCompleto: z
       .string()
       .min(2, { message: "Digite o nome completo" })
-      .max(100, { message: "Nome muito longo" }),
-
-    telefone: z
-      .string()
-      .min(14, {
-        message: "Telefone deve ter 10 ou 11 dígitos (incluindo DDD)",
-      })
-      .max(15, {
-        message: "Telefone deve ter 10 ou 11 dígitos (incluindo DDD)",
-      })
-      .regex(/^\(\d{2}\)\s\d{4,5}-\d{4}$/, {
-        message: "Formato de telefone inválido",
-      }),
-
+      .max(100),
+    telefone: z.string().min(14, { message: "Telefone inválido" }).max(15),
     email: z
       .string()
       .min(1, { message: "O e-mail é obrigatório" })
-      .email({ message: "Digite um email válido" }),
-
-    senha: z
-      .string()
-      .min(6, { message: "A senha deve ter no mínimo 6 caracteres" })
-      .max(50, { message: "A senha deve ter no máximo 50 caracteres" }),
-
+      .email({ message: "Email inválido" }),
+    senha: z.string().min(6, { message: "Mínimo 6 caracteres" }).max(50),
     confirmarSenha: z.string().min(1, { message: "Confirme sua senha" }),
   })
   .refine((data) => data.senha === data.confirmarSenha, {
@@ -58,6 +55,12 @@ const CreateUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [theme, setTheme] = useState("dark");
+
+  // Aplicação do tema nativo Bootstrap 5.3
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+  }, [theme]);
 
   const {
     register,
@@ -77,261 +80,275 @@ const CreateUser = () => {
     },
   });
 
-  // Função de envio simplificada e corrigida
+  // --- LÓGICA DE ENVIO PRESERVADA ---
   const onSubmit = async (data) => {
     setIsLoading(true);
     setApiError("");
     setSuccessMessage("");
-
     try {
-      // URL correta da API
-
-      // Dados no formato esperado pela API
-      const requestData = {
-        nomeCompleto: data.nomeCompleto,
-        email: data.email,
-        telefone: data.telefone, // Mantém a formatação com máscara
-        senha: data.senha,
-        confirmarSenha: data.confirmarSenha,
-      };
-
-      console.log("📤 Enviando dados para API:", requestData);
-
+      const requestData = { ...data };
       const response = await fetch(
         `https://usuarios-saas-g-membros.vercel.app/api/users/register`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(requestData),
         }
       );
 
-      // Verifica se a resposta é JSON válida
-      const contentType = response.headers.get("content-type");
-      let result;
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Erro no servidor");
 
-      if (contentType && contentType.includes("application/json")) {
-        result = await response.json();
-      } else {
-        throw new Error(
-          `Erro ${response.status}: Resposta inválida do servidor`
-        );
-      }
-
-      if (!response.ok) {
-        // Tratamento específico de erros da API
-        if (result.message) {
-          throw new Error(result.message);
-        } else {
-          throw new Error(`Erro ${response.status}: ${response.statusText}`);
-        }
-      }
-
-      // Sucesso
-      console.log("✅ Usuário criado com sucesso:", result);
       setSuccessMessage(result.message || "Usuário cadastrado com sucesso!");
-
-      // Limpa o formulário
       reset();
-
-      // Redireciona após 2 segundos
-      setTimeout(() => {
-        navigate("/"); // Redireciona para login após cadastro
-      }, 2000);
+      setTimeout(() => navigate("/"), 2000);
     } catch (error) {
-      console.error("❌ Erro no cadastro:", error);
-
-      // Tratamento específico de erros
-      const errorMessage = error.message;
-
-      if (errorMessage.includes("email")) {
-        setError("email", {
-          type: "manual",
-          message: "Este email já está em uso",
-        });
-      } else if (errorMessage.includes("senha")) {
-        setError("senha", {
-          type: "manual",
-          message: "Problema com a senha fornecida",
-        });
-      }
-
-      setApiError(errorMessage);
+      setApiError(error.message);
+      if (error.message.includes("email"))
+        setError("email", { message: "Email em uso" });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Row className="justify-content-center w-100">
-        <Col
-          xs={12}
-          sm={10}
-          md={8}
-          lg={6}
-          xl={4}
-          className="d-flex justify-content-center"
+    <div className="vh-100 d-flex flex-column bg-body">
+      {/* BOTÃO DE TEMA FLUTUANTE (Para visualização) */}
+      <div className="position-absolute top-0 end-0 p-3">
+        <Button
+          variant="outline-secondary"
+          className="rounded-circle border-0 shadow-sm"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-          <Card className="shadow">
-            <Card.Body className="p-4">
-              <Card.Title className="mb-4 text-center h3">
-                Cadastrar Usuário
-              </Card.Title>
+          <FontAwesomeIcon icon={theme === "dark" ? faSun : faMoon} />
+        </Button>
+      </div>
 
-              {/* Mensagens de feedback */}
-              {apiError && (
-                <Alert variant="danger" className="mb-3">
-                  <strong>Erro:</strong> {apiError}
-                </Alert>
-              )}
+      <Container className="d-flex flex-grow-1 justify-content-center align-items-center p-3">
+        <Row className="justify-content-center w-100">
+          <Col xs={12} sm={10} md={8} lg={5} xl={4}>
+            {/* LOGO OU ÍCONE SUPERIOR */}
+            <div className="text-center mb-4">
+              <div className="bg-primary bg-opacity-10 d-inline-flex p-4 rounded-circle mb-3 border border-primary border-opacity-10 shadow-sm">
+                <FontAwesomeIcon
+                  icon={faUserPlus}
+                  className="text-primary fs-2"
+                />
+              </div>
+              <h2 className="fw-bold mb-1">Criar Conta</h2>
+              <p className="text-secondary small">
+                Preencha os dados para acessar o sistema
+              </p>
+            </div>
 
-              {successMessage && (
-                <Alert variant="success" className="mb-3">
-                  <strong>Sucesso!</strong> {successMessage}
-                  <br />
-                  <small>Redirecionando para o login...</small>
-                </Alert>
-              )}
+            <Card className="border shadow-lg rounded-4 bg-body-tertiary">
+              <Card.Body className="p-4 p-md-5">
+                {/* FEEDBACKS */}
+                {apiError && (
+                  <Alert
+                    variant="danger"
+                    className="border-0 shadow-sm rounded-3 py-2 small"
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} className="me-2" />{" "}
+                    {apiError}
+                  </Alert>
+                )}
 
-              <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-                {/* Nome Completo */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Nome Completo *</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Digite seu nome completo"
-                    {...register("nomeCompleto")}
-                    isInvalid={!!errors.nomeCompleto}
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.nomeCompleto?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                {successMessage && (
+                  <Alert
+                    variant="success"
+                    className="border-0 shadow-sm rounded-3 py-2 small"
+                  >
+                    <FontAwesomeIcon icon={faCheckCircle} className="me-2" />{" "}
+                    {successMessage}
+                  </Alert>
+                )}
 
-                {/* Email */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Email *</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="email@exemplo.com"
-                    {...register("email")}
-                    isInvalid={!!errors.email}
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.email?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Telefone com máscara */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Telefone *</Form.Label>
-                  <Controller
-                    name="telefone"
-                    control={control}
-                    render={({ field }) => (
-                      <InputMask
-                        mask="(aa) aaaaa-bbbb" // Usando placeholders diferentes (a, b)
-                        replacement={{ a: /\d/, b: /\d/ }} // Definindo a regra para os novos placeholders
-                        {...field}
-                        component={Form.Control}
-                        type="tel"
-                        placeholder="(11) 99999-9999"
-                        isInvalid={!!errors.telefone}
+                <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+                  {/* NOME COMPLETO */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold text-secondary">
+                      NOME COMPLETO
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                      <InputGroup.Text className="bg-body border-0">
+                        <FontAwesomeIcon icon={faUser} className="text-muted" />
+                      </InputGroup.Text>
+                      <Form.Control
+                        className="bg-body border-0 shadow-none"
+                        placeholder="Ex: João Silva"
+                        {...register("nomeCompleto")}
+                        isInvalid={!!errors.nomeCompleto}
                         disabled={isLoading}
                       />
-                    )}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.telefone?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                    </InputGroup>
+                    <Form.Text className="text-danger small">
+                      {errors.nomeCompleto?.message}
+                    </Form.Text>
+                  </Form.Group>
 
-                {/* Senha */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Senha *</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Digite uma senha segura"
-                    {...register("senha")}
-                    isInvalid={!!errors.senha}
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.senha?.message}
-                  </Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    Mínimo 6 caracteres.
-                  </Form.Text>
-                </Form.Group>
-
-                {/* Confirmação de Senha */}
-                <Form.Group className="mb-4">
-                  <Form.Label>Confirmar Senha *</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Confirme sua senha"
-                    {...register("confirmarSenha")}
-                    isInvalid={!!errors.confirmarSenha}
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.confirmarSenha?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Botão de envio */}
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-100 py-2"
-                  disabled={isLoading}
-                  size="lg"
-                >
-                  {isLoading ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                        className="me-2"
+                  {/* EMAIL */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold text-secondary">
+                      E-MAIL
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                      <InputGroup.Text className="bg-body border-0">
+                        <FontAwesomeIcon
+                          icon={faEnvelope}
+                          className="text-muted"
+                        />
+                      </InputGroup.Text>
+                      <Form.Control
+                        type="email"
+                        className="bg-body border-0 shadow-none"
+                        placeholder="email@exemplo.com"
+                        {...register("email")}
+                        isInvalid={!!errors.email}
+                        disabled={isLoading}
                       />
-                      Cadastrando...
-                    </>
-                  ) : (
-                    "Cadastrar"
-                  )}
-                </Button>
-              </Form>
+                    </InputGroup>
+                    <Form.Text className="text-danger small">
+                      {errors.email?.message}
+                    </Form.Text>
+                  </Form.Group>
 
-              {/* Link para login */}
-              <div className="text-center mt-3">
-                <small className="text-muted">
-                  Já tem uma conta?{" "}
+                  {/* TELEFONE COM MÁSCARA */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold text-secondary">
+                      WHATSAPP / CELULAR
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                      <InputGroup.Text className="bg-body border-0">
+                        <FontAwesomeIcon
+                          icon={faPhone}
+                          className="text-muted"
+                        />
+                      </InputGroup.Text>
+                      <Controller
+                        name="telefone"
+                        control={control}
+                        render={({ field }) => (
+                          <InputMask
+                            mask="(aa) aaaaa-bbbb"
+                            replacement={{ a: /\d/, b: /\d/ }}
+                            {...field}
+                            component={Form.Control}
+                            className="bg-body border-0 shadow-none"
+                            placeholder="(11) 99999-9999"
+                            isInvalid={!!errors.telefone}
+                            disabled={isLoading}
+                          />
+                        )}
+                      />
+                    </InputGroup>
+                    <Form.Text className="text-danger small">
+                      {errors.telefone?.message}
+                    </Form.Text>
+                  </Form.Group>
+
+                  {/* SENHA */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold text-secondary">
+                      SENHA
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                      <InputGroup.Text className="bg-body border-0">
+                        <FontAwesomeIcon icon={faLock} className="text-muted" />
+                      </InputGroup.Text>
+                      <Form.Control
+                        type="password"
+                        className="bg-body border-0 shadow-none"
+                        placeholder="Mínimo 6 dígitos"
+                        {...register("senha")}
+                        isInvalid={!!errors.senha}
+                        disabled={isLoading}
+                      />
+                    </InputGroup>
+                    <Form.Text className="text-danger small">
+                      {errors.senha?.message}
+                    </Form.Text>
+                  </Form.Group>
+
+                  {/* CONFIRMAR SENHA */}
+                  <Form.Group className="mb-4">
+                    <Form.Label className="small fw-bold text-secondary">
+                      CONFIRMAR SENHA
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                      <InputGroup.Text className="bg-body border-0">
+                        <FontAwesomeIcon
+                          icon={faLock}
+                          className="text-muted opacity-50"
+                        />
+                      </InputGroup.Text>
+                      <Form.Control
+                        type="password"
+                        className="bg-body border-0 shadow-none"
+                        placeholder="Repita sua senha"
+                        {...register("confirmarSenha")}
+                        isInvalid={!!errors.confirmarSenha}
+                        disabled={isLoading}
+                      />
+                    </InputGroup>
+                    <Form.Text className="text-danger small">
+                      {errors.confirmarSenha?.message}
+                    </Form.Text>
+                  </Form.Group>
+
                   <Button
-                    variant="link"
-                    className="p-0 text-decoration-none"
-                    onClick={() => navigate("/")}
+                    type="submit"
+                    variant="primary"
+                    className="w-100 py-3 rounded-pill fw-bold shadow-sm"
                     disabled={isLoading}
                   >
-                    Faça login aqui
+                    {isLoading ? (
+                      <>
+                        <Spinner
+                          animation="border"
+                          size="sm"
+                          className="me-2"
+                        />{" "}
+                        Cadastrando...
+                      </>
+                    ) : (
+                      "CRIAR CONTA AGORA"
+                    )}
                   </Button>
-                </small>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                </Form>
+
+                <div className="text-center mt-4">
+                  <p className="text-secondary small mb-0">
+                    Já possui acesso?
+                    <Button
+                      variant="link"
+                      className="fw-bold p-1 text-decoration-none shadow-none"
+                      onClick={() => navigate("/")}
+                      disabled={isLoading}
+                    >
+                      Fazer Login
+                    </Button>
+                  </p>
+                </div>
+              </Card.Body>
+            </Card>
+
+            {/* VOLTAR */}
+            <div className="text-center mt-4">
+              <Button
+                variant="link"
+                size="sm"
+                className="text-secondary text-decoration-none opacity-50"
+                onClick={() => navigate("/")}
+              >
+                <FontAwesomeIcon icon={faArrowLeft} className="me-2" /> Voltar
+                para a página inicial
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

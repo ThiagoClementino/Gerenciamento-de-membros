@@ -1,237 +1,254 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod"; // <-- 1. CORREÇÃO: Importação adicionada
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Contexts/AuthContext";
 import ThemeToggle from "../../Components/ThemeToggle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faLock,
+  faSignInAlt,
+  faUsers,
+  faExclamationTriangle,
+  faQuestionCircle,
+  faUserPlus,
+  faChurch,
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   Form,
   Button,
-  Alert, // <-- Esta importação agora será usada
-  Card,
+  Alert,
   Container,
   Row,
   Col,
+  InputGroup,
+  Spinner,
 } from "react-bootstrap";
 
-// Esquema de validação
 const loginSchema = z.object({
   email: z
     .string()
     .min(1, "O e-mail é obrigatório")
     .email("Digite um email válido"),
-  senha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  senha: z.string().min(6, "Mínimo 6 caracteres"),
 });
 
-// Serviço de API (Corrigido para usar .json() e a URL correta)
 const apiService = {
   login: async (email, senha) => {
     const API_URL = "https://usuarios-saas-g-membros.vercel.app/api/auth/login";
-
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, senha }),
     });
-
-    // A API retorna JSON em ambos os casos (erro ou sucesso)
     const result = await response.json();
-
-    if (!response.ok) {
+    if (!response.ok)
       throw new Error(result.error || `Erro ${response.status}`);
-    }
-
-    if (!result.token) {
-      throw new Error("A API não retornou um token na resposta.");
-    }
-
-    return result.token; // Retorna a string do token de dentro do JSON
+    return result.token;
   },
 };
 
-// Componente de Login
 const Login = () => {
   const navigate = useNavigate();
-  const [serverError, setServerError] = useState(""); // <-- Agora será usado
+  const [serverError, setServerError] = useState("");
   const { login } = useContext(AuthContext);
+  const [theme] = useState("dark");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+  }, [theme]);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(loginSchema), // <-- Agora 'zodResolver' está definido
+    resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data) => {
     setServerError("");
     try {
       const token = await apiService.login(data.email, data.senha);
-
       localStorage.setItem("token", token);
-      console.log("Login bem-sucedido! Token recebido.");
-      login(); // Call the login function from AuthContext
+      login();
       Swal.fire({
         icon: "success",
-        title: "Logado com sucesso!",
-        text: "Você será redirecionado em breve.",
-        showConfirmButton: false,
+        title: "Bem-vindo!",
         timer: 2000,
-        position: "center",
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading();
-        },
+        showConfirmButton: false,
+        background: "var(--bs-body-tertiary)",
+        color: "var(--bs-body-color)",
       });
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 2500);
+      setTimeout(() => navigate("/dashboard"), 2200);
     } catch (error) {
-      console.error("Falha no login:", error);
-      setServerError(error.message || "Não foi possível conectar ao servidor.");
+      setServerError(error.message);
     }
   };
 
   return (
-    <Container
-      fluid
-      className="bg-primary-custom min-vh-100 d-flex align-items-center justify-content-center position-relative"
-    >
-      {/* Toggle de Tema no canto superior direito */}
-      <div className="position-absolute top-0 end-0 p-3">
-        <ThemeToggle size="sm" />
-      </div>
+    <Container fluid className="vh-100 p-0 overflow-hidden bg-body">
+      <Row className="g-0 h-100">
+        {/* CONTAINER ESQUERDO: IMAGEM (Oculto no Mobile) */}
+        <Col
+          md={6}
+          lg={7}
+          className="d-none d-md-flex position-relative overflow-hidden border-end border-primary border-opacity-10"
+        >
+          <div
+            className="position-absolute w-100 h-100"
+            style={{
+              backgroundImage:
+                'url("https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2073&auto=format&fit=crop")',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "brightness(0.4) grayscale(0.2)",
+            }}
+          />
+          <div className="position-relative z-1 d-flex flex-column justify-content-end p-5 text-white w-100 h-100 bg-gradient-dark">
+            <div className="mb-4">
+              <FontAwesomeIcon
+                icon={faChurch}
+                className="fs-1 mb-3 text-primary"
+              />
+              <h1 className="display-4 fw-bold">
+                Gestão Eclesiástica <br />
+                <span className="text-primary">Premium</span>
+              </h1>
+              <p className="lead opacity-75">
+                Sua comunidade conectada em um só lugar.
+              </p>
+            </div>
+            <div className="d-flex gap-3 small opacity-50">
+              <span>© 2025 SmartChurch v2.0</span>
+              <span>•</span>
+              <span>Privacidade e Termos</span>
+            </div>
+          </div>
+        </Col>
 
-      <Row className="justify-content-center w-100">
+        {/* CONTAINER DIREITO: FORMULÁRIO (Mais Largo e Centralizado) */}
         <Col
           xs={12}
-          sm={10}
-          md={8}
-          lg={6}
-          xl={4}
-          xxl={3}
-          className="d-flex justify-content-center align-items-center"
+          md={6}
+          lg={5}
+          className="d-flex align-items-center justify-content-center p-4 p-lg-5 bg-body"
         >
-          <Card className="shadow-custom-lg border-0">
-            <Card.Body className="p-4">
-              {/* Logo e Título */}
-              <div className="text-center mb-4">
-                <div className="mb-3">
-                  <i
-                    className="bi bi-people-fill text-primary-custom"
-                    style={{ fontSize: "3rem" }}
-                  ></i>
-                </div>
-                <h3 className="fw-bold text-primary-custom mb-1">
-                  Gestor de Membros
-                </h3>
-                <p className="text-muted-custom mb-0">
-                  Faça login para continuar
-                </p>
+          <div className="w-100" style={{ maxWidth: "480px" }}>
+            {" "}
+            {/* Formulário mais largo aqui */}
+            {/* TOGGLE DE TEMA FLUTUANTE */}
+            <div className="position-absolute top-0 end-0 p-4">
+              <ThemeToggle size="sm" />
+            </div>
+            {/* CABEÇALHO DO FORMULÁRIO */}
+            <div className="mb-5">
+              <div className="d-md-none text-center mb-4">
+                <FontAwesomeIcon icon={faUsers} className="text-primary fs-1" />
               </div>
-
-              {/* 2. CORREÇÃO: Bloco 'Alert' adicionado para usar 'serverError' */}
-              {serverError && (
-                <Alert
-                  variant="danger"
-                  className="mb-3 border-0 shadow-custom-sm"
-                >
-                  <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                  {serverError}
-                </Alert>
-              )}
-
-              <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                  <Form.Label className="fw-semibold">
-                    <i className="bi bi-envelope me-2"></i>
-                    E-mail
-                  </Form.Label>
+              <h2 className="fw-bold h3 mb-2">Acessar Conta</h2>
+              <p className="text-secondary">
+                Informe seu e-mail e senha para prosseguir.
+              </p>
+            </div>
+            {serverError && (
+              <Alert
+                variant="danger"
+                className="border-0 shadow-sm rounded-3 py-3 small mb-4"
+              >
+                <FontAwesomeIcon
+                  icon={faExclamationTriangle}
+                  className="me-2"
+                />
+                {serverError}
+              </Alert>
+            )}
+            <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <Form.Group className="mb-3">
+                <Form.Label className="small fw-bold text-secondary text-uppercase ls-1">
+                  E-mail Corporativo
+                </Form.Label>
+                <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                  <InputGroup.Text className="bg-body border-0">
+                    <FontAwesomeIcon icon={faEnvelope} className="text-muted" />
+                  </InputGroup.Text>
                   <Form.Control
                     type="email"
-                    placeholder="email@exemplo.com"
+                    placeholder="exemplo@igreja.com"
+                    className="bg-body border-0 shadow-none py-3"
                     {...register("email")}
                     isInvalid={!!errors.email}
-                    className="border-custom"
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.email?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                </InputGroup>
+                <Form.Text className="text-danger small">
+                  {errors.email?.message}
+                </Form.Text>
+              </Form.Group>
 
-                <Form.Group className="mb-4" controlId="formGroupPassword">
-                  <Form.Label className="fw-semibold">
-                    <i className="bi bi-lock me-2"></i>
-                    Senha
+              <Form.Group className="mb-4">
+                <div className="d-flex justify-content-between align-items-center">
+                  <Form.Label className="small fw-bold text-secondary text-uppercase ls-1">
+                    Senha de Acesso
                   </Form.Label>
+                  <Link
+                    to="/redefinirsenha"
+                    className="small text-decoration-none text-primary fw-bold mb-2"
+                  >
+                    Esqueceu?
+                  </Link>
+                </div>
+                <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                  <InputGroup.Text className="bg-body border-0">
+                    <FontAwesomeIcon icon={faLock} className="text-muted" />
+                  </InputGroup.Text>
                   <Form.Control
                     type="password"
-                    placeholder="Digite sua senha"
+                    placeholder="••••••••"
+                    className="bg-body border-0 shadow-none py-3"
                     {...register("senha")}
                     isInvalid={!!errors.senha}
-                    className="border-custom"
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.senha?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                </InputGroup>
+                <Form.Text className="text-danger small">
+                  {errors.senha?.message}
+                </Form.Text>
+              </Form.Group>
 
-                <div className="d-grid gap-2 mb-3">
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={isSubmitting}
-                    size="lg"
-                    className="fw-semibold"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span
-                          className="spinner-border spinner-border-sm me-2"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        Entrando...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-box-arrow-in-right me-2"></i>
-                        Entrar
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </Form>
-
-              <div className="text-center mb-3">
-                {/* Rota "Esqueceu a senha" corrigida */}
-                <Link
-                  to="/redefinirsenha"
-                  className="text-decoration-none text-muted-custom"
-                >
-                  <i className="bi bi-question-circle me-1"></i>
-                  Esqueceu sua senha?
-                </Link>
-              </div>
-
-              <hr className="border-custom my-3" />
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={isSubmitting}
+                className="w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-4"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Spinner animation="border" size="sm" /> Autenticando...
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faSignInAlt} /> ENTRAR NO SISTEMA
+                  </>
+                )}
+              </Button>
 
               <div className="text-center">
-                <small className="text-muted-custom">
-                  Não possui um usuário?{" "}
+                <p className="text-secondary small mb-0">
+                  Ainda não tem acesso?
                   <Link
                     to="/criarusuario"
-                    className="text-decoration-none fw-semibold text-primary-custom"
+                    className="ms-2 text-decoration-none fw-bold text-primary"
                   >
-                    Cadastre-se
+                    <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Criar
+                    nova conta
                   </Link>
-                </small>
+                </p>
               </div>
-            </Card.Body>
-          </Card>
+            </Form>
+          </div>
         </Col>
       </Row>
     </Container>

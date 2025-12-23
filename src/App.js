@@ -6,10 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Importante para funcionalidades como Tooltips
 import { AuthProvider } from "./Contexts/AuthContext";
 import { ThemeProvider } from "./Contexts/ThemeContext";
-import "./styles/CustomTheme.css";
-import "./styles/global.css";
-
-import "./styles/membros-dashboard-pattern.css";
+import "./index.css";
 
 function App() {
   return (

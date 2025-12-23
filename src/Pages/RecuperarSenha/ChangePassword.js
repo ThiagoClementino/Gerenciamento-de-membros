@@ -1,10 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../Contexts/AuthContext"; // (Seu context de Auth)
+import { AuthContext } from "../../Contexts/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faShieldAlt, // Alterado aqui
+  faKey,
+  faLock,
+  faSave,
+  faExclamationTriangle,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   Form,
@@ -15,15 +24,14 @@ import {
   Col,
   Alert,
   Spinner,
+  InputGroup,
 } from "react-bootstrap";
 
-// 1. Schema de validação
+// --- LÓGICA DE VALIDAÇÃO PRESERVADA ---
 const changePasswordSchema = z
   .object({
     senhaAtual: z.string().min(1, { message: "A senha atual é obrigatória" }),
-    novaSenha: z
-      .string()
-      .min(6, { message: "A nova senha deve ter no mínimo 6 caracteres" }),
+    novaSenha: z.string().min(6, { message: "Mínimo 6 caracteres" }),
     confirmarNovaSenha: z
       .string()
       .min(1, { message: "Confirme sua nova senha" }),
@@ -33,51 +41,44 @@ const changePasswordSchema = z
     path: ["confirmarNovaSenha"],
   })
   .refine((data) => data.senhaAtual !== data.novaSenha, {
-    message: "A nova senha deve ser diferente da senha atual",
+    message: "A nova senha deve ser diferente da atual",
     path: ["novaSenha"],
   });
 
 const ChangePassword = () => {
   const navigate = useNavigate();
-  const { logout } = useContext(AuthContext); // Pega a função de logout do context
+  const { logout } = useContext(AuthContext);
   const [serverError, setServerError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [theme] = useState("dark"); // Segue o padrão do seu sistema
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+  }, [theme]);
 
   const {
     register,
     handleSubmit,
     setError,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(changePasswordSchema),
-    defaultValues: {
-      senhaAtual: "",
-      novaSenha: "",
-      confirmarNovaSenha: "",
-    },
+    defaultValues: { senhaAtual: "", novaSenha: "", confirmarNovaSenha: "" },
   });
 
-  // 2. Função de envio
+  // --- LÓGICA DE ENVIO PRESERVADA ---
   const onSubmit = async (data) => {
     setIsLoading(true);
     setServerError("");
-
     try {
-      // Pega o token do usuário logado (armazenado no login)
       const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("Usuário não autenticado.");
-      }
+      if (!token) throw new Error("Usuário não autenticado.");
 
-      // Este é um NOVO endpoint que precisaremos criar na API
       const API_URL = "http://localhost:5000/api/auth/updatepassword";
-
       const response = await fetch(API_URL, {
-        method: "PUT", // Usamos PUT para atualizações
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          // Envia o token de autorização
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
@@ -87,159 +88,169 @@ const ChangePassword = () => {
       });
 
       const result = await response.json();
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(result.error || `Erro ${response.status}`);
-      }
 
-      // 3. Sucesso!
       Swal.fire({
         icon: "success",
         title: "Senha Alterada!",
-        text: "Sua senha foi atualizada. Por favor, faça login novamente.",
-        showConfirmButton: false,
+        text: "Sua senha foi atualizada. Faça login novamente.",
         timer: 3000,
         timerProgressBar: true,
+        showConfirmButton: false,
+        background: "var(--bs-body-tertiary)",
+        color: "var(--bs-body-color)",
       });
 
-      // Desloga o usuário e o redireciona para o login
       logout();
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+      setTimeout(() => navigate("/login"), 3000);
     } catch (error) {
-      console.error("Falha ao alterar senha:", error);
       const errorMessage = error.message;
-
-      // Se a API disser que a senha atual está errada, anexa o erro ao campo
       if (errorMessage.toLowerCase().includes("senha atual")) {
         setError("senhaAtual", {
           type: "manual",
           message: "A senha atual está incorreta.",
         });
       }
-
       setServerError(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 4. O JSX (Interface)
-  // Este container pode ser colocado dentro do seu Dashboard/Layout
   return (
-    <Container className="py-5">
+    <Container className="py-5 d-flex align-items-center justify-content-center min-vh-100 bg-body">
       <Row className="justify-content-center w-100">
-        <Col xs={12} md={10} lg={8} xl={6}>
-          <Card className="shadow-custom-lg border-0">
-            <Card.Body className="p-4 p-md-5">
-              <div className="text-center mb-4">
-                <div className="mb-3">
-                  <i
-                    className="bi bi-shield-lock-fill text-primary-custom"
-                    style={{ fontSize: "3rem" }}
-                  ></i>
-                </div>
-                <h3 className="fw-bold text-primary-custom mb-1">
-                  Alterar Senha
-                </h3>
-                <p className="text-muted-custom mb-0">
-                  Para sua segurança, informe sua senha atual.
-                </p>
-              </div>
+        <Col xs={12} md={10} lg={7} xl={5}>
+          {/* CABEÇALHO DE SEGURANÇA */}
+          <div className="text-center mb-4">
+            <div className="bg-primary bg-opacity-10 d-inline-flex p-4 rounded-circle mb-3 border border-primary border-opacity-10 shadow-sm">
+              <FontAwesomeIcon
+                icon={faShieldAlt}
+                className="text-primary fs-1"
+              />
+            </div>
+            <h2 className="fw-bold h3 mb-1 text-body">Alterar Senha</h2>
+            <p className="text-secondary small">
+              Atualize suas credenciais de acesso com segurança
+            </p>
+          </div>
 
+          <Card className="border shadow-lg rounded-4 bg-body-tertiary">
+            <Card.Body className="p-4 p-md-5">
               {serverError && !errors.senhaAtual && (
                 <Alert
                   variant="danger"
-                  className="mb-3 border-0 shadow-custom-sm"
+                  className="border-0 shadow-sm rounded-3 py-2 small mb-4 d-flex align-items-center"
                 >
-                  <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                  <FontAwesomeIcon
+                    icon={faExclamationTriangle}
+                    className="me-2"
+                  />
                   {serverError}
                 </Alert>
               )}
 
               <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-                {/* Senha Atual */}
-                <Form.Group className="mb-3" controlId="formGroupSenhaAtual">
-                  <Form.Label className="fw-semibold">Senha Atual</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Digite sua senha ATUAL"
-                    {...register("senhaAtual")}
-                    isInvalid={!!errors.senhaAtual}
-                    className="border-custom"
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
+                {/* SENHA ATUAL */}
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold text-secondary text-uppercase">
+                    Senha Atual
+                  </Form.Label>
+                  <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                    <InputGroup.Text className="bg-body border-0">
+                      <FontAwesomeIcon icon={faLock} className="text-muted" />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type="password"
+                      placeholder="Digite sua senha atual"
+                      className="bg-body border-0 shadow-none py-2"
+                      {...register("senhaAtual")}
+                      isInvalid={!!errors.senhaAtual}
+                      disabled={isLoading}
+                    />
+                  </InputGroup>
+                  <Form.Text className="text-danger small">
                     {errors.senhaAtual?.message}
-                  </Form.Control.Feedback>
+                  </Form.Text>
                 </Form.Group>
 
-                {/* Nova Senha */}
-                <Form.Group className="mb-3" controlId="formGroupNovaSenha">
-                  <Form.Label className="fw-semibold">Nova Senha</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Mínimo 6 caracteres"
-                    {...register("novaSenha")}
-                    isInvalid={!!errors.novaSenha}
-                    className="border-custom"
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
+                {/* NOVA SENHA */}
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold text-secondary text-uppercase">
+                    Nova Senha
+                  </Form.Label>
+                  <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                    <InputGroup.Text className="bg-body border-0">
+                      <FontAwesomeIcon icon={faKey} className="text-muted" />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type="password"
+                      placeholder="Mínimo 6 caracteres"
+                      className="bg-body border-0 shadow-none py-2"
+                      {...register("novaSenha")}
+                      isInvalid={!!errors.novaSenha}
+                      disabled={isLoading}
+                    />
+                  </InputGroup>
+                  <Form.Text className="text-danger small">
                     {errors.novaSenha?.message}
-                  </Form.Control.Feedback>
+                  </Form.Text>
                 </Form.Group>
 
-                {/* Confirmar Nova Senha */}
-                <Form.Group
-                  className="mb-4"
-                  controlId="formGroupConfirmarNovaSenha"
-                >
-                  <Form.Label className="fw-semibold">
+                {/* CONFIRMAR NOVA SENHA */}
+                <Form.Group className="mb-4">
+                  <Form.Label className="small fw-bold text-secondary text-uppercase">
                     Confirmar Nova Senha
                   </Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Repita a nova senha"
-                    {...register("confirmarNovaSenha")}
-                    isInvalid={!!errors.confirmarNovaSenha}
-                    className="border-custom"
-                    disabled={isLoading}
-                  />
-                  <Form.Control.Feedback type="invalid">
+                  <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                    <InputGroup.Text className="bg-body border-0">
+                      <FontAwesomeIcon
+                        icon={faLock}
+                        className="text-muted opacity-50"
+                      />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type="password"
+                      placeholder="Repita a nova senha"
+                      className="bg-body border-0 shadow-none py-2"
+                      {...register("confirmarNovaSenha")}
+                      isInvalid={!!errors.confirmarNovaSenha}
+                      disabled={isLoading}
+                    />
+                  </InputGroup>
+                  <Form.Text className="text-danger small">
                     {errors.confirmarNovaSenha?.message}
-                  </Form.Control.Feedback>
+                  </Form.Text>
                 </Form.Group>
 
-                {/* Botão de envio */}
-                <div className="d-grid gap-2">
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={isLoading}
-                    size="lg"
-                    className="fw-semibold"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Spinner
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                          className="me-2"
-                        />
-                        Salvando...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-save me-2"></i>
-                        Salvar Alterações
-                      </>
-                    )}
-                  </Button>
+                {/* BOTÃO DE AÇÃO */}
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
+                >
+                  {isLoading ? (
+                    <>
+                      <Spinner animation="border" size="sm" /> Atualizando...
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon icon={faSave} /> SALVAR ALTERAÇÕES
+                    </>
+                  )}
+                </Button>
+
+                <div className="text-center mt-4">
+                  <div className="p-3 rounded-3 bg-body border small text-secondary">
+                    <FontAwesomeIcon
+                      icon={faInfoCircle}
+                      className="me-2 text-primary"
+                    />
+                    Após a alteração, sua sessão será encerrada para garantir a
+                    segurança da nova credencial.
+                  </div>
                 </div>
               </Form>
             </Card.Body>

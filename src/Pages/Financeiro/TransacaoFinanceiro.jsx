@@ -24,10 +24,13 @@ import {
   faFileInvoiceDollar,
   faInfoCircle,
   faHistory,
+  faTag,
+  faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const TransacaoFinanceiro = () => {
+  // --- LÓGICA ORIGINAL PRESERVADA ---
   const [transaction, setTransaction] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -35,49 +38,42 @@ const TransacaoFinanceiro = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
   const [isEditing, setIsEditing] = useState(false);
+  const [theme] = useState("dark"); // Segue o padrão do Dashboard
   const { dadosfinance } = useContext(DataContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Carregar dados da transação
   useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
     setLoading(true);
-
-    // 1. Tenta encontrar a transação nos dados do contexto
     const foundTransaction = dadosfinance.find((dado) => dado._id === id);
 
     if (foundTransaction) {
       setTransaction(foundTransaction);
       setLoading(false);
     } else {
-      // 2. Se não encontrar no contexto (acesso direto ou primeiro carregamento), faz a chamada à API (fallback)
       const fetchDados = async () => {
         try {
-          // Use encodeURIComponent para tratar caracteres especiais no ID
           const response = await axios.get(
             `https://api-gestao-igreja-jcod.vercel.app/finance/${id}`
           );
-          // Verifica se a API retorna um array ou um objeto
           const data = Array.isArray(response.data)
             ? response.data[0]
             : response.data;
-
           if (data) {
             setTransaction(data);
           } else {
-            // Tratar caso em que a API retorna vazio
             showAlertMessage("Transação não encontrada.", "danger");
           }
           setLoading(false);
         } catch (error) {
-          console.error("Erro ao buscar na API:", error);
           showAlertMessage("Erro ao carregar dados da transação.", "danger");
           setLoading(false);
         }
       };
       fetchDados();
     }
-  }, [id, dadosfinance]);
+  }, [id, dadosfinance, theme]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -91,16 +87,13 @@ const TransacaoFinanceiro = () => {
     setTimeout(() => setShowAlert(false), 5000);
   };
 
-  // Salvar edições
   const handleSave = async () => {
     try {
       setSaving(true);
-      // Ajuste para garantir que o valor seja número ao salvar
       const dataToSave = {
         ...transaction,
         valor: parseFloat(transaction.valor),
       };
-
       await axios.put(
         `https://api-gestao-igreja-jcod.vercel.app/finance/${id}`,
         dataToSave
@@ -109,7 +102,6 @@ const TransacaoFinanceiro = () => {
       setIsEditing(false);
       setSaving(false);
     } catch (error) {
-      console.error(error);
       showAlertMessage("Erro ao salvar os dados.", "danger");
       setSaving(false);
     }
@@ -117,331 +109,342 @@ const TransacaoFinanceiro = () => {
 
   if (loading) {
     return (
-      <div className="main-wrapper">
-        <div className="content-container d-flex justify-content-center align-items-center">
-          <div className="text-center">
-            <Spinner animation="border" variant="primary" className="mb-3" />
-            <h5 className="text-muted-custom">
-              Carregando detalhes da transação...
-            </h5>
-          </div>
-        </div>
+      <div className="vh-100 d-flex flex-column justify-content-center align-items-center bg-body">
+        <Spinner animation="border" variant="primary" />
+        <h5 className="mt-3 text-secondary">Sincronizando transação...</h5>
       </div>
     );
   }
 
+  // --- INTERFACE REFATORADA ---
   return (
-    <div className="main-wrapper">
-      <div className="content-container">
-        {/* Navbar Section */}
-        <nav className="navbar-section">
-          <Container
-            fluid
-            className="h-100 d-flex align-items-center justify-content-between"
-          >
-            <div className="d-flex align-items-center">
-              <div>
-                <h1 className="h3 mb-1 text-primary-custom fw-bold">
+    <div className="vh-100 d-flex flex-column overflow-hidden bg-body">
+      {/* HEADER FIXO - PADRÃO PREMIUM */}
+      <header className="py-3 px-4 border-bottom bg-body-tertiary shadow-sm z-3">
+        <Container fluid>
+          <Row className="align-items-center">
+            <Col md={6}>
+              <div className="d-flex align-items-center">
+                <div className="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
                   <FontAwesomeIcon
                     icon={faFileInvoiceDollar}
-                    className="me-2"
+                    className="text-primary fs-4"
                   />
-                  Detalhes da Transação
-                </h1>
-                <p className="text-muted-custom mb-0">
-                  Gestão detalhada do lançamento financeiro
-                </p>
+                </div>
+                <div>
+                  <h2 className="h4 fw-bold mb-0 text-body">
+                    Detalhes da Transação
+                  </h2>
+                  <Breadcrumb className="mb-0 small">
+                    <Breadcrumb.Item
+                      onClick={() => navigate("/dashboard")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Início
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item
+                      onClick={() => navigate("/financeiro")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Financeiro
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item
+                      active
+                      className="text-truncate"
+                      style={{ maxWidth: "150px" }}
+                    >
+                      {id}
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
+                </div>
               </div>
-            </div>
-            <div className="d-flex align-items-center gap-2">
+            </Col>
+            <Col md={6} className="text-end d-flex justify-content-end gap-2">
               <Button
                 variant="outline-secondary"
                 size="sm"
+                className="rounded-pill px-3 border"
                 onClick={() => navigate("/financeiro")}
-                className="d-flex align-items-center"
               >
-                <FontAwesomeIcon icon={faArrowLeft} className="me-1" /> Voltar
+                <FontAwesomeIcon icon={faArrowLeft} className="me-2" /> Voltar
               </Button>
               <Button
                 variant={isEditing ? "success" : "primary"}
                 size="sm"
+                className="rounded-pill px-4 shadow-sm fw-bold"
                 onClick={isEditing ? handleSave : () => setIsEditing(true)}
                 disabled={saving}
-                className="d-flex align-items-center"
               >
                 <FontAwesomeIcon
                   icon={isEditing ? faSave : faEdit}
-                  className="me-1"
+                  className="me-2"
                 />
-                {saving ? "Salvando..." : isEditing ? "Salvar" : "Editar"}
+                {saving
+                  ? "Salvando..."
+                  : isEditing
+                  ? "Salvar"
+                  : "Editar Lançamento"}
               </Button>
-            </div>
-          </Container>
-        </nav>
+            </Col>
+          </Row>
+        </Container>
+      </header>
 
-        {/* Form Section - Informações Fixas e Alertas */}
-        <section className="form-section">
-          <Container fluid className="h-100 d-flex flex-column">
-            <Row className="mb-3 flex-shrink-0">
-              <Col>
-                <Breadcrumb>
-                  <Breadcrumb.Item
-                    onClick={() => navigate("/financeiro")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <FontAwesomeIcon icon={faHome} className="me-1" /> Dashboard
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item
-                    onClick={() => navigate("/financeiro")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <FontAwesomeIcon icon={faMoneyBillWave} className="me-1" />{" "}
-                    Financeiro
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item active>{transaction._id}</Breadcrumb.Item>
-                </Breadcrumb>
-              </Col>
-            </Row>
+      {/* ÁREA DE CONTEÚDO SCROLLÁVEL */}
+      <main className="flex-grow-1 overflow-auto p-4 bg-body">
+        <Container fluid>
+          {showAlert && (
+            <Alert
+              variant={alertType}
+              dismissible
+              onClose={() => setShowAlert(false)}
+              className="border-0 shadow-sm rounded-4 mb-4"
+            >
+              <FontAwesomeIcon icon={faInfoCircle} className="me-2" />{" "}
+              {alertMessage}
+            </Alert>
+          )}
 
-            {showAlert && (
-              <Row className="mb-3 flex-shrink-0">
-                <Col>
-                  <Alert
-                    variant={alertType}
-                    dismissible
-                    onClose={() => setShowAlert(false)}
+          {/* CARDS DE RESUMO RÁPIDO */}
+          <Row className="g-3 mb-4">
+            <Col md={4}>
+              <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+                <Card.Body className="d-flex align-items-center p-3">
+                  <div
+                    className={`p-3 rounded-circle bg-opacity-10 me-3 ${
+                      transaction.tipodedado === "Receita"
+                        ? "bg-success text-success"
+                        : "bg-danger text-danger"
+                    }`}
                   >
-                    {alertMessage}
-                  </Alert>
-                </Col>
-              </Row>
-            )}
-
-            <Row className="flex-shrink-0">
-              <Col md={6} className="mb-3">
-                <Card className="border-0 shadow-custom-sm">
-                  <Card.Body className="p-3">
-                    <h6 className="text-muted-custom mb-2">
-                      Identificação do Registro
-                    </h6>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <p
-                        className="mb-0 fw-bold text-primary-custom"
-                        style={{ fontSize: "1.2rem" }}
-                      >
-                        {transaction._id}
-                      </p>
+                    <FontAwesomeIcon icon={faCoins} size="lg" />
+                  </div>
+                  <div>
+                    <p className="small text-secondary fw-bold text-uppercase mb-0">
+                      Valor do Lançamento
+                    </p>
+                    <h4
+                      className={`fw-bold mb-0 ${
+                        transaction.tipodedado === "Receita"
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      R${" "}
+                      {parseFloat(transaction.valor).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                      })}
+                    </h4>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={4}>
+              <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+                <Card.Body className="d-flex align-items-center p-3">
+                  <div className="bg-primary bg-opacity-10 p-3 rounded-circle text-primary me-3">
+                    <FontAwesomeIcon icon={faTag} size="lg" />
+                  </div>
+                  <div>
+                    <p className="small text-secondary fw-bold text-uppercase mb-0">
+                      Tipo / Status
+                    </p>
+                    <div className="d-flex gap-2 align-items-center">
                       <Badge
-                        bg={
-                          transaction.tipodedado === "Receita"
-                            ? "primary"
-                            : "danger"
-                        }
+                        bg="primary-subtle"
+                        className="text-primary border border-primary-subtle"
                       >
                         {transaction.tipodedado}
                       </Badge>
+                      <Badge
+                        bg={
+                          transaction.statuspagamento === "Pago"
+                            ? "success-subtle"
+                            : "warning-subtle"
+                        }
+                        className={
+                          transaction.statuspagamento === "Pago"
+                            ? "text-success border border-success-subtle"
+                            : "text-warning border border-warning-subtle"
+                        }
+                      >
+                        {transaction.statuspagamento}
+                      </Badge>
                     </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={6} className="mb-3">
-                <Card className="border-0 shadow-custom-sm">
-                  <Card.Body className="p-3">
-                    <h6 className="text-muted-custom mb-2">Resumo Temporal</h6>
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        <small className="text-muted-custom">
-                          Data de Lançamento:
-                        </small>
-                        <p className="mb-0 fw-semibold">
-                          {transaction.dataderegistro}
-                        </p>
-                      </div>
-                      <div className="text-end">
-                        <small className="text-muted-custom">
-                          Status Atual:
-                        </small>
-                        <p className="mb-0">
-                          <Badge
-                            bg={
-                              transaction.statuspagamento === "Pago"
-                                ? "success"
-                                : "warning text-dark"
-                            }
-                          >
-                            {transaction.statuspagamento}
-                          </Badge>
-                        </p>
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-
-        {/* Conteúdo com Scroll - Campos Editáveis */}
-        <section
-          className="scrollable-content-section"
-          style={{ overflowY: "auto", flexGrow: 1 }}
-        >
-          <Container fluid className="p-4">
-            <Row>
-              <Col md={12} className="mb-4">
-                <Card className="border-0 shadow-custom">
-                  <Card.Header className="bg-secondary-custom border-0 py-3">
-                    <h5 className="mb-0 fw-semibold text-white">
-                      <FontAwesomeIcon icon={faInfoCircle} className="me-2" />
-                      Informações Financeiras
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={4}>
+              <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+                <Card.Body className="d-flex align-items-center p-3">
+                  <div className="bg-info bg-opacity-10 p-3 rounded-circle text-info me-3">
+                    <FontAwesomeIcon icon={faCalendarAlt} size="lg" />
+                  </div>
+                  <div>
+                    <p className="small text-secondary fw-bold text-uppercase mb-0">
+                      Data do Pagamento
+                    </p>
+                    <h5 className="fw-bold mb-0 text-body">
+                      {transaction.datapagamento}
                     </h5>
-                  </Card.Header>
-                  <Card.Body className="p-4">
-                    <Row className="g-3">
-                      <Col md={4}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            Tipo de Registro
-                          </Form.Label>
-                          <Form.Select
-                            name="tipodedado"
-                            value={transaction.tipodedado || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom"
-                          >
-                            <option value="Receita">Receita</option>
-                            <option value="Despesa">Despesa</option>
-                          </Form.Select>
-                        </Form.Group>
-                      </Col>
-                      <Col md={4}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            Valor (R$)
-                          </Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="valor"
-                            value={transaction.valor || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom fw-bold text-primary"
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={4}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            Status de Pagamento
-                          </Form.Label>
-                          <Form.Select
-                            name="statuspagamento"
-                            value={transaction.statuspagamento || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom"
-                          >
-                            <option value="Pago">Pago</option>
-                            <option value="Não pago">Não pago</option>
-                          </Form.Select>
-                        </Form.Group>
-                      </Col>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
 
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            <FontAwesomeIcon
-                              icon={faCalendarAlt}
-                              className="me-1"
-                            />{" "}
-                            Data do Pagamento/Vencimento
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="datapagamento"
-                            value={transaction.datapagamento || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom"
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            Categoria / Tipo Lançamento
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="tipolancamento"
-                            value={transaction.tipolancamento || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom"
-                          />
-                        </Form.Group>
-                      </Col>
+          {/* FORMULÁRIO DETALHADO */}
+          <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden mb-5">
+            <Card.Header className="bg-body-secondary py-3 px-4 border-0">
+              <h5 className="mb-0 h6 fw-bold text-body">
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  className="me-2 text-primary"
+                />
+                DETALHES DO LANÇAMENTO
+              </h5>
+            </Card.Header>
+            <Card.Body className="p-4">
+              <Form>
+                <Row className="g-4">
+                  <Col md={4}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Tipo de Registro
+                    </Form.Label>
+                    <Form.Select
+                      className="bg-body border shadow-none"
+                      name="tipodedado"
+                      value={transaction.tipodedado || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    >
+                      <option value="Receita">Receita</option>
+                      <option value="Despesa">Despesa</option>
+                    </Form.Select>
+                  </Col>
 
-                      <Col md={12}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            Descrição do Item
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="descricao"
-                            value={transaction.descricao || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom"
-                          />
-                        </Form.Group>
-                      </Col>
+                  <Col md={4}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Valor (R$)
+                    </Form.Label>
+                    <Form.Control
+                      type="number"
+                      step="0.01"
+                      className="bg-body border shadow-none fw-bold"
+                      name="valor"
+                      value={transaction.valor || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    />
+                  </Col>
 
-                      <Col md={12}>
-                        <Form.Group>
-                          <Form.Label className="fw-bold small text-uppercase">
-                            Observações Detalhadas
-                          </Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            rows={4}
-                            name="observacao"
-                            value={transaction.observacao || ""}
-                            onChange={handleInputChange}
-                            disabled={!isEditing}
-                            className="border-custom"
-                          />
-                        </Form.Group>
-                      </Col>
+                  <Col md={4}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Status
+                    </Form.Label>
+                    <Form.Select
+                      className="bg-body border shadow-none"
+                      name="statuspagamento"
+                      value={transaction.statuspagamento || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    >
+                      <option value="Pago">Pago</option>
+                      <option value="Não pago">Não pago</option>
+                    </Form.Select>
+                  </Col>
 
-                      <Col md={12} className="mt-4">
-                        <div className="p-3 rounded bg-light border d-flex align-items-center">
-                          <FontAwesomeIcon
-                            icon={faHistory}
-                            className="text-muted me-3"
-                            size="lg"
-                          />
-                          <div>
-                            <small className="text-muted d-block">
-                              Metadados do Registro:
-                            </small>
-                            <span className="small text-dark">
-                              Criado automaticamente pelo sistema em:{" "}
-                              <strong>{transaction.dataderegistro}</strong>
-                            </span>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-      </div>
+                  <Col md={4}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Data Vencimento/Pagamento
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      className="bg-body border shadow-none"
+                      name="datapagamento"
+                      value={transaction.datapagamento || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    />
+                  </Col>
+
+                  <Col md={8}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Categoria / Classificação
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      className="bg-body border shadow-none"
+                      name="tipolancamento"
+                      value={transaction.tipolancamento || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    />
+                  </Col>
+
+                  <Col md={12}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Descrição do Item
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      className="bg-body border shadow-none"
+                      name="descricao"
+                      value={transaction.descricao || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    />
+                  </Col>
+
+                  <Col md={12}>
+                    <Form.Label className="small fw-bold text-secondary text-uppercase">
+                      Observações Adicionais
+                    </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={4}
+                      className="bg-body border shadow-none"
+                      name="observacao"
+                      value={transaction.observacao || ""}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                    />
+                  </Col>
+
+                  <Col md={12}>
+                    <div className="p-3 rounded-4 bg-body border d-flex align-items-center mt-2">
+                      <div className="bg-body-secondary p-2 rounded-circle me-3">
+                        <FontAwesomeIcon
+                          icon={faHistory}
+                          className="text-secondary"
+                        />
+                      </div>
+                      <div>
+                        <small
+                          className="text-secondary d-block text-uppercase fw-bold"
+                          style={{ fontSize: "0.65rem" }}
+                        >
+                          Registro gerado em
+                        </small>
+                        <span className="fw-bold text-body">
+                          {transaction.dataderegistro}
+                        </span>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Container>
+      </main>
+
+      {/* FOOTER FIXO */}
+      <footer className="py-2 px-4 border-top bg-body-tertiary text-secondary small d-flex justify-content-between align-items-center">
+        <span>Gestão Financeira • 2025</span>
+        <span className="font-monospace opacity-50">{id}</span>
+      </footer>
     </div>
   );
 };
