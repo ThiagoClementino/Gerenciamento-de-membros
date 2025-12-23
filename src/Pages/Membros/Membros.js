@@ -151,9 +151,6 @@ const Membros = () => {
 
   return (
     <div className="main-wrapper">
-      {/* Sidebar Responsiva */}
-
-      {/* Container Principal de Conteúdo */}
       <div className="content-container">
         {/* BARRA DE NAVEGAÇÃO - 10% */}
         <nav className="navbar-section">
