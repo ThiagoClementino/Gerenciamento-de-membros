@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import MobileCardsView from "./MobileCardsView";
+// MobileCardsView removido pois usaremos a tabela padrão
 import DataInfor from "../../Contexts/DataInfor";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -27,31 +27,40 @@ import {
   Badge,
   InputGroup,
   Alert,
+  Pagination,
 } from "react-bootstrap";
 
 const Membros = () => {
-  // --- LÓGICA ORIGINAL PRESERVADA ---
   const { dados } = useContext(DataInfor);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [showAlert, setShowAlert] = useState(null);
-  const [isMobileView, setIsMobileView] = useState(false);
+
+  // Detecção de Mobile para Layout Híbrido (Scroll da página vs Scroll interno)
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
+
+  // --- PAGINAÇÃO ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
-    const checkMobileView = () => {
-      setIsMobileView(
-        window.innerWidth < 768 && window.orientation !== undefined
-      );
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768);
     };
-    checkMobileView();
-    window.addEventListener("resize", checkMobileView);
-    window.addEventListener("orientationchange", checkMobileView);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+
     return () => {
-      window.removeEventListener("resize", checkMobileView);
-      window.removeEventListener("orientationchange", checkMobileView);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   const toLowerSafe = (value) =>
     typeof value === "string" ? value.toLowerCase() : "";
@@ -79,6 +88,31 @@ const Membros = () => {
       toLowerSafe(dado.databatismo).includes(lowerSearchTerm)
     );
   });
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredDados.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredDados.length / itemsPerPage);
+
+  const paginationItems = [];
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, startPage + 4);
+
+  if (endPage - startPage < 4) {
+    startPage = Math.max(1, endPage - 4);
+  }
+
+  for (let number = startPage; number <= endPage; number++) {
+    paginationItems.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => setCurrentPage(number)}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
 
   const handleDeleteItems = async () => {
     if (selectedItems.length === 0) {
@@ -141,22 +175,27 @@ const Membros = () => {
 
   const closeAlert = () => setShowAlert(null);
 
-  // --- INTERFACE REFATORADA ---
   return (
-    <div className="vh-100 d-flex flex-column overflow-hidden bg-body">
-      {/* HEADER FIXO */}
-      <header className="py-3 px-4 border-bottom bg-body-tertiary shadow-sm z-3">
+    // LAYOUT HÍBRIDO: Mobile = Scroll da Página | Desktop = App Fixo
+    <div
+      className={`d-flex flex-column bg-body ${
+        isMobileView ? "min-vh-100" : "vh-100 overflow-hidden"
+      }`}
+    >
+      {/* 1. HEADER (FIXO) */}
+      <header className="py-3 px-3 px-md-4 border-bottom bg-body-tertiary shadow-sm z-3 flex-shrink-0">
         <Container fluid>
-          <Row className="align-items-center">
-            <Col md={7}>
+          <Row className="align-items-center g-3">
+            <Col xs={12} md={7} className="text-center text-md-start">
               <h2 className="fw-bold mb-0 h4">
                 <FontAwesomeIcon icon={faUsers} className="me-2 text-primary" />
                 Gestão de Membros
               </h2>
             </Col>
             <Col
+              xs={12}
               md={5}
-              className="text-end d-flex justify-content-end align-items-center gap-3"
+              className="text-center text-md-end d-flex justify-content-center justify-content-md-end align-items-center gap-3"
             >
               <Badge
                 bg="success-subtle"
@@ -173,117 +212,130 @@ const Membros = () => {
         </Container>
       </header>
 
-      {/* ÁREA DE CONTEÚDO SCROLLÁVEL */}
-      <main className="flex-grow-1 overflow-auto p-4 bg-body">
-        <Container fluid>
-          {/* ALERTAS */}
-          {showAlert && (
-            <Alert
-              variant={showAlert.type}
-              dismissible
-              onClose={closeAlert}
-              className="border-0 shadow-sm rounded-4 mb-4"
-            >
-              {showAlert.message}
-            </Alert>
-          )}
+      {/* CONTAINER PRINCIPAL */}
+      <main
+        className={`flex-grow-1 d-flex flex-column bg-body ${
+          isMobileView ? "" : "overflow-hidden"
+        }`}
+      >
+        {/* PARTE A: ÁREA SUPERIOR */}
+        <div className="flex-shrink-0 px-2 px-md-4 pt-3 pt-md-4">
+          <Container fluid>
+            {showAlert && (
+              <Alert
+                variant={showAlert.type}
+                dismissible
+                onClose={closeAlert}
+                className="border-0 shadow-sm rounded-4 mb-4"
+              >
+                {showAlert.message}
+              </Alert>
+            )}
 
-          {/* CARDS DE ESTATÍSTICAS HORIZONTAIS */}
-          <Row className="g-3 mb-4">
-            <StatCard
-              label="Total Membros"
-              val={dados.length}
-              icon={faUsers}
-              color="text-primary"
-            />
-            <StatCard
-              label="Filtrados"
-              val={filteredDados.length}
-              icon={faFilter}
-              color="text-info"
-            />
-            <StatCard
-              label="Selecionados"
-              val={selectedItems.length}
-              icon={faUserTag}
-              color="text-warning"
-            />
-            <StatCard
-              label="Batizados"
-              val={dados.filter((d) => d.databatismo).length}
-              icon={faCheckCircle}
-              color="text-success"
-            />
-          </Row>
-
-          {/* BARRA DE FERRAMENTAS E BUSCA */}
-          <Card className="border shadow-sm rounded-4 bg-body-tertiary mb-4 p-4">
-            <Row className="g-3 align-items-center">
-              <Col md={5}>
-                <InputGroup className="shadow-sm rounded-pill overflow-hidden border">
-                  <InputGroup.Text className="bg-body border-0 text-secondary">
-                    <FontAwesomeIcon icon={faSearch} />
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="search"
-                    className="bg-body border-0 shadow-none py-2"
-                    placeholder="Nome, email, profissão ou batismo..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                  />
-                </InputGroup>
-              </Col>
-
-              <Col md={3} className="d-flex align-items-center">
-                <Form.Check
-                  type="checkbox"
-                  id="selectAll"
-                  className="fw-semibold text-secondary small ms-2"
-                  label={`Selecionar todos (${filteredDados.length})`}
-                  checked={selectAll}
-                  onChange={handleSelectAllChange}
-                />
-              </Col>
-
-              <Col md={4} className="text-md-end">
-                <div className="d-flex gap-2 justify-content-md-end">
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    className="rounded-pill px-3 fw-bold shadow-sm"
-                    onClick={handleDeleteItems}
-                    disabled={selectedItems.length === 0}
-                  >
-                    <FontAwesomeIcon icon={faTrash} className="me-2" /> Excluir
-                  </Button>
-
-                  <CSVLink
-                    data={dados}
-                    filename={`Membros_${formatDateToExport()}.csv`}
-                    className="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold d-flex align-items-center shadow-sm"
-                  >
-                    <FontAwesomeIcon icon={faDownload} className="me-2" />{" "}
-                    Exportar
-                  </CSVLink>
-                </div>
-              </Col>
+            {/* Cards de Estatísticas */}
+            <Row className="g-3 mb-4">
+              <StatCard
+                label="Total Membros"
+                val={dados.length}
+                icon={faUsers}
+                color="text-primary"
+              />
+              <StatCard
+                label="Filtrados"
+                val={filteredDados.length}
+                icon={faFilter}
+                color="text-info"
+              />
+              <StatCard
+                label="Selecionados"
+                val={selectedItems.length}
+                icon={faUserTag}
+                color="text-warning"
+              />
+              <StatCard
+                label="Batizados"
+                val={dados.filter((d) => d.databatismo).length}
+                icon={faCheckCircle}
+                color="text-success"
+              />
             </Row>
-          </Card>
 
-          {/* TABELA / VIEW MOBILE */}
-          <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden">
-            {isMobileView ? (
-              <div className="p-3">
-                <MobileCardsView
-                  filteredDados={filteredDados}
-                  selectedItems={selectedItems}
-                  handleCheckboxChange={handleCheckboxChange}
-                />
-              </div>
-            ) : (
+            {/* Barra de Busca e Ações */}
+            <Card className="border shadow-sm rounded-4 bg-body-tertiary mb-3 p-3 p-md-4">
+              <Row className="g-3 align-items-center">
+                <Col xs={12} md={5}>
+                  <InputGroup className="shadow-sm rounded-pill overflow-hidden border">
+                    <InputGroup.Text className="bg-body border-0 text-secondary">
+                      <FontAwesomeIcon icon={faSearch} />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type="search"
+                      className="bg-body border-0 shadow-none py-2"
+                      placeholder="Buscar por nome..."
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                    />
+                  </InputGroup>
+                </Col>
+                <Col
+                  xs={6}
+                  md={3}
+                  className="d-flex align-items-center justify-content-center justify-content-md-start"
+                >
+                  <Form.Check
+                    type="checkbox"
+                    id="selectAll"
+                    className="fw-semibold text-secondary small ms-2"
+                    label={`Todos (${filteredDados.length})`}
+                    checked={selectAll}
+                    onChange={handleSelectAllChange}
+                  />
+                </Col>
+                <Col xs={6} md={4} className="text-end">
+                  <div className="d-flex gap-2 justify-content-end">
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="rounded-pill px-3 fw-bold shadow-sm"
+                      onClick={handleDeleteItems}
+                      disabled={selectedItems.length === 0}
+                    >
+                      <FontAwesomeIcon icon={faTrash} className="me-2" />{" "}
+                      <span className="d-none d-sm-inline">Excluir</span>
+                    </Button>
+                    <CSVLink
+                      data={dados}
+                      filename={`Membros_${formatDateToExport()}.csv`}
+                      className="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold d-flex align-items-center shadow-sm"
+                    >
+                      <FontAwesomeIcon icon={faDownload} className="me-2" />{" "}
+                      <span className="d-none d-sm-inline">Exportar</span>
+                    </CSVLink>
+                  </div>
+                </Col>
+              </Row>
+            </Card>
+          </Container>
+        </div>
+
+        {/* PARTE B: ÁREA DA TABELA */}
+        {/* No mobile, removemos overflow-auto para usar o scroll nativo da página */}
+        <div
+          className={`flex-grow-1 px-2 px-md-4 pb-4 ${
+            isMobileView ? "" : "overflow-auto"
+          }`}
+        >
+          <Container fluid className="h-100 d-flex flex-column">
+            <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden mb-3 flex-shrink-0">
               <div className="table-responsive">
-                <Table hover className="mb-0 align-middle table-borderless">
-                  <thead className="bg-body-secondary">
+                {/* text-nowrap: Impede quebra de linha (mantém tabela larga)
+                   table-borderless + align-middle: Estilo visual limpo
+                */}
+                <Table
+                  hover
+                  className="mb-0 align-middle table-borderless text-nowrap"
+                >
+                  <thead className="bg-body-secondary position-sticky top-0 z-1">
                     <tr className="text-secondary small text-uppercase">
                       <th
                         className="py-3 text-center"
@@ -293,27 +345,24 @@ const Membros = () => {
                       </th>
                       <th className="py-3 text-center">Ver</th>
                       <th className="py-3">Membro</th>
-                      <th className="py-3 d-none d-md-table-cell">Contato</th>
-                      <th className="py-3 d-none d-lg-table-cell">
-                        Localização
-                      </th>
-                      <th className="py-3 d-none d-xl-table-cell text-center">
-                        Batismo
-                      </th>
+                      {/* Removidas classes d-none para mostrar tudo no mobile via scroll */}
+                      <th className="py-3">Contato</th>
+                      <th className="py-3">Localização</th>
+                      <th className="py-3 text-center">Batismo</th>
                     </tr>
                   </thead>
                   <tbody className="border-top">
-                    {filteredDados.length === 0 ? (
+                    {currentItems.length === 0 ? (
                       <tr>
                         <td
                           colSpan="6"
                           className="text-center py-5 text-secondary"
                         >
-                          Nenhum registro encontrado para "{searchTerm}"
+                          Nenhum registro encontrado.
                         </td>
                       </tr>
                     ) : (
-                      filteredDados.map((dado) => (
+                      currentItems.map((dado) => (
                         <tr
                           key={dado._id}
                           className={
@@ -347,19 +396,19 @@ const Membros = () => {
                               {dado._id.slice(-6).toUpperCase()}
                             </div>
                           </td>
-                          <td className="d-none d-md-table-cell small">
+                          <td className="small">
                             <div>{dado.email}</div>
                             <div className="text-secondary opacity-75">
                               {dado.telone}
                             </div>
                           </td>
-                          <td className="d-none d-lg-table-cell small">
+                          <td className="small">
                             <div>{dado.city}</div>
                             <div className="text-secondary opacity-75">
                               {dado.profession}
                             </div>
                           </td>
-                          <td className="d-none d-xl-table-cell text-center">
+                          <td className="text-center">
                             {dado.databatismo ? (
                               <Badge
                                 bg="success-subtle"
@@ -382,25 +431,58 @@ const Membros = () => {
                   </tbody>
                 </Table>
               </div>
+            </Card>
+
+            {/* Controle de Paginação */}
+            {filteredDados.length > itemsPerPage && (
+              <div className="d-flex justify-content-center mt-auto pb-2">
+                <Pagination className="shadow-sm mb-0 flex-wrap justify-content-center">
+                  <Pagination.First
+                    onClick={() => setCurrentPage(1)}
+                    disabled={currentPage === 1}
+                  />
+                  <Pagination.Prev
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                  />
+
+                  {paginationItems}
+
+                  <Pagination.Next
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                  />
+                  <Pagination.Last
+                    onClick={() => setCurrentPage(totalPages)}
+                    disabled={currentPage === totalPages}
+                  />
+                </Pagination>
+              </div>
             )}
-          </Card>
-        </Container>
+          </Container>
+        </div>
       </main>
 
-      {/* FOOTER FIXO */}
-      <footer className="py-2 px-4 border-top bg-body-tertiary text-secondary small d-flex justify-content-between align-items-center">
-        <span>Sistema de Gestão Premium • 2025</span>
+      {/* FOOTER */}
+      <footer className="py-2 px-3 px-md-4 border-top bg-body-tertiary text-secondary small d-flex flex-column flex-md-row justify-content-between align-items-center flex-shrink-0 text-center text-md-start">
+        <span className="mb-1 mb-md-0">Sistema de Gestão Premium • 2025</span>
         <span>
-          Total de Registros: <strong>{filteredDados.length}</strong>
+          Página <strong>{currentPage}</strong> de{" "}
+          <strong>{totalPages || 1}</strong> • Total:{" "}
+          <strong>{filteredDados.length}</strong>
         </span>
       </footer>
     </div>
   );
 };
 
-// Componente Interno para os Cards de Estatística (Padrão Master)
+// Componente Interno para os Cards de Estatística (Responsivo)
 const StatCard = ({ label, val, icon, color }) => (
-  <Col md={3}>
+  <Col xs={12} sm={6} md={3}>
     <Card className="border shadow-sm rounded-4 bg-body-tertiary">
       <Card.Body className="d-flex align-items-center p-3">
         <div

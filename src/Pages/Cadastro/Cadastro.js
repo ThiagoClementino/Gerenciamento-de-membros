@@ -119,7 +119,7 @@ const Cadastro = () => {
 
     try {
       const response = await fetch(
-        "https://api-gestao-igreja.onrender.com/membros",
+        "https://api-gestao-igreja-jcod.vercel.app/membros",
         {
           method: "POST",
           headers: {
