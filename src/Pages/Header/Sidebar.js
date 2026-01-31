@@ -5,21 +5,24 @@ import {
   faChartPie,
   faUserPlus,
   faUsers,
+  faaddresscard,
   faWallet,
   faGear,
   faRightFromBracket,
+  faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons";
-import "./Sidebar.css"; // Certifique-se de que este arquivo herde do global.css
 
 const Sidebar = ({ handleLogout }) => {
   const location = useLocation();
 
   const menuItems = [
     { path: "/Dashboard", label: "Dashboard", icon: faChartPie },
-    { path: "/Cadastro", label: "Cadastrar", icon: faUserPlus },
-    { path: "/Membros", label: "Membros", icon: faUsers },
+    { path: "/Cadastro", label: "Cadastrar", icon: faaddresscard },
+    { path: "/Membros", label: "Candidatos", icon: faUsers },
     { path: "/Financeiro", label: "Financeiro", icon: faWallet },
     { path: "/Config", label: "Configurações", icon: faGear },
+    { path: "/Membresia", label: "Membros", icon: faPeopleGroup },
+    { path: "/MemMinisterio", label: "Membros", icon: faUserPlus },
   ];
 
   return (

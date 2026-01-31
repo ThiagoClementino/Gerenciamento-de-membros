@@ -17,6 +17,8 @@ import ForgotPassword from "./Pages/RecuperarSenha/ForgotPassword";
 import MainLayout from "./Components/MainLayout"; // Componente de Layout Global
 import Datainfor from "./Contexts/DataInfor";
 import DataApiOne from "./Contexts/DataApiOne";
+import MemMinisterio from "./Pages/Membros/MemMinisterio";
+import Membresia from "./Pages/Membros/Membresia";
 
 const AppRoutes = () => {
   const [dados, setDados] = useState([]);
@@ -45,7 +47,7 @@ const AppRoutes = () => {
         }
       })
       .catch((error) =>
-        console.error("There was a problem with the fetch operation:", error)
+        console.error("There was a problem with the fetch operation:", error),
       );
   }, []);
 
@@ -72,7 +74,7 @@ const AppRoutes = () => {
         }
       })
       .catch((error) =>
-        console.error("There was a problem with the fetch operation:", error)
+        console.error("There was a problem with the fetch operation:", error),
       );
   }, []);
 
@@ -82,82 +84,37 @@ const AppRoutes = () => {
         value={{ dadosfinance, setDadosfinance, dados, setDados }}
       >
         <Routes>
-          {/* Rotas Públicas (Sem Sidebar/Footer) */}
+          {/* 1. Rotas Públicas: Sem menu, sem proteção */}
           <Route path="/" element={<Login />} />
           <Route path="/criarusuario" element={<CreateUser />} />
+          <Route path="/redefinirsenha" element={<ForgotPassword />} />
           <Route
             path="/reset-password/:resetToken"
             element={<ResetPassword />}
           />
           <Route path="/changepassword" element={<ChangePassword />} />
-          <Route path="/redefinirsenha" element={<ForgotPassword />} />
 
-          {/* Rotas Privadas com Layout Global (Sidebar e Footer Fixos) */}
-          <Route element={<MainLayout />}>
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/membros"
-              element={
-                <PrivateRoute>
-                  <Membros />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/cadastro"
-              element={
-                <PrivateRoute>
-                  <Cadastro />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/financeiro"
-              element={
-                <PrivateRoute>
-                  <Financeiro />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/membro/:id"
-              element={
-                <PrivateRoute>
-                  <MembroMinisterio />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/financeiro/:id"
-              element={
-                <PrivateRoute>
-                  <TransacaoFinanceiro />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/config"
-              element={
-                <PrivateRoute>
-                  <Config />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/home"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
+          {/* 2. Rotas Privadas: Com Sidebar (MainLayout) e Protegidas */}
+          <Route
+            element={
+              <PrivateRoute>
+                <MainLayout />
+              </PrivateRoute>
+            }
+          >
+            {/* Tudo que estiver aqui dentro mostrará a Sidebar automaticamente */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/membros" element={<Membros />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/financeiro" element={<Financeiro />} />
+            <Route path="/membro/:id" element={<MembroMinisterio />} />
+            <Route path="/financeiro/:id" element={<TransacaoFinanceiro />} />
+            <Route path="/config" element={<Config />} />
+            <Route path="/home" element={<Home />} />
+
+            {/* MOVIDAS PARA DENTRO DO LAYOUT AQUI: */}
+            <Route path="/membrosministerio" element={<MemMinisterio />} />
+            <Route path="/membresia" element={<Membresia />} />
           </Route>
         </Routes>
       </Datainfor.Provider>

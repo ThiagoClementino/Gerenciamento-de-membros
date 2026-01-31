@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Outlet } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,6 +14,7 @@ import {
   faChurch,
   faSun,
   faMoon,
+  faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ResponsiveSidebar = ({
@@ -47,9 +48,10 @@ const ResponsiveSidebar = ({
 
   const navItems = [
     { path: "/dashboard", icon: faChartPie, text: "Dashboard" },
-    { path: "/membros", icon: faUsers, text: "Membros" },
+    { path: "/membros", icon: faUsers, text: "Candidatos" },
     { path: "/cadastro", icon: faUserPlus, text: "Cadastrar" },
     { path: "/financeiro", icon: faWallet, text: "Financeiro" },
+    { path: "/membresia", icon: faPeopleGroup, text: "Membros" },
   ];
 
   // Configuração de largura e visibilidade via Bootstrap e Inline Styles para Dinâmica
