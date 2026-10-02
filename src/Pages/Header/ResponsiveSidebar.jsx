@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation, Outlet } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartPie,
-  faUsers,
   faUserPlus,
   faWallet,
   faChevronLeft,
@@ -48,7 +47,6 @@ const ResponsiveSidebar = ({
 
   const navItems = [
     { path: "/dashboard", icon: faChartPie, text: "Dashboard" },
-    { path: "/membros", icon: faUsers, text: "Candidatos" },
     { path: "/cadastro", icon: faUserPlus, text: "Cadastrar" },
     { path: "/financeiro", icon: faWallet, text: "Financeiro" },
     { path: "/membresia", icon: faPeopleGroup, text: "Membros" },

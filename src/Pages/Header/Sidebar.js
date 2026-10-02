@@ -18,7 +18,6 @@ const Sidebar = ({ handleLogout }) => {
   const menuItems = [
     { path: "/Dashboard", label: "Dashboard", icon: faChartPie },
     { path: "/Cadastro", label: "Cadastrar", icon: faaddresscard },
-    { path: "/Membros", label: "Candidatos", icon: faUsers },
     { path: "/Financeiro", label: "Financeiro", icon: faWallet },
     { path: "/Config", label: "Configurações", icon: faGear },
     { path: "/Membresia", label: "Membros", icon: faPeopleGroup },

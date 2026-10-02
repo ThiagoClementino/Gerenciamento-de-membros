@@ -55,7 +55,10 @@ const MemMinisterio = () => {
         const response = await axios.get(
           `https://api-gestao-igreja-jcod.vercel.app/membros/${id}`,
         );
-        setMember(response.data);
+        const dados = Array.isArray(response.data)
+          ? response.data[0] || {}
+          : response.data;
+        setMember(dados);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -98,6 +101,8 @@ const MemMinisterio = () => {
   const formatDate = (dateString) => {
     if (!dateString) return "-";
     try {
+      // Já no formato brasileiro (dd/mm/aaaa): mantém como está
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) return dateString;
       const date = new Date(dateString);
       return date.toLocaleDateString("pt-BR");
     } catch {
@@ -249,7 +254,7 @@ const MemMinisterio = () => {
                   <div className="bg-body p-3 rounded-circle border me-3">
                     <FontAwesomeIcon
                       icon={faUserCheck}
-                      className={member.cad ? "text-success" : "text-danger"}
+                      className={(member.cadAtivo ?? member.cad) ? "text-success" : "text-danger"}
                     />
                   </div>
                   <div>
@@ -257,14 +262,14 @@ const MemMinisterio = () => {
                       Status
                     </p>
                     <Badge
-                      bg={member.cad ? "success-subtle" : "secondary-subtle"}
+                      bg={(member.cadAtivo ?? member.cad) ? "success-subtle" : "secondary-subtle"}
                       className={
-                        member.cad
+                        (member.cadAtivo ?? member.cad)
                           ? "text-success border border-success-subtle"
                           : "text-secondary border border-secondary-subtle"
                       }
                     >
-                      {member.cad ? "Ativo no Sistema" : "Inativo"}
+                      {(member.cadAtivo ?? member.cad) ? "Ativo no Sistema" : "Inativo"}
                     </Badge>
                   </div>
                 </Card.Body>
@@ -397,6 +402,40 @@ const MemMinisterio = () => {
                       disabled={!isEditing}
                       col={6}
                     />
+                    <InputField
+                      label="Escolaridade"
+                      name="education"
+                      value={member.education}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={4}
+                    />
+                    <InputField
+                      label="Estado Civil"
+                      name="estadocivil"
+                      value={member.estadocivil}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={4}
+                      icon={faHeart}
+                    />
+                    <YesNoField
+                      label="POSSUI FILHOS?"
+                      name="filhos"
+                      value={member.filhos}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={2}
+                    />
+                    <InputField
+                      label="Qtd. de Filhos"
+                      name="qtdfilhos"
+                      value={member.qtdfilhos}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={2}
+                      icon={faUsers}
+                    />
                   </Row>
                 </Card.Body>
               </Card>
@@ -447,7 +486,7 @@ const MemMinisterio = () => {
                       value={member.complement}
                       onChange={handleInputChange}
                       disabled={!isEditing}
-                      col={4}
+                      col={3}
                     />
                     <InputField
                       label="Bairro"
@@ -455,7 +494,7 @@ const MemMinisterio = () => {
                       value={member.district}
                       onChange={handleInputChange}
                       disabled={!isEditing}
-                      col={4}
+                      col={3}
                     />
                     <InputField
                       label="Cidade"
@@ -472,6 +511,15 @@ const MemMinisterio = () => {
                       onChange={handleInputChange}
                       disabled={!isEditing}
                       col={2}
+                    />
+                    <InputField
+                      label="Tempo de Residência (anos)"
+                      name="timeinresidence"
+                      value={member.timeinresidence}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={2}
+                      icon={faHome}
                     />
                   </Row>
                 </Card.Body>
@@ -521,6 +569,69 @@ const MemMinisterio = () => {
 
                     <Col md={12} className="mt-4">
                       <h6 className="small fw-bold text-primary text-uppercase border-bottom pb-2 mb-3">
+                        Histórico Eclesiástico
+                      </h6>
+                    </Col>
+
+                    <InputField
+                      label="Última Igreja"
+                      name="lastchurch"
+                      value={member.lastchurch}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={4}
+                    />
+                    <InputField
+                      label="Igrejas que Foi Membro"
+                      name="igrejasquefoimembro"
+                      value={member.igrejasquefoimembro}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={4}
+                    />
+                    <InputField
+                      label="Motivo da Saída"
+                      name="motivosaida"
+                      value={member.motivosaida}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={4}
+                    />
+                    <YesNoField
+                      label="Teve Cargo Anterior?"
+                      name="cargoanterior"
+                      value={member.cargoanterior}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={3}
+                    />
+                    <YesNoField
+                      label="Foi Separado Anteriormente?"
+                      name="separadoanterior"
+                      value={member.separadoanterior}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={3}
+                    />
+                    <InputField
+                      label="Posição Anterior"
+                      name="posicaoanterior"
+                      value={member.posicaoanterior}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={3}
+                    />
+                    <InputField
+                      label="Atividade Anterior"
+                      name="atividadeanterior"
+                      value={member.atividadeanterior}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={3}
+                    />
+
+                    <Col md={12} className="mt-4">
+                      <h6 className="small fw-bold text-primary text-uppercase border-bottom pb-2 mb-3">
                         Trajetória e Convicções
                       </h6>
                     </Col>
@@ -533,24 +644,98 @@ const MemMinisterio = () => {
                         label: "Participa dos Cultos?",
                       },
                       { name: "evangelizar", label: "Hábito de Evangelizar?" },
+                      {
+                        name: "cultosdeoracao",
+                        label: "Participa dos Cultos de Oração?",
+                      },
+                      { name: "jejuar", label: "Hábito de Jejuar?" },
+                      { name: "leiturabiblica", label: "Lê a Bíblia?" },
+                      { name: "habito", label: "Possui Hábito Devocional?" },
+                      { name: "discipulo", label: "É Discípulo?" },
+                      {
+                        name: "aconselhamentopastoral",
+                        label: "Busca Aconselhamento Pastoral?",
+                      },
+                      {
+                        name: "desenvolvimento",
+                        label: "Busca Desenvolvimento Espiritual?",
+                      },
+                      { name: "exortacao", label: "Aceita Exortação?" },
+                      { name: "problema", label: "Possui Problemas a Tratar?" },
                     ].map((field) => (
-                      <Col md={3} key={field.name}>
-                        <Form.Label className="small fw-bold text-secondary">
-                          {field.label}
-                        </Form.Label>
-                        <Form.Select
-                          className="bg-body border shadow-none"
-                          name={field.name}
-                          value={member[field.name] || ""}
-                          onChange={handleInputChange}
-                          disabled={!isEditing}
-                        >
-                          <option value="">Selecione...</option>
-                          <option value="Sim">Sim</option>
-                          <option value="Não">Não</option>
-                        </Form.Select>
-                      </Col>
+                      <YesNoField
+                        key={field.name}
+                        label={field.label}
+                        name={field.name}
+                        value={member[field.name]}
+                        onChange={handleInputChange}
+                        disabled={!isEditing}
+                        col={3}
+                      />
                     ))}
+
+                    <Col md={12} className="mt-4">
+                      <h6 className="small fw-bold text-primary text-uppercase border-bottom pb-2 mb-3">
+                        Convicções Doutrinárias
+                      </h6>
+                    </Col>
+
+                    <InputField
+                      label="Definição de Evangelho"
+                      name="definicaoevangelho"
+                      value={member.definicaoevangelho}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={6}
+                    />
+                    <InputField
+                      label="Frutos do Espírito"
+                      name="frutosespirito"
+                      value={member.frutosespirito}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={6}
+                    />
+                    <InputField
+                      label="Desenvolvimento da Fé"
+                      name="desenvolvimentodafe"
+                      value={member.desenvolvimentodafe}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={6}
+                    />
+                    <InputField
+                      label="Convicção de Discípulo"
+                      name="conviccaodiscipulo"
+                      value={member.conviccaodiscipulo}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={6}
+                    />
+                    <InputField
+                      label="Pecado"
+                      name="pecado"
+                      value={member.pecado}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={6}
+                    />
+                    <InputField
+                      label="Convicção Teológica"
+                      name="conviccaoteologica"
+                      value={member.conviccaoteologica}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={6}
+                    />
+                    <InputField
+                      label="Livros que Lê"
+                      name="livros"
+                      value={member.livros}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      col={12}
+                    />
 
                     <Col md={12}>
                       <Form.Label className="small fw-bold text-secondary mt-2">
@@ -585,6 +770,13 @@ const MemMinisterio = () => {
   );
 };
 
+// Converte datas ISO (1980-04-15 ou 1980-04-15T00:00:00.000Z) para dd/mm/aaaa
+const toBRDate = (value) => {
+  if (!value) return "";
+  const m = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : value;
+};
+
 // Componente Auxiliar de Input para limpeza de código
 const InputField = ({
   label,
@@ -609,7 +801,7 @@ const InputField = ({
           mask={mask}
           type={type}
           name={name}
-          value={value || ""}
+          value={mask === "00/00/0000" ? toBRDate(value) : value || ""}
           onChange={onChange}
           disabled={disabled}
           className="bg-body border shadow-none"
@@ -618,13 +810,44 @@ const InputField = ({
         <Form.Control
           type={type}
           name={name}
-          value={value || ""}
+          value={value ?? ""}
           onChange={onChange}
           disabled={disabled}
           className="bg-body border shadow-none"
         />
       )}
     </Form.Group>
+  </Col>
+);
+
+// Normaliza valores como "sim", "Sim", "nao", "Não" para as opções do select
+const normalizeYesNo = (value) => {
+  if (value === undefined || value === null || value === "") return "";
+  const v = String(value)
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  if (v === "sim") return "Sim";
+  if (v === "nao") return "Não";
+  return "";
+};
+
+// Componente Auxiliar de Select Sim/Não (mesmo padrão visual dos selects originais)
+const YesNoField = ({ label, name, value, onChange, disabled, col = 3 }) => (
+  <Col md={col}>
+    <Form.Label className="small fw-bold text-secondary">{label}</Form.Label>
+    <Form.Select
+      className="bg-body border shadow-none"
+      name={name}
+      value={normalizeYesNo(value)}
+      onChange={onChange}
+      disabled={disabled}
+    >
+      <option value="">Selecione...</option>
+      <option value="Sim">Sim</option>
+      <option value="Não">Não</option>
+    </Form.Select>
   </Col>
 );
 
