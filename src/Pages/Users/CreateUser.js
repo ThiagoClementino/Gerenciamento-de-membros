@@ -88,13 +88,15 @@ const CreateUser = () => {
     try {
       const requestData = { ...data };
       const response = await fetch(
-        `https://usuarios-saas-g-membros.vercel.app/api/users/register`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestData),
-        }
-      );
+  "https://usuarios-saas-g-membros.vercel.app/api/users/register",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestData),
+  }
+);
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Erro no servidor");
