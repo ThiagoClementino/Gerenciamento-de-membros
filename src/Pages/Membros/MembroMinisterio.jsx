@@ -142,7 +142,7 @@ const MembroMinisterio = () => {
                       Dashboard
                     </Breadcrumb.Item>
                     <Breadcrumb.Item
-                      onClick={() => navigate("/membros")}
+                      onClick={() => navigate("/membresia")}
                       style={{ cursor: "pointer" }}
                     >
                       Membros
@@ -159,7 +159,7 @@ const MembroMinisterio = () => {
                 variant="outline-secondary"
                 size="sm"
                 className="rounded-pill px-3 border"
-                onClick={() => navigate("/membros")}
+                onClick={() => navigate("/membresia")}
               >
                 <FontAwesomeIcon icon={faArrowLeft} className="me-2" /> Voltar
               </Button>

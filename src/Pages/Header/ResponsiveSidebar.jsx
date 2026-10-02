@@ -14,6 +14,7 @@ import {
   faSun,
   faMoon,
   faPeopleGroup,
+  faBriefcase
 } from "@fortawesome/free-solid-svg-icons";
 
 const ResponsiveSidebar = ({
@@ -50,6 +51,7 @@ const ResponsiveSidebar = ({
     { path: "/cadastro", icon: faUserPlus, text: "Cadastrar" },
     { path: "/financeiro", icon: faWallet, text: "Financeiro" },
     { path: "/membresia", icon: faPeopleGroup, text: "Membros" },
+    { path: "/User", icon: faBriefcase, text: "Usuário" },
   ];
 
   // Configuração de largura e visibilidade via Bootstrap e Inline Styles para Dinâmica

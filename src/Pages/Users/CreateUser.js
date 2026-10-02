@@ -16,6 +16,7 @@ import {
   faSun,
   faMoon,
   faCheckCircle,
+  faBriefcase
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -36,6 +37,10 @@ const createUserSchema = z
     nomeCompleto: z
       .string()
       .min(2, { message: "Digite o nome completo" })
+      .max(100),
+    cargo: z
+      .string()
+      .min(2, { message: "Digite o cargo" })
       .max(100),
     telefone: z.string().min(14, { message: "Telefone inválido" }).max(15),
     email: z
@@ -73,6 +78,7 @@ const CreateUser = () => {
     resolver: zodResolver(createUserSchema),
     defaultValues: {
       nomeCompleto: "",
+      cargo: "",
       telefone: "",
       email: "",
       senha: "",
@@ -246,6 +252,28 @@ const CreateUser = () => {
                     </InputGroup>
                     <Form.Text className="text-danger small">
                       {errors.telefone?.message}
+                    </Form.Text>
+                  </Form.Group>
+                  
+                  {/* CARGO */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold text-secondary">
+                      CARGO
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border rounded-3 overflow-hidden">
+                      <InputGroup.Text className="bg-body border-0">
+                        <FontAwesomeIcon icon={faBriefcase} className="text-muted" />
+                      </InputGroup.Text>
+                      <Form.Control
+                        className="bg-body border-0 shadow-none"
+                        placeholder="Ex: Diácono, Pastor, Líder de Ministério"
+                        {...register("cargo")}
+                        isInvalid={!!errors.cargo}
+                        disabled={isLoading}
+                      />
+                    </InputGroup>
+                    <Form.Text className="text-danger small">
+                      {errors.cargo?.message}
                     </Form.Text>
                   </Form.Group>
 

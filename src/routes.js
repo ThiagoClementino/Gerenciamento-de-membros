@@ -19,6 +19,7 @@ import Datainfor from "./Contexts/DataInfor";
 import DataApiOne from "./Contexts/DataApiOne";
 import MemMinisterio from "./Pages/Membros/MemMinisterio";
 import Membresia from "./Pages/Membros/Membresia";
+import User from "./Pages/Users/User";
 
 const AppRoutes = () => {
   const [dados, setDados] = useState([]);
@@ -111,8 +112,9 @@ const AppRoutes = () => {
             <Route path="/financeiro/:id" element={<TransacaoFinanceiro />} />
             <Route path="/config" element={<Config />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/user" element={<User />} />
 
-            {/* MOVIDAS PARA DENTRO DO LAYOUT AQUI: */}
+            
             <Route path="/membrosministerio" element={<MemMinisterio />} />
             <Route path="/membresia" element={<Membresia />} />
           </Route>

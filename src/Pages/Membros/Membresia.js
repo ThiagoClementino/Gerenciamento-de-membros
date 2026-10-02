@@ -25,6 +25,7 @@ import {
   faTrash,
   faEye,
   faCircle,
+  faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -40,6 +41,24 @@ import {
   Alert,
   Pagination,
 } from "react-bootstrap";
+
+const maleAvatar = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+    <rect width="120" height="120" rx="60" fill="#e7f1ff"/>
+    <circle cx="60" cy="47" r="24" fill="#e0ac69"/>
+    <path d="M35 48c0-22 12-34 25-34 18 0 27 12 27 31-8-8-20-12-34-10-7 1-13 5-18 13z" fill="#343a40"/>
+    <path d="M25 115c2-28 17-42 35-42s33 14 35 42z" fill="#0d6efd"/>
+  </svg>
+`)}`;
+
+const femaleAvatar = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+    <rect width="120" height="120" rx="60" fill="#fce8f3"/>
+    <path d="M30 58c0-30 13-45 30-45s30 15 30 45v25H30z" fill="#5b3a29"/>
+    <circle cx="60" cy="47" r="23" fill="#e0ac69"/>
+    <path d="M25 115c2-28 17-42 35-42s33 14 35 42z" fill="#d63384"/>
+  </svg>
+`)}`;
 
 const Membresia = () => {
   const { dados } = useContext(DataInfor);
@@ -70,31 +89,48 @@ const Membresia = () => {
   // ========================================
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobileView(window.innerWidth < 768);
-    };
+  const handleResize = () => {
+    setIsMobileView(window.innerWidth < 768);
+  };
 
-    handleResize();
+  // Verifica ao carregar o componente
+  handleResize();
 
-    window.addEventListener("resize", handleResize);
+  // Mudança de tamanho da tela
+  window.addEventListener(
+    "resize",
+    handleResize
+  );
 
-    window.addEventListener(
+  // Mudança de orientação do celular
+  window.addEventListener(
+    "orientationchange",
+    handleResize
+  );
+
+  // Atualiza ao retornar pelo botão voltar
+  window.addEventListener(
+    "pageshow",
+    handleResize
+  );
+
+  return () => {
+    window.removeEventListener(
+      "resize",
+      handleResize
+    );
+
+    window.removeEventListener(
       "orientationchange",
       handleResize
     );
 
-    return () => {
-      window.removeEventListener(
-        "resize",
-        handleResize
-      );
-
-      window.removeEventListener(
-        "orientationchange",
-        handleResize
-      );
-    };
-  }, []);
+    window.removeEventListener(
+      "pageshow",
+      handleResize
+    );
+  };
+}, []);
 
   // Sempre que uma nova busca for realizada,
   // volta para a página 1
@@ -413,13 +449,13 @@ const Membresia = () => {
       .getDate()
       .toString()
       .padStart(2, "0")}/${(
-      data.getMonth() + 1
-    )
-      .toString()
-      .padStart(
-        2,
-        "0"
-      )}/${data.getFullYear()}`;
+        data.getMonth() + 1
+      )
+        .toString()
+        .padStart(
+          2,
+          "0"
+        )}/${data.getFullYear()}`;
   };
 
   const closeAlert = () =>
@@ -431,11 +467,10 @@ const Membresia = () => {
 
   return (
     <div
-      className={`d-flex flex-column bg-body ${
-        isMobileView
+      className={`d-flex flex-column bg-body ${isMobileView
           ? "min-vh-100"
           : "vh-100 overflow-hidden"
-      }`}
+        }`}
     >
       {/* =====================================
           HEADER
@@ -490,11 +525,10 @@ const Membresia = () => {
       ====================================== */}
 
       <main
-        className={`flex-grow-1 d-flex flex-column bg-body ${
-          isMobileView
+        className={`flex-grow-1 d-flex flex-column bg-body ${isMobileView
             ? ""
             : "overflow-hidden"
-        }`}
+          }`}
       >
         {/* ===================================
             ÁREA SUPERIOR
@@ -665,203 +699,403 @@ const Membresia = () => {
         ====================================== */}
 
         <div
-          className={`flex-grow-1 px-2 px-md-4 pb-4 ${
-            isMobileView
-              ? ""
-              : "overflow-auto"
-          }`}
+          className={`flex-grow-1 px-2 px-md-4 pb-4 ${isMobileView ? "" : "overflow-auto"
+            }`}
         >
           <Container
             fluid
             className="h-100 d-flex flex-column"
           >
-            <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden mb-3 flex-shrink-0">
-              <div className="table-responsive">
-                <Table
-                  hover
-                  className="mb-0 align-middle table-borderless text-nowrap"
-                >
-                  {/* ===========================
+            {isMobileView ? (
+              <div className="d-flex flex-column gap-3 mb-3 d-md-none">
+                {currentItems.length === 0 ? (
+                  <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+                    <Card.Body className="text-center py-5 text-secondary">
+                      Nenhum registro encontrado.
+                    </Card.Body>
+                  </Card>
+                ) : (
+                  currentItems.map((dado) => {
+                    const isSelected =
+                      selectedItems.includes(dado._id);
+
+                    const isFemale =
+                      dado.sex?.toLowerCase() ===
+                      "feminino";
+
+                    const avatar =
+                      isFemale
+                        ? femaleAvatar
+                        : maleAvatar;
+
+                    return (
+                      <Card
+                        key={dado._id}
+                        className={`border shadow-sm rounded-4 overflow-hidden ${isSelected
+                            ? "border-primary bg-primary bg-opacity-10"
+                            : "bg-body-tertiary"
+                          }`}
+                      >
+                        <Card.Body className="p-3">
+                          {/* TOPO DO CARD */}
+
+                          <div className="d-flex align-items-start gap-3">
+                            {/* AVATAR */}
+
+                            <div className="flex-shrink-0">
+                              <img
+                                src={avatar}
+                                alt={
+                                  isFemale
+                                    ? "Avatar feminino"
+                                    : "Avatar masculino"
+                                }
+                                className="rounded-circle border shadow-sm"
+                                width="72"
+                                height="72"
+                                style={{
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </div>
+
+                            {/* NOME E REGISTRO */}
+
+                            <div className="flex-grow-1 min-w-0">
+                              <div className="d-flex justify-content-between align-items-start gap-2">
+                                <div className="flex-grow-1">
+                                  <h6 className="fw-bold mb-1 text-break">
+                                    {dado.name ||
+                                      "Nome não informado"}
+                                  </h6>
+
+                                  <small className="text-secondary d-block">
+                                    Registro:{" "}
+                                    <span className="fw-semibold">
+                                      {dado._id
+                                        ?.slice(-6)
+                                        .toUpperCase() ||
+                                        "-"}
+                                    </span>
+                                  </small>
+                                </div>
+
+                                {/* CHECKBOX */}
+
+                                <Form.Check
+                                  type="checkbox"
+                                  checked={isSelected}
+                                  onChange={(e) =>
+                                    handleCheckboxChange(
+                                      e,
+                                      dado._id
+                                    )
+                                  }
+                                />
+                              </div>
+
+                              <div className="mt-2">
+                                {dado.databatismo ? (
+                                  <Badge
+                                    bg="success-subtle"
+                                    className="text-success border border-success-subtle fw-normal"
+                                  >
+                                    Batizado
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    bg="secondary-subtle"
+                                    className="text-secondary border border-secondary-subtle fw-normal"
+                                  >
+                                    Pendente
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* DADOS */}
+
+                          <div className="border-top mt-3 pt-3">
+                            <Row className="g-3">
+                              <Col xs={6}>
+                                <small className="text-secondary d-block mb-1">
+                                  Inscrição
+                                </small>
+
+                                <span className="small fw-semibold">
+                                  {dado.datacriacao ||
+                                    "-"}
+                                </span>
+                              </Col>
+
+                              <Col xs={6}>
+                                <small className="text-secondary d-block mb-1">
+                                  Registro
+                                </small>
+
+                                <span className="small fw-semibold">
+                                  {dado._id
+                                    ?.slice(-6)
+                                    .toUpperCase() ||
+                                    "-"}
+                                </span>
+                              </Col>
+
+                              <Col xs={12}>
+                                <small className="text-secondary d-block mb-1">
+                                  E-mail
+                                </small>
+
+                                <span className="small text-break">
+                                  {dado.email || "-"}
+                                </span>
+                              </Col>
+
+                              <Col xs={12}>
+                                <small className="text-secondary d-block mb-1">
+                                  Telefone
+                                </small>
+
+                                <span className="small">
+                                  {dado.telone || "-"}
+                                </span>
+                              </Col>
+                            </Row>
+                          </div>
+
+                          {/* AÇÕES */}
+
+                          <div className="border-top mt-3 pt-3">
+                            <Row className="g-2">
+                              <Col xs={6}>
+                                <Button
+                                  as={Link}
+                                  to={`/membro/${dado._id}`}
+                                  variant="outline-primary"
+                                  size="sm"
+                                  className="w-100 rounded-pill fw-semibold"
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faEye}
+                                    className="me-2"
+                                  />
+
+                                  Visualizar
+                                </Button>
+                              </Col>
+
+                              <Col xs={6}>
+                                <Button
+                                  as={Link}
+                                  to={`/membro/${dado._id}`}
+                                  variant="primary"
+                                  size="sm"
+                                  className="w-100 rounded-pill fw-semibold"
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    className="me-2"
+                                  />
+
+                                  Editar
+                                </Button>
+                              </Col>
+                            </Row>
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    );
+                  })
+                )}
+              </div>) : (<Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden mb-3 flex-shrink-0 d-none d-md-block">
+                <div className="table-responsive">
+                  <Table
+                    hover
+                    className="mb-0 align-middle table-borderless text-nowrap"
+                  >
+                    {/* ===========================
                       CABEÇALHO
                   ============================ */}
 
-                  <thead className="bg-body-secondary position-sticky top-0 z-1">
-                    <tr className="text-secondary small">
-                      <th
-                        className="py-3 text-center"
-                        style={{
-                          width: "60px",
-                        }}
-                      >
-                        Seleção
-                      </th>
+                    <thead className="bg-body-secondary position-sticky top-0 z-1">
+                      <tr className="text-secondary small">
+                        <th
+                          className="py-3 text-center"
+                          style={{
+                            width: "60px",
+                          }}
+                        >
+                          Seleção
+                        </th>
 
-                      <th className="py-3 text-center">
-                        Ver
-                      </th>
+                        <th className="py-3 text-center">
+                          Ver
+                        </th>
 
-                      <th className="py-3">
-                        Inscrição
-                      </th>
+                        <th className="py-3">
+                          Inscrição
+                        </th>
 
-                      <th className="py-3">
-                        Registro
-                      </th>
+                        <th className="py-3">
+                          Registro
+                        </th>
 
-                      <th className="py-3">
-                        Membro
-                      </th>
+                        <th className="py-3">
+                          Membro
+                        </th>
 
-                      <th className="py-3">
-                        Contato
-                      </th>
+                        <th className="py-3">
+                          Contato
+                        </th>
 
-                      <th className="py-3 text-center">
-                        Batismo
-                      </th>
-                    </tr>
-                  </thead>
+                        <th className="py-3 text-center">
+                          Batismo
+                        </th>
+                      </tr>
+                    </thead>
 
-                  {/* ===========================
+                    {/* ===========================
                       CORPO DA TABELA
                   ============================ */}
 
-                  <tbody className="border-top">
-                    {currentItems.length ===
-                    0 ? (
-                      <tr>
-                        <td
-                          colSpan="7"
-                          className="text-center py-5 text-secondary"
-                        >
-                          Nenhum registro
-                          encontrado.
-                        </td>
-                      </tr>
-                    ) : (
-                      currentItems.map(
-                        (dado) => (
-                          <tr
-                            key={dado._id}
-                            className={
-                              selectedItems.includes(
-                                dado._id
-                              )
-                                ? "bg-primary bg-opacity-10"
-                                : ""
-                            }
+                    <tbody className="border-top">
+                      {currentItems.length ===
+                        0 ? (
+                        <tr>
+                          <td
+                            colSpan="7"
+                            className="text-center py-5 text-secondary"
                           >
-                            {/* SELEÇÃO */}
-
-                            <td className="text-center">
-                              <Form.Check
-                                type="checkbox"
-                                checked={selectedItems.includes(
+                            Nenhum registro
+                            encontrado.
+                          </td>
+                        </tr>
+                      ) : (
+                        currentItems.map(
+                          (dado) => (
+                            <tr
+                              key={dado._id}
+                              className={
+                                selectedItems.includes(
                                   dado._id
-                                )}
-                                onChange={(
-                                  e
-                                ) =>
-                                  handleCheckboxChange(
-                                    e,
+                                )
+                                  ? "bg-primary bg-opacity-10"
+                                  : ""
+                              }
+                            >
+                              {/* SELEÇÃO */}
+
+                              <td className="text-center">
+                                <Form.Check
+                                  type="checkbox"
+                                  checked={selectedItems.includes(
                                     dado._id
-                                  )
-                                }
-                              />
-                            </td>
-
-                            {/* VISUALIZAR */}
-
-                            <td className="text-center">
-                              <Button
-                                as={Link}
-                                to={`/membro/${dado._id}`}
-                                variant="link"
-                                className="text-primary p-0 shadow-none"
-                              >
-                                <FontAwesomeIcon
-                                  icon={
-                                    faEye
+                                  )}
+                                  onChange={(
+                                    e
+                                  ) =>
+                                    handleCheckboxChange(
+                                      e,
+                                      dado._id
+                                    )
                                   }
                                 />
-                              </Button>
-                            </td>
+                              </td>
 
-                            {/* INSCRIÇÃO */}
+                              {/* VISUALIZAR */}
 
-                            <td>
-                              <div className="fw-normal">
-                                {
-                                  dado.datacriacao
-                                }
-                              </div>
-                            </td>
-
-                            {/* REGISTRO */}
-
-                            <td>
-                              <div className="fw-normal">
-                                {dado._id
-                                  ?.slice(
-                                    -6
-                                  )
-                                  .toUpperCase()}
-                              </div>
-                            </td>
-
-                            {/* NOME */}
-
-                            <td>
-                              <div className="fw-normal">
-                                {
-                                  dado.name
-                                }
-                              </div>
-                            </td>
-
-                            {/* CONTATO */}
-
-                            <td className="small">
-                              <div>
-                                {
-                                  dado.email
-                                }
-                              </div>
-
-                              <div className="text-secondary opacity-75">
-                                {
-                                  dado.telone
-                                }
-                              </div>
-                            </td>
-
-                            {/* BATISMO */}
-
-                            <td className="text-center">
-                              {dado.databatismo ? (
-                                <Badge
-                                  bg="success-subtle"
-                                  className="text-success border border-success-subtle fw-normal"
+                              <td className="text-center">
+                                <Button
+                                  as={Link}
+                                  to={`/membro/${dado._id}`}
+                                  variant="link"
+                                  className="text-primary p-0 shadow-none"
                                 >
-                                  Batizado
-                                </Badge>
-                              ) : (
-                                <Badge
-                                  bg="secondary-subtle"
-                                  className="text-secondary border border-secondary-subtle fw-normal opacity-75"
-                                >
-                                  Pendente
-                                </Badge>
-                              )}
-                            </td>
-                          </tr>
+                                  <FontAwesomeIcon
+                                    icon={
+                                      faEye
+                                    }
+                                  />
+                                </Button>
+                              </td>
+
+                              {/* INSCRIÇÃO */}
+
+                              <td>
+                                <div className="fw-normal">
+                                  {
+                                    dado.datacriacao
+                                  }
+                                </div>
+                              </td>
+
+                              {/* REGISTRO */}
+
+                              <td>
+                                <div className="fw-normal">
+                                  {dado._id
+                                    ?.slice(
+                                      -6
+                                    )
+                                    .toUpperCase()}
+                                </div>
+                              </td>
+
+                              {/* NOME */}
+
+                              <td>
+                                <div className="fw-normal">
+                                  {
+                                    dado.name
+                                  }
+                                </div>
+                              </td>
+
+                              {/* CONTATO */}
+
+                              <td className="small">
+                                <div>
+                                  {
+                                    dado.email
+                                  }
+                                </div>
+
+                                <div className="text-secondary opacity-75">
+                                  {
+                                    dado.telone
+                                  }
+                                </div>
+                              </td>
+
+                              {/* BATISMO */}
+
+                              <td className="text-center">
+                                {dado.databatismo ? (
+                                  <Badge
+                                    bg="success-subtle"
+                                    className="text-success border border-success-subtle fw-normal"
+                                  >
+                                    Batizado
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    bg="secondary-subtle"
+                                    className="text-secondary border border-secondary-subtle fw-normal opacity-75"
+                                  >
+                                    Pendente
+                                  </Badge>
+                                )}
+                              </td>
+                            </tr>
+                          )
                         )
-                      )
-                    )}
-                  </tbody>
-                </Table>
-              </div>
-            </Card>
+                      )}
+                    </tbody>
+                  </Table>
+                </div>
+              </Card>
+               )}
 
             {/* =================================
                 PAGINAÇÃO
@@ -869,74 +1103,74 @@ const Membresia = () => {
 
             {sortedDados.length >
               itemsPerPage && (
-              <div className="d-flex justify-content-center mt-auto pb-2">
-                <Pagination className="shadow-sm mb-0 flex-wrap justify-content-center">
-                  {/* PRIMEIRA PÁGINA */}
+                <div className="d-flex justify-content-center mt-auto pb-2">
+                  <Pagination className="shadow-sm mb-0 flex-wrap justify-content-center">
+                    {/* PRIMEIRA PÁGINA */}
 
-                  <Pagination.First
-                    onClick={() =>
-                      setCurrentPage(1)
-                    }
-                    disabled={
-                      currentPage === 1
-                    }
-                  />
+                    <Pagination.First
+                      onClick={() =>
+                        setCurrentPage(1)
+                      }
+                      disabled={
+                        currentPage === 1
+                      }
+                    />
 
-                  {/* ANTERIOR */}
+                    {/* ANTERIOR */}
 
-                  <Pagination.Prev
-                    onClick={() =>
-                      setCurrentPage(
-                        (prev) =>
-                          Math.max(
-                            prev - 1,
-                            1
-                          )
-                      )
-                    }
-                    disabled={
-                      currentPage === 1
-                    }
-                  />
+                    <Pagination.Prev
+                      onClick={() =>
+                        setCurrentPage(
+                          (prev) =>
+                            Math.max(
+                              prev - 1,
+                              1
+                            )
+                        )
+                      }
+                      disabled={
+                        currentPage === 1
+                      }
+                    />
 
-                  {/* NÚMEROS */}
+                    {/* NÚMEROS */}
 
-                  {paginationItems}
+                    {paginationItems}
 
-                  {/* PRÓXIMA */}
+                    {/* PRÓXIMA */}
 
-                  <Pagination.Next
-                    onClick={() =>
-                      setCurrentPage(
-                        (prev) =>
-                          Math.min(
-                            prev + 1,
-                            totalPages
-                          )
-                      )
-                    }
-                    disabled={
-                      currentPage ===
-                      totalPages
-                    }
-                  />
-
-                  {/* ÚLTIMA */}
-
-                  <Pagination.Last
-                    onClick={() =>
-                      setCurrentPage(
+                    <Pagination.Next
+                      onClick={() =>
+                        setCurrentPage(
+                          (prev) =>
+                            Math.min(
+                              prev + 1,
+                              totalPages
+                            )
+                        )
+                      }
+                      disabled={
+                        currentPage ===
                         totalPages
-                      )
-                    }
-                    disabled={
-                      currentPage ===
-                      totalPages
-                    }
-                  />
-                </Pagination>
-              </div>
-            )}
+                      }
+                    />
+
+                    {/* ÚLTIMA */}
+
+                    <Pagination.Last
+                      onClick={() =>
+                        setCurrentPage(
+                          totalPages
+                        )
+                      }
+                      disabled={
+                        currentPage ===
+                        totalPages
+                      }
+                    />
+                  </Pagination>
+                </div>
+              )}
           </Container>
         </div>
       </main>
