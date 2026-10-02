@@ -1,9 +1,8 @@
 import React, { useState, useContext, useMemo, useEffect } from "react";
-import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Button  } from "react-bootstrap";
 import DataInfor from "../../Contexts/DataInfor"; // Nome corrigido conforme importação
 import {
-  LineChart,
-  Line,
+  
   XAxis,
   YAxis,
   CartesianGrid,

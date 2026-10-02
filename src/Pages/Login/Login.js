@@ -13,7 +13,6 @@ import {
   faSignInAlt,
   faUsers,
   faExclamationTriangle,
-  faQuestionCircle,
   faUserPlus,
   faChurch,
 } from "@fortawesome/free-solid-svg-icons";

@@ -15,12 +15,10 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome,
   faSave,
   faArrowLeft,
   faCalendarAlt,
   faEdit,
-  faMoneyBillWave,
   faFileInvoiceDollar,
   faInfoCircle,
   faHistory,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Container,
@@ -15,17 +15,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
-  faHome,
-  faPhone,
   faEnvelope,
-  faUsers,
   faChurch,
   faSave,
   faArrowLeft,
   faCalendarAlt,
   faMapMarkerAlt,
   faBriefcase,
-  faHeart,
   faEdit,
   faUserCheck,
   faIdCard,
@@ -181,8 +177,8 @@ const MembroMinisterio = () => {
                 {saving
                   ? "Salvando..."
                   : isEditing
-                  ? "Salvar Alterações"
-                  : "Editar Perfil"}
+                    ? "Salvar Alterações"
+                    : "Editar Perfil"}
               </Button>
             </Col>
           </Row>
