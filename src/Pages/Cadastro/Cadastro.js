@@ -183,7 +183,7 @@ const Cadastro = () => {
     setCadMembers((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmitForm = async (event) => {
+const handleSubmitForm = async (event) => {
   event.preventDefault();
 
   setFormError(null);
@@ -192,49 +192,85 @@ const Cadastro = () => {
     const dataToSend = {
       ...cadMembers,
 
-      datacriacao:
-        formatDateBR(
-          cadMembers.datacriacao
-        ),
+      datacriacao: formatDateBR(
+        cadMembers.datacriacao
+      ),
 
-      dateBirth:
-        formatDateBR(
-          cadMembers.dateBirth
-        ),
+      dateBirth: formatDateBR(
+        cadMembers.dateBirth
+      ),
 
       jobChurchTemp:
-        cadMembers.jobChurchTemp ||
-        null,
+        cadMembers.jobChurchTemp || null,
 
       dataconversao:
-        cadMembers.dataconversao ||
-        null,
+        cadMembers.dataconversao || null,
 
       databatismo:
-        cadMembers.databatismo ||
-        null,
+        cadMembers.databatismo || null,
     };
 
     const response = await fetch(
       "https://api-gestao-igreja-jcod.vercel.app/membros",
       {
         method: "POST",
+
         headers: {
           "Content-Type":
             "application/json",
+
           Accept:
             "application/json",
         },
+
         body: JSON.stringify(
           dataToSend
         ),
+
         mode: "cors",
       }
     );
 
-    // restante da sua lógica permanece igual
+    const json = await response
+      .json()
+      .catch(() => ({}));
+
+    if (response.ok) {
+      alert(
+        "Dados enviados com sucesso!"
+      );
+
+      setCadMembers({
+  ...INITIAL_STATE,
+  datacriacao: getMatriculaDate(),
+});
+      localStorage.removeItem(
+        "cadMembersData"
+      );
+    } else {
+      const errorMessage =
+        json.message ||
+        json.erro ||
+        "Erro ao enviar dados. Por favor, tente novamente.";
+
+      setFormError(
+        errorMessage
+      );
+
+      console.error(
+        "Erro retornado pela API:",
+        json
+      );
+    }
   } catch (error) {
-    // restante permanece igual
+    console.error(
+      "Erro ao enviar dados:",
+      error
+    );
+
+    setFormError(
+      "Erro ao enviar dados. Por favor, tente novamente."
+    );
   }
 };
 
