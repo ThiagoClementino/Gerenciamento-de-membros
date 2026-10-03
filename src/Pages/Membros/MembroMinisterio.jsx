@@ -30,6 +30,258 @@ import {
 import { IMaskInput } from "react-imask";
 import axios from "axios";
 
+const additionalSections = [
+  {title: "Batismo — registro anterior", fields: [{name: "dateBatism", label: "Data de batismo do registro anterior", type: "date"}]},
+  {
+    "title": "Dados complementares",
+    "fields": [
+      {
+        "name": "education",
+        "label": "Escolaridade",
+        "type": "text"
+      },
+      {
+        "name": "timeinresidence",
+        "label": "Tempo na residência",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "title": "Família",
+    "fields": [
+      {
+        "name": "estadocivil",
+        "label": "Estado civil",
+        "type": "text"
+      },
+      {
+        "name": "conjuge",
+        "label": "Cônjuge",
+        "type": "text"
+      },
+      {
+        "name": "filhos",
+        "label": "Possui filhos?",
+        "type": "text"
+      },
+      {
+        "name": "qtdfilhos",
+        "label": "Quantidade de filhos",
+        "type": "number"
+      },
+      {
+        "name": "nomefilhoum",
+        "label": "Nome do primeiro filho",
+        "type": "text"
+      },
+      {
+        "name": "idadefilhoum",
+        "label": "Idade do primeiro filho",
+        "type": "number"
+      },
+      {
+        "name": "nomefilhodois",
+        "label": "Nome do segundo filho",
+        "type": "text"
+      },
+      {
+        "name": "idadefilhodois",
+        "label": "Idade do segundo filho",
+        "type": "number"
+      },
+      {
+        "name": "nomefilhotres",
+        "label": "Nome do terceiro filho",
+        "type": "text"
+      },
+      {
+        "name": "idadefilhotres",
+        "label": "Idade do terceiro filho",
+        "type": "number"
+      },
+      {
+        "name": "nomefilhoquatro",
+        "label": "Nome do quarto filho",
+        "type": "text"
+      },
+      {
+        "name": "idadefilhoquatro",
+        "label": "Idade do quarto filho",
+        "type": "number"
+      },
+      {
+        "name": "optionprimeirocasamento",
+        "label": "Primeiro casamento?",
+        "type": "text"
+      },
+      {
+        "name": "casamentocristao",
+        "label": "Casamento cristão?",
+        "type": "text"
+      },
+      {
+        "name": "parceironaigreja",
+        "label": "Cônjuge na igreja?",
+        "type": "text"
+      },
+      {
+        "name": "justificativa",
+        "label": "Justificativa",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "title": "Histórico eclesiástico",
+    "fields": [
+      {
+        "name": "congregacao",
+        "label": "Congregação",
+        "type": "text"
+      },
+      {
+        "name": "jobChurchTemp",
+        "label": "Data de início no cargo",
+        "type": "date"
+      },
+      {
+        "name": "motivosaida",
+        "label": "Motivo da saída",
+        "type": "text"
+      },
+      {
+        "name": "lastchurch",
+        "label": "Igreja anterior",
+        "type": "text"
+      },
+      {
+        "name": "igrejasquefoimembro",
+        "label": "Igrejas das quais foi membro",
+        "type": "text"
+      },
+      {
+        "name": "cargoanterior",
+        "label": "Cargo anterior",
+        "type": "text"
+      },
+      {
+        "name": "separadoanterior",
+        "label": "Separado anteriormente?",
+        "type": "text"
+      },
+      {
+        "name": "posicaoanterior",
+        "label": "Posição anterior",
+        "type": "text"
+      },
+      {
+        "name": "atividadeanterior",
+        "label": "Atividade anterior",
+        "type": "text"
+      },
+      {
+        "name": "problema",
+        "label": "Problemas",
+        "type": "text"
+      },
+      {
+        "name": "exortacao",
+        "label": "Exortação",
+        "type": "text"
+      },
+      {
+        "name": "habito",
+        "label": "Hábitos",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "title": "Vida cristã e convicções",
+    "fields": [
+      {
+        "name": "discipulo",
+        "label": "Discipulado",
+        "type": "text"
+      },
+      {
+        "name": "cultosdeoracao",
+        "label": "Cultos de oração",
+        "type": "text"
+      },
+      {
+        "name": "aconselhamentopastoral",
+        "label": "Aconselhamento pastoral",
+        "type": "text"
+      },
+      {
+        "name": "desenvolvimento",
+        "label": "Desenvolvimento",
+        "type": "text"
+      },
+      {
+        "name": "definicaoevangelho",
+        "label": "Definição do evangelho",
+        "type": "text"
+      },
+      {
+        "name": "frutosespirito",
+        "label": "Frutos do Espírito",
+        "type": "text"
+      },
+      {
+        "name": "desenvolvimentodafe",
+        "label": "Desenvolvimento da fé",
+        "type": "text"
+      },
+      {
+        "name": "conviccaodiscipulo",
+        "label": "Convicção de discípulo",
+        "type": "text"
+      },
+      {
+        "name": "pecado",
+        "label": "Pecado",
+        "type": "text"
+      },
+      {
+        "name": "conviccaoteologica",
+        "label": "Convicção teológica",
+        "type": "text"
+      },
+      {
+        "name": "jejuar",
+        "label": "Jejum",
+        "type": "text"
+      },
+      {
+        "name": "leiturabiblica",
+        "label": "Leitura bíblica",
+        "type": "text"
+      },
+      {
+        "name": "livros",
+        "label": "Livros",
+        "type": "text"
+      },
+      {
+        "name": "conviccao",
+        "label": "Convicção",
+        "type": "text"
+      }
+    ]
+  }
+];
+
+const toDateInput = (value) => {
+  if (!value) return "";
+  const text = String(value);
+  const local = text.match(/^(\d{2})[-/](\d{2})[-/](\d{4})$/);
+  if (local) return `${local[3]}-${local[2]}-${local[1]}`;
+  return /^\d{4}-\d{2}-\d{2}/.test(text) ? text.slice(0, 10) : "";
+};
+
 const MembroMinisterio = () => {
   // --- LÓGICA ORIGINAL PRESERVADA ---
   const [member, setMember] = useState({});
@@ -64,7 +316,7 @@ const MembroMinisterio = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setMember({ ...member, [name]: value });
+    setMember((previous) => ({ ...previous, [name]: value }));
   };
 
   const showAlertMessage = (message, type = "success") => {
@@ -77,16 +329,32 @@ const MembroMinisterio = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      await axios.put(
+      const { _id, matricula, __v, ...payload } = member;
+      if (payload.dateBirth) {
+        const birthDate = toDateInput(payload.dateBirth);
+        if (birthDate) payload.dateBirth = birthDate.split("-").reverse().join("/");
+      }
+      for (const field of ["databatismo", "dateBatism", "dataconversao", "jobChurchTemp"]) {
+        if (Object.prototype.hasOwnProperty.call(payload, field)) {
+          payload[field] = toDateInput(payload[field]) || null;
+        }
+      }
+      for (const field of ["number", "qtdfilhos", "idadefilhoum", "idadefilhodois", "idadefilhotres", "idadefilhoquatro"]) {
+        if (Object.prototype.hasOwnProperty.call(payload, field)) {
+          payload[field] = payload[field] === "" || payload[field] == null ? null : Number(payload[field]);
+        }
+      }
+      const response = await axios.put(
         `https://api-gestao-igreja-jcod.vercel.app/membros/${id}`,
-        member
+        payload
       );
+      setMember(response.data);
       showAlertMessage("Dados salvos com sucesso!", "success");
       setIsEditing(false);
       setSaving(false);
     } catch (error) {
       console.error(error);
-      showAlertMessage("Erro ao salvar os dados.", "danger");
+      showAlertMessage(error.response?.data?.erro || error.response?.data?.message || "Erro ao salvar os dados.", "danger");
       setSaving(false);
     }
   };
@@ -95,7 +363,9 @@ const MembroMinisterio = () => {
     if (!dateString) return "-";
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString("pt-BR");
+      const normalized = toDateInput(dateString);
+      if (normalized) return normalized.split("-").reverse().join("/");
+      return Number.isNaN(date.getTime()) ? dateString : date.toLocaleDateString("pt-BR");
     } catch {
       return dateString;
     }
@@ -213,7 +483,7 @@ const MembroMinisterio = () => {
                       Matrícula
                     </p>
                     <code className="h6 fw-bold text-primary mb-0">
-                      {member._id}
+                      {member.matricula || "Não informada"}
                     </code>
                   </div>
                 </Card.Body>
@@ -245,7 +515,7 @@ const MembroMinisterio = () => {
                   <div className="bg-body p-3 rounded-circle border me-3">
                     <FontAwesomeIcon
                       icon={faUserCheck}
-                      className={member.cad ? "text-success" : "text-danger"}
+                      className={member.cadAtivo ? "text-success" : "text-danger"}
                     />
                   </div>
                   <div>
@@ -253,14 +523,14 @@ const MembroMinisterio = () => {
                       Status
                     </p>
                     <Badge
-                      bg={member.cad ? "success-subtle" : "secondary-subtle"}
+                      bg={member.cadAtivo ? "success-subtle" : "secondary-subtle"}
                       className={
-                        member.cad
+                        member.cadAtivo
                           ? "text-success border border-success-subtle"
                           : "text-secondary border border-secondary-subtle"
                       }
                     >
-                      {member.cad ? "Ativo no Sistema" : "Inativo"}
+                      {member.cadAtivo == null ? "Não informado" : member.cadAtivo ? "Ativo no Sistema" : "Inativo"}
                     </Badge>
                   </div>
                 </Card.Body>
@@ -310,6 +580,7 @@ const MembroMinisterio = () => {
                     />
                     <InputField
                       label="Nascimento"
+                      type="date"
                       name="dateBirth"
                       value={member.dateBirth}
                       onChange={handleInputChange}
@@ -329,6 +600,9 @@ const MembroMinisterio = () => {
                         disabled={!isEditing}
                       >
                         <option value="">Selecione...</option>
+                        {member.sex && !["Masculino", "Feminino"].includes(member.sex) && (
+                          <option value={member.sex}>{member.sex}</option>
+                        )}
                         <option value="Masculino">Masculino</option>
                         <option value="Feminino">Feminino</option>
                       </Form.Select>
@@ -490,21 +764,21 @@ const MembroMinisterio = () => {
                   <Row className="g-3">
                     <InputField
                       label="Batismo"
+                      type="date"
                       name="databatismo"
                       value={member.databatismo}
                       onChange={handleInputChange}
                       disabled={!isEditing}
                       col={4}
-                      mask="00/00/0000"
                     />
                     <InputField
                       label="Conversão"
+                      type="date"
                       name="dataconversao"
                       value={member.dataconversao}
                       onChange={handleInputChange}
                       disabled={!isEditing}
                       col={4}
-                      mask="00/00/0000"
                     />
                     <InputField
                       label="Cargo Ministerial"
@@ -542,6 +816,9 @@ const MembroMinisterio = () => {
                           disabled={!isEditing}
                         >
                           <option value="">Selecione...</option>
+                          {member[field.name] && !["Sim", "Não"].includes(member[field.name]) && (
+                            <option value={member[field.name]}>{member[field.name]}</option>
+                          )}
                           <option value="Sim">Sim</option>
                           <option value="Não">Não</option>
                         </Form.Select>
@@ -566,6 +843,46 @@ const MembroMinisterio = () => {
                 </Card.Body>
               </Card>
             </Col>
+            {additionalSections.map((section) => (
+              <Col md={12} key={section.title}>
+                <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden">
+                  <Card.Header className="bg-body-secondary py-3 px-4 border-0">
+                    <h5 className="mb-0 h6 fw-bold">{section.title}</h5>
+                  </Card.Header>
+                  <Card.Body className="p-4">
+                    <Row className="g-3">
+                      {section.fields.map((field) => (
+                        <InputField key={field.name} {...field}
+                          value={member[field.name]} onChange={handleInputChange}
+                          disabled={!isEditing} col={6} />
+                      ))}
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+            <Col md={12}>
+              <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+                <Card.Header><h5 className="mb-0 h6 fw-bold">Dados do registro</h5></Card.Header>
+                <Card.Body>
+                  <Row className="g-3">
+                    <InputField label="Identificador do registro" name="_id" value={member._id ?? id} disabled col={4} />
+                    <InputField label="Matrícula" name="matricula" value={member.matricula} disabled col={4} />
+                    <InputField label="Data de inscrição" name="datacriacao" value={formatDate(member.datacriacao)} disabled col={4} />
+                    <InputField label="Versão do registro" name="__v" value={member.__v} disabled col={4} />
+                    <Col md={4}>
+                      <Form.Group controlId="cadAtivo">
+                        <Form.Label>Status do cadastro</Form.Label>
+                        <Form.Select name="cadAtivo" value={member.cadAtivo == null ? '' : String(member.cadAtivo)}
+                          disabled={!isEditing} onChange={event => setMember(previous => ({...previous, cadAtivo: event.target.value === '' ? null : event.target.value === 'true'}))}>
+                          <option value="">Não informado</option><option value="true">Ativo</option><option value="false">Inativo</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
           </Row>
         </Container>
       </main>
@@ -574,7 +891,7 @@ const MembroMinisterio = () => {
       <footer className="py-2 px-4 border-top bg-body-tertiary text-secondary small d-flex justify-content-between">
         <span>Gestão de Membros • Ministério Premium</span>
         <span>
-          ID do Registro: <strong>{id}</strong>
+          Matrícula: <strong>{member.matricula || "Não informada"}</strong>
         </span>
       </footer>
     </div>
@@ -605,7 +922,7 @@ const InputField = ({
           mask={mask}
           type={type}
           name={name}
-          value={value || ""}
+          value={type === "date" ? toDateInput(value) : (value ?? "")}
           onChange={onChange}
           disabled={disabled}
           className="bg-body border shadow-none"
@@ -614,7 +931,7 @@ const InputField = ({
         <Form.Control
           type={type}
           name={name}
-          value={value || ""}
+          value={type === "date" ? toDateInput(value) : (value ?? "")}
           onChange={onChange}
           disabled={disabled}
           className="bg-body border shadow-none"

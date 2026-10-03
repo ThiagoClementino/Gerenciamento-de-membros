@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+MONGO_URI=mongodb+srv://thidf57:Ant@@357*/@gerenciador-de-membros.ua4raq8.mongodb.net/?appName=Gerenciador-de-Membros
+MONGO_DB=test
+PORT=3060
+CORS_ORIGINS=http://localhost:3000,https://gerenciamento-de-membros.vercel.app

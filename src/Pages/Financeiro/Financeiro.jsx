@@ -35,41 +35,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 /*
- * Converte a data de lançamento para timestamp.
- *
- * Aceita:
- * DD/MM/YYYY
- * YYYY-MM-DD
- * ISO Date
- */
-const parseDataLancamento = (value) => {
-  if (!value) {
-    return 0;
-  }
-
-  if (
-    typeof value === "string" &&
-    /^\d{2}\/\d{2}\/\d{4}$/.test(value)
-  ) {
-    const [dia, mes, ano] = value.split("/");
-
-    return new Date(
-      Number(ano),
-      Number(mes) - 1,
-      Number(dia)
-    ).getTime();
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return 0;
-  }
-
-  return date.getTime();
-};
-
-/*
  * O ObjectId padrão do MongoDB contém
  * o timestamp de criação nos primeiros
  * 8 caracteres.
@@ -152,6 +117,25 @@ const currencyToNumber = (value) => {
 
 
 
+const financialDateKey = value => {
+  const text = String(value || '');
+  const local = text.match(/^(\d{2})[-/](\d{2})[-/](\d{4})$/);
+  if (local) return local[3] + '-' + local[2] + '-' + local[1];
+  return /^\d{4}-\d{2}-\d{2}/.test(text) ? text.slice(0,10) : '';
+};
+const normalizeFinancial = value => String(value || '').trim().toLowerCase();
+const compareFinancial = (a, b) => {
+  const dateA = financialDateKey(a.dataderegistro);
+  const dateB = financialDateKey(b.dataderegistro);
+  if (dateA !== dateB) return dateB.localeCompare(dateA);
+  const registrationA = String(a.matricula || '').trim();
+  const registrationB = String(b.matricula || '').trim();
+  if (!registrationA && registrationB) return 1;
+  if (registrationA && !registrationB) return -1;
+  return registrationB.localeCompare(registrationA, 'pt-BR', {numeric: true})
+    || getObjectIdTimestamp(b._id) - getObjectIdTimestamp(a._id);
+};
+
 export const Financeiro = () => {
   const {
     dadosfinance,
@@ -159,7 +143,6 @@ export const Financeiro = () => {
   } = useContext(DataContext);
 
   const navigate = useNavigate();
-
   const [searchTerm, setSearchTerm] =
     useState("");
 
@@ -225,6 +208,7 @@ export const Financeiro = () => {
 
   useEffect(() => {
     setCurrentPage(1);
+    setSelectedIds([]);
   }, [searchTerm]);
 
   // ==========================================
@@ -257,96 +241,17 @@ export const Financeiro = () => {
   // FILTRO
   // ==========================================
 
-  const filteredFinance =
-    useMemo(() => {
-      const search =
-        searchTerm
-          .trim()
-          .toLowerCase();
-
-      return (
-        dadosfinance || []
-      ).filter((dado) => {
-        return (
-          dado.descricao
-            ?.toLowerCase()
-            .includes(search) ||
-
-          dado.tipolancamento
-            ?.toLowerCase()
-            .includes(search) ||
-
-          dado.tipodedado
-            ?.toLowerCase()
-            .includes(search) ||
-
-          dado.statuspagamento
-            ?.toLowerCase()
-            .includes(search) ||
-
-          dado.datapagamento
-            ?.toLowerCase()
-            .includes(search) ||
-
-          dado.dataderegistro
-            ?.toLowerCase()
-            .includes(search) ||
-
-          dado._id
-            ?.toLowerCase()
-            .includes(search)
-        );
-      });
-    }, [
-      dadosfinance,
-      searchTerm,
-    ]);
+  const filteredFinance = useMemo(() => {
+    const search = searchTerm.trim().toLowerCase();
+    return (dadosfinance || []).filter(record => ['matricula','descricao','observacao','tipolancamento','tipodedado','statuspagamento','datapagamento','dataderegistro','_id'].some(field => normalizeFinancial(record[field]).includes(search)));
+  }, [dadosfinance,searchTerm]);
 
   // ==========================================
   // ORDENAÇÃO
   // MAIS RECENTES PRIMEIRO
   // ==========================================
 
-  const sortedFinance =
-    useMemo(() => {
-      return [
-        ...filteredFinance,
-      ].sort((a, b) => {
-        const dataA =
-          parseDataLancamento(
-            a.dataderegistro
-          );
-
-        const dataB =
-          parseDataLancamento(
-            b.dataderegistro
-          );
-
-        /*
-         * Primeiro critério:
-         * data de lançamento.
-         */
-        if (dataA !== dataB) {
-          return dataB - dataA;
-        }
-
-        /*
-         * Segundo critério:
-         * horário embutido no ObjectId.
-         *
-         * Útil quando vários lançamentos
-         * foram cadastrados no mesmo dia.
-         */
-        return (
-          getObjectIdTimestamp(
-            b._id
-          ) -
-          getObjectIdTimestamp(
-            a._id
-          )
-        );
-      });
-    }, [filteredFinance]);
+  const sortedFinance = useMemo(() => [...filteredFinance].sort((a,b)=>compareFinancial(a,b)),[filteredFinance]);
 
   // ==========================================
   // PAGINAÇÃO
@@ -1340,6 +1245,9 @@ export const Financeiro = () => {
     className="h-100 d-flex flex-column"
   >
 
+            
+
+
     {/* ==========================================
         MOBILE - CARDS
     ========================================== */}
@@ -1452,9 +1360,9 @@ export const Financeiro = () => {
                       {/* ID */}
 
                       <small className="text-secondary d-block text-break">
-                        ID:{" "}
+                        Matrícula:{" "}
                         <span className="fw-semibold">
-                          {dado._id || "-"}
+                          {dado.matricula || "Não informada"}
                         </span>
                       </small>
 
@@ -1662,9 +1570,7 @@ export const Financeiro = () => {
 
                 {/* ID */}
 
-                <th>
-                  ID
-                </th>
+                <th>Matrícula</th>
 
                 {/* PAGAMENTO */}
 
@@ -1819,10 +1725,7 @@ export const Financeiro = () => {
 
                         <td>
 
-                          <code className="small text-body">
-                            {
-                              dado._id
-                            }
+                          <code className="small text-body">{dado.matricula || "Não informada"}
                           </code>
 
                         </td>

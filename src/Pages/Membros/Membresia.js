@@ -60,10 +60,55 @@ const femaleAvatar = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
   </svg>
 `)}`;
 
+const dateKey = (value) => {
+  const text = String(value || '');
+  const local = text.match(/^(\d{2})[-/](\d{2})[-/](\d{4})$/);
+  if (local) return local[3] + '-' + local[2] + '-' + local[1];
+  return /^\d{4}-\d{2}-\d{2}/.test(text) ? text.slice(0, 10) : '';
+};
+
+const matchesFilters = (member, filters) => {
+  const date = dateKey(member.datacriacao);
+  return (!filters.sex || member.sex === filters.sex)
+    && (!filters.baptism || Boolean(member.databatismo) === (filters.baptism === 'batizado'))
+    && (!filters.congregation || member.congregacao === filters.congregation)
+    && (!filters.start || (date && date >= filters.start))
+    && (!filters.end || (date && date <= filters.end));
+};
+
+const compareMembers = (a, b, order) => {
+  const left = String(a.matricula || '').trim();
+  const right = String(b.matricula || '').trim();
+  const registration = () => !left ? (right ? 1 : 0) : !right ? -1
+    : (order === 'matricula-asc' ? left.localeCompare(right, 'pt-BR', {numeric: true})
+      : right.localeCompare(left, 'pt-BR', {numeric: true}));
+  if (order === 'nome') return String(a.name || '').localeCompare(String(b.name || ''), 'pt-BR');
+  if (order === 'recentes' || order === 'antigos') {
+    const first = dateKey(a.datacriacao);
+    const second = dateKey(b.datacriacao);
+    if (!first || !second) return !first ? (second ? 1 : registration()) : -1;
+    const dates = order === 'recentes' ? second.localeCompare(first) : first.localeCompare(second);
+    if (dates) return dates;
+  }
+  return registration();
+};
+
 const Membresia = () => {
   const { dados } = useContext(DataInfor);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState({sex: '', baptism: '', congregation: '', start: '', end: ''});
+  const [order, setOrder] = useState('recentes');
+  const congregations = useMemo(() => [...new Set(dados.map(member => member.congregacao).filter(Boolean))].sort((a,b) => a.localeCompare(b,'pt-BR')), [dados]);
+  const changeFilter = (event) => {
+    const {name, value} = event.target;
+    setFilters(previous => ({...previous, [name]: value}));
+  };
+  const clearFilters = () => {
+    setSearchTerm('');
+    setFilters({sex: '', baptism: '', congregation: '', start: '', end: ''});
+    setOrder('recentes');
+  };
 
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -136,7 +181,9 @@ const Membresia = () => {
   // volta para a página 1
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+    setSelectedItems([]);
+    setSelectAll(false);
+  }, [searchTerm, filters, order]);
 
   // ========================================
   // FUNÇÕES AUXILIARES
@@ -146,48 +193,6 @@ const Membresia = () => {
     typeof value === "string"
       ? value.toLowerCase()
       : "";
-
-  /*
-   * Converte datacriacao para um objeto Date.
-   *
-   * Suporta:
-   *
-   * 02/10/2026
-   *
-   * e
-   *
-   * 2026-10-02T14:00:00.000Z
-   */
-  const parseDate = (date) => {
-    if (!date) {
-      return new Date(0);
-    }
-
-    // Caso a data esteja no formato brasileiro
-    // DD/MM/YYYY
-    if (
-      typeof date === "string" &&
-      date.includes("/")
-    ) {
-      const [day, month, year] =
-        date.split("/");
-
-      return new Date(
-        Number(year),
-        Number(month) - 1,
-        Number(day)
-      );
-    }
-
-    const parsedDate = new Date(date);
-
-    // Proteção contra data inválida
-    if (Number.isNaN(parsedDate.getTime())) {
-      return new Date(0);
-    }
-
-    return parsedDate;
-  };
 
   // ========================================
   // PESQUISA
@@ -208,8 +213,9 @@ const Membresia = () => {
       toLowerSafe(searchTerm);
 
     return dados.filter((dado) => {
+      if (!matchesFilters(dado, filters)) return false;
       return (
-        toLowerSafe(dado._id).includes(
+        toLowerSafe(dado.matricula).includes(
           lowerSearchTerm
         ) ||
         toLowerSafe(dado.datacriacao).includes(
@@ -253,28 +259,14 @@ const Membresia = () => {
         )
       );
     });
-  }, [dados, searchTerm]);
+  }, [dados, searchTerm, filters]);
 
   // ========================================
   // ORDENAÇÃO
   // ========================================
 
-  /*
-   * IMPORTANTE:
-   *
-   * Primeiro filtramos.
-   * Depois ordenamos.
-   * Somente depois fazemos a paginação.
-   *
-   * b - a = mais recente primeiro
-   */
-  const sortedDados = useMemo(() => {
-    return [...filteredDados].sort(
-      (a, b) =>
-        parseDate(b.datacriacao) -
-        parseDate(a.datacriacao)
-    );
-  }, [filteredDados]);
+  // Filtra e ordena antes da paginação e exportação.
+  const sortedDados = useMemo(() => [...filteredDados].sort((a,b) => compareMembers(a,b,order)), [filteredDados,order]);
 
   // ========================================
   // PAGINAÇÃO
@@ -611,7 +603,7 @@ const Membresia = () => {
                     <Form.Control
                       type="search"
                       className="bg-body border-0 shadow-none py-2"
-                      placeholder="Buscar por nome..."
+                      placeholder="Buscar por nome, matrícula ou e-mail..."
                       value={searchTerm}
                       onChange={
                         handleSearchChange
@@ -689,6 +681,46 @@ const Membresia = () => {
                     </CSVLink>
                   </div>
                 </Col>
+              </Row>
+
+              <Row className="g-3 mt-1 align-items-end">
+                <Col xs={12} md={4}><Form.Group controlId="filter-order">
+                  <Form.Label>Ordenar por</Form.Label>
+                  <Form.Select value={order} onChange={event => setOrder(event.target.value)}>
+                    <option value="recentes">Cadastros mais recentes</option>
+                    <option value="antigos">Cadastros mais antigos</option>
+                    <option value="matricula-desc">Maior matrícula primeiro</option>
+                    <option value="matricula-asc">Menor matrícula primeiro</option>
+                    <option value="nome">Nome (A–Z)</option>
+                  </Form.Select>
+                </Form.Group></Col>
+                <Col xs={6} md={4}><Form.Group controlId="filter-sex">
+                  <Form.Label>Sexo</Form.Label>
+                  <Form.Select name="sex" value={filters.sex} onChange={changeFilter}>
+                    <option value="">Todos</option><option value="Feminino">Feminino</option><option value="Masculino">Masculino</option>
+                  </Form.Select>
+                </Form.Group></Col>
+                <Col xs={6} md={4}><Form.Group controlId="filter-baptism">
+                  <Form.Label>Batismo</Form.Label>
+                  <Form.Select name="baptism" value={filters.baptism} onChange={changeFilter}>
+                    <option value="">Todos</option><option value="batizado">Batizados</option><option value="pendente">Pendentes</option>
+                  </Form.Select>
+                </Form.Group></Col>
+                <Col xs={12} md={4}><Form.Group controlId="filter-congregation">
+                  <Form.Label>Congregação</Form.Label>
+                  <Form.Select name="congregation" value={filters.congregation} onChange={changeFilter}>
+                    <option value="">Todas</option>{congregations.map(value => <option key={value} value={value}>{value}</option>)}
+                  </Form.Select>
+                </Form.Group></Col>
+                <Col xs={6} md={3}><Form.Group controlId="filter-start">
+                  <Form.Label>Inscrição a partir de</Form.Label>
+                  <Form.Control type="date" name="start" value={filters.start} max={filters.end || undefined} onChange={changeFilter} />
+                </Form.Group></Col>
+                <Col xs={6} md={3}><Form.Group controlId="filter-end">
+                  <Form.Label>Inscrição até</Form.Label>
+                  <Form.Control type="date" name="end" value={filters.end} min={filters.start || undefined} onChange={changeFilter} />
+                </Form.Group></Col>
+                <Col xs={12} md={2}><Button variant="outline-secondary" className="w-100" onClick={clearFilters}>Limpar filtros</Button></Col>
               </Row>
             </Card>
           </Container>
@@ -770,11 +802,9 @@ const Membresia = () => {
                                   </h6>
 
                                   <small className="text-secondary d-block">
-                                    Registro:{" "}
+                                    Matrícula:{" "}
                                     <span className="fw-semibold">
-                                      {dado._id
-                                        ?.slice(-6)
-                                        .toUpperCase() ||
+                                      {dado.matricula ||
                                         "-"}
                                     </span>
                                   </small>
@@ -831,13 +861,11 @@ const Membresia = () => {
 
                               <Col xs={6}>
                                 <small className="text-secondary d-block mb-1">
-                                  Registro
+                                  Matrícula
                                 </small>
 
                                 <span className="small fw-semibold">
-                                  {dado._id
-                                    ?.slice(-6)
-                                    .toUpperCase() ||
+                                  {dado.matricula ||
                                     "-"}
                                 </span>
                               </Col>
@@ -938,7 +966,7 @@ const Membresia = () => {
                         </th>
 
                         <th className="py-3">
-                          Registro
+                          Matrícula
                         </th>
 
                         <th className="py-3">
@@ -1034,11 +1062,7 @@ const Membresia = () => {
 
                               <td>
                                 <div className="fw-normal">
-                                  {dado._id
-                                    ?.slice(
-                                      -6
-                                    )
-                                    .toUpperCase()}
+                                  {dado.matricula}
                                 </div>
                               </td>
 

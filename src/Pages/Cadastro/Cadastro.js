@@ -133,7 +133,7 @@ const INITIAL_STATE = {
   leiturabiblica: "",
   livros: "",
   ultimasconsideracoes: "",
-  Cad: true,
+  cadAtivo: true,
 };
 
 // ========================================
