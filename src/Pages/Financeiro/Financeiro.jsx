@@ -106,6 +106,31 @@ const formatCurrency = (value) => {
   });
 };
 
+const formatDatePagamento = (value) => {
+  if (!value) {
+    return "-";
+  }
+
+  // Já está no formato brasileiro
+  if (
+    /^\d{2}\/\d{2}\/\d{4}$/.test(value)
+  ) {
+    return value;
+  }
+
+  // Formato vindo do input type="date"
+  if (
+    /^\d{4}-\d{2}-\d{2}$/.test(value)
+  ) {
+    const [ano, mes, dia] =
+      value.split("-");
+
+    return `${dia}/${mes}/${ano}`;
+  }
+
+  return value;
+};
+
 
 
 const currencyToNumber = (value) => {
@@ -1491,10 +1516,10 @@ export const Financeiro = () => {
                               {/* DATA PAGAMENTO */}
 
                               <td className="small">
-                                {
-                                  dado.datapagamento
-                                }
-                              </td>
+  {formatDatePagamento(
+    dado.datapagamento
+  )}
+</td>
 
                               {/* STATUS
                                   Mesmo padrão visual
