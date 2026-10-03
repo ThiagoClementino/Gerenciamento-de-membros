@@ -78,7 +78,7 @@ const MembroMinisterio = () => {
     try {
       setSaving(true);
       await axios.put(
-        `https://api-gestao-igreja.onrender.com/membros/${id}`,
+        `https://api-gestao-igreja-jcod.vercel.app/membros/${id}`,
         member
       );
       showAlertMessage("Dados salvos com sucesso!", "success");

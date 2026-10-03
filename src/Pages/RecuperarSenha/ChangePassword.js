@@ -74,7 +74,7 @@ const ChangePassword = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Usuário não autenticado.");
 
-      const API_URL = "http://localhost:5000/api/auth/updatepassword";
+      const API_URL = "https://usuarios-saas-g-membros.vercel.app/api/auth/updatepassword";
       const response = await fetch(API_URL, {
         method: "PUT",
         headers: {

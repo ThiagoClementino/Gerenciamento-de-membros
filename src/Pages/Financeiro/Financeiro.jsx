@@ -632,12 +632,7 @@ export const Financeiro = () => {
                 .tipolancamento
                 .toLowerCase(),
 
-            /*
-             * CORREÇÃO:
-             * descricao existia no
-             * formulário, mas não estava
-             * sendo enviada anteriormente.
-             */
+            
             descricao:
               financialData
                 .descricao
@@ -1334,359 +1329,735 @@ export const Financeiro = () => {
         =================================== */}
 
         <div
-          className={`flex-grow-1 px-2 px-md-4 pb-4 ${isMobile
-            ? ""
-            : "overflow-auto"
-            }`}
-        >
-          <Container
-            fluid
-            className="h-100 d-flex flex-column"
-          >
-            <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden flex-shrink-0 mb-3">
-              <div className="table-responsive">
-                <Table
-                  hover
-                  className="mb-0 align-middle table-borderless text-nowrap"
-                >
-                  <thead className="bg-body-secondary position-sticky top-0 z-1">
-                    <tr className="text-secondary small text-uppercase">
-                      {/* CHECKBOX */}
+  className={`flex-grow-1 px-2 px-md-4 pb-4 ${
+    isMobile
+      ? ""
+      : "overflow-auto"
+  }`}
+>
+  <Container
+    fluid
+    className="h-100 d-flex flex-column"
+  >
 
-                      <th
-                        className="text-center py-3"
-                        style={{
-                          width:
-                            "50px",
-                        }}
-                      >
-                        <Form.Check
-                          type="checkbox"
-                          onChange={
-                            handleSelectAll
+    {/* ==========================================
+        MOBILE - CARDS
+    ========================================== */}
+
+    {isMobile ? (
+      <div className="d-flex flex-column gap-3 mb-3">
+
+        {currentItems.length === 0 ? (
+
+          <Card className="border shadow-sm rounded-4 bg-body-tertiary">
+            <Card.Body className="text-center py-5 text-secondary">
+              Nenhum registro encontrado.
+            </Card.Body>
+          </Card>
+
+        ) : (
+
+          currentItems.map((dado) => {
+
+            const tipo =
+              dado.tipodedado
+                ?.toLowerCase();
+
+            const status =
+              dado.statuspagamento
+                ?.toLowerCase();
+
+            const isReceita =
+              tipo === "receita";
+
+            const isPago =
+              status === "pago";
+
+            const isSelected =
+              selectedIds.includes(
+                dado._id
+              );
+
+            return (
+
+              <Card
+                key={dado._id}
+                className={`border shadow-sm rounded-4 overflow-hidden ${
+                  isSelected
+                    ? "border-primary bg-primary bg-opacity-10"
+                    : "bg-body-tertiary"
+                }`}
+              >
+
+                <Card.Body className="p-3">
+
+                  {/* ==========================
+                      TOPO DO CARD
+                  ========================== */}
+
+                  <div className="d-flex justify-content-between align-items-start gap-3">
+
+                    <div className="flex-grow-1 min-w-0">
+
+                      {/* TIPO E STATUS */}
+
+                      <div className="d-flex align-items-center gap-2 flex-wrap mb-2">
+
+                        <Badge
+                          bg={
+                            isReceita
+                              ? "primary-subtle"
+                              : "danger-subtle"
                           }
-                          checked={
-                            selectedIds.length ===
-                            sortedFinance.length &&
-                            sortedFinance.length >
-                            0
+                          className={
+                            isReceita
+                              ? "text-primary border border-primary-subtle fw-normal"
+                              : "text-danger border border-danger-subtle fw-normal"
                           }
-                        />
-                      </th>
-
-                      <th className="text-center">
-                        Ação
-                      </th>
-
-                      {/* NOVA COLUNA */}
-
-                      <th>
-                        ID
-                      </th>
-
-                      <th>
-                        Pagamento
-                      </th>
-
-                      {/* NOVA COLUNA */}
-
-                      <th className="text-center">
-                        Status
-                      </th>
-
-                      <th>
-                        Tipo
-                      </th>
-
-                      <th>
-                        Valor
-                      </th>
-
-                      <th>
-                        Descrição
-                      </th>
-
-                      <th>
-                        Lançado em
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody className="border-top">
-                    {currentItems.length ===
-                      0 ? (
-                      <tr>
-                        <td
-                          colSpan="9"
-                          className="text-center py-5 text-secondary"
                         >
-                          Nenhum registro
-                          encontrado.
-                        </td>
-                      </tr>
-                    ) : (
-                      currentItems.map(
-                        (
-                          dado
-                        ) => {
-                          /*
-                           * O backend salva
-                           * esses valores em
-                           * minúsculas.
-                           *
-                           * Por isso sempre
-                           * normalizamos antes
-                           * de comparar.
-                           */
-                          const tipo =
-                            dado.tipodedado
-                              ?.toLowerCase();
+                          {isReceita
+                            ? "Receita"
+                            : "Despesa"}
+                        </Badge>
 
-                          const status =
-                            dado.statuspagamento
-                              ?.toLowerCase();
+                        {isPago ? (
 
-                          const isReceita =
-                            tipo ===
-                            "receita";
+                          <Badge
+                            bg="success-subtle"
+                            className="text-success border border-success-subtle fw-normal"
+                          >
+                            Pago
+                          </Badge>
 
-                          const isPago =
-                            status ===
-                            "pago";
+                        ) : (
 
-                          return (
-                            <tr
-                              key={
-                                dado._id
-                              }
-                              className={
-                                selectedIds.includes(
-                                  dado._id
-                                )
-                                  ? "bg-primary bg-opacity-10"
-                                  : ""
-                              }
-                            >
-                              {/* SELEÇÃO */}
+                          <Badge
+                            bg="secondary-subtle"
+                            className="text-secondary border border-secondary-subtle fw-normal"
+                          >
+                            Pendente
+                          </Badge>
 
-                              <td className="text-center">
-                                <Form.Check
-                                  type="checkbox"
-                                  checked={selectedIds.includes(
-                                    dado._id
-                                  )}
-                                  onChange={() =>
-                                    handleSelectOne(
-                                      dado._id
-                                    )
-                                  }
-                                />
-                              </td>
+                        )}
 
-                              {/* AÇÃO */}
+                      </div>
 
-                              <td className="text-center">
-                                <Button
-                                  variant="link"
-                                  className="text-primary p-0 shadow-none"
-                                  onClick={() =>
-                                    navigate(
-                                      `/financeiro/${dado._id}`
-                                    )
-                                  }
-                                >
-                                  <FontAwesomeIcon
-                                    icon={
-                                      faEye
-                                    }
-                                  />
-                                </Button>
-                              </td>
+                      {/* DESCRIÇÃO */}
 
-                              {/* ID */}
+                      <h6 className="fw-bold mb-1 text-break">
+                        {dado.descricao ||
+                          "Sem descrição"}
+                      </h6>
 
-                              <td>
-                                <code className="small text-body">
-                                  {
-                                    dado._id
-                                  }
-                                </code>
-                              </td>
+                      {/* ID */}
 
-                              {/* DATA PAGAMENTO */}
+                      <small className="text-secondary d-block text-break">
+                        ID:{" "}
+                        <span className="fw-semibold">
+                          {dado._id || "-"}
+                        </span>
+                      </small>
 
-                              <td className="small">
-  {formatDatePagamento(
-    dado.datapagamento
-  )}
-</td>
+                    </div>
 
-                              {/* STATUS
-                                  Mesmo padrão visual
-                                  da tela Membresia
-                              */}
+                    {/* CHECKBOX */}
 
-                              <td className="text-center">
-                                {isPago ? (
-                                  <Badge
-                                    bg="success-subtle"
-                                    className="text-success border border-success-subtle fw-normal"
-                                  >
-                                    Pago
-                                  </Badge>
-                                ) : (
-                                  <Badge
-                                    bg="secondary-subtle"
-                                    className="text-secondary border border-secondary-subtle fw-normal opacity-75"
-                                  >
-                                    Pendente
-                                  </Badge>
-                                )}
-                              </td>
-
-                              {/* TIPO */}
-
-                              <td>
-                                <Badge
-                                  bg={
-                                    isReceita
-                                      ? "primary-subtle"
-                                      : "danger-subtle"
-                                  }
-                                  className={
-                                    isReceita
-                                      ? "text-primary border border-primary-subtle fw-normal"
-                                      : "text-danger border border-danger-subtle fw-normal"
-                                  }
-                                >
-                                  {isReceita
-                                    ? "Receita"
-                                    : "Despesa"}
-                                </Badge>
-                              </td>
-
-                              {/* VALOR */}
-
-                              <td className="fw-bold">
-                                {formatCurrency(dado.valor)}
-                              </td>
-
-                              {/* DESCRIÇÃO */}
-
-                              <td className="small">
-                                <div
-                                  className="fw-bold text-truncate"
-                                  style={{
-                                    maxWidth:
-                                      "180px",
-                                  }}
-                                >
-                                  {dado.descricao ||
-                                    "-"}
-                                </div>
-
-                                <div
-                                  className="text-muted text-truncate"
-                                  style={{
-                                    maxWidth:
-                                      "180px",
-                                  }}
-                                >
-                                  {dado.observacao ||
-                                    "-"}
-                                </div>
-                              </td>
-
-                              {/* DATA DE LANÇAMENTO */}
-
-                              <td className="small text-muted">
-                                {dado.dataderegistro ||
-                                  "-"}
-                              </td>
-                            </tr>
-                          );
-                        }
-                      )
-                    )}
-                  </tbody>
-                </Table>
-              </div>
-            </Card>
-
-            {/* ===============================
-                PAGINAÇÃO
-            ================================ */}
-
-            {sortedFinance.length >
-              itemsPerPage && (
-                <div className="d-flex justify-content-center mt-auto pb-2">
-                  <Pagination className="shadow-sm mb-0 flex-wrap justify-content-center">
-                    <Pagination.First
-                      onClick={() =>
-                        setCurrentPage(
-                          1
-                        )
+                    <Form.Check
+                      type="checkbox"
+                      checked={
+                        isSelected
                       }
-                      disabled={
-                        currentPage ===
-                        1
+                      onChange={() =>
+                        handleSelectOne(
+                          dado._id
+                        )
                       }
                     />
 
-                    <Pagination.Prev
+                  </div>
+
+                  {/* ==========================
+                      VALOR
+                  ========================== */}
+
+                  <div className="border-top mt-3 pt-3">
+
+                    <small className="text-secondary d-block mb-1">
+                      Valor
+                    </small>
+
+                    <h4
+                      className={`fw-bold mb-0 ${
+                        isReceita
+                          ? "text-success"
+                          : "text-danger"
+                      }`}
+                    >
+                      {formatCurrency(
+                        dado.valor
+                      )}
+                    </h4>
+
+                  </div>
+
+                  {/* ==========================
+                      INFORMAÇÕES
+                  ========================== */}
+
+                  <div className="border-top mt-3 pt-3">
+
+                    <Row className="g-3">
+
+                      {/* DATA DE PAGAMENTO */}
+
+                      <Col xs={6}>
+
+                        <small className="text-secondary d-block mb-1">
+                          Pagamento
+                        </small>
+
+                        <span className="small fw-semibold">
+                          {formatDatePagamento(
+                            dado.datapagamento
+                          )}
+                        </span>
+
+                      </Col>
+
+                      {/* DATA DE LANÇAMENTO */}
+
+                      <Col xs={6}>
+
+                        <small className="text-secondary d-block mb-1">
+                          Lançado em
+                        </small>
+
+                        <span className="small fw-semibold">
+                          {dado.dataderegistro ||
+                            "-"}
+                        </span>
+
+                      </Col>
+
+                      {/* CATEGORIA */}
+
+                      <Col xs={12}>
+
+                        <small className="text-secondary d-block mb-1">
+                          Categoria
+                        </small>
+
+                        <span className="small fw-semibold text-capitalize">
+                          {dado.tipolancamento ||
+                            "-"}
+                        </span>
+
+                      </Col>
+
+                      {/* OBSERVAÇÃO */}
+
+                      <Col xs={12}>
+
+                        <small className="text-secondary d-block mb-1">
+                          Observação
+                        </small>
+
+                        <span className="small text-break">
+                          {dado.observacao ||
+                            "-"}
+                        </span>
+
+                      </Col>
+
+                    </Row>
+
+                  </div>
+
+                  {/* ==========================
+                      AÇÃO
+                  ========================== */}
+
+                  <div className="border-top mt-3 pt-3">
+
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      className="w-100 rounded-pill fw-semibold"
                       onClick={() =>
-                        setCurrentPage(
-                          (prev) =>
-                            Math.max(
-                              prev -
-                              1,
-                              1
-                            )
+                        navigate(
+                          `/financeiro/${dado._id}`
                         )
                       }
-                      disabled={
-                        currentPage ===
-                        1
-                      }
-                    />
+                    >
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="me-2"
+                      />
 
-                    {
-                      paginationItems
+                      Visualizar lançamento
+                    </Button>
+
+                  </div>
+
+                </Card.Body>
+
+              </Card>
+
+            );
+          })
+
+        )}
+
+      </div>
+
+    ) : (
+
+      /* ==========================================
+          DESKTOP - TABELA ORIGINAL
+      ========================================== */
+
+      <Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden flex-shrink-0 mb-3">
+
+        <div className="table-responsive">
+
+          <Table
+            hover
+            className="mb-0 align-middle table-borderless text-nowrap"
+          >
+
+            <thead className="bg-body-secondary position-sticky top-0 z-1">
+
+              <tr className="text-secondary small text-uppercase">
+
+                {/* CHECKBOX */}
+
+                <th
+                  className="text-center py-3"
+                  style={{
+                    width:
+                      "50px",
+                  }}
+                >
+
+                  <Form.Check
+                    type="checkbox"
+                    onChange={
+                      handleSelectAll
                     }
+                    checked={
+                      selectedIds.length ===
+                        sortedFinance.length &&
+                      sortedFinance.length >
+                        0
+                    }
+                  />
 
-                    <Pagination.Next
-                      onClick={() =>
-                        setCurrentPage(
-                          (prev) =>
-                            Math.min(
-                              prev +
-                              1,
-                              totalPages
-                            )
-                        )
-                      }
-                      disabled={
-                        currentPage ===
-                        totalPages
-                      }
-                    />
+                </th>
 
-                    <Pagination.Last
-                      onClick={() =>
-                        setCurrentPage(
-                          totalPages
-                        )
-                      }
-                      disabled={
-                        currentPage ===
-                        totalPages
-                      }
-                    />
-                  </Pagination>
-                </div>
+                {/* AÇÃO */}
+
+                <th className="text-center">
+                  Ação
+                </th>
+
+                {/* ID */}
+
+                <th>
+                  ID
+                </th>
+
+                {/* PAGAMENTO */}
+
+                <th>
+                  Pagamento
+                </th>
+
+                {/* STATUS */}
+
+                <th className="text-center">
+                  Status
+                </th>
+
+                {/* TIPO */}
+
+                <th>
+                  Tipo
+                </th>
+
+                {/* VALOR */}
+
+                <th>
+                  Valor
+                </th>
+
+                {/* DESCRIÇÃO */}
+
+                <th>
+                  Descrição
+                </th>
+
+                {/* LANÇAMENTO */}
+
+                <th>
+                  Lançado em
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody className="border-top">
+
+              {currentItems.length ===
+              0 ? (
+
+                <tr>
+
+                  <td
+                    colSpan="9"
+                    className="text-center py-5 text-secondary"
+                  >
+                    Nenhum registro encontrado.
+                  </td>
+
+                </tr>
+
+              ) : (
+
+                currentItems.map(
+                  (dado) => {
+
+                    /*
+                     * O backend salva
+                     * esses valores em
+                     * minúsculas.
+                     *
+                     * Por isso sempre
+                     * normalizamos antes
+                     * de comparar.
+                     */
+
+                    const tipo =
+                      dado.tipodedado
+                        ?.toLowerCase();
+
+                    const status =
+                      dado.statuspagamento
+                        ?.toLowerCase();
+
+                    const isReceita =
+                      tipo ===
+                      "receita";
+
+                    const isPago =
+                      status ===
+                      "pago";
+
+                    return (
+
+                      <tr
+                        key={
+                          dado._id
+                        }
+                        className={
+                          selectedIds.includes(
+                            dado._id
+                          )
+                            ? "bg-primary bg-opacity-10"
+                            : ""
+                        }
+                      >
+
+                        {/* SELEÇÃO */}
+
+                        <td className="text-center">
+
+                          <Form.Check
+                            type="checkbox"
+                            checked={
+                              selectedIds.includes(
+                                dado._id
+                              )
+                            }
+                            onChange={() =>
+                              handleSelectOne(
+                                dado._id
+                              )
+                            }
+                          />
+
+                        </td>
+
+
+                        {/* AÇÃO */}
+
+                        <td className="text-center">
+
+                          <Button
+                            variant="link"
+                            className="text-primary p-0 shadow-none"
+                            onClick={() =>
+                              navigate(
+                                `/financeiro/${dado._id}`
+                              )
+                            }
+                          >
+
+                            <FontAwesomeIcon
+                              icon={
+                                faEye
+                              }
+                            />
+
+                          </Button>
+
+                        </td>
+
+
+                        {/* ID */}
+
+                        <td>
+
+                          <code className="small text-body">
+                            {
+                              dado._id
+                            }
+                          </code>
+
+                        </td>
+
+
+                        {/* DATA PAGAMENTO */}
+
+                        <td className="small">
+
+                          {formatDatePagamento(
+                            dado.datapagamento
+                          )}
+
+                        </td>
+
+
+                        {/* STATUS */}
+
+                        <td className="text-center">
+
+                          {isPago ? (
+
+                            <Badge
+                              bg="success-subtle"
+                              className="text-success border border-success-subtle fw-normal"
+                            >
+                              Pago
+                            </Badge>
+
+                          ) : (
+
+                            <Badge
+                              bg="secondary-subtle"
+                              className="text-secondary border border-secondary-subtle fw-normal opacity-75"
+                            >
+                              Pendente
+                            </Badge>
+
+                          )}
+
+                        </td>
+
+
+                        {/* TIPO */}
+
+                        <td>
+
+                          <Badge
+                            bg={
+                              isReceita
+                                ? "primary-subtle"
+                                : "danger-subtle"
+                            }
+                            className={
+                              isReceita
+                                ? "text-primary border border-primary-subtle fw-normal"
+                                : "text-danger border border-danger-subtle fw-normal"
+                            }
+                          >
+
+                            {isReceita
+                              ? "Receita"
+                              : "Despesa"}
+
+                          </Badge>
+
+                        </td>
+
+
+                        {/* VALOR */}
+
+                        <td className="fw-bold">
+
+                          {formatCurrency(
+                            dado.valor
+                          )}
+
+                        </td>
+
+
+                        {/* DESCRIÇÃO */}
+
+                        <td className="small">
+
+                          <div
+                            className="fw-bold text-truncate"
+                            style={{
+                              maxWidth:
+                                "180px",
+                            }}
+                          >
+                            {dado.descricao ||
+                              "-"}
+                          </div>
+
+
+                          <div
+                            className="text-muted text-truncate"
+                            style={{
+                              maxWidth:
+                                "180px",
+                            }}
+                          >
+                            {dado.observacao ||
+                              " "}
+                          </div>
+
+                        </td>
+
+
+                        {/* DATA DE LANÇAMENTO */}
+
+                        <td className="small text-muted">
+
+                          {dado.dataderegistro ||
+                            " "}
+
+                        </td>
+
+                      </tr>
+
+                    );
+                  }
+                )
+
               )}
-          </Container>
+
+            </tbody>
+
+          </Table>
+
         </div>
+
+      </Card>
+
+    )}
+
+
+    {/* ==========================================
+        PAGINAÇÃO
+        PRESERVADA
+    ========================================== */}
+
+    {sortedFinance.length >
+      itemsPerPage && (
+
+        <div className="d-flex justify-content-center mt-auto pb-2">
+
+          <Pagination className="shadow-sm mb-0 flex-wrap justify-content-center">
+
+            {/* PRIMEIRA PÁGINA */}
+
+            <Pagination.First
+              onClick={() =>
+                setCurrentPage(
+                  1
+                )
+              }
+              disabled={
+                currentPage ===
+                1
+              }
+            />
+
+
+            {/* ANTERIOR */}
+
+            <Pagination.Prev
+              onClick={() =>
+                setCurrentPage(
+                  (prev) =>
+                    Math.max(
+                      prev -
+                        1,
+                      1
+                    )
+                )
+              }
+              disabled={
+                currentPage ===
+                1
+              }
+            />
+
+
+            {/* NÚMEROS */}
+
+            {
+              paginationItems
+            }
+
+
+            {/* PRÓXIMA */}
+
+            <Pagination.Next
+              onClick={() =>
+                setCurrentPage(
+                  (prev) =>
+                    Math.min(
+                      prev +
+                        1,
+                      totalPages
+                    )
+                )
+              }
+              disabled={
+                currentPage ===
+                totalPages
+              }
+            />
+
+
+            {/* ÚLTIMA */}
+
+            <Pagination.Last
+              onClick={() =>
+                setCurrentPage(
+                  totalPages
+                )
+              }
+              disabled={
+                currentPage ===
+                totalPages
+              }
+            />
+
+          </Pagination>
+
+        </div>
+
+      )}
+
+  </Container>
+
+</div>
       </main>
 
       {/* ==================================
