@@ -1,0 +1,237 @@
+/* ==========================================
+   CADASTRO
+   NAVEGAÇÃO E RESPONSIVIDADE
+========================================== */
+
+
+/* ==========================================
+   TABS - DESKTOP / TABLET
+========================================== */
+
+.cadastro-tabs {
+  width: 100%;
+}
+
+
+/* ==========================================
+   CARD DA ETAPA
+========================================== */
+
+.cadastro-step-card {
+  width: 100%;
+}
+
+
+/* ==========================================
+   CONTEÚDO
+========================================== */
+
+.cadastro-card-body {
+  width: 100%;
+}
+
+
+/* ==========================================
+   BOTÕES DE NAVEGAÇÃO
+========================================== */
+
+.cadastro-step-navigation {
+  width: 100%;
+}
+
+.cadastro-step-button {
+  min-height: 42px;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 767.98px) {
+
+  /*
+   * No celular ocultamos apenas
+   * a barra com as cinco etapas.
+   *
+   * O conteúdo do Tab permanece.
+   */
+  .cadastro-tabs {
+    display: none !important;
+  }
+
+
+  /*
+   * Container ocupa toda a
+   * largura disponível.
+   */
+  .cadastro-form-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+
+  /*
+   * O Tab ativo ocupa 100%.
+   */
+  .form-section-cadastro
+  .tab-content {
+    width: 100%;
+  }
+
+  .form-section-cadastro
+  .tab-pane {
+    width: 100%;
+  }
+
+
+  /*
+   * Card ocupa toda a largura.
+   */
+  .cadastro-step-card {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+  }
+
+
+  /*
+   * Evita scroll interno.
+   * A página passa a ter uma
+   * única rolagem vertical.
+   */
+  .cadastro-card-body {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+
+  /*
+   * Navegação inferior.
+   */
+  .cadastro-step-navigation {
+    width: 100%;
+  }
+
+
+  /*
+   * Botões maiores para toque.
+   */
+  .cadastro-step-button {
+    min-height: 46px;
+  }
+}
+
+
+/* ==========================================
+   CELULARES MUITO PEQUENOS
+========================================== */
+
+@media (max-width: 420px) {
+
+  .cadastro-step-navigation
+  > .d-flex {
+    flex-direction: column-reverse;
+  }
+
+  .cadastro-step-button {
+    width: 100%;
+  }
+}
+
+
+/* ==========================================
+   TABLET E DESKTOP
+========================================== */
+
+@media (min-width: 768px) {
+
+  /*
+   * Tabs continuam visíveis.
+   */
+  .cadastro-tabs {
+    display: flex !important;
+  }
+
+
+  /*
+   * Mantém comportamento
+   * tradicional do formulário.
+   */
+  .cadastro-step-card {
+    width: 100%;
+  }
+}
+
+/* ==========================================
+   CADASTRO - RESPONSIVIDADE
+========================================== */
+
+
+.cadastro-tabs {
+  display: flex;
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cadastro-tabs .nav-item {
+  flex: 0 0 auto;
+}
+
+.cadastro-tabs .nav-link {
+  min-width: 145px;
+  white-space: normal;
+  border-radius: 0.75rem;
+}
+
+.cadastro-card-body {
+  overflow: visible;
+  max-height: none;
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+  .navbar-section {
+    height: auto !important;
+  }
+
+  .cadastro-form-container {
+    height: auto !important;
+  }
+
+  .cadastro-step-card {
+    height: auto !important;
+  }
+
+  .cadastro-tabs {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+
+/* Tablet e desktop */
+@media (min-width: 768px) {
+  .cadastro-tabs {
+    overflow-x: visible;
+  }
+
+  .cadastro-tabs .nav-item {
+    flex: 1 1 0;
+  }
+
+  .cadastro-tabs .nav-link {
+    width: 100%;
+    min-width: 0;
+  }
+  .cadastro-card-body {
+  overflow: visible;
+  max-height: none;
+}
+}

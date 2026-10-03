@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faChartPie,
   faUserPlus,
@@ -14,7 +15,6 @@ import {
   faSun,
   faMoon,
   faPeopleGroup,
-  faBriefcase
 } from "@fortawesome/free-solid-svg-icons";
 
 const ResponsiveSidebar = ({
@@ -27,12 +27,70 @@ const ResponsiveSidebar = ({
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
   const location = useLocation();
   const { logout } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
 
   // --- LÓGICA DE TEMA (VINCULADA AO BOTÃO) ---
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          return;
+        }
+
+        const response = await fetch(
+          "https://usuarios-saas-g-membros.vercel.app/api/auth/me",
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          return;
+        }
+
+        const result = await response.json();
+
+        setUser(result.data);
+      } catch (error) {
+        console.error(
+          "Erro ao carregar usuário no menu:",
+          error
+        );
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+
+  const getInitials = (name) => {
+    if (!name) {
+      return "U";
+    }
+
+    const names = name.trim().split(/\s+/);
+
+    if (names.length === 1) {
+      return names[0]
+        .charAt(0)
+        .toUpperCase();
+    }
+
+    return `${names[0].charAt(0)}${names[
+      names.length - 1
+    ].charAt(0)}`.toUpperCase();
+  };
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
@@ -50,8 +108,7 @@ const ResponsiveSidebar = ({
     { path: "/dashboard", icon: faChartPie, text: "Dashboard" },
     { path: "/cadastro", icon: faUserPlus, text: "Cadastrar" },
     { path: "/financeiro", icon: faWallet, text: "Financeiro" },
-    { path: "/membresia", icon: faPeopleGroup, text: "Membros" },
-    { path: "/User", icon: faBriefcase, text: "Usuário" },
+    { path: "/membresia", icon: faPeopleGroup, text: "Membros" }
   ];
 
   // Configuração de largura e visibilidade via Bootstrap e Inline Styles para Dinâmica
@@ -74,13 +131,11 @@ const ResponsiveSidebar = ({
 
       {/* Sidebar Container */}
       <aside
-        className={`bg-body-tertiary border-end d-flex flex-column vh-100 ${
-          isMobile ? "position-fixed shadow-lg" : "position-sticky top-0"
-        } ${
-          isMobile && !sidebarVisible
+        className={`bg-body-tertiary border-end d-flex flex-column vh-100 ${isMobile ? "position-fixed shadow-lg" : "position-sticky top-0"
+          } ${isMobile && !sidebarVisible
             ? "translate-middle-x"
             : "translate-middle-none"
-        }`}
+          }`}
         style={{
           ...sidebarStyles,
           left: isMobile && !sidebarVisible ? "-280px" : "0",
@@ -137,11 +192,10 @@ const ResponsiveSidebar = ({
                 <Link
                   to={item.path}
                   onClick={handleLinkClick}
-                  className={`nav-link d-flex align-items-center gap-3 py-2 px-3 rounded-3 transition-all ${
-                    location.pathname === item.path
-                      ? "active shadow"
-                      : "text-secondary"
-                  }`}
+                  className={`nav-link d-flex align-items-center gap-3 py-2 px-3 rounded-3 transition-all ${location.pathname === item.path
+                    ? "active shadow"
+                    : "text-secondary"
+                    }`}
                 >
                   <div
                     className="d-flex justify-content-center"
@@ -160,45 +214,139 @@ const ResponsiveSidebar = ({
 
         <hr className="mx-3 my-0 opacity-10" />
 
-        {/* RODAPÉ: TEMA E LOGOUT */}
+        {/* =====================================
+    RODAPÉ DA SIDEBAR
+===================================== */}
+
         <div className="p-3 d-flex flex-column gap-2">
-          {/* BOTÃO ALTERNAR TEMA (Integrado) */}
+
+          {/* ===================================
+      USUÁRIO
+  ==================================== */}
+
+          <Link
+            to="/user"
+            onClick={handleLinkClick}
+            title={
+              user?.nomeCompleto || "Usuário"
+            }
+            className={`text-decoration-none d-flex align-items-center rounded-3 py-2 px-2 ${location.pathname === "/user"
+                ? "bg-primary bg-opacity-10"
+                : "text-body"
+              } ${expanded || isMobile
+                ? "justify-content-start gap-3"
+                : "justify-content-center"
+              }`}
+          >
+            {/* AVATAR */}
+
+            <div
+              className={`rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 fw-bold ${location.pathname === "/user"
+                  ? "bg-primary text-white"
+                  : "bg-primary bg-opacity-10 text-primary"
+                }`}
+              style={{
+                width: "42px",
+                height: "42px",
+                fontSize: "0.85rem",
+              }}
+            >
+              {getInitials(
+                user?.nomeCompleto
+              )}
+            </div>
+
+            {/* NOME E CARGO */}
+
+            {(expanded || isMobile) && (
+              <div
+                className="d-flex flex-column overflow-hidden"
+                style={{
+                  minWidth: 0,
+                }}
+              >
+                <span
+                  className="fw-semibold small text-body text-truncate"
+                  style={{
+                    maxWidth: "175px",
+                  }}
+                >
+                  {user?.nomeCompleto ||
+                    "Usuário"}
+                </span>
+
+                <small
+                  className="text-secondary text-truncate"
+                  style={{
+                    fontSize: "0.7rem",
+                    maxWidth: "175px",
+                  }}
+                >
+                  {user?.cargo ||
+                    "Cargo não informado"}
+                </small>
+              </div>
+            )}
+          </Link>
+
+          <hr className="my-1 opacity-10" />
+
+          {/* BOTÃO ALTERNAR TEMA */}
+
           <button
             onClick={toggleTheme}
-            className={`btn d-flex align-items-center border-0 rounded-3 py-2 px-3 transition-all ${
-              expanded || isMobile
-                ? "justify-content-between bg-body-secondary"
-                : "justify-content-center"
-            }`}
+            className={`btn d-flex align-items-center border-0 rounded-3 py-2 px-3 transition-all ${expanded || isMobile
+              ? "justify-content-between bg-body-secondary"
+              : "justify-content-center"
+              }`}
           >
             {(expanded || isMobile) && (
-              <span className="small fw-bold text-secondary">Aparência</span>
+              <span className="small fw-bold text-secondary">
+                Aparência
+              </span>
             )}
+
             <FontAwesomeIcon
-              icon={theme === "light" ? faMoon : faSun}
-              className={theme === "light" ? "text-primary" : "text-warning"}
+              icon={
+                theme === "light"
+                  ? faMoon
+                  : faSun
+              }
+              className={
+                theme === "light"
+                  ? "text-primary"
+                  : "text-warning"
+              }
             />
           </button>
 
           {/* BOTÃO SAIR */}
+
           <button
             onClick={logout}
-            className={`btn btn-outline-danger border-0 d-flex align-items-center py-2 px-3 rounded-3 transition-all ${
-              expanded || isMobile
-                ? "justify-content-start gap-3"
-                : "justify-content-center"
-            }`}
+            className={`btn btn-outline-danger border-0 d-flex align-items-center py-2 px-3 rounded-3 transition-all ${expanded || isMobile
+              ? "justify-content-start gap-3"
+              : "justify-content-center"
+              }`}
           >
             <div
               className="d-flex justify-content-center"
-              style={{ width: "25px" }}
+              style={{
+                width: "25px",
+              }}
             >
-              <FontAwesomeIcon icon={faRightFromBracket} />
+              <FontAwesomeIcon
+                icon={faRightFromBracket}
+              />
             </div>
+
             {(expanded || isMobile) && (
-              <span className="fw-bold small">Sair do Sistema</span>
+              <span className="fw-bold small">
+                Sair do Sistema
+              </span>
             )}
           </button>
+
         </div>
       </aside>
     </>

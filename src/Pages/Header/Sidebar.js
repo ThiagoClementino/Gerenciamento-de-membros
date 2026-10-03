@@ -10,7 +10,7 @@ import {
   faGear,
   faRightFromBracket,
   faPeopleGroup,
-  faBriefcase
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = ({ handleLogout }) => {
@@ -23,7 +23,7 @@ const Sidebar = ({ handleLogout }) => {
     { path: "/Config", label: "Configurações", icon: faGear },
     { path: "/Membresia", label: "Membros", icon: faPeopleGroup },
     { path: "/MemMinisterio", label: "Membros", icon: faUserPlus },
-    { path: "/User", label: "Usuário", icon: faBriefcase },
+    { path: "/User", label: "Usuário", icon: faUser },
   ];
 
   return (
