@@ -30,6 +30,19 @@ import {
   Pagination,
 } from "react-bootstrap";
 
+// Ordena pelo número da matrícula; registros sem matrícula ficam no final.
+const compararMatriculas = (a, b) => {
+  const numero = (valor) => {
+    const match = String(valor ?? "").trim().match(/^(?:MEN|FIN)-(\d+)$/i);
+    return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+  };
+
+  const numeroA = numero(a.matricula);
+  const numeroB = numero(b.matricula);
+  if (numeroA !== numeroB) return numeroA < numeroB ? -1 : 1;
+  return String(a._id ?? "").localeCompare(String(b._id ?? ""), "pt-BR");
+};
+
 const Membros = () => {
   const { dados } = useContext(DataInfor);
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,6 +86,7 @@ const Membros = () => {
   const filteredDados = dados.filter((dado) => {
     const lowerSearchTerm = toLowerSafe(searchTerm);
     return (
+      toLowerSafe(dado.matricula).includes(lowerSearchTerm) ||
       toLowerSafe(dado._id).includes(lowerSearchTerm) ||
       toLowerSafe(dado.name).includes(lowerSearchTerm) ||
       toLowerSafe(dado.email).includes(lowerSearchTerm) ||
@@ -89,9 +103,11 @@ const Membros = () => {
     );
   });
 
+  const sortedDados = [...filteredDados].sort(compararMatriculas);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDados.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedDados.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredDados.length / itemsPerPage);
 
   const paginationItems = [];
@@ -271,7 +287,7 @@ const Membros = () => {
                     <Form.Control
                       type="search"
                       className="bg-body border-0 shadow-none py-2"
-                      placeholder="Buscar por nome..."
+                      placeholder="Buscar por nome ou matrícula..."
                       value={searchTerm}
                       onChange={handleSearchChange}
                     />
@@ -393,7 +409,7 @@ const Membros = () => {
                           <td>
                             <div className="fw-bold">{dado.name}</div>
                             <div className="small text-muted font-monospace">
-                              {dado._id.slice(-6).toUpperCase()}
+                              {dado.matricula || "Sem matrícula"}
                             </div>
                           </td>
                           <td className="small">
@@ -503,3 +519,4 @@ const StatCard = ({ label, val, icon, color }) => (
 );
 
 export default Membros;
+
