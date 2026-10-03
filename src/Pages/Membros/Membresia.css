@@ -1,0 +1,20 @@
+.membresia-page { width: 100%; min-width: 0; }
+.membresia-main { min-width: 0; min-height: 0; }
+.membresia-results, .membresia-results-container { min-width: 0; }
+.membresia-table { width: 100%; min-width: 1060px; table-layout: fixed; }
+.membresia-table th, .membresia-table td { padding: 12px; vertical-align: middle; }
+.membresia-table thead tr { height: 56px; }
+.membresia-table tbody tr { height: 64px; }
+.membresia-table td > div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.membresia-table-scroll { overflow-x: auto; overflow-y: hidden; }
+@media (min-width: 768px) {
+  .membresia-page { height: 100dvh; overflow: hidden; }
+  .membresia-main.membresia-desktop-scroll { overflow-y: auto; overflow-x: hidden; scrollbar-gutter: stable; }
+  .membresia-results { overflow: visible; flex-shrink: 0; }
+  .membresia-results-container { height: auto; }
+  .membresia-table-card { min-height: 698px; }
+}
+@media (max-width: 767.98px) {
+  .membresia-page { min-height: 100dvh; height: auto; overflow: visible; }
+  .membresia-main { overflow: visible; }
+}

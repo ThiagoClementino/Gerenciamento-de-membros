@@ -6,6 +6,7 @@ import React, {
 } from "react";
 
 import DataInfor from "../../Contexts/DataInfor";
+import "./Membresia.css";
 
 import { Link } from "react-router-dom";
 
@@ -76,21 +77,38 @@ const matchesFilters = (member, filters) => {
     && (!filters.end || (date && date <= filters.end));
 };
 
-const compareMembers = (a, b, order) => {
-  const left = String(a.matricula || '').trim();
-  const right = String(b.matricula || '').trim();
-  const registration = () => !left ? (right ? 1 : 0) : !right ? -1
-    : (order === 'matricula-asc' ? left.localeCompare(right, 'pt-BR', {numeric: true})
-      : right.localeCompare(left, 'pt-BR', {numeric: true}));
-  if (order === 'nome') return String(a.name || '').localeCompare(String(b.name || ''), 'pt-BR');
-  if (order === 'recentes' || order === 'antigos') {
-    const first = dateKey(a.datacriacao);
-    const second = dateKey(b.datacriacao);
-    if (!first || !second) return !first ? (second ? 1 : registration()) : -1;
-    const dates = order === 'recentes' ? second.localeCompare(first) : first.localeCompare(second);
-    if (dates) return dates;
+const registrationNumber = value => {
+  const match = String(value ?? '').trim().match(/^(?:MEN\s*-\s*)?(\d+)$/i);
+  if (!match) return null;
+  const digits = match[1].replace(/^0+(?=\d)/, '');
+  return digits;
+};
+
+const compareRegistration = (a,b,ascending=false) => {
+  const left=registrationNumber(a.matricula);
+  const right=registrationNumber(b.matricula);
+  if(left === null || right === null) {
+    if(left !== null) return -1;
+    if(right !== null) return 1;
+    return String(a._id || '').localeCompare(String(b._id || ''));
   }
-  return registration();
+  const result=left.length-right.length || left.localeCompare(right);
+  return (ascending ? result : -result)
+    || String(a._id || '').localeCompare(String(b._id || ''));
+};
+
+const compareMembers = (a,b,order) => {
+  if(order === 'nome') return String(a.name || '').localeCompare(String(b.name || ''),'pt-BR') || compareRegistration(a,b);
+  if(order === 'recentes' || order === 'antigos') {
+    const left=dateKey(a.datacriacao);
+    const right=dateKey(b.datacriacao);
+    if(left !== right) {
+      if(!left) return 1;
+      if(!right) return -1;
+      return order === 'antigos' ? left.localeCompare(right) : right.localeCompare(left);
+    }
+  }
+  return compareRegistration(a,b,order === 'matricula-asc' || order === 'antigos');
 };
 
 const Membresia = () => {
@@ -98,7 +116,7 @@ const Membresia = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({sex: '', baptism: '', congregation: '', start: '', end: ''});
-  const [order, setOrder] = useState('recentes');
+  const [order, setOrder] = useState('matricula-desc');
   const congregations = useMemo(() => [...new Set(dados.map(member => member.congregacao).filter(Boolean))].sort((a,b) => a.localeCompare(b,'pt-BR')), [dados]);
   const changeFilter = (event) => {
     const {name, value} = event.target;
@@ -107,7 +125,7 @@ const Membresia = () => {
   const clearFilters = () => {
     setSearchTerm('');
     setFilters({sex: '', baptism: '', congregation: '', start: '', end: ''});
-    setOrder('recentes');
+    setOrder('matricula-desc');
   };
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -291,6 +309,10 @@ const Membresia = () => {
   // BOTÕES DA PAGINAÇÃO
   // ========================================
 
+
+  useEffect(() => {
+    setCurrentPage(previous => Math.min(previous, Math.max(totalPages,1)));
+  }, [totalPages]);
   const paginationItems = [];
 
   let startPage = Math.max(
@@ -459,7 +481,7 @@ const Membresia = () => {
 
   return (
     <div
-      className={`d-flex flex-column bg-body ${isMobileView
+      className={`membresia-page d-flex flex-column bg-body ${isMobileView
           ? "min-vh-100"
           : "vh-100 overflow-hidden"
         }`}
@@ -517,9 +539,9 @@ const Membresia = () => {
       ====================================== */}
 
       <main
-        className={`flex-grow-1 d-flex flex-column bg-body ${isMobileView
+        className={`membresia-main flex-grow-1 d-flex flex-column bg-body ${isMobileView
             ? ""
-            : "overflow-hidden"
+            : "membresia-desktop-scroll"
           }`}
       >
         {/* ===================================
@@ -731,12 +753,11 @@ const Membresia = () => {
         ====================================== */}
 
         <div
-          className={`flex-grow-1 px-2 px-md-4 pb-4 ${isMobileView ? "" : "overflow-auto"
-            }`}
+          className="membresia-results flex-grow-1 px-2 px-md-4 pb-4"
         >
           <Container
             fluid
-            className="h-100 d-flex flex-column"
+            className="membresia-results-container d-flex flex-column"
           >
             {isMobileView ? (
               <div className="d-flex flex-column gap-3 mb-3 d-md-none">
@@ -936,17 +957,23 @@ const Membresia = () => {
                     );
                   })
                 )}
-              </div>) : (<Card className="border shadow-sm rounded-4 bg-body-tertiary overflow-hidden mb-3 flex-shrink-0 d-none d-md-block">
-                <div className="table-responsive">
+              </div>) : (<Card className="membresia-table-card border shadow-sm rounded-4 bg-body-tertiary overflow-hidden mb-3 flex-shrink-0 d-none d-md-block">
+                <div className="table-responsive membresia-table-scroll">
                   <Table
                     hover
-                    className="mb-0 align-middle table-borderless text-nowrap"
+                    className="membresia-table mb-0 align-middle table-borderless"
                   >
+                    <colgroup>
+                      <col style={{width:60}} /><col style={{width:56}} />
+                      <col style={{width:130}} /><col style={{width:140}} />
+                      <col style={{width:'30%'}} /><col style={{width:'30%'}} />
+                      <col style={{width:110}} />
+                    </colgroup>
                     {/* ===========================
                       CABEÇALHO
                   ============================ */}
 
-                    <thead className="bg-body-secondary position-sticky top-0 z-1">
+                    <thead className="bg-body-secondary">
                       <tr className="text-secondary small">
                         <th
                           className="py-3 text-center"
